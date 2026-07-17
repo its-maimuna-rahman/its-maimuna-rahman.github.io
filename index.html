@@ -1,77 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        header {
-            background: #2c3e50;
-            color: #fff;
-            padding: 2rem 0;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 2rem 0;
-        }
-        .card {
-            background: #fff;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            margin-top: 0;
-        }
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maimuna Rahman</title>
+<meta name="description" content="Maimuna Rahman — Student, Institute of Applied Statistics and Data Science, University of Dhaka.">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <h1>Hello, I'm Maimuna Rahman</h1>
-            <p>Applied Statistics and Data Science student | Coder</p>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="card">
-            <h2>About Me</h2>
-            <p>I am a second-year student majoring in <b>Applied Statistics and Data Science</b> at the Institute of Applied Statistics
-                and Data Science (<b>IASDS</b>, formerly ISRT) at the <b>University of Dhaka</b> (DU). I specialize in statistical computing,
-                data analysis, and building backend solutions. I work primarily with Python, R, C++, and SQL to turn complex data
-                into actionable insights. I am looking forward to learning and building ML and AI.</p>
-        </div>
-
-        <div class="card">
-            <h2>My Projects</h2>
-            <ul>
-                <li><strong>Project Bank OS:</strong> A rough bank management system</li>
-                <li><strong>Project Allerscan:</strong> A food allergy detector ML model.</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h2>Contact</h2>
-            <p>Check out my code on <a href="https://github.com/its-maimuna-rahman">GitHub</a>.</p>
-        </div>
+<div class="topbar-wrap">
+  <nav class="topbar" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="academics.html" class="nav-link">Academics</a>
+      <a href="projects/index.html" class="nav-link">Projects</a>
+      <a href="analysis/index.html" class="nav-link">Analysis</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </div>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+      <!-- moon icon (shown in light mode) -->
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+      </svg>
+      <!-- sun icon (shown in dark mode) -->
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
+        <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="12" y1="1.5" x2="12" y2="4"/>
+          <line x1="12" y1="20" x2="12" y2="22.5"/>
+          <line x1="1.5" y1="12" x2="4" y2="12"/>
+          <line x1="20" y1="12" x2="22.5" y2="12"/>
+          <line x1="4.4" y1="4.4" x2="6.1" y2="6.1"/>
+          <line x1="17.9" y1="17.9" x2="19.6" y2="19.6"/>
+          <line x1="4.4" y1="19.6" x2="6.1" y2="17.9"/>
+          <line x1="17.9" y1="6.1" x2="19.6" y2="4.4"/>
+        </g>
+      </svg>
+    </button>
+  </nav>
+</div>
 
+<main class="hero">
+  <p class="eyebrow">It's</p>
+  <h1>Maimuna Rahman</h1>
+  <p class="role">Student . Institute of Applied Statistics and Data Science</p>
+  <p class="org">University of Dhaka</p>
+  <p class="bio">
+    I'm a second-year undergraduate at the Institute of Applied Statistics and
+    Data Science (IASDS), University of Dhaka. My current work focuses on
+    statistical computing and data analysis, and I'm currently learning
+    machine learning and its applications to real-world problems.
+  </p>
+</main>
+
+<script src="js/main.js"></script>
 </body>
 </html>

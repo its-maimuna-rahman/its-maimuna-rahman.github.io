@@ -1,0 +1,243 @@
+/* =========================================================
+   Maimuna Rahman — Personal Site
+   Shared stylesheet (css/style.css)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Radley&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root{
+  /* ---- Light mode ---- */
+  --topbar-light: #554634;
+  --bg-light: #F2ECDF;
+  --text-light: #2A2118;
+  --text-light-muted: #55493a;
+  --nav-text-light: #F2ECDF;
+  --nav-active-bg-light: #F2ECDF;
+  --nav-active-text-light: #554634;
+
+  /* ---- Dark mode ---- */
+  --topbar-dark: #F2ECDF;
+  --bg-dark: #050A30;
+  --text-dark: #F2ECDF;
+  --text-dark-muted: #c9c4d6;
+  --nav-text-dark: #050A30;
+  --nav-active-bg-dark: #050A30;
+  --nav-active-text-dark: #F2ECDF;
+
+  /* active theme (default = light) */
+  --topbar: var(--topbar-light);
+  --bg: var(--bg-light);
+  --text: var(--text-light);
+  --text-muted: var(--text-light-muted);
+  --nav-text: var(--nav-text-light);
+  --nav-active-bg: var(--nav-active-bg-light);
+  --nav-active-text: var(--nav-active-text-light);
+
+  --font-display: 'Radley', serif;
+  --font-body: 'Carlito', Arial, sans-serif;
+}
+
+html[data-theme="dark"]{
+  --topbar: var(--topbar-dark);
+  --bg: var(--bg-dark);
+  --text: var(--text-dark);
+  --text-muted: var(--text-dark-muted);
+  --nav-text: var(--nav-text-dark);
+  --nav-active-bg: var(--nav-active-bg-dark);
+  --nav-active-text: var(--nav-active-text-dark);
+}
+
+*{ box-sizing: border-box; }
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  transition: background-color 0.45s ease, color 0.45s ease;
+  opacity: 0;
+  animation: pageFadeIn 0.6s ease forwards;
+}
+
+@keyframes pageFadeIn{
+  from{ opacity: 0; transform: translateY(8px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  body{ animation: none; opacity: 1; }
+  *{ transition: none !important; }
+}
+
+/* ---------------- Top bar ---------------- */
+.topbar-wrap{
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 32px 0;
+}
+
+.topbar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--topbar);
+  border-radius: 0 0 28px 28px;
+  padding: 18px 36px;
+  transition: background-color 0.45s ease;
+  flex-wrap: wrap;
+}
+
+.nav-links{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav-link{
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  text-decoration: none;
+  color: var(--nav-text);
+  padding: 12px 26px;
+  border-radius: 999px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.25s ease;
+  white-space: nowrap;
+}
+
+.nav-link:hover{
+  background: color-mix(in srgb, var(--nav-text) 14%, transparent);
+  transform: translateY(-1px);
+}
+
+.nav-link:focus-visible{
+  outline: 2px solid var(--nav-active-bg);
+  outline-offset: 2px;
+}
+
+.nav-link.active{
+  background: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  font-weight: 700;
+}
+
+.nav-link.active:hover{
+  transform: none;
+}
+
+/* Theme toggle button */
+.theme-toggle{
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 50%;
+  border: none;
+  background: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.4s ease, background-color 0.35s ease;
+}
+
+.theme-toggle:hover{
+  transform: rotate(18deg) scale(1.06);
+}
+
+.theme-toggle:focus-visible{
+  outline: 2px solid var(--topbar);
+  outline-offset: 3px;
+}
+
+.theme-toggle svg{
+  width: 22px;
+  height: 22px;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+.icon-sun{ display: none; }
+html[data-theme="dark"] .icon-moon{ display: none; }
+html[data-theme="dark"] .icon-sun{ display: block; }
+
+/* ---------------- Hero ---------------- */
+.hero{
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 100px 40px 120px;
+}
+
+.eyebrow{
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  margin: 0 0 4px 4px;
+  color: var(--text);
+}
+
+.hero h1{
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1.05;
+  margin: 0 0 18px;
+  letter-spacing: 0.5px;
+  animation: riseIn 0.8s ease 0.15s both;
+}
+
+@keyframes riseIn{
+  from{ opacity: 0; transform: translateY(18px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+.hero .role{
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+  color: var(--text-muted);
+}
+
+.hero .org{
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 40px;
+}
+
+.hero p.bio{
+  max-width: 950px;
+  font-size: 1.6rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* subtle scroll reveal for anything tagged .reveal, used on future sections */
+.reveal{
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 900px){
+  .topbar-wrap{ padding: 18px 16px 0; }
+  .topbar{ padding: 14px 18px; border-radius: 0 0 20px 20px; }
+  .nav-link{ padding: 10px 16px; font-size: 1rem; }
+  .hero{ padding: 60px 20px 80px; }
+  .hero .role, .hero .org, .hero p.bio{ font-size: 1.15rem; }
+}
+
+@media (max-width: 600px){
+  .topbar{ justify-content: flex-start; }
+  .nav-links{ justify-content: flex-start; }
+}
