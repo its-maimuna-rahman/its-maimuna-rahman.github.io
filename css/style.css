@@ -20,7 +20,7 @@
     --topbar-dark: #F2ECDF;
     --bg-dark: #1B1410;
     --text-dark: #F2ECDF;
-    --text-dark-muted: #c9c4d6;
+    --text-dark-muted: #ebd8c5;
     --nav-text-dark: #1B1410;
     --nav-active-bg-dark: #1B1410;
     --nav-active-text-dark: #F2ECDF;
@@ -538,7 +538,19 @@ html[data-theme="dark"] .icon-sun { display: block; }
 
 .course-header[aria-expanded="true"] + .course-body {
     max-height: 1200px;
-    padding: 0 1.75rem 1.5rem;
+    padding: 1.25rem 1.75rem 1.75rem;
+}
+
+.course-body::before {
+    content: "— Contents —";
+    display: block;
+    font-size: 1.2rem;     
+    font-weight: 600;       
+    color: var(--topbar);
+    opacity: 0.9;
+    margin-bottom: 1rem;
+    margin-left: 1.4rem;
+    line-height: 1.2;
 }
 
 .course-body ul {
@@ -736,5 +748,535 @@ html[data-theme="dark"] .icon-sun { display: block; }
     }
     .year-heading {
         font-size: 1.2rem;
+    }
+}
+
+
+/* =========================================================
+   PROJECTS PAGE
+   ========================================================= */
+
+.projects-page {
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px 100px 100px;
+    width: 100%;
+}
+
+.projects-page .page-header {
+    margin-bottom: 3rem;
+}
+
+.projects-page .page-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.page-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/* Section headings */
+.projects-section {
+    margin-bottom: 3.5rem;
+}
+
+.section-heading {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid color-mix(in srgb, var(--topbar) 20%, transparent);
+    color: var(--text);
+}
+
+/* Projects Grid — 3 cards per row on PC */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.projects-grid.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    border: 1.5px dashed color-mix(in srgb, var(--topbar) 20%, transparent);
+    border-radius: 20px;
+    background: color-mix(in srgb, var(--bg) 95%, var(--topbar) 5%);
+}
+
+.empty-message {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Project Card */
+.project-card {
+    border: 1.5px solid color-mix(in srgb, var(--topbar) 15%, transparent);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    background: color-mix(in srgb, var(--bg) 92%, var(--topbar) 8%);
+    aspect-ratio: 1 / 0.85;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    border-color: color-mix(in srgb, var(--topbar) 40%, transparent);
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--topbar) 12%, transparent);
+    transform: translateY(-4px);
+}
+
+.project-card-inner {
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Project Title */
+.project-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    color: var(--text);
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+}
+
+.project-field {
+    display: inline-flex;
+    align-self: flex-start;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--topbar) 10%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--topbar) 18%, transparent);
+    margin-bottom: 1.1rem;
+}
+
+/* Project Field */
+.project-field {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--text) 50%, white);
+    margin-bottom: 1.1rem;
+    opacity: 0.75;
+}
+
+/* Project Description */
+.project-desc {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    flex: 1;
+    margin-bottom: 1.1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* GitHub Link */
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: var(--topbar);
+    color: var(--nav-text);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.project-link:hover {
+    transform: translateX(3px);
+    opacity: 0.9;
+}
+
+.project-link svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   PROJECTS PAGE — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    .project-card {
+        aspect-ratio: 1 / 0.75;
+    }
+}
+
+@media (max-width: 900px) {
+    .projects-page {
+        padding: 60px 24px 80px 30px;
+    }
+    .project-card-inner {
+        padding: 1.5rem 1.25rem;
+    }
+    .project-title {
+        font-size: 1.3rem;
+    }
+    .project-field {
+        font-size: 0.82rem;
+    }
+    .project-desc {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .projects-page {
+        padding: 40px 16px 60px 20px;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .project-card {
+        aspect-ratio: 1 / 0.55;
+    }
+    .project-card-inner {
+        padding: 1.5rem 1.25rem;
+    }
+    .project-title {
+        font-size: 1.30rem;
+    }
+    .project-field {
+        font-size: 0.85rem;
+        margin-bottom: 0.9rem;
+    }
+    .project-desc {
+        font-size: 0.92rem;
+        margin-bottom: 0.9rem;
+    }
+    .section-heading {
+        font-size: 1.15rem;
+    }
+    .projects-grid.empty {
+        min-height: 120px;
+    }
+}
+
+/* =========================================================
+   ABOUT PAGE
+   ========================================================= */
+
+.about-page {
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 40px 100px 100px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.about-content {
+    max-width: 780px;
+}
+
+/* Greeting line */
+.about-greeting {
+    font-family: var(--font-display);
+    font-size: clamp(2.3rem, 4.6vw, 3.3rem);
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 2rem;
+}
+
+/* The "M" in Maimuna — Alex Brush calligraphy */
+.about-name {
+    font-family: 'Alex Brush', cursive;
+    font-size: clamp(3.5rem, 6.5vw, 5rem);
+    font-style: normal;
+    color: var(--text);
+    display: inline-block;
+    line-height: 1;
+    margin-right: 0.05em;
+}
+
+/* Body text */
+.about-body {
+    margin-bottom: 1.5rem;
+}
+
+.about-body p {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+}
+
+/* GitHub sentence line */
+.about-github-line {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Highlighted "GitHub" word — no bar, just underline */
+.about-highlight {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* Action buttons row */
+.about-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Button bar — keeps the bar */
+.about-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    background: var(--topbar);
+    color: var(--nav-text);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    font-family: var(--font-body);
+}
+
+.about-btn:hover {
+    transform: translateX(3px);
+    opacity: 0.9;
+}
+
+.about-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   ABOUT PAGE — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .about-page {
+        padding: 60px 24px 80px 30px;
+    }
+    .about-body p,
+    .about-github-line {
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-page {
+        padding: 40px 16px 60px 20px;
+    }
+    .about-greeting {
+        font-size: 1.8rem;
+    }
+    .about-name {
+        font-size: clamp(3rem, 8vw, 4rem);
+    }
+    .about-body p,
+    .about-github-line {
+        font-size: 1.1rem;
+    }
+    .about-highlight {
+        text-underline-offset: 2px;
+        text-decoration-thickness: 1.5px;
+    }
+    .about-btn {
+        padding: 0.65rem 1.2rem;
+        font-size: 0.95rem;
+    }
+}
+
+
+/* =========================================================
+   CONTACT PAGE
+   ========================================================= */
+
+.contact-page {
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px 100px 100px;
+    width: 100%;
+}
+
+.contact-page .page-header {
+    margin-bottom: 2.5rem;
+}
+
+.contact-page .page-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+/* Contact list — one card per line */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 700px;
+}
+
+/* Sneaker bar style card — long, low height */
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.1rem 1.5rem;
+    border: 1.5px solid color-mix(in srgb, var(--topbar) 15%, transparent);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--bg) 92%, var(--topbar) 8%);
+    text-decoration: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.contact-card:hover {
+    border-color: color-mix(in srgb, var(--topbar) 40%, transparent);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--topbar) 10%, transparent);
+    transform: translateX(6px);
+}
+
+/* Icon circle */
+.contact-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    background: var(--topbar);
+    color: var(--nav-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.contact-card:hover .contact-icon {
+    transform: scale(1.08);
+}
+
+.contact-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Info block */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+}
+
+.contact-label {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.contact-value {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+/* Arrow */
+.contact-arrow {
+    color: var(--text-muted);
+    opacity: 0.5;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.contact-card:hover .contact-arrow {
+    transform: translateX(4px);
+    opacity: 0.9;
+}
+
+.contact-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* =========================================================
+   CONTACT PAGE — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .contact-page {
+        padding: 60px 24px 80px 30px;
+    }
+    .contact-card {
+        padding: 1rem 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .contact-page {
+        padding: 40px 16px 60px 20px;
+    }
+    .contact-card {
+        padding: 0.9rem 1.1rem;
+        gap: 1rem;
+    }
+    .contact-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+    .contact-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    .contact-value {
+        font-size: 1rem;
+    }
+    .contact-arrow svg {
+        width: 18px;
+        height: 18px;
     }
 }
