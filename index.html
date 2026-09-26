@@ -5,38 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Maimuna Rahman</title>
     <meta name="description" content="Maimuna Rahman — Student, Institute of Applied Statistics and Data Science, University of Dhaka." />
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-    <!-- ========== TOPBAR (flush top, rounded bottom, wider left) ========== -->
+    <!-- ========== TOPBAR ========== -->
     <div class="topbar-wrap">
       <nav class="topbar" aria-label="Main navigation">
-        
-        <!-- Back button (left side) -->
-        <button class="back-btn" type="button" aria-label="Go back" onclick="history.back()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-        </button>
 
         <div class="nav-links">
             <a href="index.html" class="nav-link active" aria-current="page">Home</a>
-            <a href="about.html" class="nav-link">About</a>
             <a href="academics/index.html" class="nav-link">Academics</a>
             <a href="projects/index.html" class="nav-link">Projects</a>
-            <a href="analysis/" class="nav-link">Analysis</a>
             <a href="contact.html" class="nav-link">Contact</a>
         </div>
 
         <!-- Theme toggle (right side) -->
         <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
-            <!-- Moon (light mode) -->
             <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
             </svg>
-            <!-- Sun (dark mode) -->
             <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
                 <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -55,29 +44,36 @@
       </nav>
     </div>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== HERO (Merged Home & About) ========== -->
     <main class="hero">
-        <!-- subtle decorative line -->
-        <div class="hero-ornament" aria-hidden="true">
-            <span class="ornament-line"></span>
-            <span class="ornament-dot"></span>
-            <span class="ornament-line"></span>
-        </div>
-
         <div class="hero-content">
-            <p class="eyebrow">It's</p>
-            <h1>Maimuna Rahman</h1>
+            <p class="about-greeting" style="margin-bottom: 1rem;">
+                Hello, I'm <span class="about-name">Maimuna Rahman</span>
+            </p>
+            
             <p class="role">Student · Institute of Applied Statistics &amp; Data Science</p>
             <p class="org">University of Dhaka</p>
-            <p class="bio">
-                I'm a second-year undergraduate at the Institute of Applied Statistics and
-                Data Science (IASDS), University of Dhaka. My current work focuses on
-                statistical computing and data analysis, and I'm currently learning
-                machine learning and its applications to real-world problems.
-            </p>
+
+            <div class="about-body" style="margin-top: 2rem;">
+                <p>
+                    I'm currently a 2nd year student studying Applied Statistics and Data Science at IASDS, University of Dhaka. My work focuses on data analysis, statistical computing, and backend development, and my coursework keeps adding new layers to how I understand statistical methods. I mainly work with Python, R, and SQL, and I'm learning machine learning (ML) and LLMs. I like practicing on datasets that are publicly available but still close to real-world data, since it keeps what I'm learning grounded in actual problems rather than purely theoretical exercises.
+                </p>
+            </div>
+
+            <div class="about-actions" style="margin-top: 2rem;">
+                <a href="https://github.com/its-maimuna-rahman" class="about-btn" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+                <a href="contact.html" class="about-btn">
+                    <span>Reach me out</span>
+                </a>
+            </div>
 
             <!-- data‑inspired decorative dots -->
-            <div class="data-dots" aria-hidden="true">
+            <div class="data-dots" aria-hidden="true" style="margin-top: 3rem;">
                 <span></span><span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span><span></span>
