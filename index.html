@@ -1,93 +1,1578 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Maimuna Rahman</title>
-    <meta name="description" content="Maimuna Rahman — Student, Institute of Applied Statistics and Data Science, University of Dhaka." />
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Maimuna Rahman — Student, Institute of Applied Statistics and Data Science, University of Dhaka.">
+<title>Maimuna Rahman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&family=Playfair+Display:wght@600;700&family=Radley:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EFE6D2;--card:#F6EFDF;--ink:#33241B;--soft:#7B6552;--rule:#CDBE9F;--acc:#1F5D63;--bead:#8C3B2E;--grid:rgba(51,36,27,.07);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1B1410;--card:#241A14;--ink:#EADFC8;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05)}}
+:root[data-theme="dark"]{--paper:#1B1410;--card:#241A14;--ink:#EADFC8;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:19px/1.6 Carlito,Calibri,sans-serif;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;margin:0;line-height:1.05}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px clamp(18px,4vw,56px);background:var(--paper);border-bottom:1px solid var(--rule)}
+.brand{font-family:Radley,serif;font-size:1.25rem;text-decoration:none;margin-right:auto}
+.top nav{display:flex;gap:20px}
+.top nav a{text-decoration:none;color:var(--soft)}
+.top nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+#theme{position:relative;display:block;width:68px;height:36px;padding:0;border:2px solid var(--rule);border-radius:999px;background:var(--card);cursor:pointer}
+.wrap{padding:0 clamp(18px,4vw,56px)}
+.hero{position:relative;overflow:hidden;padding-top:clamp(36px,8vh,90px);padding-bottom:clamp(50px,10vh,110px)}
+.hi{font-family:Radley,serif;font-style:italic;font-size:1.6rem;color:var(--soft);margin:0 0 8px}
+h1{font-size:clamp(3.4rem,11vw,8.4rem);letter-spacing:-.03em;line-height:.95;font-style:italic}
+.role{display:inline-block;margin:26px 0 0;font-weight:700;font-size:1.08rem;color:var(--ink)}
+.bio{max-width:68ch;margin:30px 0 0;padding-left:24px;border-left:5px solid var(--bead);font-size:1.3rem;line-height:1.7}
+.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-block;padding:9px 20px;border:1.5px solid var(--ink);border-radius:999px;text-decoration:none;font-weight:700;background:none;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn:hover{border-color:var(--acc)}
+.sec{padding-top:clamp(56px,10vh,110px);padding-bottom:clamp(20px,4vh,40px)}
+.sec>h2{font-size:clamp(2.2rem,5vw,3.6rem)}
+.sub{margin:10px 0 0;color:var(--soft);max-width:60ch}
+.plates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px;margin-top:30px;max-width:980px}
+.plate{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:24px 24px 26px;display:flex;flex-direction:column;gap:12px}
+.plate.dev{background:transparent;border:1.5px dashed var(--soft)}
+.plate h3{font-size:2rem}
+.plate p{margin:0}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tags span{border:1px solid var(--rule);border-radius:999px;padding:1px 12px;font-size:.9rem;color:var(--soft)}
+.state{font-family:Radley,serif;font-style:italic;color:var(--acc)}
+.contact-list{display:flex;flex-direction:column;gap:12px;margin-top:26px;max-width:520px}
+.crow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.crow span{color:var(--soft)}
+.crow a{font-family:Radley,serif;font-size:1.3rem;overflow-wrap:anywhere}
+footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid var(--rule);color:var(--soft);font-size:.95rem}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.map{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:26px}
+.map h3{font-size:1.6rem}
+.cap{margin:4px 0 14px;color:var(--soft);font-size:.98rem}
+.segs{display:flex;gap:4px;margin-bottom:30px}
+.seg{min-width:0;height:84px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;text-align:left;padding:8px 10px;background:var(--grid);border:1.5px solid var(--rule);border-radius:4px;color:var(--ink);font:inherit;cursor:pointer;line-height:1.2}
+.seg span{font-family:Radley,serif;font-size:1.15rem}
+.seg small{color:var(--soft);font-size:.82rem}
+.seg.now{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.seg.now small{color:var(--paper);opacity:.8}
+.seg:hover{border-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:8px 20px;border:1.5px solid var(--ink);border-radius:999px;background:none;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--bead);border-color:var(--bead);color:var(--paper)}
+.note{margin:16px 0 0;color:var(--soft);min-height:3em}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}
+.tab{background:none;border:1.5px solid var(--rule);color:var(--ink);border-radius:999px;padding:6px 18px;font:inherit;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bead);margin-left:8px}
+.tab b{margin-left:8px;font-size:.85rem;color:var(--bead)}
+.tab[aria-selected="true"] b{color:var(--paper)}
+.years{max-width:920px;margin-top:22px}
+.year-section{display:none}
+.year-section.active{display:block}
+.year-heading{font-size:1.9rem;margin:0 0 14px}
+.course-card{background:var(--card);border:1px solid var(--rule);border-radius:6px;margin-bottom:10px}
+.course-card.hit{border-color:var(--bead);box-shadow:inset 5px 0 0 var(--bead)}
+.course-header{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 16px;background:none;border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.course-title-group{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.course-code{color:var(--soft);font-variant-numeric:tabular-nums}
+.course-name{font-family:Radley,serif;font-size:1.25rem}
+.course-credit{color:var(--soft);font-size:.9rem}
+.toggle-icon{transition:transform .2s}
+.course-header[aria-expanded="true"] .toggle-icon{transform:rotate(180deg)}
+.course-body{display:none;padding:1.25rem 1.75rem 1.75rem;border-top:1px dotted var(--rule)}
+.course-body::before{content:"— Contents —";display:block;font-size:1.2rem;font-weight:600;color:var(--ink);opacity:.9;margin-bottom:1rem;margin-left:1.4rem;line-height:1.2}
+.course-header[aria-expanded="true"]+.course-body{display:block}
+.course-body ul{list-style:none;padding-left:0;margin:0;max-width:none}
+.course-body li{margin-bottom:.65rem;line-height:1.65;color:color-mix(in srgb,var(--ink) 85%,transparent);font-size:.95rem;padding-left:1.4rem;position:relative}
+.course-body li::before{content:"";position:absolute;left:0;top:.55rem;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.5}
+.course-body li strong{color:var(--ink);font-weight:600}
+
+.strip{padding-top:0;padding-bottom:10px}
+.strip .map{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px 48px}
+.strip .segs{margin-bottom:0}
+
+.stack{margin:0;background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:30px 28px 24px}
+.stack h3{font-size:1.75rem;line-height:1.15}
+.hint{margin:12px 0 28px;padding:14px 18px;border-left:6px solid var(--bead);border-radius:0 4px 4px 0;background:color-mix(in srgb,var(--bead) 14%,transparent);font-family:Radley,Georgia,serif;font-size:1.2rem;line-height:1.5;color:var(--ink)}
+.hint strong{font-weight:400;color:var(--bead);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.lay{margin:0 auto 16px;padding:18px 22px 20px;border:1.5px solid var(--rule);border-left-width:7px;border-radius:4px;background:var(--paper);box-shadow:4px 4px 0 var(--rule);transition:border-color .3s,background .3s}
+.lay.lit{border-color:var(--acc);background:var(--card)}
+.lay.ai{width:76%;border-left-color:var(--acc)}
+.lay.ml{width:84%;border-left-color:var(--soft)}
+.lay.ds{width:92%;border-left-color:var(--soft)}
+.lay.st{width:100%;border-left-color:var(--bead)}
+.lay h4{margin:0 0 12px;font:700 1.1rem/1.3 Carlito,sans-serif}
+.lay h4 span{display:block;font-weight:400;color:var(--soft);margin:3px 0 0;font-size:.98rem}
+.lay p{margin:0;font-size:1.05rem;line-height:1.7}
+.lay .fact{margin-top:6px}
+.pipe{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.pipe span{font-size:.88rem;padding:2px 12px;border:1px solid var(--rule);border-radius:999px;color:var(--soft);transition:background .3s}
+.pipe span.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ks{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px}
+.k{padding:5px 15px;border:1.5px solid var(--ink);border-radius:999px;background:none;color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer}
+.k[aria-pressed="true"]{background:var(--bead);border-color:var(--bead);color:var(--paper)}
+.fact{font-family:Radley,serif;font-style:italic}
+.stack figcaption{margin-top:20px;padding-top:16px;border-top:1px dashed var(--rule);color:var(--soft);font-size:.95rem;line-height:1.65}
+@media (max-width:560px){.lay.ai,.lay.ml,.lay.ds{width:100%}}
+
+.lay{position:relative}
+.lay.ai{background:color-mix(in srgb,var(--acc) 9%,var(--paper))}
+.lay.ml{background:color-mix(in srgb,var(--acc) 5%,var(--paper))}
+.lay.ds{background:color-mix(in srgb,var(--soft) 8%,var(--paper))}
+.lay.st{background:color-mix(in srgb,var(--bead) 11%,var(--paper))}
+.lay.lit{border-top-color:var(--acc);border-right-color:var(--acc);border-bottom-color:var(--acc);background:var(--card)}
+.lay::after{position:absolute;top:8px;right:16px;font-family:Radley,Georgia,serif;font-size:2.4rem;line-height:1;color:var(--ink);opacity:.12;pointer-events:none}
+.lay.ai::after{content:"04"}.lay.ml::after{content:"03"}.lay.ds::after{content:"02"}.lay.st::after{content:"01"}
+.lay.ml::before,.lay.ds::before,.lay.st::before{content:"▲";position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:.7rem;line-height:16px;color:var(--soft)}
+.cta{display:table;margin:4px auto 0;padding:7px 22px;border-radius:999px;background:var(--bead);color:var(--paper);font-weight:700;font-size:1.08rem;letter-spacing:.02em}
+.cta span{display:inline-block;margin-right:8px;animation:hop 1.2s ease-in-out infinite}
+@keyframes hop{50%{transform:translateY(-4px)}}
+.stack:not(.used) .lay.st{animation:nudge 2.2s ease-in-out infinite}
+@keyframes nudge{50%{box-shadow:4px 4px 0 var(--bead)}}
+@media (prefers-reduced-motion:reduce){.cta span,.stack:not(.used) .lay.st{animation:none}}
+
+.hero>*{position:relative;z-index:1}
+.hero::before{content:"∑";position:absolute;right:2%;top:-4%;font-family:Radley,Georgia,serif;font-size:clamp(14rem,34vw,32rem);line-height:1;color:var(--ink);opacity:.06;pointer-events:none}
+.hi::after{content:"";display:inline-block;width:64px;height:2px;background:var(--bead);margin-left:14px;vertical-align:middle}
+.bio mark{background:color-mix(in srgb,var(--bead) 30%,transparent);color:inherit;font-weight:700;padding:2px 5px;border-radius:3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero .btn{padding:12px 28px;font-size:1.1rem;transition:transform .2s}
+.hero .btn:hover{transform:translateY(-3px)}
+.hero>div>*{animation:up .7s ease both}
+.hero>div>*:nth-child(2){animation-delay:.08s}.hero>div>*:nth-child(3){animation-delay:.16s}.hero>div>*:nth-child(4){animation-delay:.26s}.hero>div>*:nth-child(5){animation-delay:.36s}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}
+#artifacts .stack{max-width:980px;margin-top:28px}
+#theme svg{position:absolute;top:50%;margin-top:-8px;width:16px;height:16px;z-index:1;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#theme svg.sun{left:8px}
+#theme svg.moon{left:40px}
+#theme .thumb{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:var(--bead);transition:transform .25s}
+#theme.dark .thumb{transform:translateX(32px)}
+#theme .sun{color:var(--paper)}#theme .moon{color:var(--soft)}
+#theme.dark .sun{color:var(--soft)}#theme.dark .moon{color:var(--paper)}
+@media (prefers-reduced-motion:reduce){.hero>div>*{animation:none}#theme .thumb{transition:none}}
+
+/* --- edits: name font, intro doodles, wide artifacts --- */
+h1{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-style:normal;font-weight:700;letter-spacing:-.015em;font-size:clamp(3rem,9vw,7.2rem);line-height:1}
+.hero>.deco{display:none;position:absolute;right:clamp(18px,4vw,56px);bottom:clamp(50px,10vh,110px);width:clamp(250px,26vw,400px);pointer-events:none}
+.deco svg{display:block;width:100%;height:auto;overflow:visible}
+.deco .d-dot{fill:var(--soft);opacity:.55}
+.deco .d-card{fill:var(--card);stroke:var(--ink);stroke-width:2}
+.deco .d-b1{fill:var(--rule)}.deco .d-b2{fill:var(--acc)}.deco .d-b3{fill:var(--bead)}
+.deco .d-line{fill:none;stroke:var(--soft);stroke-width:5;stroke-linecap:round}.deco .d-line.s{opacity:.55}
+.deco .d-sel{fill:none;stroke:var(--acc);stroke-width:1.6;stroke-dasharray:5 4}
+.deco .d-circle{fill:var(--bead)}
+.deco .d-h{fill:var(--paper);stroke:var(--acc);stroke-width:1.8}
+.deco .d-squig{fill:none;stroke:var(--acc);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.deco .d-tri{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round}
+.deco .d-plus path{fill:none;stroke:var(--bead);stroke-width:4;stroke-linecap:round}
+.deco .d-star{fill:var(--soft)}
+.deco .fl{animation:drift 6s ease-in-out infinite}.deco .fl.b{animation-delay:-3s}
+@keyframes drift{50%{transform:translateY(-6px)}}
+@media (min-width:1240px){.hero>.deco{display:block}}
+@media (prefers-reduced-motion:reduce){.deco .fl{animation:none}}
+#artifacts .stack{max-width:none}
+@media (min-width:920px){
+#artifacts .stack{display:grid;grid-template-columns:minmax(260px,.8fr) 2fr;gap:0 clamp(28px,4vw,56px);align-items:start}
+#artifacts .stack .side .hint{margin-bottom:0}
+}
+.side-art,.orn{display:none}
+@media (min-width:920px){
+#artifacts .stack .side{align-self:stretch;display:flex;flex-direction:column}
+#artifacts .stack .side-art{display:block;width:min(100%,300px);height:auto;margin-top:auto;padding-top:28px;margin-bottom:62px;overflow:visible}
+.side-art .sc{fill:color-mix(in srgb,var(--card) 82%,transparent);stroke:var(--ink);stroke-width:1.8}
+.side-art .ax{fill:none;stroke:var(--soft);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.side-art .ln{fill:none;stroke:var(--acc);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.side-art .pt{fill:var(--bead)}
+.side-art .fa{fill:color-mix(in srgb,var(--acc) 26%,transparent)}
+.side-art .mean{fill:none;stroke:var(--bead);stroke-width:1.6;stroke-dasharray:3 3}
+.side-art .p1,.side-art .p2,.side-art .p3{stroke:var(--card);stroke-width:1.5;stroke-linejoin:round}
+.side-art .p1{fill:var(--bead)}.side-art .p2{fill:var(--acc)}.side-art .p3{fill:var(--soft);fill-opacity:.55}
+.side-art .xl{fill:none;stroke:var(--soft);stroke-width:1.4}
+.side-art .xh{fill:var(--acc)}
+.side-art .xg{fill:none;stroke:var(--soft);stroke-opacity:.6;stroke-width:1}
+.side-art .sel{fill:none;stroke:var(--bead);stroke-width:2}
+.side-art .poly{fill:color-mix(in srgb,var(--bead) 28%,transparent);stroke:var(--bead);stroke-width:2.2;stroke-linejoin:round}
+.side-art .hd{fill:var(--paper);stroke:var(--acc);stroke-width:1.8}
+.side-art .d1{fill:var(--bead)}.side-art .d2{fill:var(--acc)}.side-art .d3{fill:var(--soft)}
+.side-art .cd{fill:none;stroke-width:3;stroke-linecap:round}
+.side-art .c1{stroke:var(--acc)}.side-art .c2{stroke:var(--bead)}.side-art .c3{stroke:var(--soft)}
+.side-art .bw{fill:none;stroke:var(--soft);stroke-width:1.6;stroke-linecap:round}
+.side-art .bx{fill:color-mix(in srgb,var(--acc) 26%,transparent);stroke:var(--acc);stroke-width:2;stroke-linejoin:round}
+.side-art .med{fill:none;stroke:var(--bead);stroke-width:2.4;stroke-linecap:round}
+#artifacts .tower{position:relative}
+.orn{display:block;position:absolute;inset:0;pointer-events:none}
+.orn svg{position:absolute;overflow:visible;opacity:.7}
+.orn .f{fill:color-mix(in srgb,var(--bead) 45%,transparent);stroke:none}
+.orn .l{fill:none;stroke:var(--acc);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.orn .o1 path{fill:var(--bead)}
+.orn .o1{left:1.5%;top:10px;width:8%}
+.orn .o2{right:1.5%;top:14px;width:8%}
+.orn .o3{left:.8%;top:176px;width:5.6%}.orn .o3 .l{stroke:var(--bead)}
+.orn .o4{right:.6%;top:172px;width:5.2%}.orn .o4 .l{stroke:var(--soft)}
+}
+</style>
 </head>
 <body>
+<header class="top">
+  <a class="brand" href="#home">Maimuna Rahman</a>
+  <nav aria-label="Sections"><a href="#home">Home</a><a href="#artifacts">Artifacts</a><a href="#academics">Academics</a><a href="#projects">Projects</a><a href="#contact">Contact</a></nav>
+  <button id="theme" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span class="thumb"></span></button>
+</header>
 
-    <!-- ========== TOPBAR ========== -->
-    <div class="topbar-wrap">
-      <nav class="topbar" aria-label="Main navigation">
+<main>
+<section id="home" class="wrap hero">
+  <div>
+    <p class="hi">Hello, I'm</p>
+    <h1>Maimuna <span class="last">Rahman</span></h1>
+    <p class="role">Student, Institute of Applied Statistics &amp; Data Science, University of Dhaka</p>
+    <p class="bio">I'm currently a 2nd year student studying <mark>Applied Statistics and Data Science</mark> at IASDS, University of Dhaka. My work focuses on <mark>data analysis, statistical computing, and backend development</mark>, and my coursework keeps adding new layers to how I understand statistical methods. I mainly work with <mark>Python, R, and SQL</mark>, and I'm learning <mark>machine learning (ML) and LLMs</mark>. I like practicing on datasets that are publicly available but still close to real-world data, since it keeps what I'm learning grounded in actual problems rather than purely theoretical exercises.</p>
+    <div class="links">
+      <a class="btn solid" href="https://github.com/its-maimuna-rahman" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="btn" href="#contact">Reach me out</a>
+    </div>
+  </div>
+  <aside class="deco" aria-hidden="true">
+    <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg" focusable="false">
+      <defs><pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" class="d-dot"/></pattern></defs>
+      <rect x="216" y="10" width="126" height="84" fill="url(#dots)"/>
+      <g class="fl a"><g transform="rotate(-5 110 100)">
+        <rect x="26" y="44" width="176" height="122" rx="10" class="d-card"/>
+        <rect x="46" y="128" width="26" height="24" rx="3" class="d-b1"/>
+        <rect x="84" y="106" width="26" height="46" rx="3" class="d-b2"/>
+        <rect x="122" y="80" width="26" height="72" rx="3" class="d-b3"/>
+        <path d="M46 66h70" class="d-line"/><path d="M46 78h44" class="d-line s"/>
+      </g></g>
+      <g class="fl b">
+        <rect x="236" y="120" width="92" height="92" class="d-sel"/>
+        <circle cx="282" cy="166" r="34" class="d-circle"/>
+        <rect x="231" y="115" width="10" height="10" rx="2" class="d-h"/><rect x="323" y="115" width="10" height="10" rx="2" class="d-h"/>
+        <rect x="231" y="207" width="10" height="10" rx="2" class="d-h"/><rect x="323" y="207" width="10" height="10" rx="2" class="d-h"/>
+      </g>
+      <path d="M28 232q14-22 28 0t28 0 28 0 28 0" class="d-squig"/>
+      <path d="M190 236l30 -52l30 52z" class="d-tri"/>
+      <g class="d-plus"><path d="M304 252v28M290 266h28"/></g>
+      <path d="M46 268l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" class="d-star"/>
+    </svg>
+  </aside>
+</section>
 
-        <div class="nav-links">
-            <a href="index.html" class="nav-link active" aria-current="page">Home</a>
-            <a href="academics/index.html" class="nav-link">Academics</a>
-            <a href="projects/index.html" class="nav-link">Projects</a>
-            <a href="contact.html" class="nav-link">Contact</a>
-        </div>
-
-        <!-- Theme toggle (right side) -->
-        <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
-            </svg>
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
-                <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-                    <line x1="12" y1="1.5" x2="12" y2="4"/>
-                    <line x1="12" y1="20" x2="12" y2="22.5"/>
-                    <line x1="1.5" y1="12" x2="4" y2="12"/>
-                    <line x1="20" y1="12" x2="22.5" y2="12"/>
-                    <line x1="4.4" y1="4.4" x2="6.1" y2="6.1"/>
-                    <line x1="17.9" y1="17.9" x2="19.6" y2="19.6"/>
-                    <line x1="4.4" y1="19.6" x2="6.1" y2="17.9"/>
-                    <line x1="17.9" y1="6.1" x2="19.6" y2="4.4"/>
-                </g>
-            </svg>
-        </button>
-
-      </nav>
+<section id="artifacts" class="wrap sec">
+  <h2>Artifacts</h2>
+  <figure class="stack">
+    <div class="side">
+    <h3>Statistics is the base of data science and ML</h3>
+    <p class="hint"><strong>Start at the base.</strong> Pick a statistical idea and read upward to see what it becomes.</p>
+    <figcaption>Most losses, regularizers and validation methods in ML began as statistical ideas. ML added scale and computing power.</figcaption>
+    <svg class="side-art" viewBox="0 0 300 300" aria-hidden="true" focusable="false">
+      <g transform="translate(55 4) rotate(-2 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <rect x="10" y="14" width="68" height="60" rx="4" class="xl"/><path d="M10 27H78M27 27V74" class="xg"/>
+        <circle cx="18" cy="20.5" r="2" class="d1"/><circle cx="25" cy="20.5" r="2" class="d2"/><circle cx="32" cy="20.5" r="2" class="d3"/>
+        <path d="M14 37h9M14 46h9M14 55h9M14 64h9" class="xg"/>
+        <path d="M33 37h16" class="cd c1"/><path d="M53 37h15" class="cd c2"/><path d="M38 46h22" class="cd c3"/><path d="M38 55h12" class="cd c2"/><path d="M54 55h14" class="cd c1"/><path d="M33 64h20" class="cd c3"/></g>
+      <g transform="translate(157 4) rotate(3 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <path d="M14 14V72H78" class="ax"/>
+        <path d="M32 20V66M27 20h10M27 66h10" class="bw"/><rect x="24" y="33" width="16" height="22" class="bx"/><path d="M24 44h16" class="med"/>
+        <path d="M60 27V62M55 27h10M55 62h10" class="bw"/><rect x="52" y="37" width="16" height="17" class="bx"/><path d="M52 46h16" class="med"/>
+        <circle cx="60" cy="18" r="2.6" class="pt"/></g>
+      <g transform="translate(4 106) rotate(-3 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <path d="M14 14V72H78" class="ax"/><path d="M16 60L30 46L44 54L60 30L76 20" class="ln"/>
+        <circle cx="30" cy="46" r="2.8" class="pt"/><circle cx="60" cy="30" r="2.8" class="pt"/></g>
+      <g transform="translate(106 106) rotate(2 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <path d="M44 44V18A26 26 0 0 1 66.5 57Z" class="p1"/>
+        <path d="M44 44L66.5 57A26 26 0 0 1 31 66.5Z" class="p2"/>
+        <path d="M44 44L31 66.5A26 26 0 0 1 44 18Z" class="p3"/></g>
+      <g transform="translate(208 106) rotate(-2 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <rect x="11" y="13" width="66" height="62" rx="3" class="xl"/><path d="M11 16a3 3 0 0 1 3-3h60a3 3 0 0 1 3 3v8H11z" class="xh"/>
+        <path d="M28 24V75M45 24V75M62 24V75M11 36H77M11 48H77M11 60H77" class="xg"/>
+        <rect x="28" y="36" width="17" height="12" class="sel"/></g>
+      <g transform="translate(4 208) rotate(3 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <path d="M10 70H78" class="ax"/>
+        <path d="M12 70C28 70 32 22 44 22S60 70 76 70Z" class="fa"/><path d="M12 70C28 70 32 22 44 22S60 70 76 70" class="ln"/>
+        <path d="M44 22V70" class="mean"/></g>
+      <g transform="translate(106 208) rotate(-2 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <path d="M14 14V72H78" class="ax"/><path d="M18 64L76 24" class="ln"/>
+        <circle cx="24" cy="54" r="2.8" class="pt"/><circle cx="34" cy="58" r="2.8" class="pt"/><circle cx="44" cy="42" r="2.8" class="pt"/><circle cx="54" cy="46" r="2.8" class="pt"/><circle cx="62" cy="30" r="2.8" class="pt"/><circle cx="72" cy="36" r="2.8" class="pt"/></g>
+      <g transform="translate(208 208) rotate(2 44 44)"><rect width="88" height="88" rx="10" class="sc"/>
+        <path d="M44 16L70.6 35.3L60.5 66.6H27.5L17.4 35.3Z" class="poly"/>
+        <circle cx="44" cy="16" r="3.2" class="hd"/><circle cx="70.6" cy="35.3" r="3.2" class="hd"/><circle cx="60.5" cy="66.6" r="3.2" class="hd"/><circle cx="27.5" cy="66.6" r="3.2" class="hd"/><circle cx="17.4" cy="35.3" r="3.2" class="hd"/></g>
+    </svg>
+    </div>
+    <div class="tower">
+    <div class="orn" aria-hidden="true">
+      <svg class="o1" viewBox="0 0 60 60"><path d="M30 4l5 19 19 7-19 7-5 19-5-19-19-7 19-7z"/></svg>
+      <svg class="o2" viewBox="0 0 60 60"><circle cx="30" cy="30" r="9" class="f"/><circle cx="30" cy="30" r="22" class="l"/></svg>
+      <svg class="o3" viewBox="0 0 60 60"><path d="M4 30q6-12 13 0t13 0 13 0 13 0" class="l"/></svg>
+      <svg class="o4" viewBox="0 0 60 60"><path d="M30 8l22 38H8z" class="l"/><path d="M30 20v0" class="l"/></svg>
     </div>
 
-    <!-- ========== HERO (Merged Home & About) ========== -->
-    <main class="hero">
-        <div class="hero-content">
-            <p class="about-greeting" style="margin-bottom: 1rem;">
-                Hello, I'm <span class="about-name">Maimuna Rahman</span>
-            </p>
-            
-            <p class="role">Student · Institute of Applied Statistics &amp; Data Science</p>
-            <p class="org">University of Dhaka</p>
+    <div class="lay ai"><h4>Deep learning and LLMs <span>neural networks trained to predict what comes next</span></h4><p id="o-ai"></p></div>
+    <div class="lay ml"><h4>Machine learning <span>models fitted to data, judged on unseen data</span></h4><p id="o-ml"></p></div>
+    <div class="lay ds"><h4>Data science <span>the pipeline from raw data to decisions</span></h4><div class="pipe" id="pipe"></div><p id="o-ds"></p></div>
+    <div class="lay st"><h4>Statistics <span>probability, inference and study design</span></h4><div class="ks" id="ks"></div><p class="fact" id="o-fact"></p></div>
+    <div class="cta"><span aria-hidden="true">▲</span> Select a base</div>
+    </div>
+  </figure>
+</section>
 
-            <div class="about-body" style="margin-top: 2rem;">
-                <p>
-                    I'm currently a 2nd year student studying Applied Statistics and Data Science at IASDS, University of Dhaka. My work focuses on data analysis, statistical computing, and backend development, and my coursework keeps adding new layers to how I understand statistical methods. I mainly work with Python, R, and SQL, and I'm learning machine learning (ML) and LLMs. I like practicing on datasets that are publicly available but still close to real-world data, since it keeps what I'm learning grounded in actual problems rather than purely theoretical exercises.
-                </p>
-            </div>
+<section class="wrap strip"><div class="map"><div>
+    <h3>My degree, 140 credits</h3>
+    <p class="cap">Four years, sized by credits. Select a year to open it.</p>
+    <div class="segs">
+      <button class="seg" data-y="0" style="flex:30" type="button"><span>Year 1</span><small>30 cr</small></button>
+      <button class="seg now" data-y="1" style="flex:34" type="button"><span>Year 2</span><small>34 cr · I'm here</small></button>
+      <button class="seg" data-y="2" style="flex:36" type="button"><span>Year 3</span><small>36 cr</small></button>
+      <button class="seg" data-y="3" style="flex:40" type="button"><span>Year 4</span><small>40 cr</small></button>
+    </div>
+    </div><div><h3>Tools, and the courses behind them</h3>
+    <p class="cap">Select a tool to highlight where it appears in my syllabus.</p>
+    <div class="chips">
+      <button class="chip" type="button" data-codes="CSE331 AST402">Python</button>
+      <button class="chip" type="button" data-codes="AST230 AST232 AST402 AST431 AST432">R</button>
+      <button class="chip" type="button" data-codes="CSE131">SQL</button>
+      <button class="chip" type="button" data-codes="CSE130">C/C++</button>
+    </div>
+    <p class="note" id="note" aria-live="polite">Learning now: machine learning and LLMs.</p>
+  </div></div></section>
 
-            <div class="about-actions" style="margin-top: 2rem;">
-                <a href="https://github.com/its-maimuna-rahman" class="about-btn" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                    <span>GitHub</span>
-                </a>
-                <a href="contact.html" class="about-btn">
-                    <span>Reach me out</span>
-                </a>
-            </div>
+<section id="academics" class="wrap sec">
+  <h2>Academics</h2>
+  <p class="sub">B.S. in Applied Statistics and Data Science<br>Institute of Applied Statistics and Data Science, University of Dhaka</p>
+  <div class="tabs" role="tablist">
+    <button class="tab year-tab" role="tab" type="button">1st Year</button>
+    <button class="tab year-tab" role="tab" type="button">2nd Year</button>
+    <button class="tab year-tab" role="tab" type="button">3rd Year</button>
+    <button class="tab year-tab" role="tab" type="button">4th Year</button>
+  </div>
+  <div class="years">
+<section class="year-section" id="year-1">
+      <h2 class="year-heading">First Year (30 Credits)</h2>
 
-            <!-- data‑inspired decorative dots -->
-            <div class="data-dots" aria-hidden="true" style="margin-top: 3rem;">
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-            </div>
+      <!-- AST101 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST101</span>
+            <span class="course-name">Introduction to Applied Statistics and Data Science</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Data science lifecycle, big data sources, and data governance</li>
+            <li>Descriptive vs. inferential statistics; variables and scales of measurement</li>
+            <li>Experimental and non-experimental study designs; sample surveys and questionnaires</li>
+            <li>Data cleaning, frequency distributions, histograms, ogives, and box-plots</li>
+            <li>Measures of location, dispersion, skewness, kurtosis; three- and five-number summaries</li>
+            <li>Bivariate data: contingency tables, association measures, correlation, simple linear regression</li>
+            <li>Data visualization and analysis using spreadsheet tools (Excel, Google Sheets)</li>
+          </ul>
         </div>
-    </main>
+      </div>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <p class="footer-copy">&copy; 2026 Maimuna Rahman</p>
+      <!-- AST102 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST102</span>
+            <span class="course-name">Elements of Probability</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Combinatorial analysis: permutations, combinations, counting principles</li>
+            <li>Axioms of probability, sample spaces, conditional probability, Bayes' formula, independence</li>
+            <li>Discrete random variables: expectation, variance, Bernoulli, binomial, Poisson, geometric, negative binomial, hypergeometric</li>
+            <li>Continuous random variables: normal, exponential; normal approximation to binomial</li>
+            <li>Joint distributions, independent random variables, sums of random variables, conditional distributions</li>
+            <li>Covariance, correlation, conditional expectation, moment generating functions, probability generating functions</li>
+          </ul>
         </div>
-    </footer>
+      </div>
 
-    <script src="js/main.js"></script>
+      <!-- MATH103 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">MATH103</span>
+            <span class="course-name">Foundations of Mathematics</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li><strong>Basic Algebra:</strong> Unique factorization, congruences, Euler's phi-function, inequalities (Weierstrass, Chebyshev, Cauchy), complex numbers, finite series, theory of equations, beta and gamma functions, Dirichlet's theorem</li>
+            <li><strong>Differential Equations:</strong> First-order equations, singular solutions, linear equations with constant coefficients, undetermined coefficients, variation of parameters</li>
+            <li><strong>Discrete Mathematics:</strong> Counting principles, inclusion-exclusion, pigeonhole principle, generating functions, recurrence relations, graph theory (trees, connectivity, Eulerian/Hamiltonian graphs, planar graphs), shortest path algorithms (Dijkstra, Floyd-Warshall), spanning trees (Kruskal, Prim)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MATH104 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">MATH104</span>
+            <span class="course-name">Differential Calculus</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Functions and graphs: polynomial, rational, logarithmic, exponential, trigonometric, hyperbolic, and inverse functions</li>
+            <li>Limits, continuity, and basic limit theorems; properties of continuous functions</li>
+            <li>Differentiation: rules, successive differentiation, Leibnitz theorem, related rates, linear approximations, differentials</li>
+            <li>Mean value theorems (Rolle, Lagrange, Cauchy); extrema, maxima/minima problems, concavity, inflection points</li>
+            <li>Indeterminate forms and L'Hôpital's rule; Taylor and Maclaurin series with remainder forms</li>
+            <li>Vector-valued functions, arc length parameterization, unit tangent/normal/binormal vectors, curvature</li>
+            <li>Partial differentiation: limits, continuity, partial derivatives, chain rule, directional derivatives, gradients, tangent planes, extrema of multivariable functions, Lagrange multipliers</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MATH105 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">MATH105</span>
+            <span class="course-name">Integral Calculus</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Indefinite integrals: integration by parts, substitution, rational functions, reduction formulas</li>
+            <li>Definite integrals: Riemann sums, fundamental theorems of calculus, basic properties</li>
+            <li>Applications: plane areas, solids of revolution, cylindrical shells, cross-sections, arc length, surface area</li>
+            <li>Improper integrals; gamma and beta functions</li>
+            <li>Polar coordinates: area and arc length</li>
+            <li>Double integrals: nonrectangular regions, polar coordinates, surface area, parametric surfaces</li>
+            <li>Triple integrals: cylindrical and spherical coordinates, centers of gravity, change of variables, Jacobians</li>
+            <li>Vector calculus: gradient, divergence, curl, line integrals, Green's theorem</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MATH106 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">MATH106</span>
+            <span class="course-name">Linear Algebra</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Matrices and vectors: operations, trace, determinant, adjoint, inverse, Kronecker product</li>
+            <li>Linear systems: Gaussian elimination, Gauss-Jordan, homogeneous systems, null spaces, rank, generalized inverses</li>
+            <li>Vector spaces: subspaces, linear independence, basis, dimension, inner product, norms, orthogonality, Gram-Schmidt</li>
+            <li>Eigenvalues and eigenvectors: characteristic polynomial, eigenspaces, diagonalization</li>
+            <li>Singular value decomposition (SVD) and Jordan canonical form</li>
+            <li>Quadratic forms: positive/nonnegative definiteness, Sylvester's law of inertia, simultaneous diagonalization</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ECON107 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">ECON107</span>
+            <span class="course-name">Economics</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Demand and supply theory; elasticity; equilibrium analysis</li>
+            <li>Consumer behavior: utility theory, indifference curves, consumer surplus</li>
+            <li>Production theory: production functions, returns to scale, Cobb-Douglas and CES functions, cost theory</li>
+            <li>Market structures: perfect competition, monopoly, oligopoly, monopolistic competition; short-run and long-run equilibrium</li>
+            <li>Factor markets: wage determination, labor supply, interest and capital, present value, real vs. nominal rates</li>
+            <li>Macroeconomics: GDP, NDP, GNP, inflation, consumption and saving functions, investment determinants</li>
+            <li>Economic growth theories: classical (Smith, Malthus), neoclassical growth model</li>
+            <li>Index numbers: construction methods (Laspeyre, Paasche, Fisher, Marshall-Edgeworth), tests, base shifting, CPI applications</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ENG108 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">ENG108</span>
+            <span class="course-name">English Communication Skills</span>
+            <span class="course-credit non-credit">Non-Credit</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li><strong>Reading:</strong> Comprehension strategies, skimming/scanning, identifying facts and themes, critical reading, vocabulary building, formal vs. informal writing</li>
+            <li><strong>Writing:</strong> Paragraph structure, summarizing, paraphrasing, synthesizing, sentence variety, grammar revision, common errors, academic referencing, essay and email writing</li>
+            <li><strong>Listening:</strong> Understanding news, dialogues, interviews, lectures; note-taking; identifying implied meaning</li>
+            <li><strong>Speaking:</strong> Everyday communication, introductions, debates, conversations, presentation skills, pronunciation (IPA, vowels, diphthongs)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CSE130 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">CSE130</span>
+            <span class="course-name">Programming with C/C++</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Programming fundamentals: algorithms, flowcharts, levels of programming, compilation process</li>
+            <li>C basics: data types, variables, constants, operators, expressions, control statements (conditional, loops)</li>
+            <li>Functions: return statements, arguments, pointers to functions</li>
+            <li>Arrays: single and multi-dimensional, arrays and pointers, dynamic allocation, initialization</li>
+            <li>Applications in data analysis: frequency distributions, summary statistics, matrix operations, linear regression fitting, sorting</li>
+            <li>All concepts also implemented in C⌄⌄</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CSE131 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">CSE131</span>
+            <span class="course-name">SQL for Data Science</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Database fundamentals: MySQL setup, data types, table creation, populating and modifying tables</li>
+            <li>Core SQL: SELECT, FROM, WHERE, GROUP BY, ORDER BY, HAVING clauses</li>
+            <li>Advanced queries: joins, subqueries, common table expressions (CTEs)</li>
+            <li>Functions: aggregation, window functions, date/time functions, user-defined functions (UDFs)</li>
+            <li>Statistical SQL: summary statistics, frequency distributions, correlation, regression analysis</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST140 - ORAL I (FIXED) -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST140</span>
+            <span class="course-name">Oral I</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Comprehensive oral examination by a committee of selected faculty members</li>
+            <li>Assessment of understanding across all first-year courses</li>
+            <li>Evaluation of communication skills and ability to articulate statistical concepts</li>
+            <li>Demonstration of problem-solving ability in real-time questioning</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========== 2ND YEAR ========== -->
+    <section class="year-section" id="year-2">
+      <h2 class="year-heading">Second Year (34 Credits)</h2>
+
+      <!-- AST201 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST201</span>
+            <span class="course-name">Sampling Distributions</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Generating function techniques: moment generating function, cumulant generating function, probability generating function, characteristic function</li>
+            <li>Finding distributions of functions of random variables: change of variable technique, distribution function technique, moment-generating function technique</li>
+            <li>Probability integral transformation; statistic and sampling distribution; law of large numbers; central limit theorem</li>
+            <li>Exact distribution of sample mean; chi-square distribution and its properties; F-distribution and its properties; t-distribution and its properties</li>
+            <li>Non-central chi-square, F and t distributions: definition and derivation</li>
+            <li>Concept of order statistics, distributions of single order statistics, and joint distribution of two or more order statistics</li>
+            <li>Review of probability distributions: uniform, normal, exponential, gamma, beta, log-normal, Cauchy; truncated distributions; compound and mixture distributions; Pearsonian family of distributions</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST202 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST202</span>
+            <span class="course-name">Actuarial Statistics</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Role of insurance in the economy; role of an actuary</li>
+            <li>Fundamentals of theory of interest: simple and compound interest, accumulated value factors, present value factors</li>
+            <li>Effective and nominal rates of interest and discount; equations of value; annuities (immediate, due, deferred, variable)</li>
+            <li>Capital redemption policies; amortization schedules and sinking funds</li>
+            <li>Actuarial mathematics: discrete life annuity, present values of different life annuities, life assurance</li>
+            <li>Premiums: net premiums, office premiums, prospective policy values</li>
+            <li>The basic deterministic model: cash flows, discount functions, balances and reserves</li>
+            <li>Stochastic interest-rate models: basic model for one stochastic interest rate, independent and dependent annual interest rates</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST203 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST203</span>
+            <span class="course-name">Statistical Inference I</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Fundamental ideas of statistical inference; parametric and non-parametric inference; estimators, statistics, parameters</li>
+            <li>Estimation: method of moments, method of least squares, method of maximum likelihood; properties of MLEs</li>
+            <li>Properties of good point estimators: mean squared error, efficiency, Cramer-Rao lower bound</li>
+            <li>Sufficiency: sufficient statistics, exponential family, factorization theorem, Rao-Blackwell theorem, minimal sufficient statistics, completeness</li>
+            <li>Interval estimation: pivotal quantity, exact and approximate confidence intervals, selecting sample size, simultaneous confidence intervals</li>
+            <li>Hypothesis testing: Neyman-Pearson approach, Fisher approach, Jeffreys' approach</li>
+            <li>Common tests based on normal distribution: one-sample, two-sample (independent and paired), more than two samples</li>
+            <li>Power of tests, Neyman-Pearson lemma, UMP tests, composite hypotheses, generalized likelihood ratio test</li>
+            <li>Goodness-of-fit tests: probability plots, chi-square, Kolmogorov-Smirnov; tests for categorical data</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST204 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST204</span>
+            <span class="course-name">Design and Analysis of Experiments I</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Strategy of experimentation; basic principles; guidelines for designing experiments</li>
+            <li>Single factor experiments: ANOVA, fixed effects model, model adequacy checking, estimation of parameters</li>
+            <li>Comparisons among treatment means: contrasts, orthogonal contrasts, multiple testing, Scheffe's method, comparing pairs of means</li>
+            <li>Determining sample size; regression approach to ANOVA</li>
+            <li>Randomized complete block designs (RCBD): statistical analysis, model adequacy checking, estimating model parameters</li>
+            <li>Latin square design; Graeco-Latin square design</li>
+            <li>Balanced incomplete block design (BIBD): statistical analysis, least squares estimation, recovery of intra-block information</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST205 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST205</span>
+            <span class="course-name">Demography</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Basic concepts of demography; sources of demographic data: census, vital registration, sample surveys, population registers</li>
+            <li>Errors in demographic data: types, quality checking, post-enumeration check (PEC)</li>
+            <li>Fertility measures: crude birth rate, ASFR, GFR, TFR, GRR, NRR, child-woman ratio; fecundity and fertility trends</li>
+            <li>Demographic theory: transition theory, Malthus' theory and criticism</li>
+            <li>Mortality measures: CDR, ASDR, infant mortality, child mortality, neonatal mortality; standardized death rates</li>
+            <li>Nuptiality: marriage types, age at marriage, celibacy, widowhood, divorce effects on fertility</li>
+            <li>Migration: internal and international, sources, factors, laws of migration, impact on population growth and economy</li>
+            <li>Graduation of data; life tables: complete and abridged, multiple decrement, working life table, model life tables (Coale-Demeny)</li>
+            <li>Stable and stationary populations</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST206 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST206</span>
+            <span class="course-name">Sampling Methods I</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Concept of sampling, probability and non-probability sampling, selection and inclusion probability, sampling weight</li>
+            <li>Simple random sampling (SRS): estimation of mean, total, proportion, ratio; unbiasedness, variances, confidence intervals, finite population correction</li>
+            <li>Systematic sampling: sample selection, estimators, comparison with SRS, linear trend and periodic variation</li>
+            <li>Stratified random sampling: formation of strata, estimators, allocation techniques (proportional, Neyman, optimum), comparison with SRS, design effect</li>
+            <li>Auxiliary information: ratio estimators, product estimator, regression estimator; properties and applications in stratified sampling</li>
+            <li>Cluster sampling: formation and size of clusters, equal-sized clusters, comparison with SRS, optimum cluster size</li>
+            <li>Special designs: capture-recapture sampling (Peterson and Chapman estimators), ranked set sampling</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MATH207 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">MATH207</span>
+            <span class="course-name">Mathematical Methods</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Interpolation and inverse interpolation: Newton's forward/backward, Lagrange's formula</li>
+            <li>Numerical integration: Simpson's rule, Weddle's rule, trapezoidal rule, Gauss's quadratic formulae</li>
+            <li>Solution of algebraic and transcendental equations: false position, Newton-Raphson method for simultaneous equations</li>
+            <li>Fourier series: periodic functions, Dirichlet conditions, odd/even functions, half-range series, Parseval's identity</li>
+            <li>Laplace transform: elementary functions, properties, initial and final value theorems, inverse Laplace transform, convolution theorem</li>
+            <li>Applications of Laplace transforms in solving differential equations and integrals</li>
+            <li>Introduction to Taylor's and Laurent series</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MATH208 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">MATH208</span>
+            <span class="course-name">Mathematical Analysis</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Real number system: axioms, completeness, Dedekind cuts, compact sets</li>
+            <li>Sequences and series of functions: limit, continuity, uniform continuity, differentiation and integration</li>
+            <li>Infinite series: convergence and divergence, power series, Taylor expansion with remainder</li>
+            <li>Metric and topological spaces: limit points, open/closed sets, interior/exterior/boundary points, continuous mapping, Cauchy sequences</li>
+            <li>Measure and integrals: Cramer measurability, measurable functions, Lebesgue measure on real line and plane</li>
+            <li>Riemann-Stieltjes integrals</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST230 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST230</span>
+            <span class="course-name">R for Data Science</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Introduction to R: history, data structures (vectors, lists, data frames), reading/writing data</li>
+            <li>Control structures, functions (built-in and custom), simulation, calling C from R</li>
+            <li>Exploratory data analysis with tidyverse: dplyr, ggplot2, grammar of graphics</li>
+            <li>Applications: optimizing non-linear functions using Newton-Raphson, numerical integration</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST231 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST231</span>
+            <span class="course-name">Statistical Simulation</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Random number generation: congruential generators, seeding</li>
+            <li>Random variate generation: inversion method, rejection method</li>
+            <li>Monte-Carlo integration: hit-and-miss method, improved Monte-Carlo integration</li>
+            <li>Variance reduction: antithetic sampling, importance sampling, control variates</li>
+            <li>Simulated and repeated sampling for illustrating: fitting probability distributions, sampling distributions, point and interval estimation, hypothesis testing</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST232 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST232</span>
+            <span class="course-name">Statistical Computing I</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Experimental design problems: CRD, RBD, BIBD, Latin square, split-plot, nested designs</li>
+            <li>Demographic data analysis: fertility and mortality measures, life table calculations</li>
+            <li>Using R for experimental design and demographic data analysis</li>
+            <li>Interpreting statistical results for public policy and planning decision-making</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST240 - ORAL II -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST240</span>
+            <span class="course-name">Oral II</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Comprehensive oral examination by a committee of selected faculty members</li>
+            <li>Assessment of understanding across all second-year courses</li>
+            <li>Evaluation of ability to connect concepts from sampling, inference, and experimental design</li>
+            <li>Demonstration of computing skills and statistical software proficiency</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========== 3RD YEAR ========== -->
+    <section class="year-section" id="year-3">
+      <h2 class="year-heading">Third Year (36 Credits)</h2>
+
+      <!-- AST301 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST301</span>
+            <span class="course-name">Design and Analysis of Experiments II</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Two-factor factorial design: statistical analysis, model adequacy checking, estimating parameters, sample size, assumption of no interaction</li>
+            <li>General factorial design; fitting response curves and surfaces; blocking in factorial design</li>
+            <li>2^k factorial design: 2^2, 2^3, general 2^k, single replicate, blocking, confounding in 2^p blocks, partial confounding</li>
+            <li>Two-level fractional factorial designs: one-half and one-quarter fractions, general 2^(k-p), resolution III, IV, and V designs</li>
+            <li>Three-level and mixed-level factorial and fractional factorial designs</li>
+            <li>Response surface methods: method of steepest ascent, second-order response surface, mixture experiments, robust designs</li>
+            <li>Experiments with random factors: random effects model, two-factor factorial with random factors, mixed model, sample size determination</li>
+            <li>Nested and split-plot designs: two-stage nested, m-staged nested, split-plot, split-split-plot, strip-split-plot designs</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST302 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST302</span>
+            <span class="course-name">Sampling Methods II</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Probability proportional to size (PPS) sampling: with replacement (WR) and without replacement (WOR)</li>
+            <li>Hansen-Hurwitz estimator, Horvitz-Thompson estimator, Brewer's method, Durbin's method, Des Raj method, Murthy's method</li>
+            <li>Sub-sampling and two-stage sampling: design, estimators, variances, optimum sample sizes</li>
+            <li>Double sampling: application in stratified sampling, ratio and regression estimators</li>
+            <li>Complex surveys: variance estimation approaches, replication methods (random group, BRR, Jackknife, Bootstrap)</li>
+            <li>Non-sampling errors: sources, nonresponse effects, Politz-Simmons adjustment, imputation methods</li>
+            <li>Special designs: multiplicity/network sampling, adaptive cluster sampling (ACS)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST303 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST303</span>
+            <span class="course-name">Linear Regression Analysis</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Correlation and inference; simple linear regression: least squares, MLE, inferences on parameters, confidence bands</li>
+            <li>Model accuracy: F-test, R², prediction intervals, residual analysis, outlier detection, lack of fit test</li>
+            <li>Transformations, weighted least squares; matrix representation of regression</li>
+            <li>Multiple linear regression: estimation, inference, extra sum of squares, general linear hypothesis</li>
+            <li>Model diagnostics: checking assumptions, multicollinearity, influential observations</li>
+            <li>Polynomial regression: one and multiple variables, piecewise polynomial fitting, orthogonal polynomials</li>
+            <li>Indicator variables, variable selection, model building criteria</li>
+            <li>Validation of regression models: cross-validation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST304 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST304</span>
+            <span class="course-name">Epidemiology</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Disease processes, statistical approaches, study design, binary outcome data, causality</li>
+            <li>Measures of disease occurrence: prevalence, incidence, disease rates, hazard function</li>
+            <li>Measures of disease-exposure association: relative risk, odds ratio, relative hazard, attributable risk</li>
+            <li>Study designs: population-based, cohort, case-control, case-cohort studies</li>
+            <li>Confounding and interaction: causal inference, counterfactuals, causal graphs, Cochran-Mantel-Haenszel test</li>
+            <li>Multiplicative and additive interaction, tests for trend in risk</li>
+            <li>Matching: types and analysis of matched studies</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST305 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST305</span>
+            <span class="course-name">Lifetime Data Analysis I</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Lifetime distributions: exponential, Weibull, log-normal, log-logistic, gamma, inverse Gaussian, mixture models</li>
+            <li>Censoring and truncation: right censoring, types of incomplete data, likelihood construction</li>
+            <li>Nonparametric estimation: Kaplan-Meier estimator, Nelson-Aalen estimator, life tables</li>
+            <li>Parametric inference: exponential, gamma, inverse Gaussian; grouped and interval-censored data</li>
+            <li>Log-location-scale distributions: Weibull, extreme-value, log-normal, log-logistic inference</li>
+            <li>Model assessment: probability plots, goodness-of-fit tests</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST306 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST306</span>
+            <span class="course-name">Statistical Inference II</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Approximate methods: likelihood inference, Newton-type optimization, EM algorithm, REML, profile likelihood</li>
+            <li>Bayesian inference: prior and posterior distributions, credible intervals, hypothesis testing, MCMC methods</li>
+            <li>Exact tests: tests for proportions, comparison of two proportions</li>
+            <li>Resampling: bootstrap confidence intervals and tests, jackknife, permutation tests</li>
+            <li>Nonparametric inference: empirical CDF, quantiles, statistical functionals, influence functions, kernel density estimation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST307 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST307</span>
+            <span class="course-name">Multivariate Statistics I</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Random vectors and matrices: mean vectors, covariance matrices, matrix inequalities, generalized variance</li>
+            <li>Multivariate normal distribution: properties, sampling, maximum likelihood estimation, assessing normality</li>
+            <li>Inferences about mean vector: Hotelling's T², likelihood ratio tests, confidence regions, missing data</li>
+            <li>Comparisons of several multivariate means: paired comparisons, one-way MANOVA, two-way MANOVA, profile analysis, growth curves</li>
+            <li>Multivariate linear regression: least squares, inference, model checking, multivariate multiple regression</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST308 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST308</span>
+            <span class="course-name">Research Methodology</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Types of research: descriptive vs. analytical, applied vs. fundamental, quantitative vs. qualitative</li>
+            <li>Problem identification, literature review, research questions, hypotheses formulation</li>
+            <li>Research design: exploratory, descriptive, experimental; measurement, validity, reliability</li>
+            <li>Data collection: FGD, IDI, KII, ethnography, surveys, questionnaire design, data collection apps (SurveyCTO, Kobo Toolbox)</li>
+            <li>Monitoring and Evaluation (M&E): baseline, ongoing, end-line evaluation; relevance, effectiveness, efficiency, impact</li>
+            <li>Data analysis, report writing, scholarly publishing, ethics, plagiarism, reproducibility</li>
+            <li>Experiential learning: research proposal, field work, data analysis, report writing</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST330 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST330</span>
+            <span class="course-name">Stata for Data Science</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Stata interface: windows, files, help system, data entry, reading different formats</li>
+            <li>Data management: browse, edit, sort, describe, generate, replace, egen, reshape, collapse, weighting</li>
+            <li>Graphs: histograms, scatterplots, line plots, box plots, combining graphs</li>
+            <li>Exploratory analysis: summarize, tabstat, table, frequency tables, cross-tabulations</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CSE331 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">CSE331</span>
+            <span class="course-name">Python for Data Science</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Python fundamentals: syntax, data types, control structures, functions, lists, tuples, sets, dictionaries</li>
+            <li>NumPy: arrays, indexing, slicing, arithmetic and matrix operations</li>
+            <li>pandas: DataFrame, Series, data indexing, handling missing data, combining datasets, aggregation, grouping</li>
+            <li>Data visualization: matplotlib and seaborn (bar plots, histograms, density plots, boxplots)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST332 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST332</span>
+            <span class="course-name">Statistical Computing II</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Factorial design analysis, screening experiments, split-plot designs, response surfaces</li>
+            <li>Epidemiological analysis: odds ratio, risk ratio, risk difference estimation and inference</li>
+            <li>Survival analysis: non-parametric and parametric estimation of survival and cumulative hazard functions</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST333 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST333</span>
+            <span class="course-name">Statistical Computing III</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Regression models: simple and multiple linear regression, inference, diagnostics, model selection</li>
+            <li>Multivariate analysis: exploratory analysis, multivariate tests, MANOVA, multivariate regression</li>
+            <li>Bootstrap methods, nonparametric tests, hypothesis testing and confidence intervals</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST340 - ORAL III -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST340</span>
+            <span class="course-name">Oral III</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Comprehensive oral examination by a committee of selected faculty members</li>
+            <li>Assessment of advanced statistical methodology understanding</li>
+            <li>Evaluation of research design and data analysis capabilities</li>
+            <li>Demonstration of software proficiency (R, Python, Stata)</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========== 4TH YEAR ========== -->
+    <section class="year-section" id="year-4">
+      <h2 class="year-heading">Fourth Year (40 Credits)</h2>
+
+      <!-- AST401 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST401</span>
+            <span class="course-name">Advanced Probability and Stochastic Processes</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Modern probability: events as sets, sigma fields, probability measure, Borel field, measure-theoretic random variables</li>
+            <li>Convergence of random variables: almost sure, r-th mean, in probability, in distribution; law of large numbers, central limit theorem, law of iterated logarithm, martingales</li>
+            <li>Markov chains: Chapman-Kolmogorov equations, classification of states, limiting probabilities, branching processes, MCMC, hidden Markov chains</li>
+            <li>Poisson process: exponential distribution properties, interarrival times, nonhomogeneous and compound Poisson processes</li>
+            <li>Continuous-time Markov chains: birth and death processes, transition probabilities, time reversibility</li>
+            <li>Queueing theory: M/M/1, M/M/1/S, M/M/m, M/M/m/m, Erlang loss systems, PASTA property</li>
+            <li>Renewal theory: distribution of renewals, renewal reward processes, regenerative processes, semi-Markov processes</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST402 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST402</span>
+            <span class="course-name">Statistics for AI and Machine Learning</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>AI fundamentals: definition, history, applications, intelligent agents, search algorithms (BFS, DFS, A*)</li>
+            <li>Statistical learning: regression, curse of dimensionality, bias-variance trade-off, K-nearest neighbors</li>
+            <li>Classification: logistic regression, LDA, QDA, naive Bayes, ROC curves</li>
+            <li>Resampling: cross-validation, bootstrap; model selection: best subset, forward/backward stepwise, Mallow's Cp, AIC, BIC</li>
+            <li>Shrinkage methods: ridge regression, lasso, elastic net, adaptive lasso, group lasso, bridge regression</li>
+            <li>Dimension reduction: PCA, PCR, PLS; clustering: K-means, fuzzy C-means, hierarchical clustering</li>
+            <li>Decision trees, random forests, gradient boosting; case studies in R and Python</li>
+            <li>Big Data: Hadoop, HDFS, MapReduce, Spark, data architecture</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST403 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST403</span>
+            <span class="course-name">Multivariate Statistics II</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Principal components: population and sample principal components, graphing, large sample inference</li>
+            <li>Factor analysis: orthogonal factor models, estimation methods, factor rotation (varimax, quartimax, oblimin), factor scores, structural equations</li>
+            <li>Canonical correlation analysis: canonical variates and correlations, large sample inference</li>
+            <li>Discrimination and classification: two populations, multivariate normal classification, Fisher's discriminant, several populations</li>
+            <li>Clustering: similarity measures, hierarchical and nonhierarchical methods, fuzzy clustering, gap statistics, cluster validity indices</li>
+            <li>Multidimensional scaling</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST404 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST404</span>
+            <span class="course-name">Econometric Methods</span>
+            <span class="course-credit">4 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Model specification: omitted variable bias, pretest estimation, irrelevant variables, non-nested hypotheses, J-test, Cox test</li>
+            <li>Panel data models: fixed effects (within, between estimators), random effects (GLS, FGLS), Hausman test</li>
+            <li>Simultaneous equations: identification (rank and order conditions), 2SLS, 3SLS, IV estimation, GMM, Klein's Model I</li>
+            <li>Dynamic models: distributed lag models, ARDL, stability, forecasting, VAR, Granger causality, impulse response functions, structural VARs</li>
+            <li>Limited dependent variables: truncated and censored regression (Tobit), count data models, Poisson regression</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST405 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST405</span>
+            <span class="course-name">Lifetime Data Analysis II</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Parametric regression models: AFT models, proportional hazards models, graphical methods, model assessment</li>
+            <li>Semiparametric Cox PH model: estimation, tests, stratification, time-varying covariates, model checking</li>
+            <li>Competing risks: hazard and cumulative incidence functions, cause-specific hazards</li>
+            <li>Frailty models: gamma frailty, parametric and semiparametric frailty models, shared frailty</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CSE406 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">CSE406</span>
+            <span class="course-name">Big Data Analytics</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Big Data characteristics, sources, applications, and challenges</li>
+            <li>Data pre-processing: scraping, cleaning, handling missing values, redundancy, correlation analysis</li>
+            <li>Structured and unstructured data, relational and NoSQL databases</li>
+            <li>Data reduction: wavelet transformation, attribute subset selection, data cube aggregation</li>
+            <li>Big Data architecture: MapReduce, Hadoop HDFS, Spark, Terradata</li>
+            <li>Data analysis: graphical models, latent variable models, Bayesian inference, Bayesian machine learning</li>
+            <li>Data visualization: infographics, grammar of graphics, GGobi, dynamic graphics</li>
+            <li>Big Data ethics and privacy: legal frameworks, security concerns</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST407 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST407</span>
+            <span class="course-name">Time Series Modelling</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Descriptive techniques: time series plots, trend, seasonal effects, sample autocorrelation, correlogram, filtering</li>
+            <li>Stationary processes: white noise, random walks, MA, AR, ARMA, seasonal ARMA; properties, estimation, model building, diagnostic checking</li>
+            <li>Forecasting: naive methods, exponential smoothing, Holt-Winters, Box-Jenkins, linear prediction</li>
+            <li>Non-stationary series: transformations, ARIMA, seasonal ARIMA, modeling seasonality and trend</li>
+            <li>Frequency domain: spectral density, periodogram, spectral analysis</li>
+            <li>State-space models: dynamic linear models, Kalman filter</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST408 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST408</span>
+            <span class="course-name">Generalized Linear Models</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Exponential family of distributions; estimation: MLE, least squares for GLMs</li>
+            <li>Inference: sampling distributions, confidence intervals, deviance, goodness of fit, hypothesis testing</li>
+            <li>Multiple regression within GLM framework</li>
+            <li>Binary responses: logistic regression, probit models, dose-response models, multinomial logistic regression</li>
+            <li>Count data: Poisson regression, log-linear models, negative binomial regression</li>
+            <li>Quasi-likelihood methods, overdispersion</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST409 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST409</span>
+            <span class="course-name">Official Statistics</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Fundamental principles of official statistics; code of practice in Bangladesh; legal and ethical framework</li>
+            <li>Administrative and survey data sources; survey weighting for official statistics</li>
+            <li>Demographic statistics: population growth, projection techniques (component, arithmetic, geometric, exponential, matrix, Lee-Carter, Bayesian)</li>
+            <li>Health statistics; macro-economy statistics (GDP, inflation, remittance); business and labor force statistics</li>
+            <li>Agricultural statistics: food production, FIES, land use, climate data</li>
+            <li>Poverty measurement: poverty lines, FGT indices, Sen index, poverty mapping, vulnerability</li>
+            <li>Inequality: Lorenz curve, Gini coefficient, Atkinson's index, Theil's index, HDI</li>
+            <li>SDG indicators, data visualization, GIS mapping, time series of official statistics</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST430 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST430</span>
+            <span class="course-name">Statistical Computing IV</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Multivariate analysis: PCA, factor analysis, discriminant analysis, canonical correlation</li>
+            <li>Machine learning: classification, cross-validation, bootstrap, regularized methods (lasso, elastic net, group lasso, bridge)</li>
+            <li>Dimension reduction techniques; linear programming problems</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST431 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST431</span>
+            <span class="course-name">Statistical Computing V</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Time series exploratory analysis; fitting ARMA, ARIMA models</li>
+            <li>Econometric modeling: fitting and interpreting econometric models using R or Stata</li>
+            <li>Forecasting and model evaluation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST432 -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST432</span>
+            <span class="course-name">Statistical Computing VI</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>GLM implementation: logistic regression (binary, multinomial, ordinal), log-linear models</li>
+            <li>Survival models: AFT, Cox PH, competing risks, frailty models using R or Stata</li>
+            <li>Interpreting and presenting results for interdisciplinary stakeholders</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST440 - ORAL IV -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST440</span>
+            <span class="course-name">Oral IV</span>
+            <span class="course-credit">2 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Comprehensive oral examination by a committee of selected faculty members</li>
+            <li>Assessment of mastery across all four years of coursework</li>
+            <li>Evaluation of ability to integrate statistical theory, computing, and real-world applications</li>
+            <li>Preparation for professional and research careers</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AST450 - CAPSTONE -->
+      <div class="course-card">
+        <button class="course-header" aria-expanded="false">
+          <div class="course-title-group">
+            <span class="course-code">AST450</span>
+            <span class="course-name">B.S. Capstone Project</span>
+            <span class="course-credit">3 Credits</span>
+          </div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body">
+          <ul>
+            <li>Independent research project under faculty supervision</li>
+            <li>Application of statistical methods to real-world problems (applied or theoretical)</li>
+            <li>Project report writing and seminar presentation</li>
+            <li>Evaluation: 50% project work, 10% supervisor, 40% seminar presentation</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</section>
+
+<section id="projects" class="wrap sec">
+  <h2>Projects</h2>
+  <p class="sub">A collection of my work in statistics and data science.</p>
+  <div class="plates">
+    <article class="plate">
+      <p class="state">Completed</p>
+      <h3>Bank OS</h3>
+      <div class="tags"><span>FinTech</span><span>Backend Engineering</span></div>
+      <p>A sleek Python banking platform with a clean UI that quietly handles complex relational accounts, secure vaults, and financial tracking.</p>
+      <p><a class="btn" href="https://github.com/its-maimuna-rahman/bank-os" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+    </article>
+    <article class="plate dev">
+      <p class="state">In development</p>
+      <h3>Project X</h3>
+      <div class="tags"><span>Bio-Tech</span><span>Data Science</span></div>
+      <p>A biology-focused machine learning (ML) project combining an NLP text parser with predictive risk modeling.</p>
+      <p class="state">Coming soon</p>
+    </article>
+  </div>
+</section>
+
+<section id="contact" class="wrap sec">
+  <h2>Contact me</h2>
+  <div class="contact-list">
+    <div class="crow"><span>GitHub</span><a href="https://github.com/its-maimuna-rahman" target="_blank" rel="noopener noreferrer">its-maimuna-rahman</a></div>
+    <div class="crow"><span>Email</span><a href="mailto:its.maimuna.rahman@gmail.com">its.maimuna.rahman@gmail.com</a></div>
+  </div>
+  <p><button class="btn" id="copy" type="button">Copy email address</button></p>
+</section>
+</main>
+<footer>© 2026 Maimuna Rahman</footer>
+
+<script>
+/* theme */
+(function(){
+  var r=document.documentElement,b=document.getElementById('theme'),mq=matchMedia('(prefers-color-scheme:dark)');
+  try{var s=localStorage.getItem('theme');if(s)r.setAttribute('data-theme',s)}catch(e){}
+  function isDark(){var t=r.getAttribute('data-theme');return t?t==='dark':mq.matches}
+  function sync(){var d=isDark();b.classList.toggle('dark',d);b.setAttribute('aria-checked',d)}
+  b.onclick=function(){var n=isDark()?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}sync()};
+  mq.addEventListener('change',sync);sync();
+})();
+
+/* academics + degree map */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.year-tab')),secs=[].slice.call(document.querySelectorAll('.year-section'));
+  var chips=[].slice.call(document.querySelectorAll('.chip')),note=document.getElementById('note'),idle=note.textContent;
+  function year(k){tabs.forEach(function(t,i){t.setAttribute('aria-selected',i===k)});secs.forEach(function(s,i){s.classList.toggle('active',i===k)})}
+  function go(){document.getElementById('academics').scrollIntoView({behavior:'smooth'})}
+  function mark(codes){
+    var first=-1,cnt=[0,0,0,0];
+    [].forEach.call(document.querySelectorAll('.course-card'),function(c){
+      var on=codes.indexOf(c.querySelector('.course-code').textContent.trim())>-1;
+      c.classList.toggle('hit',on);
+      if(on){var y=secs.indexOf(c.closest('.year-section'));cnt[y]++;if(first<0||y<first)first=y}
+    });
+    
+    return first;
+  }
+  tabs.forEach(function(t,i){t.onclick=function(){year(i)}});
+  [].forEach.call(document.querySelectorAll('.seg'),function(s){s.onclick=function(){year(+s.dataset.y);go()}});
+  [].forEach.call(document.querySelectorAll('.course-header'),function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')!=='true')}});
+  chips.forEach(function(c){c.setAttribute('aria-pressed','false');c.onclick=function(){
+    var on=c.getAttribute('aria-pressed')!=='true';
+    chips.forEach(function(o){o.setAttribute('aria-pressed','false')});
+    if(!on){mark([]);note.textContent=idle;return}
+    c.setAttribute('aria-pressed','true');
+    var codes=c.dataset.codes.split(' '),f=mark(codes);
+    note.textContent=c.textContent+' appears in '+codes.join(', ')+'. Highlighted in Academics.';
+    year(f);go();
+  }});
+  year(0);
+})();
+
+
+/* statistics stack */
+(function(){
+  var S=['Collect','Clean','Explore','Model','Validate','Communicate'];
+  var C=[
+   ['Probability','Describes how uncertain values behave, so you can simulate and reason about them.',[2,3],'Generative models such as naive Bayes and Gaussian mixtures.','A language model outputs a probability distribution over the next token, using softmax.','Softmax turns any list of scores into probabilities that sum to 1.'],
+   ['Maximum likelihood','Fits the parameters of a model to the data you collected.',[3],'Most training losses. Fitting a model means minimizing a loss.','Cross-entropy, the loss used to train LLMs, is the negative log-likelihood of the next token.','Least squares is maximum likelihood when the noise is Gaussian.'],
+  ['Regression and GLMs','The first baseline model, with effects you can interpret and report.',[3,5],'Linear and logistic models, the base case for supervised learning.','Every layer of a neural network is a linear map followed by a nonlinearity.','One neuron with a sigmoid output is logistic regression.'],
+   ['Bayesian inference','Updates beliefs with new data and reports uncertainty as a distribution.',[3,4],'Ridge and lasso regularization, Bayesian optimization.','Weight decay in neural network training acts as a Gaussian prior.','Ridge is the MAP estimate under a Gaussian prior, and lasso under a Laplace prior.'],
+   ['Sampling and resampling','Designs how data is drawn, then checks a model on data it has not seen.',[0,4],'Bagging, random forests, cross-validation and train/test splits.','Training runs on random mini-batches, each one a sample of the data.','A random forest averages trees fit on bootstrap samples.'],
+   ['Tests and experiments','Separates a real effect from noise. A/B tests give causal answers.',[0,4,5],'Comparing models and checking that a gain is bigger than chance.','Benchmarks and A/B tests decide whether a new model is really better.','A gap between two model scores means little without an uncertainty estimate.'],
+   ['Multivariate analysis','Explores and shrinks datasets with many variables.',[2,3],'PCA, k-means, factor models and other unsupervised methods.','Embeddings are learned low-dimensional representations of words, images and users.','A linear autoencoder learns the same subspace as PCA.'],
+   ['Time series','Forecasts values that depend on their own past.',[2,3],'Sequence models for forecasting and event prediction.','An LLM is autoregressive: it predicts each token from the ones before it.','An AR(p) model predicts the next value from the previous p values. An LLM does this with tokens.']
+  ];
+  function $(i){return document.getElementById(i)}
+  var ks=$('ks'),pipe=$('pipe'),lays=[].slice.call(document.querySelectorAll('.stack .lay'));
+  S.forEach(function(s){var e=document.createElement('span');e.textContent=s;pipe.appendChild(e)});
+  function pick(i){
+    var c=C[i];
+    [].forEach.call(ks.children,function(b,j){b.setAttribute('aria-pressed',j===i)});
+    [].forEach.call(pipe.children,function(e,j){e.classList.toggle('on',c[2].indexOf(j)>-1)});
+    $('o-ds').textContent=c[1];$('o-ml').textContent=c[3];$('o-ai').textContent=c[4];$('o-fact').textContent=c[5];
+    lays.forEach(function(l){l.classList.add('lit')});
+    setTimeout(function(){lays.forEach(function(l){l.classList.remove('lit')})},450);
+  }
+  C.forEach(function(c,i){var b=document.createElement('button');b.type='button';b.className='k';b.textContent=c[0];b.onclick=function(){pick(i);document.querySelector('.stack').classList.add('used')};ks.appendChild(b)});
+  pick(0);
+})();
+
+/* copy email */
+document.getElementById('copy').onclick=function(){
+  var b=this,t='its.maimuna.rahman@gmail.com';
+  function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email address'},1800)}
+  try{navigator.clipboard.writeText(t).then(ok,function(){b.textContent=t})}catch(e){b.textContent=t}
+};
+</script>
 </body>
 </html>
