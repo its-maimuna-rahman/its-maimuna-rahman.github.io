@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simple Random Sampling – Estimation &amp; Sample Size</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:44px 0;border-top:1px solid var(--line)}
+p{margin:.8em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:18px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:14px 8px;margin:16px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:12px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:96px}input[type=range]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.15rem;margin-top:12px;line-height:1.8}.mut{color:var(--mut);font-size:.95rem}
+.bars{display:flex;align-items:flex-end;gap:6px;height:120px;margin:14px 0;border-bottom:1px solid var(--line)}.bars div{flex:1;background:var(--ac);min-width:6px;position:relative}.bars span{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:.8rem;color:var(--mut)}
+.bar{height:14px;background:var(--ac);transition:width .2s}
+table{border-collapse:collapse;font-size:.95rem;margin:12px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.5em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px 16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.dv .bd li{margin:1.1em 0}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',zz:'z_{1-\\alpha/2}',B:['\\mathbf{#1}',1]}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head><body>
+<nav><a href="#intro">Intro</a><a href="#select">Selection</a><a href="#mean">Mean &amp; Total</a><a href="#point">Point &amp; Interval</a><a href="#prop">Proportion</a><a href="#size">Sample size</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Simple Random Sampling</h1><p class="mut">Selection, estimation of mean, total and proportion, and sample-size determination. Every topic is split into its two designs: <b>SRSWR</b> and <b>SRSWOR</b>.</p></header>
+
+<section id="intro"><h2>Sampling basics</h2>
+<p><b>Simple random sampling (SRS)</b> selects \(n\) units from a population of \(N\) units so that every unit has an equal chance at each step. Two versions exist:</p>
+<div class="two"><div><h3>Without replacement <b>(SRSWOR)</b></h3><p>\(n\) <i>distinct</i> units are drawn so that each of the \(\binom{N}{n}\) possible samples is equally likely. A drawn unit is removed, so the draws are <b>dependent</b>.</p></div>
+<div><h3>With replacement <b>(SRSWR)</b></h3><p>Units are drawn one by one, each with chance \(1/N\) every time. The same unit can appear again, and the draws are <b>independent</b>.</p></div></div>
+<h3>Key terms</h3>
+<ul><li><b>Population</b>: all units under study. <b>Sample</b>: the representative part observed. <b>Sampling</b>: drawing the sample. <b>Element</b>: the basic unit measured; <b>sampling unit</b>: what is selected (can be a group); <b>frame</b>: the list of all sampling units.</li>
+<li><b>Target population</b> is what we want conclusions about; <b>study population</b> is the part reachable through the frame. Gaps (no phone, refusal) cause coverage and nonresponse bias.</li>
+<li><b>Finite</b> populations (fixed \(N\), e.g. households) vs <b>infinite</b> ones (quality control, probability models).</li>
+<li><b>Descriptive</b> inference estimates parameters (means, totals, proportions); <b>analytical</b> surveys compare groups or test relationships.</li>
+<li><b>Census</b> observes all units: no sampling error, but costly and slow. A <b>sample survey</b> is cheaper, faster, more flexible and can have better data quality, but has sampling error (which can be estimated).</li>
+<li><b>Sampling error</b> comes from observing only a sample and falls as \(n\) grows. <b>Non-sampling error</b> (measurement, nonresponse, coverage) is not reduced by larger \(n\).</li></ul>
+<div class="box"><b>Selection methods.</b> Draw numbers from a hat, a random number table (read columns, ignore repeats and numbers above \(N\), until \(n\) distinct units), or software such as R or SAS.</div>
+<h3>Descriptive vs inferential</h3><p><b>Descriptive</b> statistics organise and summarise data. <b>Inferential</b> statistics draw conclusions about an unknown <i>parameter</i> from a random sample and measure how reliable they are.</p></section>
+
+<section id="select"><h2>Selection probabilities</h2>
+<div class="two"><div><h3>SRSWOR</h3><p>Number of samples \(\binom Nn\); each has probability</p><div class="f">\[P(s)=1/\tbinom Nn\]</div><p>Inclusion probability (same for every unit):</p><div class="f">\[\pi_i=n/N\]</div><p>Chance that unit \(u_j\) is picked at draw \(k\):</p><div class="f">\[1/N\quad(\text{any }j,k)\]</div></div>
+<div><h3>SRSWR</h3><p>Number of ordered samples \(N^n\); each has probability</p><div class="f">\[P(s)=1/N^n\]</div><p>Selection chance at every draw:</p><div class="f">\[P(u_i)=1/N\]</div><p>Same unit may repeat; draws independent; population stays at \(N\).</p></div></div>
+<p class="mut">where \(N\) = population size, \(n\) = sample size, \(P(s)\) = probability of a particular sample \(s\), \(\pi_i\) = inclusion probability of unit \(i\), \(u_j\) = the \(j\)th unit of the population.</p>
+<table><tr><th>Feature</th><th>SRSWOR</th><th>SRSWR</th></tr><tr><td>Population size</td><td>Decreases</td><td>Constant</td></tr><tr><td>Sample space</td><td>\(\binom Nn\)</td><td>\(N^n\)</td></tr><tr><td>P(sample)</td><td>\(1/\binom Nn\)</td><td>\(1/N^n\)</td></tr><tr><td>Repeats</td><td>Not allowed</td><td>Allowed</td></tr><tr><td>Draws</td><td>Dependent</td><td>Independent</td></tr></table>
+<div class="box">Both give the same marginal chance \(1/N\) per draw. They differ in dependence between draws. SRS is the only design in which <i>every possible sample</i> is equally likely; other designs may give equal inclusion chances without that.</div></section>
+
+<section id="mean"><h2>Estimating mean, variance and total</h2>
+<p>Population: \(\mu=\frac1N\sum y_i\), \(S^2=\frac1{N-1}\sum(y_i-\mu)^2\), \(\sigma^2=\frac1N\sum(y_i-\mu)^2\), so \(S^2=\frac N{N-1}\sigma^2\). Sample: \(\bar y=\frac1n\sum y_i\), \(s^2=\frac1{n-1}\sum(y_i-\bar y)^2\).</p>
+<div class="two"><div><h3>SRSWOR</h3><div class="f">\[\E(\bar y)=\mu\]</div><div class="f">\[\V(\bar y)=\frac{N-n}{N}\frac{S^2}{n}=\frac{N-n}{N-1}\frac{\sigma^2}{n}\]</div><div class="f">\[\E(s^2)=S^2\]</div><div class="f">\[\vh(\bar y)=\frac{N-n}{N}\frac{s^2}{n}\]</div></div>
+<div><h3>SRSWR</h3><div class="f">\[\E(\bar y)=\mu\]</div><div class="f">\[\V(\bar y)=\frac{\sigma^2}{n}=\frac{N-1}{N}\frac{S^2}{n}\]</div><div class="f">\[\E(s^2)=\sigma^2\]</div><div class="f">\[\vh(\bar y)=\frac{s^2}{n}\]</div></div></div>
+<p class="mut">where \(\mu,\ \bar y\) = population and sample mean; \(S^2,\ \sigma^2\) = population variance with divisor \(N-1\) and \(N\); \(s^2\) = sample variance; \(\E,\ \V\) = expectation and variance; \(\vh\) = estimated variance; \(\frac{N-n}{N}\) = finite-population correction.</p>
+<p>The standard error is \(SE(\bar y)=\sqrt{\V(\bar y)}\), estimated by \(\sqrt{\vh(\bar y)}\). The estimated SE is <b>not</b> unbiased, because the square root is non-linear.</p>
+<h3>Finite-population correction (FPC)</h3>
+<p>\((N-n)/N=1-n/N\). If \(n/N\) is small (below 5%, sometimes 10%), FPC is near 1 and \(\V(\bar y)\approx S^2/n\); ignoring it slightly <i>overestimates</i> the variance. For small populations it matters. As \(n\to N\), FPC \(\to0\) and \(\V(\bar y)\to0\) (a census).</p>
+<div class="box"><b>Try it: FPC.</b><div class="row"><label>\(N\) <input type="number" id="fN" value="500"></label><label>\(n\) <input type="range" id="fn" min="1" max="500" value="50"> <b id="fnv"></b></label></div><div class="bar" id="fb"></div><div class="out" id="fo"></div></div>
+<h3>SRSWOR is more efficient than SRSWR</h3>
+<div class="f">\[\V_{WR}(\bar y)-\V_{WOR}(\bar y)=\frac{n-1}{N}\frac{S^2}{n}>0\ (n>1)\]</div>
+<p class="mut">where \(\V_{WR},\ \V_{WOR}\) = variance of \(\bar y\) under SRSWR and SRSWOR.</p>
+<p>The gain grows with \(n\); at \(n=N\), \(\V_{WOR}=0\).</p>
+<h3>Population total</h3>
+<div class="f">\[\tau=N\mu,\quad \hat\tau=N\bar y\]</div>
+<div class="two"><div><h3>SRSWOR</h3><div class="f">\[\V(\hat\tau)=N(N-n)\frac{S^2}{n}\]</div><div class="f">\[\vh(\hat\tau)=N(N-n)\frac{s^2}{n}\]</div></div><div><h3>SRSWR</h3><div class="f">\[\V(\hat\tau)=N^2\frac{\sigma^2}{n}\]</div><div class="f">\[\vh(\hat\tau)=N^2\frac{s^2}{n}\]</div></div></div>
+<p class="mut">where \(\tau=N\mu\) = population total, \(\hat\tau=N\bar y\) = its estimator, \(\V(\hat\tau)\) = variance of \(\hat\tau\), \(\vh(\hat\tau)\) = its unbiased estimator.</p>
+<div class="box nt">The slide prints \(\sigma^2\) in the WOR total variance; the correct quantity is \(S^2\), as above.</div>
+<h3>Sampling distribution of \(\bar y\)</h3>
+<p>List all samples, compute the statistic, tabulate its values. Three features matter: <b>mean, variance, functional form</b>. Example: ages 6, 8, 10, 12, 14 (\(N=5\), \(\mu=10\), \(\sigma^2=8\)), \(n=2\).</p>
+<div class="box"><div class="row"><label>Design <select id="sd"><option value="wr">SRSWR (25 samples)</option><option value="wo">SRSWOR (10 samples)</option></select></label></div><div class="bars" id="sb"></div><div class="out" id="so" style="margin-top:34px"></div></div>
+<p>SRSWR: mean \(10=\mu\), variance \(\sigma^2/n=4\) (uniform-looking, bell shaped). SRSWOR: mean 10, variance \(\frac{\sigma^2}{n}\frac{N-n}{N-1}=3\). The factor \(\frac{N-n}{N-1}\) is the finite-population correction (ignorable if \(n/N\le0.05\)).</p>
+<p><b>Normal population:</b> \(\bar y\) is exactly normal. <b>Non-normal population</b> (finite variance): by the <b>Central Limit Theorem</b>, \(Z=\frac{\bar y-\mu}{\sigma/\sqrt n}\to N(0,1)\) as \(n\to\infty\); roughly normal from \(n\approx30\).</p></section>
+
+<section id="point"><h2>Point and interval estimation</h2>
+<p>An <b>estimator</b> is a random variable built from the sample; its value is an <b>estimate</b>; the process is <b>estimation</b>. A <b>point estimator</b> (e.g. \(\bar Y\) for \(\mu\)) has a sampling distribution; different samples give different estimates.</p>
+<ul><li><b>Unbiased:</b> \(\E(\hat\theta)=\theta\); \(\text{Bias}=\E(\hat\theta)-\theta\).</li><li><b>Efficient:</b> among unbiased estimators, smaller variance wins; the smallest-variance one is the MVUE.</li></ul>
+<h3>Bias and mean squared error</h3>
+<div class="f">\[MSE(\hat\theta)=\V(\hat\theta)+[\text{Bias}(\hat\theta)]^2\]</div>
+<p class="mut">where \(\hat\theta\) = estimator of the parameter \(\theta\), \(\text{Bias}(\hat\theta)=\E(\hat\theta)-\theta\), \(MSE\) = mean squared error.</p>
+<p>Variance is random error; squared bias is systematic error. A biased estimator can be centred on \(m\ne\mu\) and miss the truth even when its spread is small, and confidence intervals around it cover \(\mu\) less often than claimed. Small bias with much smaller variance can beat an unbiased estimator. Bias also comes from data collection (measurement error, nonresponse) and from estimators like ratio estimators. Equal MSE means roughly equally good.</p>
+<h3>Confidence intervals</h3>
+<p>If \(\Pr[A<\mu<B]=1-\alpha\), the realised \((a,b)\) is a \(100(1-\alpha)\%\) CI. In repeated sampling, \(100(1-\alpha)\%\) of such intervals contain \(\mu\). Wide intervals mean more uncertainty; larger \(n\) narrows them.</p>
+<div class="two"><div><h3>\(\sigma\) known</h3><div class="f">\[\bar y\pm z_{\alpha/2}\frac{\sigma}{\sqrt n}\]</div><p>Example: \(\sigma=20,n=64,\bar y=75\): \(75\pm1.96(2.5)\), i.e. \(\mathbf{[70.1,\,79.9]}\).</p></div><div><h3>\(\sigma\) unknown</h3><div class="f">\[\bar y\pm t_{\alpha/2,\,n-1}\frac{s}{\sqrt n}\]</div><p>Example (24 trucks): \(\bar y=18.68,s=1.695,t_{23,0.05}=1.714\): \(\mathbf{[18.1,\,19.3]}\) at 90%.</p></div></div>
+<p class="mut">where \(\bar y\) = sample mean, \(n\) = sample size, \(\sigma\) = population standard deviation, \(s\) = sample standard deviation, \(1-\alpha\) = confidence level, \(z_{\alpha/2}\) = standard normal critical value, \(t_{\alpha/2,\,n-1}\) = \(t\) critical value with \(n-1\) degrees of freedom.</p>
+<p>With SRSWOR from a finite population the SE inside these intervals carries the FPC, \(\sqrt{\frac{N-n}{N}\frac{s^2}{n}}\).</p>
+<div class="box ex"><b>Exercise 1.</b> \(\sigma=5,n=100\): SE \(=0.5\); 90% margin \(=1.645(0.5)=0.82\); 98% width \(=2(2.326)(0.5)=2.33\). <b>Exercise 2.</b> Compute \(\bar y,s\) from the 28 speeds, then width \(=2t_{0.025,27}s/\sqrt{28}\). An 80% interval is <b>narrower</b>.</div></section>
+
+<section id="prop"><h2>Estimating a proportion</h2>
+<p>For a two-class attribute, \(P=A/N\), \(Q=1-P\), estimated by \(p=a/n\), \(q=1-p\). Define the indicator \(Y_i=1\) if unit \(i\) is in class \(C\), else 0. Then \(\sum Y_i=A\), \(\bar Y=P\), \(\bar y=p\), \(\sum y_i^2=a=np\), so \(s^2=\frac{npq}{n-1}\) and \(S^2=\frac{NPQ}{N-1}\). All mean results carry over.</p>
+<div class="two"><div><h3>SRSWOR</h3><div class="f">\[\E(p)=P\]</div><div class="f">\[\V(p)=\frac{N-n}{N-1}\frac{PQ}{n}\]</div><div class="f">\[\vh(p)=\frac{N-n}{N}\frac{pq}{n-1}\]</div></div>
+<div><h3>SRSWR</h3><div class="f">\[\E(p)=P\]</div><div class="f">\[\V(p)=\frac{PQ}{n}\]</div><div class="f">\[\vh(p)=\frac{pq}{n-1}\]</div></div></div>
+<p class="mut">where \(P=A/N\) = population proportion (\(A\) units of the population are in class \(C\)), \(p=a/n\) = sample proportion (\(a\) sampled units are in \(C\)), \(Q=1-P\), \(q=1-p\), \(\V(p)\) = variance of \(p\), \(\vh(p)\) = its unbiased estimator.</p>
+<p><b>Total in class:</b> \(\hat A=Np=Na/n\), \(\V(\hat A)=N^2\V(p)\), \(\vh(\hat A)=N^2\vh(p)\).</p>
+<h3>Confidence interval for \(P\)</h3>
+<p>For large \(N,n\), \((p-P)/\sqrt{\V(p)}\approx N(0,1)\):</p><div class="f">\[p\pm z_{\alpha/2}\sqrt{\vh(p)}\]</div>
+<p class="mut">where \(p\) = sample proportion, \(z_{\alpha/2}\) = standard normal critical value for confidence level \(1-\alpha\), \(\sqrt{\vh(p)}\) = estimated standard error of \(p\).</p>
+<p><b>Continuity correction</b> (discrete to continuous, matters for small \(n\) or \(p\) near 0 or 1): limits \(\big(p-z_{\alpha/2}\sqrt{\vh(p)}-\frac1{2n},\ p+z_{\alpha/2}\sqrt{\vh(p)}+\frac1{2n}\big)\), i.e. the interval is widened by \(\frac1{2n}\) each side.</p>
+<div class="box nt">The slide prints the correction with the opposite sign on the upper limit; the usual convention is to widen the interval, as above.</div>
+<h3>More than two classes</h3>
+<p>Classes \(C_1,\dots,C_k\) (e.g. coffee: very strong, strong, mild, very mild), \(P_i=C_i/N\). The sample counts \(c_1,\dots,c_k\) have probability \(\frac{\binom{C_1}{c_1}\cdots\binom{C_k}{c_k}}{\binom Nn}\) (SRSWOR). Estimate \(p_i=c_i/n\), with \(\E(p_i)=P_i\) and \(\vh(p_i)=\frac{N-n}{N}\frac{p_iq_i}{n-1}\). Class size: \(\hat C_i=Np_i\), \(\vh(\hat C_i)=N^2\vh(p_i)\) (the slide writes \(N\); it should be \(N^2\)).</p>
+<h3>Inverse sampling (rare attributes)</h3>
+<p>When the attribute is rare (rare genes, rare cancer cells), ordinary \(n/N\) estimation fails. Draw units one by one, equal probability, without replacement, and <b>stop once a preset number \(m\) of units with the attribute is observed</b>. The sample size \(n\) is then a <b>random variable</b>.</p></section>
+
+<section id="size"><h2>Determining the sample size</h2>
+<p>The size must be fixed <b>before</b> the survey. Larger \(n\): variance falls, cost rises. Smaller \(n\): the reverse. Balance precision and cost. Criteria: variance, error, CI width, CV, relative error, cost. Each needs \(S\) beforehand, from a <b>pilot survey</b>, past data, past experience, long association with the subject, or prior information. Formulas below assume SRSWOR; SRSWR is similar (drop the FPC).</p>
+<div style="overflow-x:auto"><table class="ft"><tr><th>Criterion</th><th>Requirement</th><th>Sample size (finite \(\displaystyle N\))</th><th>Large \(\displaystyle N\)</th></tr>
+<tr><td>Variance</td><td>\(\displaystyle \V(\bar y)\le V\)</td><td>\(\displaystyle n=\frac{n_e}{1+n_e/N},\ n_e=\frac{S^2}{V}\)</td><td>\(\displaystyle n_e\)</td></tr>
+<tr><td>Error</td><td>\(\displaystyle P(|\bar y-\bar Y|\le e)=1-\alpha\)</td><td>\(\displaystyle n=\frac{z^2S^2}{e^2+z^2S^2/N}\)</td><td>\(\displaystyle \frac{z^2S^2}{e^2}\)</td></tr>
+<tr><td>CI width</td><td>\(\displaystyle 2z\sqrt{\V(\bar y)}\le W\)</td><td>\(\displaystyle n=\frac{n_W}{1+n_W/N},\ n_W=\frac{4z^2S^2}{W^2}\)</td><td>\(\displaystyle \frac{4z^2S^2}{W^2}\)</td></tr>
+<tr><td>CV</td><td>\(\displaystyle CV(\bar y)\le C_0\)</td><td>\(\displaystyle n=\frac{C^2/C_0^2}{1+C^2/(C_0^2N)}\)</td><td>\(\displaystyle C^2/C_0^2\)</td></tr>
+<tr><td>Relative error</td><td>\(\displaystyle P(|\bar y-\bar Y|/\bar Y\le R)=1-\alpha\)</td><td>\(\displaystyle n=\frac{z^2C^2/R^2}{1+z^2C^2/(R^2N)}\)</td><td>\(\displaystyle (zC/R)^2\)</td></tr>
+<tr><td>Cost</td><td>\(\displaystyle C=C_0+nC_1\)</td><td colspan="2">\(\displaystyle n=(C-C_0)/C_1\): the largest affordable \(\displaystyle n\)</td></tr></table></div>
+<p>Here \(z=z_{1-\alpha/2}\), \(C=S/\bar Y\) is the population CV (known from prior information). For variance, CV and cost criteria these give the <i>smallest</i> \(n\) (\(n\ge\)). The cost rule stays within budget but does not guarantee precision, so it is combined with a precision rule.</p>
+<p class="mut">where \(n\) = required sample size, \(V\) = prescribed variance of \(\bar y\), \(e\) = tolerable absolute error, \(W\) = CI width, \(C_0\) = prescribed CV (in the cost row: \(C\) = total budget, \(C_0\) = fixed cost, \(C_1\) = cost per sampled unit), \(R\) = relative error, \(1-\alpha\) = confidence level, \(n_e,\ n_W\) = the sample sizes for a very large \(N\).</p></section>
+
+<section id="calc"><h2>Calculator</h2>
+<div class="box"><div class="row"><label>Case <select id="cm"></select></label></div><div class="row" id="cf"></div><div class="out" id="co"></div><p class="mut">Choose any quantity from the formula sheet. SRSWOR and SRSWR results are shown together. In the sample-size cases, enter \(N=0\) for a very large population.</p></div></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it.</p>
+<div id="dl"></div></section>
+
+<section id="form"><h2>Formula sheet</h2><div id="fl"></div><h3>Meaning of symbols</h3><div id="sy"></div></section>
+</main>
+<script>
+const D=[
+["D1","\\(P(s)=1/\\binom Nn\\) (SRSWOR) and \\(1/N^n\\) (SRSWR)",`<ol>
+<li><b>Set-up.</b> A sample is built from \\(n\\) successive draws. Fix one particular set \\(T\\) of \\(n\\) units. The sample equals \\(T\\) only if every draw picks a not-yet-drawn member of \\(T\\).</li>
+<li><b>Draw 1.</b> \\(n\\) of the \\(N\\) units belong to \\(T\\), so the chance is \\(\\frac nN\\).</li>
+<li><b>Draw 2.</b> One member of \\(T\\) is gone, \\(N-1\\) units remain and \\(n-1\\) of them are in \\(T\\): chance \\(\\frac{n-1}{N-1}\\). In general draw \\(k\\) has chance \\(\\frac{n-k+1}{N-k+1}\\), and the last draw has \\(\\frac1{N-n+1}\\).</li>
+<li><b>Chain rule</b> (multiply the stages): \\[P(T)=\\frac nN\\cdot\\frac{n-1}{N-1}\\cdot\\frac{n-2}{N-2}\\cdots\\frac1{N-n+1}.\\]</li>
+<li><b>Rewrite.</b> The numerator is \\(n(n-1)\\cdots1=n!\\). The denominator is \\(N(N-1)\\cdots(N-n+1)=\\frac{N!}{(N-n)!}\\). Hence \\[P(T)=\\frac{n!\\,(N-n)!}{N!}=\\frac1{\\binom Nn}.\\]</li>
+<li>The answer does not depend on \\(T\\), so all \\(\\binom Nn\\) samples are equally likely. Check: \\(\\binom Nn\\cdot\\frac1{\\binom Nn}=1\\).</li>
+<li><b>SRSWR.</b> Each drawn unit is returned, so the population stays at \\(N\\) and draws are independent. The ordered sample \\((u_1,\\dots,u_n)\\) has probability \\[\\frac1N\\cdot\\frac1N\\cdots\\frac1N=\\frac1{N^n}.\\] There are \\(N^n\\) ordered samples and \\(N^n\\cdot N^{-n}=1\\).</li></ol>`],
+["D2","\\(P(u_j\\text{ selected at draw }k)=1/N\\)",`<ol>
+<li><b>Events.</b> Let \\(A_d\\) = “\\(u_j\\) is not picked at draw \\(d\\)”. Being picked first at draw \\(k\\) means \\(A_1,\\dots,A_{k-1}\\) all happen and then \\(u_j\\) is picked at draw \\(k\\).</li>
+<li><b>Chain rule.</b> \\[P=P(A_1)\\,P(A_2|A_1)\\,P(A_3|A_1A_2)\\cdots P(A_{k-1}|A_1\\cdots A_{k-2})\\cdot P(\\text{pick}\\mid A_1\\cdots A_{k-1}).\\]</li>
+<li><b>Each factor.</b> Before draw \\(d\\), \\(d-1\\) other units have been removed, so \\(N-d+1\\) units remain, including \\(u_j\\). Not picking it has chance \\(\\frac{N-d}{N-d+1}\\). At draw \\(k\\) picking it has chance \\(\\frac1{N-k+1}\\).</li>
+<li><b>Product.</b> \\[P=\\frac{N-1}{N}\\cdot\\frac{N-2}{N-1}\\cdot\\frac{N-3}{N-2}\\cdots\\frac{N-k+1}{N-k+2}\\cdot\\frac1{N-k+1}.\\]</li>
+<li><b>Telescoping.</b> Every numerator cancels the denominator of the next factor. Only the first denominator \\(N\\) and the final numerator \\(1\\) survive, giving \\(P=\\frac1N\\).</li>
+<li>The result holds for every \\(j\\) and every \\(k\\). <b>SRSWR:</b> the population is always \\(N\\), so the chance is \\(\\frac1N\\) at each draw directly.</li></ol>`],
+["D3","Inclusion probability \\(\\pi_i=n/N\\)",`<ol>
+<li><b>Draw-by-draw method.</b> \\(u_i\\) is in the sample if it is picked at draw \\(1\\), or \\(2\\), …, or \\(n\\). These events cannot occur together (a unit is picked at most once), so probabilities add.</li>
+<li>By D2 each has probability \\(\\frac1N\\): \\[\\pi_i=P_1(i)+P_2(i)+\\cdots+P_n(i)=\\underbrace{\\frac1N+\\cdots+\\frac1N}_{n\\text{ times}}=\\frac nN.\\]</li>
+<li><b>Counting check.</b> Samples containing \\(u_i\\): choose the other \\(n-1\\) units from \\(N-1\\), i.e. \\(\\binom{N-1}{n-1}\\). Then \\[\\pi_i=\\frac{\\binom{N-1}{n-1}}{\\binom Nn}=\\frac{(N-1)!}{(n-1)!(N-n)!}\\cdot\\frac{n!(N-n)!}{N!}=\\frac nN.\\]</li>
+<li>It is the same for every unit, so SRS gives equal inclusion probabilities.</li></ol>`],
+["D4","\\(\\E(\\bar y)=\\mu\\) under SRSWOR (counting argument)",`<ol>
+<li><b>Definition.</b> For a sample \\(s\\), \\(\\bar y_s=\\frac1n\\sum_{i\\in s}y_i\\), and \\[\\E(\\bar y)=\\sum_s\\bar y_sP(s),\\quad P(s)=1/\\tbinom Nn\\ \\text{(D1)}.\\]</li>
+<li><b>Substitute.</b> \\[\\E(\\bar y)=\\frac1{\\binom Nn}\\sum_s\\frac1n\\sum_{i\\in s}y_i.\\]</li>
+<li><b>Swap the order of summation.</b> Instead of summing over samples then units, sum over units \\(i=1,\\dots,N\\), counting each \\(y_i\\) once for every sample that contains it. Unit \\(i\\) lies in \\(\\binom{N-1}{n-1}\\) samples. So \\[\\E(\\bar y)=\\frac1n\\sum_{i=1}^Ny_i\\cdot\\frac{\\binom{N-1}{n-1}}{\\binom Nn}.\\]</li>
+<li><b>Simplify the ratio.</b> \\[\\frac{\\binom{N-1}{n-1}}{\\binom Nn}=\\frac{(N-1)!}{(n-1)!(N-n)!}\\cdot\\frac{n!(N-n)!}{N!}=\\frac nN.\\]</li>
+<li><b>Result.</b> \\[\\E(\\bar y)=\\frac1n\\cdot\\frac nN\\sum_{i=1}^Ny_i=\\frac1N\\sum_{i=1}^Ny_i=\\mu.\\]</li></ol>`],
+["D5","\\(\\E(\\bar y)=\\mu\\) under SRSWOR (indicator method)",`<ol>
+<li><b>Indicator.</b> For each population unit \\(i\\), let \\(z_i=1\\) if \\(i\\) is in the sample and \\(0\\) otherwise.</li>
+<li><b>Rewrite the mean.</b> Only sampled units have \\(z_i=1\\), so \\[\\bar y=\\frac1n\\sum_{i=1}^Ny_iz_i,\\] where the \\(y_i\\) are now fixed constants and only \\(z_i\\) is random.</li>
+<li><b>Expectation of \\(z_i\\).</b> \\(z_i\\) is Bernoulli, so \\(\\E(z_i)=1\\cdot P(z_i=1)+0\\cdot P(z_i=0)=\\pi_i=\\frac nN\\) (D3).</li>
+<li><b>Linearity.</b> \\[\\E(\\bar y)=\\frac1n\\sum_{i=1}^Ny_i\\,\\E(z_i)=\\frac1n\\sum_{i=1}^Ny_i\\frac nN=\\frac1N\\sum_{i=1}^Ny_i=\\mu.\\]</li></ol>`],
+["D6","\\(\\E(\\bar y)=\\mu\\) under SRSWR",`<ol>
+<li><b>Linearity.</b> \\(\\E(\\bar y)=\\E\\big(\\frac1n\\sum_{i=1}^ny_i\\big)=\\frac1n\\sum_{i=1}^n\\E(y_i)\\).</li>
+<li><b>One observation.</b> \\(y_i\\) takes each population value \\(Y_j\\) with probability \\(\\frac1N\\) at every draw: \\[\\E(y_i)=\\sum_{j=1}^NY_j\\cdot P(\\text{unit }j)=\\sum_{j=1}^NY_j\\cdot\\frac1N=\\mu.\\]</li>
+<li><b>Combine.</b> \\[\\E(\\bar y)=\\frac1n\\sum_{i=1}^n\\mu=\\frac1n\\cdot n\\cdot\\mu=\\mu.\\]</li></ol>`],
+["D7","\\(\\V(\\bar y)=\\dfrac{\\sigma^2}{n}+\\dfrac{K}{n^2}\\), \\(K=\\sum_{i\\ne j}\\E[(y_i-\\mu)(y_j-\\mu)]\\) (common step)",`<ol>
+<li><b>Definition.</b> Since \\(\\E(\\bar y)=\\mu\\), \\(\\V(\\bar y)=\\E[(\\bar y-\\mu)^2]\\).</li>
+<li><b>Centre.</b> \\(\\bar y-\\mu=\\frac1n\\sum y_i-\\frac1n\\sum\\mu=\\frac1n\\sum_{i=1}^n(y_i-\\mu)\\). So \\[\\V(\\bar y)=\\frac1{n^2}\\E\\Big[\\Big(\\sum_{i=1}^n(y_i-\\mu)\\Big)^2\\Big].\\]</li>
+<li><b>Expand the square.</b> With \\(a_i=y_i-\\mu\\): \\((\\sum a_i)^2=\\sum a_i^2+\\sum_{i\\ne j}a_ia_j\\). Taking expectations term by term, \\[\\V(\\bar y)=\\frac1{n^2}\\Big[\\sum_{i=1}^n\\E(y_i-\\mu)^2+\\sum_{i\\ne j}\\E[(y_i-\\mu)(y_j-\\mu)]\\Big].\\]</li>
+<li><b>Squared terms.</b> Marginally each \\(y_i\\) is equally likely to be any population value (D2), so \\(\\E(y_i-\\mu)^2=\\frac1N\\sum_{k=1}^N(Y_k-\\mu)^2=\\sigma^2\\).</li>
+<li><b>Collect.</b> \\[\\V(\\bar y)=\\frac1{n^2}[n\\sigma^2+K]=\\frac{\\sigma^2}n+\\frac K{n^2},\\qquad \\sigma^2=\\frac{N-1}{N}S^2.\\]</li>
+<li>Now only \\(K\\) (the cross-products) differs by design: D8 and D9.</li></ol>`],
+["D8","\\(\\V(\\bar y)=\\sigma^2/n=\\frac{N-1}{N}\\frac{S^2}{n}\\) under SRSWR",`<ol>
+<li><b>Independence.</b> In SRSWR the draws are independent, so for \\(i\\ne j\\): \\[\\E[(y_i-\\mu)(y_j-\\mu)]=\\E(y_i-\\mu)\\,\\E(y_j-\\mu).\\]</li>
+<li><b>Each mean is zero.</b> \\(\\E(y_i)=\\mu\\) (D6), so \\(\\E(y_i-\\mu)=0\\). Each cross term is \\(0\\cdot0=0\\), hence \\(K=0\\).</li>
+<li><b>Plug into D7.</b> \\[\\V(\\bar y)=\\frac{\\sigma^2}n+0=\\frac{\\sigma^2}n.\\]</li>
+<li><b>In terms of \\(S^2\\).</b> \\(\\sigma^2=\\frac{N-1}NS^2\\), so \\[\\V(\\bar y)=\\frac{N-1}N\\cdot\\frac{S^2}n.\\] No finite-population correction appears.</li></ol>`],
+["D9","\\(\\V(\\bar y)=\\frac{N-n}{N}\\frac{S^2}{n}\\) under SRSWOR",`<ol>
+<li><b>Joint chance of a pair.</b> For \\(i\\ne j\\), \\((y_i,y_j)\\) is equally likely to be any ordered pair \\((Y_k,Y_l)\\) of distinct population values, each with probability \\(\\frac1{N(N-1)}\\). So \\[\\E[(y_i-\\mu)(y_j-\\mu)]=\\frac1{N(N-1)}\\sum_{k\\ne l}(Y_k-\\mu)(Y_l-\\mu).\\]</li>
+<li><b>Key identity.</b> The deviations sum to zero: \\(\\sum_{k=1}^N(Y_k-\\mu)=0\\). Square it: \\[0=\\Big[\\sum_k(Y_k-\\mu)\\Big]^2=\\sum_k(Y_k-\\mu)^2+\\sum_{k\\ne l}(Y_k-\\mu)(Y_l-\\mu).\\]</li>
+<li><b>Use \\(S^2\\).</b> \\(\\sum_k(Y_k-\\mu)^2=(N-1)S^2\\), therefore \\[\\sum_{k\\ne l}(Y_k-\\mu)(Y_l-\\mu)=-(N-1)S^2.\\]</li>
+<li><b>One pair.</b> \\[\\E[(y_i-\\mu)(y_j-\\mu)]=\\frac{-(N-1)S^2}{N(N-1)}=-\\frac{S^2}N.\\]</li>
+<li><b>All pairs.</b> There are \\(n(n-1)\\) ordered pairs \\((i,j)\\), \\(i\\ne j\\): \\[K=-\\frac{n(n-1)S^2}{N}.\\]</li>
+<li><b>Plug into D7</b> with \\(\\sigma^2=\\frac{N-1}NS^2\\): \\[\\V(\\bar y)=\\frac{(N-1)S^2}{Nn}-\\frac{n(n-1)S^2}{Nn^2}=\\frac{(N-1)S^2}{Nn}-\\frac{(n-1)S^2}{Nn}.\\]</li>
+<li><b>Combine.</b> \\[\\V(\\bar y)=\\frac{S^2}{Nn}[(N-1)-(n-1)]=\\frac{N-n}N\\cdot\\frac{S^2}n.\\]</li>
+<li><b>FPC.</b> \\(\\frac{N-n}N=1-\\frac nN\\). It is near 1 when \\(n/N\\) is small (then \\(\\V(\\bar y)\\approx S^2/n\\)) and is 0 at \\(n=N\\).</li></ol>`],
+["D10","\\(S^2=\\frac N{N-1}\\sigma^2\\); WOR in \\(\\sigma^2\\); \\(\\V_{WR}-\\V_{WOR}\\)",`<ol>
+<li><b>Relation.</b> \\(S^2=\\frac1{N-1}\\sum(Y_i-\\mu)^2\\) and \\(\\sigma^2=\\frac1N\\sum(Y_i-\\mu)^2\\). Both share the sum, so \\((N-1)S^2=N\\sigma^2\\), i.e. \\(S^2=\\frac N{N-1}\\sigma^2\\).</li>
+<li><b>WOR in terms of \\(\\sigma^2\\).</b> \\[\\V_{WOR}=\\frac{N-n}N\\cdot\\frac{S^2}n=\\frac{N-n}N\\cdot\\frac N{N-1}\\cdot\\frac{\\sigma^2}n=\\frac{N-n}{N-1}\\cdot\\frac{\\sigma^2}n.\\]</li>
+<li><b>Difference.</b> With \\(\\V_{WR}=\\frac{N-1}N\\frac{S^2}n\\): \\[\\V_{WR}-\\V_{WOR}=\\frac{S^2}n\\Big[\\frac{N-1}N-\\frac{N-n}N\\Big]=\\frac{S^2}n\\cdot\\frac{n-1}N.\\]</li>
+<li><b>Sign.</b> This is positive for \\(n>1\\). So \\(\\V_{WR}=\\V_{WOR}+\\text{(positive)}\\) and SRSWOR is more efficient. Equivalently \\(\\frac{N-n}{N-1}<1\\) when \\(n>1\\).</li>
+<li>The gain grows with \\(n\\); at \\(n=N\\), \\(\\V_{WOR}=0\\).</li></ol>`],
+["D11","\\(\\E(s^2)=S^2\\) (SRSWOR) and \\(\\E(s^2)=\\sigma^2\\) (SRSWR)",`<ol>
+<li><b>Algebraic identity.</b> \\[\\sum_{i=1}^n(y_i-\\bar y)^2=\\sum[(y_i-\\mu)-(\\bar y-\\mu)]^2=\\sum(y_i-\\mu)^2-2(\\bar y-\\mu)\\sum(y_i-\\mu)+n(\\bar y-\\mu)^2.\\]</li>
+<li>Since \\(\\sum(y_i-\\mu)=n(\\bar y-\\mu)\\), the middle term is \\(-2n(\\bar y-\\mu)^2\\), so \\[\\sum(y_i-\\bar y)^2=\\sum(y_i-\\mu)^2-n(\\bar y-\\mu)^2.\\]</li>
+<li><b>Expectation.</b> \\(\\E(y_i-\\mu)^2=\\sigma^2\\) and \\(\\E(\\bar y-\\mu)^2=\\V(\\bar y)\\): \\[\\E(s^2)=\\frac1{n-1}[n\\sigma^2-n\\V(\\bar y)]=\\frac n{n-1}[\\sigma^2-\\V(\\bar y)].\\]</li>
+<li><b>SRSWOR.</b> Put \\(\\sigma^2=\\frac{N-1}NS^2\\) and \\(\\V=\\frac{N-n}{Nn}S^2\\): \\[\\E(s^2)=\\frac n{n-1}\\cdot\\frac{S^2}N\\Big[(N-1)-\\frac{N-n}n\\Big]=\\frac n{n-1}\\cdot\\frac{S^2}{nN}[n(N-1)-(N-n)].\\]</li>
+<li>Here \\(n(N-1)-(N-n)=nN-n-N+n=N(n-1)\\). So \\[\\E(s^2)=\\frac n{n-1}\\cdot\\frac{S^2\\,N(n-1)}{nN}=S^2.\\]</li>
+<li><b>SRSWR.</b> \\(\\V(\\bar y)=\\sigma^2/n\\): \\[\\E(s^2)=\\frac n{n-1}\\Big[\\sigma^2-\\frac{\\sigma^2}n\\Big]=\\frac n{n-1}\\cdot\\sigma^2\\cdot\\frac{n-1}n=\\sigma^2.\\]</li></ol>`],
+["D12","Unbiased variance estimators of \\(\\bar y\\); the SE is biased",`<ol>
+<li><b>SRSWOR.</b> \\(\\vh(\\bar y)=\\frac{N-n}N\\frac{s^2}n\\). The factor is a constant, so \\[\\E[\\vh(\\bar y)]=\\frac{N-n}{Nn}\\E(s^2)=\\frac{N-n}{Nn}S^2=\\V(\\bar y)\\ \\text{(D11, D9)}.\\]</li>
+<li><b>SRSWR.</b> \\(\\vh(\\bar y)=\\frac{s^2}n\\): \\[\\E\\Big[\\frac{s^2}n\\Big]=\\frac{\\sigma^2}n=\\V(\\bar y)\\ \\text{(D11, D8)}.\\]</li>
+<li><b>Standard error.</b> The square root is a strictly concave function, so by Jensen’s inequality \\(\\E\\sqrt{\\vh}<\\sqrt{\\E\\vh}=\\sqrt{\\V}\\). Hence the estimated SE is not unbiased for the true SE.</li></ol>`],
+["D13","Total: \\(\\E(\\hat\\tau)=\\tau\\), \\(\\V(\\hat\\tau)\\) and its unbiased estimator",`<ol>
+<li><b>Unbiased.</b> \\(\\tau=\\sum Y_i=N\\mu\\) and \\(\\hat\\tau=N\\bar y\\). Then \\(\\E(\\hat\\tau)=N\\E(\\bar y)=N\\mu=\\tau\\).</li>
+<li><b>Variance.</b> \\(\\V(N\\bar y)=N^2\\V(\\bar y)\\) since a constant is squared.</li>
+<li><b>SRSWOR.</b> \\[\\V(\\hat\\tau)=N^2\\cdot\\frac{N-n}N\\cdot\\frac{S^2}n=N(N-n)\\frac{S^2}n.\\]</li>
+<li><b>SRSWR.</b> \\(\\V(\\hat\\tau)=N^2\\frac{\\sigma^2}n\\).</li>
+<li><b>Estimators.</b> Multiply the unbiased \\(\\vh(\\bar y)\\) (D12) by \\(N^2\\): \\(\\vh(\\hat\\tau)=N(N-n)\\frac{s^2}n\\) (WOR) and \\(N^2\\frac{s^2}n\\) (WR). They are unbiased because \\(\\E[N^2\\vh(\\bar y)]=N^2\\V(\\bar y)\\).</li></ol>`],
+["D14","Proportion: \\(\\bar y=p\\), \\(s^2=\\frac{npq}{n-1}\\), \\(S^2=\\frac{NPQ}{N-1}\\)",`<ol>
+<li><b>Indicator.</b> \\(Y_i=1\\) if unit \\(i\\) is in class \\(C\\), else \\(0\\). Population: \\(\\sum Y_i=A\\), so \\(\\bar Y=\\frac AN=P\\). Sample: \\(\\bar y=\\frac an=p\\).</li>
+<li><b>Squares.</b> Because \\(y_i\\in\\{0,1\\}\\), \\(y_i^2=y_i\\), so \\(\\sum y_i^2=\\sum y_i=a=np\\). Similarly \\(\\sum Y_i^2=A=NP\\).</li>
+<li><b>Sample variance.</b> \\[s^2=\\frac1{n-1}\\Big[\\sum y_i^2-n\\bar y^2\\Big]=\\frac1{n-1}[np-np^2]=\\frac{np(1-p)}{n-1}=\\frac{npq}{n-1}.\\]</li>
+<li><b>Population variance.</b> \\[S^2=\\frac1{N-1}\\Big[\\sum Y_i^2-N\\bar Y^2\\Big]=\\frac1{N-1}[NP-NP^2]=\\frac{NPQ}{N-1}.\\]</li>
+<li>So every mean result applies with \\(\\bar y\\to p\\), \\(\\bar Y\\to P\\), \\(s^2\\to\\frac{npq}{n-1}\\), \\(S^2\\to\\frac{NPQ}{N-1}\\).</li></ol>`],
+["D15","\\(\\E(p)=P\\), \\(\\V(p)\\), \\(\\vh(p)\\), \\(\\hat A=Np\\)",`<ol>
+<li><b>Unbiased.</b> \\(p=\\bar y\\), \\(P=\\bar Y\\). By D4 (WOR) and D6 (WR), \\(\\E(p)=P\\).</li>
+<li><b>SRSWOR variance.</b> From D9 and D14: \\[\\V(p)=\\frac{N-n}N\\cdot\\frac{S^2}n=\\frac{N-n}N\\cdot\\frac{NPQ}{N-1}\\cdot\\frac1n=\\frac{N-n}{N-1}\\cdot\\frac{PQ}n.\\]</li>
+<li><b>SRSWOR estimate.</b> Use \\(s^2=\\frac{npq}{n-1}\\): \\[\\vh(p)=\\frac{N-n}N\\cdot\\frac{s^2}n=\\frac{N-n}N\\cdot\\frac{npq}{n(n-1)}=\\frac{N-n}N\\cdot\\frac{pq}{n-1}.\\]</li>
+<li><b>SRSWR variance.</b> From D8: \\(\\V(p)=\\frac{\\sigma^2}n\\) with \\(\\sigma^2=\\frac{N-1}NS^2=\\frac{N-1}N\\cdot\\frac{NPQ}{N-1}=PQ\\). So \\(\\V(p)=\\frac{PQ}n\\).</li>
+<li><b>SRSWR estimate.</b> \\[\\vh(p)=\\frac{s^2}n=\\frac{npq}{n(n-1)}=\\frac{pq}{n-1}.\\] It is unbiased: \\(\\E(s^2)=\\sigma^2=PQ\\) (D11).</li>
+<li><b>Class total.</b> \\(\\hat A=Np\\) is \\(N\\) times a mean, so \\(\\E(\\hat A)=NP=A\\), \\(\\V(\\hat A)=N^2\\V(p)\\), \\(\\vh(\\hat A)=N^2\\vh(p)\\).</li></ol>`],
+["D16","Confidence intervals for \\(\\mu\\) and for \\(P\\)",`<ol>
+<li><b>Pivot.</b> For a normal population with known \\(\\sigma\\), \\(Z=\\frac{\\bar y-\\mu}{\\sigma/\\sqrt n}\\sim N(0,1)\\).</li>
+<li><b>Probability statement.</b> Choose \\(z_{\\alpha/2}\\) with upper-tail area \\(\\alpha/2\\): \\[\\Pr[-z_{\\alpha/2}<Z<z_{\\alpha/2}]=1-\\alpha.\\]</li>
+<li><b>Substitute and multiply by \\(\\sigma/\\sqrt n>0\\).</b> \\[\\Pr\\Big[-z_{\\alpha/2}\\tfrac{\\sigma}{\\sqrt n}<\\bar y-\\mu<z_{\\alpha/2}\\tfrac{\\sigma}{\\sqrt n}\\Big]=1-\\alpha.\\]</li>
+<li><b>Isolate \\(\\mu\\).</b> Subtract \\(\\bar y\\), then multiply by \\(-1\\) (which flips both inequalities): \\[\\Pr\\Big[\\bar y-z_{\\alpha/2}\\tfrac{\\sigma}{\\sqrt n}<\\mu<\\bar y+z_{\\alpha/2}\\tfrac{\\sigma}{\\sqrt n}\\Big]=1-\\alpha.\\] This is \\(\\bar y\\pm z_{\\alpha/2}\\sigma/\\sqrt n\\); for \\(95\\%\\), \\(z_{0.025}=1.96\\).</li>
+<li><b>\\(\\sigma\\) unknown.</b> Replace \\(\\sigma\\) by \\(s\\): \\(t=\\frac{\\bar y-\\mu}{s/\\sqrt n}\\sim t_{n-1}\\). The same steps with \\(t_{\\alpha/2,n-1}\\) give \\(\\bar y\\pm t_{\\alpha/2,n-1}\\,s/\\sqrt n\\).</li>
+<li><b>Proportion.</b> For large \\(N,n\\), \\(\\frac{p-P}{\\sqrt{\\V(p)}}\\approx N(0,1)\\). Then \\(\\Pr[-z_{\\alpha/2}\\le\\frac{p-P}{\\sqrt{\\V(p)}}\\le z_{\\alpha/2}]=1-\\alpha\\); solving for \\(P\\) as above and using \\(\\vh(p)\\) for \\(\\V(p)\\) gives \\(p\\pm z_{\\alpha/2}\\sqrt{\\vh(p)}\\).</li>
+<li><b>Continuity correction.</b> \\(p\\) moves in steps of \\(\\frac1n\\), so adding half a step \\(\\frac1{2n}\\) to each side gives the interval \\(p\\pm\\big[z_{\\alpha/2}\\sqrt{\\vh(p)}+\\frac1{2n}\\big]\\).</li>
+<li><b>Meaning.</b> In repeated sampling, \\(100(1-\\alpha)\\%\\) of such intervals contain the true value.</li></ol>`],
+["D17","\\(MSE(\\hat\\theta)=\\V(\\hat\\theta)+[\\text{Bias}(\\hat\\theta)]^2\\)",`<ol>
+<li><b>Definition.</b> \\(MSE(\\hat\\theta)=\\E[(\\hat\\theta-\\theta)^2]\\).</li>
+<li><b>Add and subtract the mean.</b> \\[\\hat\\theta-\\theta=[\\hat\\theta-\\E(\\hat\\theta)]+[\\E(\\hat\\theta)-\\theta].\\]</li>
+<li><b>Square.</b> \\[MSE=\\E[\\hat\\theta-\\E\\hat\\theta]^2+2[\\E\\hat\\theta-\\theta]\\E[\\hat\\theta-\\E\\hat\\theta]+[\\E\\hat\\theta-\\theta]^2.\\] The bias \\(\\E\\hat\\theta-\\theta\\) is a constant, so it comes out of the expectation.</li>
+<li><b>Cross term vanishes.</b> \\(\\E[\\hat\\theta-\\E\\hat\\theta]=0\\).</li>
+<li><b>Result.</b> \\[MSE=\\V(\\hat\\theta)+[\\text{Bias}(\\hat\\theta)]^2,\\] random error plus squared systematic error.</li></ol>`],
+["D18","Sample size for prescribed variance: \\(n\\ge\\dfrac{n_e}{1+n_e/N}\\)",`<ol>
+<li><b>Requirement.</b> \\(\\V(\\bar y)\\le V\\). Substitute \\(\\V(\\bar y)=\\frac{N-n}{Nn}S^2\\): \\[\\frac{N-n}{Nn}S^2\\le V.\\]</li>
+<li><b>Split the fraction.</b> \\(\\frac{N-n}{Nn}=\\frac1n-\\frac1N\\), so \\(\\big(\\frac1n-\\frac1N\\big)S^2\\le V\\).</li>
+<li><b>Divide by \\(S^2>0\\).</b> \\[\\frac1n-\\frac1N\\le\\frac V{S^2}=\\frac1{n_e},\\qquad n_e=\\frac{S^2}V.\\]</li>
+<li><b>Add \\(\\frac1N\\).</b> \\[\\frac1n\\le\\frac1{n_e}+\\frac1N=\\frac{N+n_e}{n_eN}.\\]</li>
+<li><b>Invert</b> (both sides positive, so the inequality reverses): \\[n\\ge\\frac{n_eN}{N+n_e}=\\frac{n_e}{1+n_e/N}.\\]</li>
+<li><b>Smallest size.</b> Equality gives \\(n_{\\text{smallest}}=\\frac{n_e}{1+n_e/N}\\).</li>
+<li><b>Large \\(N\\).</b> \\(n_e/N\\to0\\), so \\(n\\ge n_e\\) and \\(n_{\\text{smallest}}=n_e\\).</li>
+<li>\\(n_e\\) needs \\(S^2\\) in advance, which is why a pilot survey or prior data is required.</li></ol>`],
+["D19","Sample size for prescribed error \\(e\\): \\(n=\\dfrac{z^2S^2}{e^2+z^2S^2/N}\\)",`<ol>
+<li><b>Requirement.</b> \\(P(|\\bar y-\\bar Y|\\le e)=1-\\alpha\\).</li>
+<li><b>Normal approximation.</b> By the CLT, \\(\\bar y\\sim N\\big(\\bar Y,\\ \\frac{S^2}n(1-\\frac nN)\\big)\\).</li>
+<li><b>Standardise.</b> Divide inside by \\(\\sqrt{\\V(\\bar y)}\\): \\[P\\Big[\\frac{|\\bar y-\\bar Y|}{\\sqrt{\\V(\\bar y)}}\\le\\frac e{\\sqrt{\\V(\\bar y)}}\\Big]=1-\\alpha.\\]</li>
+<li><b>Critical value.</b> The left ratio is \\(|Z|\\) and \\(P(|Z|\\le z_{1-\\alpha/2})=1-\\alpha\\), so \\[\\frac e{\\sqrt{\\V(\\bar y)}}=z_{1-\\alpha/2}\\ \\Rightarrow\\ e=z\\sqrt{\\frac{S^2}n\\Big(1-\\frac nN\\Big)}.\\]</li>
+<li><b>Square.</b> \\[e^2=z^2\\frac{S^2}n\\Big(1-\\frac nN\\Big)=\\frac{z^2S^2}n-\\frac{z^2S^2}N.\\]</li>
+<li><b>Isolate \\(n\\).</b> \\(\\frac{z^2S^2}n=e^2+\\frac{z^2S^2}N\\), hence \\[n=\\frac{z^2S^2}{e^2+z^2S^2/N}.\\]</li>
+<li><b>Large \\(N\\).</b> \\(z^2S^2/N\\to0\\): \\(n'=\\frac{z^2S^2}{e^2}\\).</li></ol>`],
+["D20","Sample size for CI width \\(W\\): \\(n\\ge\\dfrac{4z^2S^2/W^2}{1+4z^2S^2/(W^2N)}\\)",`<ol>
+<li><b>Width.</b> A two-sided interval has width \\(2z\\sqrt{\\V(\\bar y)}\\). Require \\[2z\\sqrt{\\frac{N-n}{Nn}S^2}\\le W.\\]</li>
+<li><b>Square both sides</b> (both positive): \\(4z^2\\frac{N-n}{Nn}S^2\\le W^2\\).</li>
+<li><b>Split and divide.</b> Using \\(\\frac{N-n}{Nn}=\\frac1n-\\frac1N\\) and dividing by \\(4z^2S^2\\): \\[\\frac1n-\\frac1N\\le\\frac{W^2}{4z^2S^2}=\\frac1{n_W},\\quad n_W=\\frac{4z^2S^2}{W^2}.\\]</li>
+<li><b>Solve</b> exactly as in D18: \\[n\\ge\\frac{n_W}{1+n_W/N}=\\frac{4z^2S^2/W^2}{1+\\frac{4z^2S^2/W^2}N}.\\]</li>
+<li><b>Large \\(N\\).</b> \\(n'=4z^2\\frac{S^2}{W^2}\\).</li></ol>`],
+["D21","Sample size for prescribed CV: \\(n\\ge\\dfrac{C^2/C_0^2}{1+C^2/(C_0^2N)}\\)",`<ol>
+<li><b>Definition.</b> \\(CV=\\frac{\\text{standard error}}{\\text{mean}}\\). The population CV is \\(C=\\frac S{\\bar Y}\\). Require \\(CV(\\bar y)\\le C_0\\).</li>
+<li><b>Substitute.</b> \\[\\frac{\\sqrt{\\V(\\bar y)}}{\\bar Y}=\\frac{\\sqrt{\\frac{N-n}{Nn}}\\,S}{\\bar Y}\\le C_0.\\]</li>
+<li><b>Square.</b> \\(\\frac{N-n}{Nn}\\cdot\\frac{S^2}{\\bar Y^2}\\le C_0^2\\). With \\(C^2=S^2/\\bar Y^2\\): \\[\\Big(\\frac1n-\\frac1N\\Big)C^2\\le C_0^2\\ \\Rightarrow\\ \\frac1n-\\frac1N\\le\\frac{C_0^2}{C^2}.\\]</li>
+<li><b>Solve</b> as in D18, with \\(n_C=C^2/C_0^2\\): \\[n\\ge\\frac{C^2/C_0^2}{1+\\frac{C^2/C_0^2}N}.\\]</li>
+<li><b>Smallest and large \\(N\\).</b> Equality gives \\(n_{\\text{smallest}}\\); for large \\(N\\), \\(n'=C^2/C_0^2\\).</li></ol>`],
+["D22","Sample size for relative error \\(R\\): \\(n=\\dfrac{z^2C^2/R^2}{1+z^2C^2/(R^2N)}\\)",`<ol>
+<li><b>Relative error.</b> \\(\\frac{|\\bar y-\\bar Y|}{\\bar Y}\\). Require \\(P\\big[\\frac{|\\bar y-\\bar Y|}{\\bar Y}\\le R\\big]=1-\\alpha\\), i.e. \\(P[|\\bar y-\\bar Y|\\le R\\bar Y]=1-\\alpha\\).</li>
+<li><b>Standardise.</b> \\[P\\Big[\\frac{|\\bar y-\\bar Y|}{\\sqrt{\\V(\\bar y)}}\\le\\frac{R\\bar Y}{\\sqrt{\\V(\\bar y)}}\\Big]=1-\\alpha\\ \\Rightarrow\\ \\frac{R\\bar Y}{\\sqrt{\\V(\\bar y)}}=z_{1-\\alpha/2}.\\]</li>
+<li><b>Square.</b> \\[R^2\\bar Y^2=z^2\\V(\\bar y)=z^2\\frac{N-n}{Nn}S^2.\\]</li>
+<li><b>Divide by \\(z^2S^2\\)</b> and use \\(C=S/\\bar Y\\): \\[\\frac1n-\\frac1N=\\frac{R^2\\bar Y^2}{z^2S^2}=\\frac{R^2}{z^2C^2}.\\]</li>
+<li><b>Solve.</b> \\(\\frac1n=\\frac{R^2}{z^2C^2}+\\frac1N\\), so with \\(n_R=z^2C^2/R^2\\): \\[n=\\frac{n_R}{1+n_R/N}=\\frac{z^2C^2/R^2}{1+\\frac{z^2C^2/R^2}N}.\\]</li>
+<li><b>Large \\(N\\).</b> \\(n=\\big(\\frac{zC}R\\big)^2\\). \\(C\\) must be known beforehand from prior information.</li></ol>`],
+["D23","Sample size for a fixed budget: \\(n=(C-C_0)/C_1\\)",`<ol>
+<li><b>Cost model.</b> Total cost = fixed overhead plus a per-unit cost for each of the \\(n\\) units: \\(C=C_0+nC_1\\).</li>
+<li><b>Subtract the overhead.</b> \\(C-C_0=nC_1\\).</li>
+<li><b>Divide by \\(C_1\\).</b> \\(n=\\frac{C-C_0}{C_1}\\), the largest sample the budget allows.</li>
+<li>It keeps the survey on budget but does not guarantee precision, so it is combined with a precision criterion.</li></ol>`],
+["D24","Multi-class proportions: \\(P(c_1,\\dots,c_k)\\), \\(\\E(p_i)=P_i\\), \\(\\hat C_i\\)",`<ol>
+<li><b>Count favourable samples.</b> To get exactly \\(c_i\\) units from class \\(C_i\\) for every \\(i\\), choose \\(c_i\\) of the \\(C_i\\) units in each class independently: \\(\\binom{C_1}{c_1}\\binom{C_2}{c_2}\\cdots\\binom{C_k}{c_k}\\) ways (with \\(\\sum c_i=n\\)).</li>
+<li><b>All samples are equally likely</b> (D1), and there are \\(\\binom Nn\\) of them, so \\[P(c_1,\\dots,c_k)=\\frac{\\binom{C_1}{c_1}\\binom{C_2}{c_2}\\cdots\\binom{C_k}{c_k}}{\\binom Nn}.\\]</li>
+<li><b>One class as a proportion.</b> For class \\(i\\) define an indicator (1 if in class \\(C_i\\)). Then \\(p_i=c_i/n\\) is a sample proportion and \\(P_i=C_i/N\\) a population proportion, so D15 applies: \\(\\E(p_i)=P_i\\) and \\(\\vh(p_i)=\\frac{N-n}N\\frac{p_iq_i}{n-1}\\), \\(q_i=1-p_i\\).</li>
+<li><b>Class size.</b> \\(\\hat C_i=Np_i\\), so \\(\\E(\\hat C_i)=NP_i=C_i\\), \\(\\V(\\hat C_i)=N^2\\V(p_i)\\) and \\(\\vh(\\hat C_i)=N^2\\vh(p_i)\\).</li></ol>`]];
+const dl=document.getElementById('dl');dl.innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+dl.querySelectorAll('.dv').forEach(d=>{const sm=d.querySelector('summary'),b=d.querySelector('.bd'),T=matchMedia('(prefers-reduced-motion:reduce)').matches?0:320;
+sm.addEventListener('click',e=>{e.preventDefault();if(d._a)d._a.cancel();
+if(!d.classList.contains('op')){d.open=true;d.classList.add('op');const h=b.scrollHeight;d._a=b.animate({height:['0px',h+'px'],opacity:[0,1]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d._a=null}}
+else{d.classList.remove('op');const h=b.offsetHeight;d._a=b.animate({height:[h+'px','0px'],opacity:[1,0]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d.open=false;d._a=null}}})});
+const FT=[
+["Selection",["Quantity","SRSWOR","SRSWR"],[
+["Number of samples","\\binom Nn","N^n"],["Probability of a sample","\\dfrac1{\\binom Nn}","\\dfrac1{N^n}"],
+["P(unit \\(u_j\\) at draw \\(k\\))","\\dfrac1N","\\dfrac1N"],["Inclusion probability","\\pi_i=\\dfrac nN","—"]]],
+["Mean, variance, total",["Quantity","SRSWOR","SRSWR"],[
+["Sample mean","\\bar y=\\dfrac1n\\sum y_i,\\ \\ \\E(\\bar y)=\\mu"],
+["\\(S^2\\) and \\(\\sigma^2\\)","S^2=\\dfrac N{N-1}\\sigma^2=\\dfrac1{N-1}\\sum(y_i-\\mu)^2"],
+["\\(\\V(\\bar y)\\)","\\dfrac{N-n}N\\cdot\\dfrac{S^2}n=\\dfrac{N-n}{N-1}\\cdot\\dfrac{\\sigma^2}n","\\dfrac{\\sigma^2}n=\\dfrac{N-1}N\\cdot\\dfrac{S^2}n"],
+["\\(\\E(s^2)\\)","S^2","\\sigma^2"],
+["Estimated \\(\\V(\\bar y)\\)","\\dfrac{N-n}N\\cdot\\dfrac{s^2}n","\\dfrac{s^2}n"],
+["FPC","\\dfrac{N-n}N=1-\\dfrac nN","—"],
+["\\(\\V_{WR}-\\V_{WOR}\\)","\\dfrac{n-1}N\\cdot\\dfrac{S^2}n"],
+["Total","\\hat\\tau=N\\bar y"],
+["\\(\\V(\\hat\\tau)\\)","N(N-n)\\dfrac{S^2}n","N^2\\dfrac{\\sigma^2}n"],
+["Estimated \\(\\V(\\hat\\tau)\\)","N(N-n)\\dfrac{s^2}n","N^2\\dfrac{s^2}n"]]],
+["Intervals and error",["Quantity","Formula"],[
+["CI, \\(\\sigma\\) known","\\bar y\\pm z_{\\alpha/2}\\dfrac\\sigma{\\sqrt n}"],
+["CI, \\(\\sigma\\) unknown","\\bar y\\pm t_{\\alpha/2,\\,n-1}\\dfrac s{\\sqrt n}"],
+["Bias","\\text{Bias}(\\hat\\theta)=\\E(\\hat\\theta)-\\theta"],
+["MSE","MSE(\\hat\\theta)=\\V(\\hat\\theta)+[\\text{Bias}(\\hat\\theta)]^2"]]],
+["Proportion",["Quantity","SRSWOR","SRSWR"],[
+["Estimator","p=\\dfrac an,\\ \\ \\E(p)=P"],
+["\\(s^2\\) and \\(S^2\\)","s^2=\\dfrac{npq}{n-1},\\ \\ S^2=\\dfrac{NPQ}{N-1}"],
+["\\(\\V(p)\\)","\\dfrac{N-n}{N-1}\\cdot\\dfrac{PQ}n","\\dfrac{PQ}n"],
+["Estimated \\(\\V(p)\\)","\\dfrac{N-n}N\\cdot\\dfrac{pq}{n-1}","\\dfrac{pq}{n-1}"],
+["Class total","\\hat A=Np=\\dfrac{Na}n,\\ \\ \\V(\\hat A)=N^2\\V(p),\\ \\ \\vh(\\hat A)=N^2\\vh(p)"],
+["CI for \\(P\\)","p\\pm z_{\\alpha/2}\\sqrt{\\vh(p)}"],
+["With continuity correction","p\\pm\\Big[z_{\\alpha/2}\\sqrt{\\vh(p)}+\\dfrac1{2n}\\Big]"],
+["Multi-class probability","\\dfrac{\\binom{C_1}{c_1}\\cdots\\binom{C_k}{c_k}}{\\binom Nn}","—"],
+["Multi-class estimates","p_i=\\dfrac{c_i}n,\\ \\ \\hat C_i=Np_i,\\ \\ \\vh(\\hat C_i)=N^2\\vh(p_i)"]]],
+["Sample size",["Criterion","Finite \\(N\\)","Large \\(N\\)"],[
+["Variance \\(V\\)","n=\\dfrac{n_e}{1+n_e/N},\\ n_e=\\dfrac{S^2}V","n_e"],
+["Error \\(e\\)","n=\\dfrac{z^2S^2}{e^2+z^2S^2/N}","\\dfrac{z^2S^2}{e^2}"],
+["CI width \\(W\\)","n=\\dfrac{n_W}{1+n_W/N},\\ n_W=\\dfrac{4z^2S^2}{W^2}","\\dfrac{4z^2S^2}{W^2}"],
+["CV \\(C_0\\)","n=\\dfrac{C^2/C_0^2}{1+C^2/(C_0^2N)}","\\dfrac{C^2}{C_0^2}"],
+["Relative error \\(R\\)","n=\\dfrac{z^2C^2/R^2}{1+z^2C^2/(R^2N)}","\\Big(\\dfrac{zC}R\\Big)^2"],
+["Cost","n=\\dfrac{C-C_0}{C_1}","—"]]]];
+document.getElementById('fl').innerHTML=FT.map(g=>{const w=g[1].length;return`<h3>${g[0]}</h3><div style="overflow-x:auto"><table class="ft"><tr>${g[1].map(h=>`<th>${h}</th>`).join('')}</tr>`+g[2].map(r=>{const c=r.slice(1);return`<tr><td>${r[0]}</td>`+c.map((x,i)=>`<td${i==c.length-1&&c.length<w-1?` colspan="${w-c.length}"`:''}>${x=='—'?'—':'\\(\\displaystyle '+x+'\\)'}</td>`).join('')+'</tr>'}).join('')+'</table></div>'}).join('');
+const SY=[["N, n","population size, sample size"],["y_i","value of unit \\(i\\)"],["\\mu,\\ \\bar y","population mean, sample mean"],["S^2,\\ \\sigma^2","population variance with divisor \\(N-1\\) and \\(N\\); \\(S^2=\\frac N{N-1}\\sigma^2\\)"],["s^2","sample variance \\(\\frac1{n-1}\\sum(y_i-\\bar y)^2\\)"],["\\E,\\ \\V,\\ \\vh","expectation, variance, estimated (unbiased) variance"],["\\frac{N-n}{N}","finite-population correction (FPC)"],["\\pi_i","inclusion probability of unit \\(i\\)"],["\\tau,\\ \\hat\\tau","population total \\(N\\mu\\), its estimator \\(N\\bar y\\)"],["\\hat\\theta,\\ MSE","estimator of \\(\\theta\\), mean squared error"],["1-\\alpha,\\ z_{\\alpha/2},\\ t_{\\alpha/2,\\,n-1}","confidence level, normal and \\(t\\) critical values"],["P,\\ Q,\\ p,\\ q","population proportion, \\(1-P\\), sample proportion, \\(1-p\\)"],["A,\\ a,\\ \\hat A","units in class \\(C\\) in the population, in the sample, estimated total \\(Np\\)"],["c_i,\\ C_i,\\ p_i,\\ \\hat C_i","multi-class: sample count, population count, sample proportion, estimated class total"],["V,\\ e,\\ W,\\ C_0,\\ R","prescribed variance, absolute error, CI width, CV, relative error"],["C,\\ C_0,\\ C_1","population CV \\(S/\\bar Y\\) in the precision rules; in the cost rule: total budget, fixed cost, cost per unit"],["n_e,\\ n_W","large-\\(N\\) sample sizes \\(S^2/V\\) and \\(4z^2S^2/W^2\\)"]];
+document.getElementById('sy').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr><th>Symbol</th><th>Meaning</th></tr>'+SY.map(r=>`<tr><td>\\(${r[0]}\\)</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
+// theme (scroll position preserved)
+const th=document.getElementById('th'),R=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// FPC widget
+const fN=document.getElementById('fN'),fn=document.getElementById('fn');
+function fp(){const N=Math.max(2,+fN.value),n=Math.min(+fn.value,N);fn.max=N;document.getElementById('fnv').textContent=n;const k=(N-n)/N;document.getElementById('fb').style.width=(k*100)+'%';document.getElementById('fo').innerHTML=`n/N = ${(n/N*100).toFixed(1)}%, FPC = ${k.toFixed(4)}. `+(n/N<=.05?'Below 5%: FPC can be ignored.':'Above 5%: keep the FPC.')}
+fN.oninput=fn.oninput=fp;fp();
+// sampling distribution widget
+const pop=[6,8,10,12,14],sd=document.getElementById('sd');
+function sdr(){const wr=sd.value=='wr',m={};let c=0,all=[];for(let i=0;i<5;i++)for(let j=wr?0:i+1;j<5;j++){const v=(pop[i]+pop[j])/2;m[v]=(m[v]||0)+1;c++;all.push(v)}
+const mu=all.reduce((a,b)=>a+b)/c,va=all.reduce((a,b)=>a+(b-mu)**2,0)/c,mx=Math.max(...Object.values(m));
+document.getElementById('sb').innerHTML=Object.keys(m).sort((a,b)=>a-b).map(k=>`<div style="height:${m[k]/mx*100}%"><span>${k}</span></div>`).join('');
+document.getElementById('so').textContent=`${c} samples: mean of ȳ = ${mu}, variance of ȳ = ${va}`}
+sd.onchange=sdr;sdr();
+// calculator
+function nz(p){const a=[-39.6968302866538,220.946098424521,-275.928510446969,138.357751867269,-30.6647980661472,2.50662827745924],b=[-54.4760987982241,161.585836858041,-155.698979859887,66.8013118877197,-13.2806815528857],c=[-.00778489400243029,-.322396458041136,-2.40075827716184,-2.54973253934373,4.37466414146497,2.93816398269878],d=[.00778469570904146,.32246712907004,2.445134137143,3.75440866190742];let q,r;if(p<.02425){q=Math.sqrt(-2*Math.log(p));return(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}if(p>.97575){q=Math.sqrt(-2*Math.log(1-p));return-(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}q=p-.5;r=q*q;return(((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)}
+const nt=(p,v)=>{const z=nz(p);return z+(z**3+z)/(4*v)+(5*z**5+16*z**3+3*z)/(96*v*v)},g=x=>+x.toFixed(4),fc=(N,n)=>N>0?(N-n)/N:1;
+const lf=n=>{let s=0;for(let i=2;i<=n;i++)s+=Math.log(i);return s},lc=(N,k)=>k<0||k>N?-Infinity:lf(N)-lf(k)-lf(N-k),bg=x=>x!=0&&(Math.abs(x)>=1e12||Math.abs(x)<1e-4)?x.toExponential(4):Math.abs(x)<1?+x.toPrecision(4):g(x),tl=a=>String(a).split(',').map(s=>s.trim()).filter(s=>s!=='').map(Number).filter(x=>!isNaN(x));
+const CS={
+sel:{t:'Selection probabilities',f:[['N',10],['n',3]],r:a=>{const[N,n]=a,c=Math.exp(lc(N,n));return`<b>SRSWOR</b>: number of samples = ${bg(c<1e15?Math.round(c):c)}, P(sample) = ${bg(Math.exp(-lc(N,n)))}<br><b>SRSWR</b>: number of ordered samples = ${bg(Math.pow(N,n))}, P(sample) = ${bg(Math.pow(N,-n))}<br>P(unit at draw k) = 1/N = ${g(1/N)}<br>Inclusion probability π = n/N = ${g(n/N)}`}},
+mean:{t:'Mean: variances, FPC, estimates',f:[['N',100],['n',10],['S² (population)',4],['s² (sample)',3.5]],r:a=>{const[N,n,S2,s2]=a,k=(N-n)/N,sg=(N-1)/N*S2;return`σ² = (N−1)S²/N = ${bg(sg)}<br>FPC = (N−n)/N = ${g(k)}<br><b>SRSWOR</b>: Var(ȳ) = ${bg(k*S2/n)}, E(s²) = S² = ${bg(S2)}, est. Var(ȳ) = ${bg(k*s2/n)}<br><b>SRSWR</b>: Var(ȳ) = ${bg(sg/n)}, E(s²) = σ² = ${bg(sg)}, est. Var(ȳ) = ${bg(s2/n)}<br>Var<sub>WR</sub> − Var<sub>WOR</sub> = (n−1)S²/(Nn) = ${bg((n-1)/N*S2/n)}`}},
+total:{t:'Population total',f:[['N',100],['n',10],['sample mean ȳ',3.1],['S² (population)',4],['s² (sample)',3.5]],r:a=>{const[N,n,m,S2,s2]=a,sg=(N-1)/N*S2;return`τ̂ = Nȳ = ${bg(N*m)}<br><b>SRSWOR</b>: Var(τ̂) = N(N−n)S²/n = ${bg(N*(N-n)*S2/n)}, est. Var(τ̂) = N(N−n)s²/n = ${bg(N*(N-n)*s2/n)}<br><b>SRSWR</b>: Var(τ̂) = N²σ²/n = ${bg(N*N*sg/n)}, est. Var(τ̂) = N²s²/n = ${bg(N*N*s2/n)}`}},
+bias:{t:'Bias and MSE',f:[['E(θ̂)',10.2],['θ (true value)',10],['Var(θ̂)',0.5]],r:a=>{const b=a[0]-a[1];return`Bias = E(θ̂) − θ = ${bg(b)}<br>MSE = Var(θ̂) + Bias² = ${bg(a[2]+b*b)}`}},
+prop:{t:'Proportion and class total',f:[['N',1000],['n',351],['a (successes)',185],['P (true, for Var(p))',0.5]],r:a=>{const[N,n,x,P]=a,p=x/n,q=1-p,Q=1-P,k=(N-n)/N,eW=k*p*q/(n-1),eR=p*q/(n-1),vW=(N-n)/(N-1)*P*Q/n,vR=P*Q/n;return`p = a/n = ${g(p)}, q = ${g(q)}<br>s² = npq/(n−1) = ${bg(n*p*q/(n-1))}, S² = NPQ/(N−1) = ${bg(N*P*Q/(N-1))}<br><b>SRSWOR</b>: Var(p) = ${bg(vW)}, est. Var(p) = ${bg(eW)}<br><b>SRSWR</b>: Var(p) = ${bg(vR)}, est. Var(p) = ${bg(eR)}<br>Â = Np = ${bg(N*p)}<br>Var(Â): SRSWOR ${bg(N*N*vW)}, SRSWR ${bg(N*N*vR)}<br>est. Var(Â): SRSWOR ${bg(N*N*eW)}, SRSWR ${bg(N*N*eR)}`}},
+multi:{t:'More than two classes',f:[['Sample counts c₁, c₂, … (comma separated)','40,30,20,10'],['N',1000],['Class sizes C₁, C₂, … (optional)','']],r:a=>{const c=tl(a[0]),n=c.reduce((s,x)=>s+x,0),N=a[1],C=tl(a[2]);let o=`n = Σcᵢ = ${n}<br>`+c.map((x,i)=>{const p=x/n,e=(N-n)/N*p*(1-p)/(n-1);return`Class ${i+1}: pᵢ = ${g(p)}, est. Var(pᵢ) = ${bg(e)}, Ĉᵢ = Npᵢ = ${bg(N*p)}, est. Var(Ĉᵢ) = N²·est. Var(pᵢ) = ${bg(N*N*e)}`}).join('<br>');if(C.length==c.length&&C.length){const T=C.reduce((s,x)=>s+x,0);o+=`<br>P(c₁,…,c<sub>k</sub>) = ∏C(Cᵢ,cᵢ)/C(${T},${n}) = ${bg(Math.exp(C.reduce((s,x,i)=>s+lc(x,c[i]),0)-lc(T,n)))}`}return o}},
+V:{t:'Size: prescribed variance V',f:[['N (0 = huge)',1000],['S',10],['V',1]],r:a=>{const[N,S,V]=a,e=S*S/V;return`n_e = S²/V = ${g(e)}<br>n = ${Math.ceil(N>0?e/(1+e/N):e)}`}},
+e:{t:'Size: prescribed error e',f:[['N (0 = huge)',1000],['S',10],['e',2],['conf %',95]],r:a=>{const[N,S,e,c]=a,z=nz(1-(1-c/100)/2),n0=z*z*S*S/e/e;return`z = ${g(z)}, n′ = z²S²/e² = ${g(n0)}<br>n = ${Math.ceil(N>0?n0/(1+n0/N):n0)}`}},
+W:{t:'Size: CI width W',f:[['N (0 = huge)',1000],['S',10],['W',4],['conf %',95]],r:a=>{const[N,S,W,c]=a,z=nz(1-(1-c/100)/2),n0=4*z*z*S*S/W/W;return`z = ${g(z)}, n_W = 4z²S²/W² = ${g(n0)}<br>n = ${Math.ceil(N>0?n0/(1+n0/N):n0)}`}},
+cv:{t:'Size: prescribed CV C₀',f:[['N (0 = huge)',1000],['population CV C',0.5],['C₀',0.05]],r:a=>{const[N,C,C0]=a,n0=C*C/C0/C0;return`C²/C₀² = ${g(n0)}<br>n = ${Math.ceil(N>0?n0/(1+n0/N):n0)}`}},
+R:{t:'Size: relative error R',f:[['N (0 = huge)',1000],['population CV C',0.5],['R',0.1],['conf %',95]],r:a=>{const[N,C,R,c]=a,z=nz(1-(1-c/100)/2),n0=(z*C/R)**2;return`z = ${g(z)}, n_R = z²C²/R² = ${g(n0)}<br>n = ${Math.ceil(N>0?n0/(1+n0/N):n0)}`}},
+cost:{t:'Size: cost',f:[['budget C',50000],['fixed cost C₀',10000],['cost per unit C₁',40]],r:a=>`n = (C − C₀)/C₁ = ${Math.floor((a[0]-a[1])/a[2])} (maximum affordable)`}};
+const cm=document.getElementById('cm'),cf=document.getElementById('cf'),co=document.getElementById('co');
+cm.innerHTML=Object.keys(CS).map(k=>`<option value="${k}">${CS[k].t}</option>`).join('');
+function cb(){const c=CS[cm.value];cf.innerHTML=c.f.map(x=>x[2]?`<label>${x[0]} <select>${x[2].map(o=>`<option value="${o[0]}"${o[0]==x[1]?' selected':''}>${o[1]}</option>`).join('')}</select></label>`:typeof x[1]=='string'?`<label>${x[0]} <input type="text" value="${x[1]}" style="width:200px"></label>`:`<label>${x[0]} <input type="number" step="any" value="${x[1]}"></label>`).join('');cr()}
+function cr(){const c=CS[cm.value];co.innerHTML=c.r([...cf.querySelectorAll('input,select')].map(e=>e.tagName=='SELECT'||e.type=='text'?e.value:+e.value))}
+cm.onchange=cb;cf.oninput=cr;cf.onchange=cr;cb();
+</script></body></html>

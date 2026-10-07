@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resources – Maimuna Rahman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&family=Radley:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--soft:#7D5A55;--rule:#E0C4B6;--acc:#1F5D63;--bead:#AD3C30;--grid:rgba(37,5,11,.07);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1B1410;--card:#241A14;--ink:#F8EBDB;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05)}}
+:root[data-theme="dark"]{--paper:#1B1410;--card:#241A14;--ink:#F8EBDB;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05)}
+html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:19px/1.6 Carlito,Calibri,sans-serif;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;margin:0;line-height:1.05}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px clamp(18px,4vw,56px);background:var(--paper);border-bottom:1px solid var(--rule)}
+.brand{font-family:Radley,serif;font-size:1.25rem;text-decoration:none;margin-right:auto}
+.top nav{display:flex;gap:20px;flex-wrap:wrap}
+.top nav a{text-decoration:none;color:var(--soft)}
+.top nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+.top nav a[aria-current="page"]{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+#theme{position:relative;display:block;width:68px;height:36px;padding:0;border:2px solid var(--rule);border-radius:999px;background:var(--card);cursor:pointer}
+#theme svg{position:absolute;top:50%;margin-top:-8px;width:16px;height:16px;z-index:1;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#theme svg.sun{left:8px}
+#theme svg.moon{left:40px}
+#theme .thumb{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:var(--bead);transition:transform .25s}
+#theme.dark .thumb{transform:translateX(32px)}
+#theme .sun{color:var(--paper)}#theme .moon{color:var(--soft)}
+#theme.dark .sun{color:var(--soft)}#theme.dark .moon{color:var(--paper)}
+.wrap{padding:0 clamp(18px,4vw,56px)}
+.sec{padding-top:clamp(40px,8vh,80px);padding-bottom:20px}
+.sec>h2{font-size:clamp(2.2rem,5vw,3.6rem)}
+.sub{margin:10px 0 0;color:var(--soft);max-width:60ch}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}
+.tab{background:none;border:1.5px solid var(--rule);color:var(--ink);border-radius:999px;padding:6px 18px;font:inherit;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab:disabled{opacity:.4;cursor:not-allowed}
+.years{max-width:760px;margin-top:22px}
+.year-section{display:none}
+.year-section.active{display:block}
+.pick{color:var(--soft);margin:22px 0 0}
+.course-card{background:var(--card);border:1px solid var(--rule);border-radius:6px;margin-bottom:8px}
+.course-header{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:7px 14px;background:none;border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.course-title-group{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.course-code{color:var(--soft);font-size:.9rem;font-variant-numeric:tabular-nums}
+.course-name{font-family:Radley,serif;font-size:1.08rem}
+.toggle-icon{transition:transform .2s}
+.course-header[aria-expanded="true"] .toggle-icon{transform:rotate(180deg)}
+.course-body{display:none;padding:8px 14px 12px;border-top:1px dotted var(--rule)}
+.course-header[aria-expanded="true"]+.course-body{display:block}
+.course-body ul{list-style:none;padding:0;margin:0}
+.course-body li{padding:4px 0 4px 1.2rem;position:relative;font-size:.98rem}
+.course-body li::before{content:"";position:absolute;left:0;top:.9em;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.5}
+.course-body li a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--rule)}
+.course-body li a:hover{color:var(--acc);text-decoration-color:var(--acc)}
+.course-body li.none{color:var(--soft);font-style:italic}
+.year-section{position:relative}
+.side{display:none;position:absolute;top:0;bottom:0;left:100%;margin-left:clamp(40px,8vw,130px);width:220px;pointer-events:none}
+.side .ic{position:absolute;width:96px;height:96px;margin:-48px 0 0 -48px;overflow:visible;animation:drift 6s ease-in-out infinite}
+.side .ic:nth-of-type(even){animation-delay:-3s}
+.side .st{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.side .cd{fill:var(--card)}
+.side .steam,.side .trail{fill:none;stroke:var(--soft);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.side .trail{stroke-dasharray:2 6}
+.side .band,.side .era{fill:var(--bead)}
+.side .pen{fill:var(--acc)}
+.side .lead{fill:var(--ink)}
+.side .ray,.side .squig{fill:none;stroke:var(--acc);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.side .ray{stroke:var(--bead)}
+.side .plus{fill:none;stroke:var(--bead);stroke-width:4;stroke-linecap:round}
+.side .star{fill:var(--soft)}
+@keyframes drift{50%{transform:translateY(-6px)}}
+@media (min-width:1160px){.side{display:block}}
+@media (prefers-reduced-motion:reduce){.side .ic{animation:none}}
+footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid var(--rule);color:var(--soft);font-size:.95rem}
+@media (prefers-reduced-motion:reduce){#theme .thumb,.toggle-icon{transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">Maimuna Rahman</a>
+  <nav aria-label="Sections"><a href="index.html#home">Home</a><a href="index.html#artifacts">Explorations</a><a href="index.html#academics">Academics</a><a href="resources.html" aria-current="page">Resources</a><a href="index.html#projects">Projects</a><a href="index.html#contact">Contact</a></nav>
+  <button id="theme" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span class="thumb"></span></button>
+</header>
+
+<main>
+<section class="wrap sec">
+  <h2>Resources</h2>
+  <p class="sub">Course notes and interactive pages. Select a year, then a course.</p>
+  <div class="tabs" role="tablist">
+    <button class="tab year-tab" role="tab" type="button" disabled aria-disabled="true">1st Year</button>
+    <button class="tab year-tab" role="tab" type="button" aria-selected="false">2nd Year</button>
+    <button class="tab year-tab" role="tab" type="button" disabled aria-disabled="true">3rd Year</button>
+    <button class="tab year-tab" role="tab" type="button" disabled aria-disabled="true">4th Year</button>
+  </div>
+  <p class="pick" id="pick">Select 2nd Year to see its courses.</p>
+  <div class="years">
+    <section class="year-section" id="year-2">
+      <div class="side" aria-hidden="true">
+        <svg class="ic" style="left:54px;top:8.333%" viewBox="0 0 100 100" focusable="false"><path class="steam" d="M30 32q-4-6 0-12t0-10M43 32q-4-6 0-12t0-10M56 32q-4-6 0-12t0-10"/><path class="st" d="M66 52h5a9 9 0 0 1 0 18h-5"/><path class="st cd" d="M20 38h46v24a16 16 0 0 1-16 16H36a16 16 0 0 1-16-16z"/><circle class="band" cx="43" cy="58" r="6"/><path class="st" d="M12 88h62"/></svg>
+        <svg class="ic" style="left:172px;top:25.000%" viewBox="0 0 100 100" focusable="false"><path class="st cd" d="M16 46L92 14L68 86L50 58z"/><path class="st" d="M50 58L92 14"/></svg>
+        <svg class="ic" style="left:72px;top:41.667%" viewBox="0 0 100 100" focusable="false"><g transform="translate(12 68) rotate(-30)"><rect class="st era" x="-9" y="0" width="9" height="11" rx="2"/><rect class="st pen" x="0" y="0" width="56" height="11"/><path class="st cd" d="M56 0L72 5.5L56 11z"/><path class="lead" d="M66.5 3.4L72 5.5L66.5 7.6z"/></g></svg>
+        <svg class="ic" style="left:168px;top:58.333%" viewBox="0 0 100 100" focusable="false"><path class="squig" d="M8 38q10-18 21 0t21 0 21 0 21 0"/><path class="st" d="M38 88l12-22l12 22z"/></svg>
+        <svg class="ic" style="left:58px;top:75.000%" viewBox="0 0 100 100" focusable="false"><circle class="band" cx="50" cy="50" r="14"/><path class="ray" d="M50 10v10M50 80v10M10 50h10M80 50h10M22 22l7 7M71 71l7 7M22 78l7-7M71 29l7-7"/></svg>
+        <svg class="ic" style="left:150px;top:91.667%" viewBox="0 0 100 100" focusable="false"><path class="plus" d="M30 24v28M16 38h28"/><path class="star" d="M70 56l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/></svg>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST201</span><span class="course-name">Sampling Distributions</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="resources/201_probability_distributions.html" target="_blank" rel="noopener">Probability Distributions</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST202</span><span class="course-name">Actuarial Statistics</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST203</span><span class="course-name">Statistical Inference I</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="resources/203_estimation.html" target="_blank" rel="noopener">Estimation</a></li><li><a href="resources/203_interval_estimation.html" target="_blank" rel="noopener">Interval Estimation</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST204</span><span class="course-name">Design and Analysis of Experiments I</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="resources/204_one_way_anova_and_single_factor_experiments.html" target="_blank" rel="noopener">One Way ANOVA and Single Factor Experiments</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST205</span><span class="course-name">Demography</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST206</span><span class="course-name">Sampling Methods I</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="resources/206_srs_estimation.html" target="_blank" rel="noopener">SRS Estimation</a></li><li><a href="resources/206_stratified_sampling.html" target="_blank" rel="noopener">Stratified Sampling</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">MATH207</span><span class="course-name">Mathematical Methods</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">MATH208</span><span class="course-name">Mathematical Analysis</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST230</span><span class="course-name">R for Data Science</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="https://github.com/its-maimuna-rahman/practice-codes/tree/main/R/R-Basics-230" target="_blank" rel="noopener">R-Basics-230</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST231</span><span class="course-name">Statistical Simulation</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="https://github.com/its-maimuna-rahman/practice-codes/tree/main/R/R-Statistical-Simulation-231" target="_blank" rel="noopener">R-Statistical-Simulation-231</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST232</span><span class="course-name">Statistical Computing I</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li><a href="https://github.com/its-maimuna-rahman/practice-codes/tree/main/R/R-Statistical-Computing-232" target="_blank" rel="noopener">R-Statistical-Computing-232</a></li></ul></div>
+      </div>
+      <div class="course-card">
+        <button class="course-header" type="button" aria-expanded="false">
+          <div class="course-title-group"><span class="course-code">AST240</span><span class="course-name">Oral II</span></div>
+          <span class="toggle-icon">⌄</span>
+        </button>
+        <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
+      </div>
+    </section>
+  </div>
+</section>
+</main>
+<footer>© 2026 Maimuna Rahman</footer>
+
+<script>
+/* theme (shares the main page's setting) */
+(function(){
+  var r=document.documentElement,b=document.getElementById('theme'),mq=matchMedia('(prefers-color-scheme:dark)');
+  try{var s=localStorage.getItem('theme');if(s)r.setAttribute('data-theme',s)}catch(e){}
+  function isDark(){var t=r.getAttribute('data-theme');return t?t==='dark':mq.matches}
+  function sync(){var d=isDark();b.classList.toggle('dark',d);b.setAttribute('aria-checked',d)}
+  b.onclick=function(){var n=isDark()?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}sync()};
+  mq.addEventListener('change',sync);sync();
+})();
+
+/* year switch + course dropdowns */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.year-tab')),sec=document.getElementById('year-2'),pick=document.getElementById('pick');
+  tabs[1].onclick=function(){tabs[1].setAttribute('aria-selected','true');sec.classList.add('active');pick.style.display='none'};
+  [].forEach.call(document.querySelectorAll('.course-header'),function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')!=='true')}});
+})();
+</script>
+</body>
+</html>

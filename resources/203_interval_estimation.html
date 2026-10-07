@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Interval Estimation – AST 203</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 50px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.2}
+h1{font-size:clamp(2.2rem,7vw,3.6rem);margin:0 0 .3rem}h2{font-size:1.9rem;margin:0 0 .6rem;color:var(--ac)}h3{font-size:1.25rem;margin:1.1rem 0 .3rem}
+main{max-width:860px;margin:0 auto;padding:0 16px 60px}section{padding:26px 0;border-top:1px solid var(--line)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:6px 12px;z-index:5}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:5px 11px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:12px 16px;margin:12px 0}
+.ex{border-left-color:var(--ok)}.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:10px 6px;margin:10px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:620px){.two{grid-template-columns:1fr}}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0}label{font-size:.95rem;color:var(--mut)}
+input,select,textarea{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 7px;border-radius:3px;max-width:100%}input[type=number]{width:90px}input[type=range]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.15rem;margin-top:8px}.mut{color:var(--mut);font-size:.95rem}
+#ss{width:100%;height:auto;display:block}.bar{height:14px;background:var(--ac);margin:6px auto;transition:width .2s}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.cards .box{margin:0}.cards h3{margin-top:0;font-size:1.1rem}.cards .f{font-size:1rem;margin:6px 0}
+summary{cursor:pointer;color:var(--ac)}ol,ul{padding-left:1.3rem}td,th{border:1px solid var(--line);padding:3px 8px}table{border-collapse:collapse;font-size:.95rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+mjx-container{color:inherit}.f mjx-container,.f mjx-container[display=true]{margin:0!important}
+.pl{position:relative}#sl{position:absolute;inset:0;pointer-events:none}#sl span{position:absolute;transform:translateX(-50%);font-size:.85rem;line-height:1;white-space:nowrap}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 4px;position:relative}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block;transition:background .2s}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}
+.sw input:checked+i:before{transform:translateX(24px)}.sw input:focus-visible+i{outline:2px solid var(--ac);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.sw i,.sw i:before{transition:none!important}}
+</style>
+<style>.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:16px 20px;cursor:pointer}.dv summary::-webkit-details-marker{display:none}.dv .cd{color:var(--mut);font-size:1.15rem}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.3rem}.dv .cr{color:var(--mut);font-size:.95rem}.dv .ch{margin-left:auto;align-self:center;transition:transform .2s}.dv[open] .ch{transform:rotate(180deg)}.dv .bd{padding:2px 20px 12px;border-top:1px solid var(--line)}.wv{width:100%;height:auto;display:block}@media(prefers-reduced-motion:reduce){.dv .ch{transition:none}}</style>
+<style>.dv .bd{padding:8px 22px 18px;line-height:1.75}.dv .bd li{margin:.9em 0}.dv .bd ul li{margin:1.25em 0}.dv .bd p{margin:.9em 0}.dv .bd mjx-container[display=true]{margin:1.1em 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}.dv .tt mjx-container,.dv .cr mjx-container{vertical-align:middle}</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{xb:'\\bar{x}',yb:'\\bar{y}',db:'\\bar{d}',Xb:'\\bar{X}',Yb:'\\bar{Y}',Db:'\\bar{D}',zz:'z_{\\alpha/2}',za:'z_{\\alpha}',ta:'t_{\\alpha/2}',nX:'n_X',nY:'n_Y',ph:'\\hat p',B:['\\mathbf{#1}',1]}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head><body>
+<nav><a href="#basics">Basics</a><a href="#mean">Means</a><a href="#unk">\(\sigma\) unknown</a><a href="#one">One-sided</a><a href="#two">Two means</a><a href="#var">Variances</a><a href="#prop">Proportions</a><a href="#dp">Two proportions</a><a href="#tables">Tables</a><a href="#deriv">Derivations</a><a href="#calc">Calculator</a><a href="#sum">Summary</a><label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:30px 0 10px"><h1>Interval Estimation</h1><p class="mut">AST 203: Statistical Inference I. A full walkthrough of the lecture, with widgets.</p>
+<div class="box"><b>Try it.</b> The curve is the normal sampling distribution \(\Xb\sim N(\mu,\sigma^2/n)\) for samples of size \(n=25\) from \(N(50,\,10^2)\), so \(\Xb\sim N(50,\,4)\). The shaded middle area is \(1-\alpha\), bounded by \(\mu\pm\zz\,\sigma/\sqrt n\). Draw a sample and see whether its interval \(\xb\pm\zz\,\sigma/\sqrt n\) covers \(\mu\) (dashed line).
+<div class="row"><label>Confidence <input type="range" id="sc" min="0.5" max="0.99" step="0.01" value="0.95"> <b id="scv"></b></label><button class="p" id="sb">Draw new sample</button></div>
+<div class="pl"><svg id="ss" viewBox="0 0 600 230"></svg><div id="sl"></div></div><div class="out" id="so"></div></div></header>
+
+<section id="basics"><h2>Background and basics</h2>
+<ul><li>Interval estimation gives a <b>range of plausible values</b> for an unknown population parameter, based on sample data.</li><li>It exists to <b>quantify the uncertainty</b> of using sample statistics to learn about populations.</li><li>Its foundation is <b>probability theory and sampling distributions</b>.</li></ul>
+<div class="two"><div class="box"><h3>Point estimate</h3>A single best guess, computed from the sample. Convenient, but says nothing about variability or reliability.<br><i>Example:</i> \(\xb=75\) gives \(\mu\approx75\).</div>
+<div class="box"><h3>Interval estimate</h3>A range plus a confidence level (\(95\%\), \(99\%\)), with a margin of error for sampling variability.<br><i>Example:</i> \(95\%\) CI \(\mu\in[72,78]\).</div></div>
+<p class="mut">Precisely: before sampling, the random interval covers \(\mu\) with probability \(1-\alpha\). After sampling, the computed interval is called a \(100(1-\alpha)\%\) confidence interval, and \(1-\alpha\) is the <b>confidence coefficient</b>.</p></section>
+
+<section id="mean"><h2>CI for a mean, \(\sigma\) known</h2>
+<p>\(X_1,\dots,X_n\) is a random sample from \(N(\mu,\sigma^2)\) with \(\sigma^2\) known, so \(\Xb\sim N(\mu,\sigma^2/n)\). Find \(\zz\) so that</p>
+<div class="f">\[P\!\left(-\zz\le\frac{\Xb-\mu}{\sigma/\sqrt n}\le\zz\right)=1-\alpha\]</div><p class="mut">where \(\Xb\) = sample mean, \(\mu\) = population mean, \(\sigma\) = known population standard deviation, \(n\) = sample size, \(\zz\) = standard normal value with upper-tail area \(\alpha/2\), \(1-\alpha\) = confidence level.</p>
+<p>Examples: \(1-\alpha=0.95\) gives \(z_{0.025}=1.96\); \(1-\alpha=0.90\) gives \(z_{0.05}=1.645\). Since \(\sigma>0\) these are equivalent:</p>
+<ol><li>\(-z\sigma/\sqrt n\le\Xb-\mu\le z\sigma/\sqrt n\)</li><li>\(-\Xb-z\sigma/\sqrt n\le-\mu\le-\Xb+z\sigma/\sqrt n\)</li><li>\(\Xb-z\sigma/\sqrt n\le\mu\le\Xb+z\sigma/\sqrt n\)</li></ol>
+<div class="f">\[\xb\pm\zz\,\frac{\sigma}{\sqrt n}\quad\text{is a }100(1-\alpha)\%\text{ CI for }\mu\]</div><p class="mut">where \(\xb\) = observed sample mean, \(\zz\,\sigma/\sqrt n\) = margin of error, \(100(1-\alpha)\%\) = confidence level.</p>
+<h3>Notes</h3><ul><li>The interval is centered at \(\xb\) and extended by \(\zz\,\sigma/\sqrt n\) on each side.</li><li>As \(n\) increases the margin shrinks: a shorter, more precise interval at the same confidence. With unlimited time and money you can make it as short as you like.</li><li>For fixed \(n\), lowering \(1-\alpha\) also shortens it, but you lose confidence.</li></ul>
+<div class="box"><b>Width widget.</b> Move the sliders and watch the margin.
+<div class="row"><label>\(n\) <input type="range" id="wn" min="2" max="300" value="27"> <b id="wnv"></b></label><label>Confidence <input type="range" id="wc" min="80" max="99" value="95"> <b id="wcv"></b></label><label>\(\sigma\) <input type="number" id="ws" value="36"></label></div>
+<div class="bar" id="wb"></div><div class="out" id="wo"></div></div>
+<div class="box ex"><b>Example: light bulbs.</b> \(X\sim N(\mu,1296)\), so \(\sigma=36\). \(n=27\) bulbs gave \(\xb=1478\) h. \(95\%\) CI:
+<div class="f">\[1478\pm1.96\,\frac{36}{\sqrt{27}}=1478\pm13.58=[1464.42,\,1491.58]\]</div></div></section>
+
+<section id="unk"><h2>CI for a mean, \(\sigma\) unknown</h2>
+<h3>Large \(n\) (30 or more)</h3>
+<p>\((\Xb-\mu)/(S/\sqrt n)\) is approximately \(N(0,1)\), whether or not the population is normal. Use \(\xb\pm\zz\,(s/\sqrt n)\). But if the distribution is badly skewed or has outliers, even \(n=50\) may not work well.</p>
+<div class="box ex"><b>Example: Lake Macatawa sodium.</b> 32 water samples (ppm): 13.0 18.5 16.4 14.8 19.4 17.3 23.2 24.9 20.8 19.3 18.8 23.1 15.2 19.9 19.1 18.1 25.1 16.8 20.4 17.4 25.2 23.1 15.3 19.4 16.0 21.7 15.2 21.3 21.5 16.8 15.6 17.6.
+Approximate \(95\%\) CI with \(\xb\pm1.96\,(s/\sqrt n)\): \(\B{[17.94,\,20.20]}\). Paste the data into the calculator below to check.</div>
+<h3>Small \(n\), normal data: the \(t\) distribution</h3>
+<p>When \(n\) is small and \(\sigma\) is unknown, use</p><div class="f">\[T=\frac{\Xb-\mu}{S/\sqrt n}\sim t\text{ with }n-1\text{ degrees of freedom}\]</div><p class="mut">where \(T\) = the \(t\) statistic, \(\Xb\) = sample mean, \(S\) = sample standard deviation, \(\mu\) = population mean, \(n\) = sample size, \(n-1\) = degrees of freedom.</p>
+<p>\(S^2\) is the unbiased estimator of \(\sigma^2\). Pick \(\ta(n-1)\) with \(P[T\ge\ta(n-1)]=\alpha/2\). Then \(1-\alpha=P(-t\le T\le t)\), and rearranging for \(\mu\) gives</p>
+<div class="f">\[\xb\pm\ta(n-1)\,\frac{s}{\sqrt n}\]</div><p class="mut">where \(\ta(n-1)\) = \(t\) value with \(n-1\) degrees of freedom and upper-tail area \(\alpha/2\), \(s\) = observed sample standard deviation, \(s/\sqrt n\) = estimated standard error of the mean.</p>
+<div class="box ex"><b>Example: butterfat.</b> \(n=20\) cows, \(X\sim N(\mu,\sigma^2)\). Data: 481 537 513 583 453 510 570 500 457 555 618 327 350 643 499 421 505 637 599 392. Find a \(90\%\) CI. Here \(\xb=507.50\), \(s=89.75\), \(t_{0.05}(19)=1.729\):
+<div class="f">\[507.50\pm1.729\,\frac{89.75}{\sqrt{20}}=507.50\pm34.70=[472.80,\,542.20]\]</div></div></section>
+
+<section id="one"><h2>One-sided CI for a mean</h2>
+<p>Sometimes you only need a lower or upper bound. With \(\sigma\) known, \(P\!\left(\frac{\Xb-\mu}{\sigma/\sqrt n}\le\za\right)=1-\alpha\), equivalently \(P[\Xb-\za\sigma/\sqrt n\le\mu]=1-\alpha\). Note the tail is \(\alpha\), not \(\alpha/2\).</p>
+<div class="two"><div class="box"><b>Lower bound</b><div class="f">\[[\xb-\za\sigma/\sqrt n,\ \infty)\]</div></div><div class="box"><b>Upper bound</b><div class="f">\[(-\infty,\ \xb+\za\sigma/\sqrt n]\]</div></div></div><p class="mut">where \(\za\) = standard normal value with upper-tail area \(\alpha\) (not \(\alpha/2\)), \(\xb\) = observed sample mean, \(\sigma\) = known standard deviation, \(n\) = sample size.</p>
+<p>With \(\sigma\) unknown use \(T\): bounds are \(\xb-t_{\alpha}(n-1)s/\sqrt n\) and \(\xb+t_{\alpha}(n-1)s/\sqrt n\).</p><h3>Try it: one-sided bounds</h3><div class="two"><div class="box" id="wl"></div><div class="box" id="wr"></div></div></section>
+
+<section id="two"><h2>CI for a difference of two means</h2>
+<h3>1. Variances known</h3>
+<p>Independent samples from \(N(\mu_X,\sigma^2_X)\) and \(N(\mu_Y,\sigma^2_Y)\). Then \(\Xb\) and \(\Yb\) are independent and</p>
+<div class="f">\[W=\Xb-\Yb\sim N\!\left(\mu_X-\mu_Y,\ \frac{\sigma^2_X}{\nX}+\frac{\sigma^2_Y}{\nY}\right)\]</div><p class="mut">where \(W\) = difference of sample means, \(\Xb,\Yb\) = sample means of the two independent samples, \(\mu_X,\mu_Y\) = population means, \(\sigma^2_X,\sigma^2_Y\) = known population variances, \(\nX,\nY\) = sample sizes.</p>
+<p>With \(\sigma_W=\sqrt{\sigma^2_X/\nX+\sigma^2_Y/\nY}\), the interval is centered at \(\xb-\yb\):</p><div class="f">\[\xb-\yb\pm\zz\,\sigma_W\]</div><p class="mut">where \(\sigma_W\) = standard deviation of \(W\), \(\xb-\yb\) = observed difference of sample means, \(\zz\) = standard normal value with upper-tail area \(\alpha/2\).</p>
+<div class="box ex"><b>Example.</b> \(\nX=15\), \(\nY=8\), \(\xb=70.1\), \(\yb=75.3\), \(\sigma^2_X=60\), \(\sigma^2_Y=40\), \(90\%\) (\(z=1.645\)). \(1.645\sqrt{60/15+40/8}=4.935\), so \([-5.2-4.935,\,-5.2+4.935]=\B{[-10.135,\,-0.265]}\). The whole interval is below zero, so we suspect \(\mu_Y>\mu_X\).</div>
+<h3>2. Unknown variances, large samples</h3><div class="f">\[\xb-\yb\pm\zz\sqrt{\frac{s^2_X}{\nX}+\frac{s^2_Y}{\nY}}\]</div><p class="mut">where \(s^2_X,s^2_Y\) = sample variances of the two samples, used in place of \(\sigma^2_X,\sigma^2_Y\).</p>
+<h3>3. Unknown variances, small samples (assume \(\sigma^2_X=\sigma^2_Y=\sigma^2\))</h3>
+<p>\(T=Z/\sqrt{U/(\nX+\nY-2)}\) has a \(t\) distribution with \(\nX+\nY-2\) df. With \(t_0=\ta(\nX+\nY-2)\) and the pooled standard deviation</p>
+<div class="f">\[S_p=\sqrt{\frac{(\nX-1)S^2_X+(\nY-1)S^2_Y}{\nX+\nY-2}}\]</div><div class="f">\[\xb-\yb\pm t_0\,s_p\sqrt{\frac{1}{\nX}+\frac{1}{\nY}}\]</div><p class="mut">where \(S^2_X,S^2_Y\) = sample variances, \(S_p\) = pooled standard deviation (\(s_p\) its observed value), \(\sigma^2\) = common population variance, \(t_0=\ta(\nX+\nY-2)\) = \(t\) value with \(\nX+\nY-2\) degrees of freedom.</p>
+<div class="box ex"><b>Example: large vs small schools.</b> \(\nX=9\), \(\xb=81.31\), \(s^2_X=60.76\); \(\nY=15\), \(\yb=78.61\), \(s^2_Y=48.24\). \(t_{0.025}(22)=2.074\). \(95\%\) CI \(=2.70\pm2.074\sqrt{\frac{8\cdot60.76+14\cdot48.24}{22}\left(\frac19+\frac1{15}\right)}=\B{[-3.65,\,9.05]}\).</div>
+<h3>4. Dependent (paired) variables</h3>
+<p>Two measurements on the same subject (before and after) are dependent, so the independent-sample \(t\) intervals are not allowed. Form \(D_i=X_i-Y_i\), treat them as a sample from \(N(\mu_D,\sigma^2_D)\), and use \(T=(\Db-\mu_D)/(S_D/\sqrt n)\sim t_{n-1}\). This is the single-mean interval applied to the differences:</p>
+<div class="f">\[\db\pm\ta(n-1)\,\frac{s_D}{\sqrt n}\]</div><p class="mut">where \(\db\) = mean of the paired differences \(D_i=X_i-Y_i\), \(s_D\) = standard deviation of the differences, \(n\) = number of pairs.</p>
+<div class="box ex"><b>Example: reaction to red vs green light.</b> 8 subjects, \(d=-0.13,\,-0.09,\,-0.17,\,0.07,\,-0.03,\,-0.05,\,0.00,\,-0.10\). \(\db=-0.0625\), \(s_D=0.0765\), \(t_{0.025}(7)=2.365\). \(95\%\) CI \(=\B{[-0.1265,\,0.0015]}\). Zero is just inside; more data might exclude it, which would suggest faster reaction to red.</div><h3>Try it: difference of two means</h3><div class="box" id="wd"></div></section>
+
+<section id="var"><h2>CI for variances</h2><div class="box">The lecture marks this section as <b>“To appear”</b>. It will use the \(\chi^2\) and \(F\) distributions. The table guide below already shows how to read an \(F\) table.</div></section>
+
+<section id="prop"><h2>CI for a proportion</h2>
+<p>For \(n\) independent Bernoulli trials with success probability \(p\), \(Y/n\) is an unbiased estimator of \(p\), and \((Y/n-p)/\sqrt{p(1-p)/n}\) is approximately \(N(0,1)\) for large \(n\). The unknown \(p\) appears in the endpoints, so there are ways out:</p>
+<h3>Eq 3.2: replace \(p\) by \(\ph=y/n\)</h3><div class="f">\[\ph\pm\zz\sqrt{\frac{\ph(1-\ph)}{n}}\]</div><p class="mut">where \(y\) = number of successes, \(n\) = number of trials, \(\ph=y/n\) = sample proportion, \(\zz\) = standard normal value with upper-tail area \(\alpha/2\).</p>
+<h3>Eq 3.4: solve the quadratic \(H(p)\le0\)</h3>
+<p>The condition is equivalent to \(H(p)=(Y/n-p)^2-z^2_{\alpha/2}\,p(1-p)/n\le0\), a quadratic in \(p\). Its zeros are the endpoints:</p>
+<div class="f">\[\frac{\ph+\dfrac{z_0^2}{2n}\pm z_0\sqrt{\dfrac{\ph(1-\ph)}{n}+\dfrac{z_0^2}{4n^2}}}{1+\dfrac{z_0^2}{n}}\]</div><p class="mut">where \(z_0=\zz\) = standard normal value with upper-tail area \(\alpha/2\), \(\ph\) = sample proportion, \(n\) = number of trials.</p><p class="mut">For large \(n\), 3.2 and 3.4 are nearly equal.</p>
+<h3>Eq 3.5: Agresti–Coull adjustment</h3>
+<p>3.2 can miss its stated confidence when \(n\) is small or \(Y\) or \(n-Y\) is near 0 (\(Y=0\) or \(n\) is clearly broken). Agresti and Coull (1998) replace \(Y\) with \(Y+z^2/2\) and \(n\) with \(n+z^2\):</p>
+<div class="f">\[\tilde p=\frac{Y+z^2_{\alpha/2}/2}{n+z^2_{\alpha/2}},\qquad\tilde p\pm\zz\sqrt{\frac{\tilde p(1-\tilde p)}{n+z^2_{\alpha/2}}}\]</div><p class="mut">where \(Y\) = number of successes, \(n\) = number of trials, \(\tilde p\) = adjusted sample proportion, \(\zz\) = standard normal value with upper-tail area \(\alpha/2\).</p>
+<p class="mut">The slide calls the \(\zz=1\) case the Wilson interval. If \(1-\alpha\) isn’t stated, these are usually read as \(95\%\) (\(z=1.96\)).</p>
+<h3>One-sided</h3><div class="two"><div class="box">Upper bound<div class="f">\[\left[0,\ \ph+\za\sqrt{\ph(1-\ph)/n}\right]\]</div></div><div class="box">Lower bound<div class="f">\[\left[\ph-\za\sqrt{\ph(1-\ph)/n},\ 1\right]\]</div></div></div><p class="mut">where \(\ph\) = sample proportion, \(n\) = number of trials, \(\za\) = standard normal value with upper-tail area \(\alpha\).</p>
+<div class="box ex"><b>Example 1 (candy weights).</b> \(n=40\), \(y=8\), \(\ph=0.20\), \(90\%\) (\(z=1.645\)). Eq 3.2: \(\B{[0.096,\,0.304]}\). Eq 3.4: \(\B{[0.117,\,0.321]}\). With \(n=400\), \(y=80\): \([0.167,\,0.233]\) and \([0.169,\,0.235]\), which barely differ.<br>
+<b>Example 3 (same data, Eq 3.5, \(95\%\)).</b> \(\tilde p=0.226\), CI \(\B{[0.102,\,0.350]}\); for \(n=400\), \([0.181,\,0.242]\).</div>
+<div class="box ex"><b>Example 2 (poll).</b> \(y=155\) of \(n=351\); \(95\%\) CI by Eq 3.2 is \(0.527\pm1.96\sqrt{0.527\cdot0.473/351}=\B{[0.475,\,0.579]}\). Since \(0.5\) is inside, \(p\) may be below \(50\%\). <span class="mut">Check: the slide says \(155/351=0.52\) and uses \(0.527\), but \(155/351\approx0.442\). Likely a typo in the slide.</span></div><h3>Try it: one-sided bound for p</h3><div class="box" id="wp"></div></section>
+
+<section id="dp"><h2>CI for a difference of two proportions</h2>
+<p>\(n_1\) and \(n_2\) independent trials give \(Y_1\) and \(Y_2\) successes. \(Y_1/n_1-Y_2/n_2\) has mean \(p_1-p_2\) and variance \(p_1(1-p_1)/n_1+p_2(1-p_2)/n_2\), and is approximately normal. Replacing \(p_1,p_2\) in the denominator by \(Y_1/n_1,\,Y_2/n_2\) keeps the ratio approximately \(N(0,1)\) for large \(n_1,n_2\). So:</p>
+<div class="f">\[\frac{y_1}{n_1}-\frac{y_2}{n_2}\pm\zz\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}\]</div><p class="mut">where \(y_1,y_2\) = numbers of successes, \(n_1,n_2\) = numbers of trials, \(\hat p_1,\hat p_2\) = sample proportions \(y_i/n_i\), \(\zz\) = standard normal value with upper-tail area \(\alpha/2\).</p>
+<div class="box ex"><b>Example 4: detergents.</b> 63 of 91 versus 42 of 79; \(\hat p_1=0.692\), \(\hat p_2=0.532\). \(90\%\): \(0.160\pm0.136=\B{(0.024,\,0.328)}\). It lies entirely right of zero, so detergent 1 is probably better.</div><h3>Try it: difference of two proportions</h3><div class="box" id="wq"></div></section>
+
+<section id="tables"><h2>Finding \(z\), \(t\) and \(F\) values from tables</h2>
+<div class="box"><b>Table finder.</b>
+<div class="row"><label>Table <select id="tt"><option value="z">z</option><option value="t">t</option><option value="c">χ²</option><option value="f">F</option></select></label><label>Confidence <select id="tc"><option>80</option><option>90</option><option selected>95</option><option>98</option><option>99</option></select>%</label><label>Interval <select id="ts"><option value="2">two-sided (α/2)</option><option value="1">one-sided (α)</option></select></label><label><span id="tdn">\(\mathrm{df}\)</span> <input type="number" id="td" value="19" min="1"></label><label id="tdl2" hidden>\(r_2\) <input type="number" id="td2" value="10" min="1"></label></div>
+<div class="out" id="to"></div><div class="mut">\(t\), \(\chi^2\) and \(F\) values are computed from their exact distribution functions (for \(F\), \(r_1\) is the numerator and \(r_2\) the denominator df); always confirm against your printed table.</div></div>
+<div class="two"><div class="box"><h3>\(z\) table</h3><ol><li>Compute \(\alpha=1-\text{confidence}\).</li><li>Two-sided: tail area \(\alpha/2\); one-sided: \(\alpha\).</li><li>Cumulative tables: look for \(1-\text{tail}\) (e.g. \(0.975\)) in the body. Row gives the first decimal, column the second: \(0.975\) is row \(1.9\), column \(0.06\), so \(z=1.96\).</li><li>Common values: \(90\%\): \(1.645\), \(95\%\): \(1.96\), \(99\%\): \(2.576\).</li></ol></div>
+<div class="box"><h3>\(t\) table</h3><ol><li>Find df: \(n-1\) (one mean or paired), \(\nX+\nY-2\) (pooled).</li><li>Go to the row for df.</li><li>Pick the column for tail area \(\alpha/2\) (two-sided) or \(\alpha\) (one-sided), or cumulative \(1-\text{tail}\) if columns are labelled that way.</li><li>Example: \(90\%\) two-sided, df \(19\) gives \(t_{0.05}(19)=1.729\); \(95\%\), df \(7\) gives \(2.365\).</li><li>Large df: \(t\) approaches \(z\).</li></ol></div></div>
+<div class="box"><h3>\(F\) table (for variance intervals)</h3><ol><li>\(F\) depends on two dfs: numerator \(r_1\) (columns) and denominator \(r_2\) (rows). One table is printed per tail area.</li><li>Choose the table with tail area \(\alpha/2\) and read \(F_{\alpha/2}(r_1,r_2)\) at column \(r_1\), row \(r_2\).</li><li>Lower-tail values are not printed: \(F_{1-\alpha/2}(r_1,r_2)=1/F_{\alpha/2}(r_2,r_1)\), swapping the dfs.</li><li>For a single variance the \(\chi^2\) table is used the same way: row = df, column = tail area.</li></ol></div><div class="box"><h3>\(\chi^2\) table</h3><ol><li>\(\chi^2\) has one df \(r\) (rows). Tables list right-tail values for several tail areas (columns); the shape is skewed, not symmetric.</li><li>Upper value \(\chi^2_{\alpha/2}(r)\): column with right-tail area \(\alpha/2\). Lower value \(\chi^2_{1-\alpha/2}(r)\): column with right-tail area \(1-\alpha/2\).</li><li>For one variance, \(r=n-1\) and the usual interval is \(\frac{(n-1)s^2}{\chi^2_{\alpha/2}(n-1)}\le\sigma^2\le\frac{(n-1)s^2}{\chi^2_{1-\alpha/2}(n-1)}\). <span class="mut">The lecture has not covered this yet (“To appear”), so it is shown only for table practice.</span></li></ol><div id="wchi"></div></div></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Every derivation from the lecture, step by step. Tap one to open it.</p>
+<details class="dv"><summary><span class="cd">D1</span><span class="tt">Interval for a mean, \(\sigma\) known</span><span class="cr">two-sided \(z\) interval</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>\(X_1,\dots,X_n\sim N(\mu,\sigma^2)\) gives \(\Xb\sim N(\mu,\sigma^2/n)\), so \[\frac{\Xb-\mu}{\sigma/\sqrt n}\sim N(0,1).\]</li>
+<li>Pick \(\zz\) from the normal table (\(z_{0.025}=1.96\), \(z_{0.05}=1.645\)): \[P\!\left(-\zz\le\frac{\Xb-\mu}{\sigma/\sqrt n}\le\zz\right)=1-\alpha\]</li>
+<li>With \(\sigma>0\), multiply by \(\sigma/\sqrt n\): \[-\zz\frac{\sigma}{\sqrt n}\le\Xb-\mu\le\zz\frac{\sigma}{\sqrt n}\]</li>
+<li>Subtract \(\Xb\): \[-\Xb-\zz\frac{\sigma}{\sqrt n}\le-\mu\le-\Xb+\zz\frac{\sigma}{\sqrt n}\]</li>
+<li>Multiply by \(-1\) (inequalities flip): \[\Xb+\zz\frac{\sigma}{\sqrt n}\ge\mu\ge\Xb-\zz\frac{\sigma}{\sqrt n}\]</li>
+<li>Therefore \[P\!\left(\Xb-\zz\tfrac{\sigma}{\sqrt n}\le\mu\le\Xb+\zz\tfrac{\sigma}{\sqrt n}\right)=1-\alpha\] The random interval covers \(\mu\) with probability \(1-\alpha\).</li>
+<li>After observing \(\Xb=\xb\), \(\xb\pm\zz\,\sigma/\sqrt n\) is the \(100(1-\alpha)\%\) CI. Its length \(2\zz\sigma/\sqrt n\) shrinks as \(n\) grows or as \(1-\alpha\) falls.</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D2</span><span class="tt">Large-sample interval for a mean, \(\sigma\) unknown</span><span class="cr">\(z\) with \(s\)</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>For large \(n\) (30 or more), \[\frac{\Xb-\mu}{S/\sqrt n}\approx N(0,1)\] whether or not the population is normal. Repeat the steps of D1 with \(\sigma\) replaced by \(S\): \[P\!\left(-\zz\le\frac{\Xb-\mu}{S/\sqrt n}\le\zz\right)\approx1-\alpha\ \Rightarrow\ \xb\pm\zz\,s/\sqrt n\] If the data are badly skewed or have outliers, even \(n=50\) may not be enough.</p></div></details>
+<details class="dv"><summary><span class="cd">D3</span><span class="tt">Student’s \(t\) interval for a mean, \(\sigma\) unknown</span><span class="cr">small \(n\), normal data</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>For a normal sample, \[T=\frac{\Xb-\mu}{S/\sqrt n}\] has a \(t\) distribution with \(n-1\) df; \(S^2\) is the unbiased estimator of \(\sigma^2\).</li>
+<li>Select \(\ta(n-1)\) with \(P[T\ge\ta(n-1)]=\alpha/2\).</li>
+<li>\[1-\alpha=P\!\left(-\ta(n-1)\le\frac{\Xb-\mu}{S/\sqrt n}\le\ta(n-1)\right)\]</li>
+<li>Multiply by \(S/\sqrt n\), subtract \(\Xb\), multiply by \(-1\) (as in D1): \[1-\alpha=P\!\left(\Xb-\ta(n-1)\tfrac{S}{\sqrt n}\le\mu\le\Xb+\ta(n-1)\tfrac{S}{\sqrt n}\right)\]</li>
+<li>With observed \(\xb\), \(s^2\): \(\xb\pm\ta(n-1)\,s/\sqrt n\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D4</span><span class="tt">One-sided confidence bounds for a mean</span><span class="cr">\(\sigma\) known or unknown</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>Put the whole tail \(\alpha\) on one side: \[P\!\left(\frac{\Xb-\mu}{\sigma/\sqrt n}\le\za\right)=1-\alpha\]</li>
+<li>Then \(\Xb-\mu\le\za\sigma/\sqrt n\), i.e. \[P\!\left[\Xb-\za\tfrac{\sigma}{\sqrt n}\le\mu\right]=1-\alpha\]</li>
+<li>Observed: \([\xb-\za\sigma/\sqrt n,\ \infty)\), so \(\xb-\za\sigma/\sqrt n\) is a lower bound.</li>
+<li>Symmetrically \[P\!\left(\frac{\Xb-\mu}{\sigma/\sqrt n}\ge-\za\right)=1-\alpha\] gives \(\mu\le\Xb+\za\sigma/\sqrt n\): \((-\infty,\ \xb+\za\sigma/\sqrt n]\), an upper bound.</li>
+<li>\(\sigma\) unknown: use \(T=\dfrac{\Xb-\mu}{S/\sqrt n}\) and \(t_\alpha(n-1)\): bounds \(\xb\mp t_\alpha(n-1)\,s/\sqrt n\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D5</span><span class="tt">Difference of two means, variances known</span><span class="cr">\(z\) interval</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>Independent samples from \(N(\mu_X,\sigma_X^2)\), \(N(\mu_Y,\sigma_Y^2)\): \[\Xb\sim N\!\left(\mu_X,\tfrac{\sigma_X^2}{\nX}\right),\qquad\Yb\sim N\!\left(\mu_Y,\tfrac{\sigma_Y^2}{\nY}\right),\quad\text{independent.}\]</li>
+<li>A difference of independent normals is normal; means subtract, variances add: \[W=\Xb-\Yb\sim N\!\left(\mu_X-\mu_Y,\ \tfrac{\sigma_X^2}{\nX}+\tfrac{\sigma_Y^2}{\nY}\right)\]</li>
+<li>Standardize with \(\sigma_W=\sqrt{\sigma_X^2/\nX+\sigma_Y^2/\nY}\): \[P\!\left(-\zz\le\frac{(\Xb-\Yb)-(\mu_X-\mu_Y)}{\sigma_W}\le\zz\right)=1-\alpha\]</li>
+<li>Rewrite: \[P\Big((\Xb-\Yb)-\zz\sigma_W\le\mu_X-\mu_Y\le(\Xb-\Yb)+\zz\sigma_W\Big)=1-\alpha\]</li>
+<li>Observed: \(\xb-\yb\pm\zz\,\sigma_W\). For large \(n\) with unknown variances, replace \(\sigma^2\) by \(S^2\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D6</span><span class="tt">Difference of two means, pooled \(t\) interval</span><span class="cr">small \(n\), \(\sigma_X^2=\sigma_Y^2\)</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>Assume \(\sigma_X^2=\sigma_Y^2=\sigma^2\). Let \[Z=\frac{\Xb-\Yb-(\mu_X-\mu_Y)}{\sqrt{\sigma^2/\nX+\sigma^2/\nY}}\sim N(0,1)\] and \[U=\frac{(\nX-1)S_X^2}{\sigma^2}+\frac{(\nY-1)S_Y^2}{\sigma^2},\] a \(\chi^2\) with \(\nX+\nY-2\) df.</li>
+<li>\[T=\frac{Z}{\sqrt{U/(\nX+\nY-2)}}\] has a \(t\) distribution with \(\nX+\nY-2\) df.</li>
+<li>\(\sigma^2\) cancels: \[T=\frac{\Xb-\Yb-(\mu_X-\mu_Y)}{\sqrt{\dfrac{(\nX-1)S_X^2+(\nY-1)S_Y^2}{\nX+\nY-2}\left[\dfrac1{\nX}+\dfrac1{\nY}\right]}}\]</li>
+<li>With \(t_0=\ta(\nX+\nY-2)\), \(P(-t_0\le T\le t_0)=1-\alpha\). Write the pooled standard deviation \[S_p=\sqrt{\frac{(\nX-1)S_X^2+(\nY-1)S_Y^2}{\nX+\nY-2}}\] and solve for \(\mu_X-\mu_Y\): \[P\!\left(\Xb-\Yb-t_0S_p\sqrt{\tfrac1{\nX}+\tfrac1{\nY}}\le\mu_X-\mu_Y\le\Xb-\Yb+t_0S_p\sqrt{\tfrac1{\nX}+\tfrac1{\nY}}\right)=1-\alpha\]</li>
+<li>Observed: \(\xb-\yb\pm t_0\,s_p\sqrt{1/\nX+1/\nY}\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D7</span><span class="tt">Paired-sample interval for dependent measurements</span><span class="cr">\(t\) on the differences</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>\(X\) and \(Y\) are measured on the same subject, so they may be dependent. The independent-sample \(t\) statistics and intervals are not allowed.</li>
+<li>Form \(D_i=X_i-Y_i\), \(i=1,\dots,n\), and treat them as a sample from \(N(\mu_D,\sigma_D^2)\), with \(\mu_D=\mu_X-\mu_Y\).</li>
+<li>\[T=\frac{\Db-\mu_D}{S_D/\sqrt n}\sim t_{n-1},\] where \(\Db\), \(S_D\) are the mean and s.d. of the \(n\) differences.</li>
+<li>As in D3: \(\db\pm\ta(n-1)\,s_D/\sqrt n\) is a \(100(1-\alpha)\%\) CI for \(\mu_D=\mu_X-\mu_Y\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D8</span><span class="tt">Interval for a proportion: the plug-in method</span><span class="cr">Equations 3.1 and 3.2</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>\(Y\sim b(n,p)\) counts successes in \(n\) Bernoulli trials; \(Y/n\) is unbiased for \(p\).</li>
+<li>Dividing top and bottom by \(n\): \[\frac{Y-np}{\sqrt{np(1-p)}}=\frac{Y/n-p}{\sqrt{p(1-p)/n}}\approx N(0,1)\quad(n\text{ large})\]</li>
+<li>Eq 3.1: \[P\!\left(-\zz\le\frac{Y/n-p}{\sqrt{p(1-p)/n}}\le\zz\right)\approx1-\alpha\]</li>
+<li>Solving as in D1: \[P\!\left(\frac Yn-\zz\sqrt{\tfrac{p(1-p)}{n}}\le p\le\frac Yn+\zz\sqrt{\tfrac{p(1-p)}{n}}\right)\approx1-\alpha\] but \(p\) sits in the endpoints.</li>
+<li>Way out 1: replace \(p\) by \(Y/n\) inside \(p(1-p)\). For observed \(Y=y\): \[\ph\pm\zz\sqrt{\ph(1-\ph)/n},\quad\ph=y/n\qquad(3.2)\]</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D9</span><span class="tt">Interval for a proportion: solving the quadratic</span><span class="cr">Equations 3.3 and 3.4</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>The inequality \[\frac{|Y/n-p|}{\sqrt{p(1-p)/n}}\le\zz\] is equivalent to \[H(p)=(Y/n-p)^2-z_{\alpha/2}^2\,\frac{p(1-p)}{n}\le0\qquad(3.3)\]</li>
+<li>\(H\) is quadratic in \(p\). With \(\ph=Y/n\), \(z_0=\zz\): \[H(p)=\left(1+\tfrac{z_0^2}{n}\right)p^2-\left(2\ph+\tfrac{z_0^2}{n}\right)p+\ph^2\]</li>
+<li>\(H(p)\le0\) between its two zeros. The discriminant is \[\left(2\ph+\tfrac{z_0^2}{n}\right)^2-4\left(1+\tfrac{z_0^2}{n}\right)\ph^2=4z_0^2\left[\tfrac{\ph(1-\ph)}{n}+\tfrac{z_0^2}{4n^2}\right]\]</li>
+<li>The quadratic formula gives the endpoints: \[\frac{\ph+\frac{z_0^2}{2n}\pm z_0\sqrt{\frac{\ph(1-\ph)}{n}+\frac{z_0^2}{4n^2}}}{1+z_0^2/n}\qquad(3.4)\]</li>
+<li>For large \(n\), \(z_0^2/4n^2\), \(z_0^2/2n\) and \(z_0^2/n\) are small, so 3.2 and 3.4 are about equal.</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D10</span><span class="tt">Interval for a proportion: one-sided bounds and Agresti–Coull</span><span class="cr">Equation 3.5</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>One-sided: put tail \(\alpha\) on one side, as in D4. With \(\ph=y/n\), the upper and lower bounds are \[\left[0,\ \ph+\za\sqrt{\frac{\ph(1-\ph)}{n}}\right]\qquad\text{and}\qquad\left[\ph-\za\sqrt{\frac{\ph(1-\ph)}{n}},\ 1\right]\] with approximate coefficient \(1-\alpha\).</li>
+<li>Eq 3.2 can miss its stated confidence for small \(n\), or \(Y\) or \(n-Y\) near 0 (if \(Y=0\) or \(n\), the interval collapses to a point).</li>
+<li>Agresti and Coull (1998): replace \(Y\) by \(Y+z_{\alpha/2}^2/2\) and \(n\) by \(n+z_{\alpha/2}^2\): \[\tilde p=\frac{Y+z_{\alpha/2}^2/2}{n+z_{\alpha/2}^2}\]</li>
+<li>Use \(n+z_{\alpha/2}^2\) in the radical too: \[\tilde p\pm\zz\sqrt{\frac{\tilde p(1-\tilde p)}{n+z_{\alpha/2}^2}}\qquad(3.5)\] The slide calls the \(\zz=1\) case the Wilson interval. If \(1-\alpha\) is not stated, \(z=1.96\) is understood.</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D11</span><span class="tt">Difference of two proportions</span><span class="cr">\(z\) interval</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ol>
+<li>\(Y_1/n_1\) and \(Y_2/n_2\) are independent with means \(p_1,p_2\) and variances \[\frac{p_1(1-p_1)}{n_1},\qquad\frac{p_2(1-p_2)}{n_2}.\]</li>
+<li>The difference has mean \(p_1-p_2\) and variance \[\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2},\] and is approximately normal, so the standardized ratio is approximately \(N(0,1)\).</li>
+<li>Replacing \(p_i\) in the denominator by \(Y_i/n_i\) keeps it approximately \(N(0,1)\) for large \(n_1,n_2\): \[P\!\left(-\zz\le\frac{\frac{Y_1}{n_1}-\frac{Y_2}{n_2}-(p_1-p_2)}{\sqrt{\frac{\frac{Y_1}{n_1}(1-\frac{Y_1}{n_1})}{n_1}+\frac{\frac{Y_2}{n_2}(1-\frac{Y_2}{n_2})}{n_2}}}\le\zz\right)\approx1-\alpha\]</li>
+<li>Solving for \(p_1-p_2\) with observed \(y_1,y_2\): \[\frac{y_1}{n_1}-\frac{y_2}{n_2}\pm\zz\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}\]</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D12</span><span class="tt">Worked arithmetic for the lecture examples</span><span class="cr">numerical checks</span><svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><ul>
+<li><b>Bulbs:</b> \[\frac{36}{\sqrt{27}}=6.928,\qquad1.96\times6.928=13.58,\qquad1478\pm13.58\]</li>
+<li><b>Butterfat:</b> \[\frac{89.75}{\sqrt{20}}=20.07,\qquad1.729\times20.07=34.70,\qquad507.50\pm34.70\]</li>
+<li><b>Two means, known \(\sigma^2\):</b> \[\sigma_W=\sqrt{\frac{60}{15}+\frac{40}{8}}=\sqrt9=3,\qquad1.645\times3=4.935,\qquad-5.2\pm4.935\]</li>
+<li><b>Pooled \(t\):</b> \[s_p^2=\frac{8(60.76)+14(48.24)}{22}=52.79,\qquad s_p=7.266\] \[\sqrt{\frac19+\frac1{15}}=0.4216,\qquad2.074\times7.266\times0.4216=6.354\] \[2.70\pm6.354\]</li>
+<li><b>Paired:</b> \[\frac{0.0765}{\sqrt8}=0.02705,\qquad2.365\times0.02705=0.0640,\qquad-0.0625\pm0.0640\]</li>
+<li><b>Proportion, \(n=40,\ y=8\), \(90\%\):</b> \[\sqrt{\frac{0.2\cdot0.8}{40}}=0.0632,\qquad1.645\times0.0632=0.104,\qquad0.20\pm0.104\] Eq 3.4, with \(z^2=2.706\): \[\frac{0.2+0.0338\pm1.645\sqrt{0.004+0.00042}}{1.0677}=[0.117,\,0.321]\]</li>
+<li><b>Eq 3.5, \(95\%\):</b> \[\tilde p=\frac{8+1.92}{40+3.84}=0.226,\qquad1.96\sqrt{\frac{0.226(0.774)}{43.84}}=0.124\] \[[0.102,\,0.350]\]</li>
+<li><b>Detergents:</b> \[\sqrt{\frac{0.692(0.308)}{91}+\frac{0.532(0.468)}{79}}=0.0741,\qquad1.645\times0.0741=0.122\] <span class="mut">The slide prints 0.136, but this arithmetic gives \(0.160\pm0.122=(0.038,\,0.282)\). The conclusion (interval above 0) is the same.</span></li></ul></div></details>
+</section>
+
+<section id="calc"><h2>Confidence interval calculator</h2>
+<div class="box"><div class="row"><label>Case <select id="cm"></select></label><label>Confidence % <input type="number" id="cf" value="95" min="1" max="99.9" step="0.5"></label><label>Type <select id="cs"><option value="2">two-sided</option><option value="u">upper bound</option><option value="l">lower bound</option></select></label></div>
+<div class="row" id="cfl"></div><details id="dt"><summary>Paste raw data (fills \(\xb\), \(s\), \(n\))</summary><textarea id="dx" rows="3" style="width:100%" placeholder="481 537 513 ..."></textarea><br><button id="db">Fill from data</button></details>
+<div class="out" id="co"></div></div>
+<details class="box"><summary>Practice problems from the lecture (use the calculator)</summary><ul>
+<li>Means: \(n=8\) from \(N(\mu,72)\), \(\xb=85\): \(99,\,95,\,90,\,80\%\) CIs.</li><li>Pea plants (7 values: 17.5 14.5 15.2 14.0 17.3 18.0 13.8): \(\xb\), \(s\), \(90\%\) CI.</li><li>Leakage test (10 values: 3.1 3.3 4.5 2.8 3.5 3.5 3.7 4.2 3.9 3.3): \(\xb\), \(s\), \(95\%\) upper bound.</li>
+<li>SAT math (5 scores) vs verbal (8 scores), pooled: \(90\%\) CI for \(\mu_X-\mu_Y\). Heights: 12 (\(65.7\), \(s=4\)) vs 15 (\(68.2\), \(s=3\)), \(98\%\), equal variances.</li><li>Body fat, males and females, pre vs post (10 each): \(90\%\) paired CIs; did percentages decrease? Check normality of the differences.</li>
+<li>Toggle levers 24 of 642: \(\ph\), Eq 3.2, 3.4, 3.5 at \(95\%\), and a one-sided upper bound. Death penalty 864 of 1234, \(95\%\).</li><li>Anemia: 840/2100 vs 323/1900, \(90\%\) for \(p_1-p_2\). Mints: 28/194 vs 11/162: \(\hat p_1\), \(95\%\) CI, \(\hat p_1-\hat p_2\), one-sided lower bound.</li></ul></details></section>
+
+<section id="sum"><h2>Summary cards</h2><div class="cards" id="cards"></div><h3>Meaning of symbols</h3><div style="overflow-x:auto"><table><tr><th>Symbol</th><th>Meaning</th></tr><tr><td>\(\Xb,\ \xb\)</td><td>sample mean (random variable, observed value)</td></tr><tr><td>\(\Yb,\ \yb\)</td><td>sample mean of the second sample</td></tr><tr><td>\(\mu,\ \sigma\)</td><td>population mean, population standard deviation</td></tr><tr><td>\(n,\ \nX,\ \nY\)</td><td>sample sizes</td></tr><tr><td>\(S,\ s\)</td><td>sample standard deviation (random variable, observed value)</td></tr><tr><td>\(S^2_X,\ S^2_Y,\ s^2_X,\ s^2_Y\)</td><td>sample variances of the \(X\) and \(Y\) samples</td></tr><tr><td>\(S_p,\ s_p\)</td><td>pooled standard deviation (random variable, observed value)</td></tr><tr><td>\(1-\alpha\)</td><td>confidence level</td></tr><tr><td>\(\zz,\ \za\)</td><td>standard normal values with upper-tail area \(\alpha/2\) and \(\alpha\)</td></tr><tr><td>\(\ta(n-1),\ t_0\)</td><td>\(t\) value with \(n-1\) degrees of freedom and upper-tail area \(\alpha/2\); \(t_0=\ta(\nX+\nY-2)\) for the pooled interval</td></tr><tr><td>\(T\)</td><td>the \(t\) statistic \((\Xb-\mu)/(S/\sqrt n)\)</td></tr><tr><td>\(W,\ \sigma_W\)</td><td>\(\Xb-\Yb\), and its standard deviation</td></tr><tr><td>\(D_i,\ \db,\ s_D\)</td><td>paired difference \(X_i-Y_i\), its mean, its standard deviation</td></tr><tr><td>\(p,\ \ph,\ \tilde p\)</td><td>population proportion, sample proportion \(y/n\), Agresti–Coull adjusted proportion</td></tr><tr><td>\(Y,\ y\)</td><td>number of successes (random variable, observed value)</td></tr><tr><td>\(p_1,\ p_2,\ \hat p_1,\ \hat p_2,\ n_1,\ n_2\)</td><td>population proportions, sample proportions \(y_i/n_i\), numbers of trials</td></tr><tr><td>\(z_0\)</td><td>\(\zz\) as written in Eq 3.4</td></tr></table></div></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),rn=()=>Math.sqrt(-2*Math.log(1-Math.random()))*Math.cos(6.2832*Math.random());
+const nz=p=>{if(p<.5)return-nz(1-p);const t=Math.sqrt(-2*Math.log(1-p));return t-(2.515517+.802853*t+.010328*t*t)/(1+1.432788*t+.189269*t*t+.001308*t**3)};
+const lg=x=>{let y=x,t=x+5.5,q=1.000000000190015;t-=(x+.5)*Math.log(t);for(const k of [76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,.1208650973866179e-2,-.5395239384953e-5])q+=k/++y;return-t+Math.log(2.5066282746310005*q/x)};
+const gp=(a,x)=>{if(x<=0)return 0;const e=Math.exp(-x+a*Math.log(x)-lg(a));if(x<a+1){let p=a,s=1/a,d=s;for(let n=0;n<2000;n++){p++;d*=x/p;s+=d;if(Math.abs(d)<Math.abs(s)*1e-15)break}return s*e}
+let b=x+1-a,c=1e300,d=1/b,h=d;for(let i=1;i<2000;i++){const n=-i*(i-a);b+=2;d=n*d+b;if(Math.abs(d)<1e-300)d=1e-300;c=b+n/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;const l=d*c;h*=l;if(Math.abs(l-1)<1e-15)break}return 1-e*h};
+const bc=(x,a,b)=>{const ab=a+b,ap=a+1,am=a-1;let c=1,d=1-ab*x/ap;if(Math.abs(d)<1e-300)d=1e-300;d=1/d;let h=d;for(let m=1;m<2000;m++){const m2=2*m;let n=m*(b-m)*x/((am+m2)*(a+m2));d=1+n*d;if(Math.abs(d)<1e-300)d=1e-300;c=1+n/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;h*=d*c;n=-(a+m)*(ab+m)*x/((a+m2)*(ap+m2));d=1+n*d;if(Math.abs(d)<1e-300)d=1e-300;c=1+n/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;const l=d*c;h*=l;if(Math.abs(l-1)<1e-15)break}return h};
+const bi=(x,a,b)=>{if(x<=0)return 0;if(x>=1)return 1;const t=Math.exp(lg(a+b)-lg(a)-lg(b)+a*Math.log(x)+b*Math.log(1-x));return x<(a+1)/(a+b+2)?t*bc(x,a,b)/a:1-t*bc(1-x,b,a)/b};
+const inv=(F,q)=>{let lo=0,hi=1;while(F(hi)<q&&hi<1e9)hi*=2;for(let i=0;i<90;i++){const m=(lo+hi)/2;F(m)<q?lo=m:hi=m}return(lo+hi)/2};
+const nt=(p,v)=>p<.5?-nt(1-p,v):inv(x=>1-.5*bi(v/(v+x*x),v/2,.5),p);
+const nc=(q,r)=>inv(x=>gp(r/2,x/2),q),nf=(q,r,s)=>inv(x=>bi(r*x/(r*x+s),r/2,s/2),q);
+const M=(t,d)=>window.MathJax&&MathJax.tex2svg?MathJax.tex2svg(t,{display:!!d}).outerHTML:'\\('+t+'\\)';
+$('#th').onchange=e=>{document.documentElement.dataset.theme=e.target.checked?'dark':'light'};
+const fx=v=>Math.max(0,Math.min(600,(v-42)*37.5)),py=v=>150-650*Math.exp(-(((v-50)/2)**2)/2)/5.0133,S={x:50,c:0,t:0};
+const area=(a,b,c)=>{let d=`M${fx(a)} 150`;for(let i=0;i<=40;i++){const v=a+(b-a)*i/40;d+=`L${fx(v)} ${py(v).toFixed(1)}`}return `<path d="${d}L${fx(b)} 150Z" fill="var(${c})" fill-opacity=".4"/>`};
+function draw(){const c=+$('#sc').value,m=nz(1-(1-c)/2)*2,lo=50-m,hi=50+m,a=S.x-m,b=S.x+m,ok=a<=50&&50<=b,col=`var(${ok?'--ok':'--bad'})`,pc=Math.round(c*100)+'\\%';
+let d='M0 '+py(42).toFixed(1);for(let i=1;i<=160;i++){const v=42+i/10;d+=`L${fx(v)} ${py(v).toFixed(1)}`}
+$('#ss').innerHTML=area(lo,hi,'--ok')+area(42,lo,'--bad')+area(hi,58,'--bad')+`<path d="${d}" fill="none" stroke="var(--ink)" stroke-width="2"/><line x1="0" x2="600" y1="150" y2="150" stroke="var(--ink)"/><line x1="300" x2="300" y1="10" y2="196" stroke="var(--ink)" stroke-dasharray="4"/><line x1="${fx(a)}" x2="${fx(b)}" y1="196" y2="196" stroke="${col}" stroke-width="4"/><circle cx="${fx(S.x)}" cy="196" r="5" fill="${col}"/>`;
+const L=(t,x,y)=>`<span style="left:${x/6}%;top:${y/2.3}%">${M(t)}</span>`;
+$('#sl').innerHTML=L('\\mu',300,172)+L(lo.toFixed(2),fx(lo),156)+L(hi.toFixed(2),fx(hi),156)+L('1-\\alpha',300,90)+L('\\alpha/2',fx(lo)/2,132)+L('\\alpha/2',(fx(hi)+600)/2,132)+L('\\bar x',fx(S.x),206);
+$('#scv').innerHTML=M(pc);
+$('#so').innerHTML=`${M('\\bar x='+S.x.toFixed(2))}: the interval ${M('['+a.toFixed(2)+',\\ '+b.toFixed(2)+']')} ${ok?'covers':'misses'} ${M('\\mu')} (${ok?'green':'red'}).`+(S.t?`<br>${S.c} of ${S.t} drawn intervals covered ${M('\\mu')}; in the long run about ${M(pc)} do.`:'')}
+function ns(){const m=nz(1-(1-$('#sc').value)/2)*2;S.x=50+2*rn();S.t++;S.c+=Math.abs(S.x-50)<=m;draw()}
+$('#sc').oninput=()=>{S.t=S.c=0;draw()};$('#sb').onclick=ns;ns();
+function wid(){const n=+$('#wn').value,c=+$('#wc').value/100,s=+$('#ws').value,z=nz(1-(1-c)/2),m=z*s/Math.sqrt(n);$('#wnv').innerHTML=M(''+n);$('#wcv').innerHTML=M(Math.round(c*100)+'\\%');$('#wb').style.width=Math.min(100,m*2/s*50)+'%';$('#wo').innerHTML=M(`z=${z.toFixed(3)},\\ \\text{margin}=${m.toFixed(2)},\\ \\text{total width}=${(2*m).toFixed(2)}`)}
+['#wn','#wc','#ws'].forEach(i=>$(i).oninput=wid);wid();
+function tf(){const t=$('#tt').value,a=1-$('#tc').value/100,two=$('#ts').value=='2',tail=two?a/2:a,q=1-tail,df=+$('#td').value,d2=+$('#td2').value,sa=two?'\\alpha/2':'\\alpha',sb=two?'1-\\alpha/2':'1-\\alpha';
+$('#td').disabled=t=='z';$('#td2').disabled=t!='f';$('#tdl2').hidden=t!='f';$('#tdn').innerHTML=M(t=='f'?'r_1':'\\mathrm{df}');
+const h=M(`\\alpha=${a.toFixed(3)},\\ \\text{tail}=${tail.toFixed(4)},\\ \\text{cumulative}=${q.toFixed(4)}`)+'<br>';
+if(t!='z'&&!(df>0&&(t!='f'||d2>0))){$('#to').innerHTML=h+'Enter a positive df.';return}
+if(t=='z'||t=='t'){const v=t=='z'?nz(q):nt(q,df);
+$('#to').innerHTML=h+M((t=='z'?'z':`t_{(\\mathrm{df}=${df})}`)+`\\approx\\B{${v.toFixed(3)}}`)+(t=='z'?`<div class="mut">Find ${M(q.toFixed(4))} in the ${M('z')} body: row ${M((Math.floor(v*10+1e-9)/10).toFixed(1))}, column ${M(((Math.round(v*100)%10)/100).toFixed(2))} (nearest 2 decimals).</div>`:`<div class="mut">Row ${M('\\mathrm{df}='+df)}, column tail ${M(tail.toFixed(4))}.</div>`)}
+else if(t=='c'){$('#to').innerHTML=h+M(`\\chi^2_{${sa}}(${df})=\\B{${nc(q,df).toFixed(3)}}`)+',&nbsp; '+M(`\\chi^2_{${sb}}(${df})=\\B{${nc(tail,df).toFixed(3)}}`)+`<div class="mut">Row ${M('r='+df)}; upper value: column right-tail ${M(tail.toFixed(4))}, lower value: column right-tail ${M(q.toFixed(4))}.</div>`}
+else{$('#to').innerHTML=h+M(`F_{${sa}}(${df},${d2})=\\B{${nf(q,df,d2).toFixed(3)}}`)+',&nbsp; '+M(`F_{${sb}}(${df},${d2})=\\dfrac{1}{F_{${sa}}(${d2},${df})}=\\B{${(1/nf(q,d2,df)).toFixed(3)}}`)+`<div class="mut">Table with right-tail ${M(tail.toFixed(4))}: column ${M('r_1='+df)}, row ${M('r_2='+d2)}. The lower value is read from the swapped table, as in step 3 above.</div>`}}
+['#tt','#tc','#ts','#td','#td2'].forEach(i=>$(i).oninput=tf);tf();
+const D={z1:['Mean: σ known, or n large (use s), z',['\\bar x','\\sigma\\text{ or }s','n'],[1478,36,27],a=>[a[0],a[1]/Math.sqrt(a[2]),'z']],
+t1:['Mean: σ unknown, small n, t (also paired d̄, s_D, n)',['\\bar x','s','n'],[507.5,89.75,20],a=>[a[0],a[1]/Math.sqrt(a[2]),'t',a[2]-1]],
+z2:['Two means: variances known, or n large (use s²), z',['\\bar x','\\bar y','\\sigma^2_X','\\sigma^2_Y','n_X','n_Y'],[70.1,75.3,60,40,15,8],a=>[a[0]-a[1],Math.sqrt(a[2]/a[4]+a[3]/a[5]),'z']],
+tp:['Two means: common unknown σ, small n, pooled t',['\\bar x','\\bar y','s^2_X','s^2_Y','n_X','n_Y'],[81.31,78.61,60.76,48.24,9,15],a=>{const d=a[4]+a[5]-2,s=Math.sqrt(((a[4]-1)*a[2]+(a[5]-1)*a[3])/d);return[a[0]-a[1],s*Math.sqrt(1/a[4]+1/a[5]),'t',d]}],
+p1:['One proportion (Eq 3.2, 3.4, 3.5)',['y','n'],[8,40],a=>{const p=a[0]/a[1];return[p,Math.sqrt(p*(1-p)/a[1]),'z']}],
+p2:['Difference of two proportions',['y_1','n_1','y_2','n_2'],[63,91,42,79],a=>{const p=a[0]/a[1],q=a[2]/a[3];return[p-q,Math.sqrt(p*(1-p)/a[1]+q*(1-q)/a[3]),'z']}]};
+$('#cm').innerHTML=Object.keys(D).map(k=>`<option value="${k}">${D[k][0]}</option>`).join('');
+function fields(){const d=D[$('#cm').value];$('#cfl').innerHTML=d[1].map((l,i)=>`<label>${M(l)} <input type="number" step="any" class="ci" value="${d[2][i]}"></label>`).join('');$('#dt').hidden=!['z1','t1'].includes($('#cm').value);calc()}
+function calc(){const a=[...document.querySelectorAll('.ci')].map(e=>+e.value),k=$('#cm').value,sd=$('#cs').value,al=1-$('#cf').value/100,[c,se,ds,df]=D[k][3](a),cr=ds=='z'?nz(sd=='2'?1-al/2:1-al):nt(sd=='2'?1-al/2:1-al,df),m=cr*se,r=v=>v.toFixed(4);
+let o=M(`\\text{center}=${r(c)},\\ \\text{SE}=${r(se)},\\ ${ds=='z'?'z':'t_{(\\mathrm{df}='+df+')}'}=${cr.toFixed(3)},\\ \\text{margin}=${r(m)}`)+'<br>';
+o+=M(sd=='2'?`\\B{[${r(c-m)},\\ ${r(c+m)}]}`:sd=='u'?`\\B{(-\\infty,\\ ${r(c+m)}]}`:`\\B{[${r(c-m)},\\ \\infty)}`);
+if(k=='p1'&&sd=='2'){const n=a[1],z=cr,p=c,h=z*z,pt=(a[0]+h/2)/(n+h),m2=z*Math.sqrt(pt*(1-pt)/(n+h)),u=1+h/n,mid=p+h/(2*n),w=z*Math.sqrt(p*(1-p)/n+h/(4*n*n)),I=(x,y)=>M(`\\B{[${r(x)},\\ ${r(y)}]}`);
+o=`${M(`\\hat p=${r(p)},\\ z=${z.toFixed(3)}`)}<br>Eq 3.2: ${I(c-m,c+m)}<br>Eq 3.4: ${I((mid-w)/u,(mid+w)/u)}<br>Eq 3.5 (${M('\\tilde p='+r(pt))}): ${I(pt-m2,pt+m2)}`}
+$('#co').innerHTML=o}
+$('#cm').onchange=fields;$('#cf').oninput=calc;$('#cs').onchange=calc;$('#cfl').oninput=calc;
+$('#db').onclick=()=>{const x=$('#dx').value.split(/[\s,]+/).filter(Boolean).map(Number).filter(v=>!isNaN(v)),n=x.length;if(n<2)return;const m=x.reduce((s,v)=>s+v,0)/n,s=Math.sqrt(x.reduce((q,v)=>q+(v-m)**2,0)/(n-1)),i=document.querySelectorAll('.ci');i[0].value=m.toFixed(4);i[1].value=s.toFixed(4);i[2].value=n;calc()};
+fields();
+const R=String.raw,C=[[R`Mean, \(\sigma\) known`,R`\xb\pm\zz\,\sigma/\sqrt n`,R`Normal data. \(z\) table. Longer \(n\) or lower confidence shortens it.`],
+[R`Mean, \(\sigma\) unknown, large \(n\)`,R`\xb\pm\zz\,s/\sqrt n`,R`\(n\ge30\). Skew or outliers can break it even at \(n=50\).`],
+[R`Mean, \(\sigma\) unknown, small \(n\)`,R`\xb\pm\ta(n-1)\,s/\sqrt n`,R`Normal data. \(t\) table, \(\mathrm{df}=n-1\).`],
+['One-sided mean',R`\begin{gathered}\xb-\za\sigma/\sqrt n\ \text{(lower)}\\ \xb+\za\sigma/\sqrt n\ \text{(upper)}\end{gathered}`,R`Tail is \(\alpha\). Use \(t_\alpha(n-1)\) and \(s\) if \(\sigma\) unknown.`],
+['Two means, variances known',R`\xb-\yb\pm\zz\sqrt{\sigma^2_X/\nX+\sigma^2_Y/\nY}`,R`Independent normal samples. Large \(n\): swap in \(s^2\).`],
+[R`Two means, small \(n\), equal \(\sigma^2\)`,R`\xb-\yb\pm t_0\,s_p\sqrt{1/\nX+1/\nY}`,R`\(t_0=\ta(\nX+\nY-2)\), pooled \(s_p\).`],
+['Paired means',R`\db\pm\ta(n-1)\,s_D/\sqrt n`,R`Same subjects, before and after. Work on \(D=X-Y\).`],
+['One proportion',R`\ph\pm\zz\sqrt{\ph(1-\ph)/n}`,R`Eq 3.2. For small \(n\) or extreme \(\ph\) use 3.4 or 3.5. One-sided uses \(\za\).`],
+['Difference of proportions',R`\hat p_1-\hat p_2\pm\zz\sqrt{\hat p_1(1-\hat p_1)/n_1+\hat p_2(1-\hat p_2)/n_2}`,R`Large independent samples. Interval excluding \(0\) suggests a real difference.`],
+['Reading a CI',R`\text{Confidence}=1-\alpha`,R`Before sampling, the random interval covers the parameter with probability \(1-\alpha\). Variance intervals (\(\chi^2\), \(F\)) are still to appear.`]];
+$('#cards').innerHTML=C.map(c=>`<div class="box"><h3>${c[0]}</h3><div class="f">\\[${c[1]}\\]</div><div class="mut">${c[2]}</div></div>`).join('');
+</script>
+<script>
+(function(){const f=v=>+v.toFixed(4),cr=(m,q,d)=>m=='z'?nz(q):nt(q,d),T=s=>s.replace(/\\\((.+?)\\\)/g,(_,m)=>M(m)),tz=(m,d)=>m=='z'?'z':'t_{(\\mathrm{df}='+d+')}';
+function mk(el,ti,fl,fn){el.innerHTML=T('<b>'+ti+'</b>')+`<div class="row">${fl.map(x=>x[2]?`<label>${T(x[0])} <select>${x[2].map(o=>`<option value="${o[0]}"${o[0]==x[1]?' selected':''}>${o[1]}</option>`).join('')}</select></label>`:`<label>${T(x[0])} <input type="number" step="any" value="${x[1]}"></label>`).join('')}</div><svg class="wv" viewBox="0 0 600 76" role="img" aria-label="Interval on a number line"></svg><div class="out"></div>`;
+const sv=el.querySelector('svg'),run=()=>{const r=fn([...el.querySelectorAll('input,select')].map(e=>e.tagName=='SELECT'?e.value:+e.value));el.querySelector('.out').innerHTML=T(r.txt);if(r.c==null){sv.style.display='none';return}sv.style.display='';
+const q=[r.lo,r.hi,r.c].filter(isFinite).concat(r.zero?[0]:[]);let a=Math.min(...q),b=Math.max(...q);const p=(b-a||1)*.4;a-=p;b+=p;const X=v=>20+(v-a)/(b-a)*560,x1=isFinite(r.lo)?X(r.lo):8,x2=isFinite(r.hi)?X(r.hi):592;
+sv.innerHTML='<line x1="20" x2="580" y1="44" y2="44" stroke="var(--line)"/>'+(r.zero?`<line x1="${X(0)}" x2="${X(0)}" y1="14" y2="64" stroke="var(--ink)" stroke-dasharray="4"/><text x="${X(0)}" y="10" text-anchor="middle" font-size="12" fill="var(--ink)">0</text>`:'')+`<line x1="${x1}" x2="${x2}" y1="44" y2="44" stroke="var(--ac)" stroke-width="6"/>`+[r.lo,r.hi].map(v=>isFinite(v)?`<circle cx="${X(v)}" cy="44" r="6" fill="var(--ac)"/><text x="${X(v)}" y="72" text-anchor="middle" font-size="12" fill="var(--ink)">${f(v)}</text>`:'').join('')+`<rect x="${X(r.c)-3}" y="34" width="6" height="20" fill="var(--ink)"/>`+(isFinite(r.lo)?'':'<path d="M14 36l-10 8 10 8z" fill="var(--ac)"/>')+(isFinite(r.hi)?'':'<path d="M586 36l10 8-10 8z" fill="var(--ac)"/>')};el.oninput=run;run()}
+const U=[['Use','t',[['t','t (σ unknown)'],['z','z (σ known / large n)']]]],S=[['\\(\\bar x\\)',507.5],['\\(\\sigma\\text{ or }s\\)',89.75],['\\(n\\)',20],['Confidence \\(\\%\\)',95]].concat(U);
+const one=up=>a=>{const k=cr(a[4],a[3]/100,a[2]-1),m=k*a[1]/Math.sqrt(a[2]),b=up?a[0]+m:a[0]-m;return{lo:up?-Infinity:b,hi:up?b:Infinity,c:a[0],txt:`\\(${tz(a[4],a[2]-1)}=${k.toFixed(3)}\\) (tail \\(\\alpha=${f(1-a[3]/100)}\\)), margin \\(${f(m)}\\)<br>\\(\\B{${up?'(-\\infty,\\ '+f(b)+']':'['+f(b)+',\\ \\infty)'}}\\)`}};
+mk(document.getElementById('wl'),'Left-tailed: upper bound \\((-\\infty,\\ U]\\)',S,one(1));
+mk(document.getElementById('wr'),'Right-tailed: lower bound \\([L,\\ \\infty)\\)',S,one(0));
+mk(document.getElementById('wd'),'\\(\\bar x-\\bar y\\) with a number line (dashed = 0)',[['\\(\\bar x\\)',70.1],['\\(\\bar y\\)',75.3],['\\(\\sigma^2\\text{ or }s^2\\ (X)\\)',60],['\\(\\sigma^2\\text{ or }s^2\\ (Y)\\)',40],['\\(n_X\\)',15],['\\(n_Y\\)',8],['Confidence \\(\\%\\)',90],['Method','z',[['z','z: variances known / large n'],['t','pooled t: equal σ², small n']]]],a=>{const d=a[0]-a[1],t=a[7]=='t',df=a[4]+a[5]-2,sp=Math.sqrt(((a[4]-1)*a[2]+(a[5]-1)*a[3])/df),se=t?sp*Math.sqrt(1/a[4]+1/a[5]):Math.sqrt(a[2]/a[4]+a[3]/a[5]),k=cr(a[7],1-(1-a[6]/100)/2,df),lo=d-k*se,hi=d+k*se;return{lo,hi,c:d,zero:1,txt:`\\(\\bar x-\\bar y=${f(d)}\\), \\(\\mathrm{SE}=${f(se)}\\), \\(${tz(a[7],df)}=${k.toFixed(3)}\\)<br>\\(\\B{[${f(lo)},\\ ${f(hi)}]}\\) ${lo>0?'Whole interval above 0: \\(\\mu_X\\) is probably larger.':hi<0?'Whole interval below 0: \\(\\mu_Y\\) is probably larger.':'Contains 0: no clear difference.'}`}});
+mk(document.getElementById('wp'),'One-sided bound for \\(p\\)',[['\\(y\\)',8],['\\(n\\)',40],['Confidence \\(\\%\\)',95],['Bound','u',[['u','Upper [0, …]'],['l','Lower […, 1]']]]],a=>{const p=a[0]/a[1],m=nz(a[2]/100)*Math.sqrt(p*(1-p)/a[1]),u=a[3]=='u';return{lo:u?0:Math.max(0,p-m),hi:u?Math.min(1,p+m):1,c:p,txt:`\\(\\hat p=${f(p)}\\), \\(z=${nz(a[2]/100).toFixed(3)}\\), margin \\(${f(m)}\\)<br>\\(\\B{${u?'[0,\\ '+f(Math.min(1,p+m))+']':'['+f(Math.max(0,p-m))+',\\ 1]'}}\\)`}});
+mk(document.getElementById('wq'),'\\(\\hat p_1-\\hat p_2\\) with a number line (dashed = 0)',[['\\(y_1\\)',63],['\\(n_1\\)',91],['\\(y_2\\)',42],['\\(n_2\\)',79],['Confidence \\(\\%\\)',90]],a=>{const p=a[0]/a[1],q=a[2]/a[3],d=p-q,se=Math.sqrt(p*(1-p)/a[1]+q*(1-q)/a[3]),k=nz(1-(1-a[4]/100)/2),lo=d-k*se,hi=d+k*se;return{lo,hi,c:d,zero:1,txt:`\\(\\hat p_1=${f(p)}\\), \\(\\hat p_2=${f(q)}\\), \\(\\mathrm{SE}=${f(se)}\\), \\(z=${k.toFixed(3)}\\)<br>\\(\\B{[${f(lo)},\\ ${f(hi)}]}\\) ${lo>0?'Above 0: method 1 is probably better.':hi<0?'Below 0: method 2 is probably better.':'Contains 0: no clear difference.'}`}});
+mk(document.getElementById('wchi'),'\\(\\chi^2\\) values (Wilson–Hilferty approximation; confirm with your table)',[['\\(\\mathrm{df}\\ r\\)',19],['Confidence \\(\\%\\)',95]],a=>{const w=(z,v)=>v*Math.pow(1-2/(9*v)+z*Math.sqrt(2/(9*v)),3),al=1-a[1]/100;return{c:null,txt:`\\(\\chi^2_{\\alpha/2}(${a[0]})\\approx\\B{${w(nz(1-al/2),a[0]).toFixed(3)}}\\) (right-tail \\(${f(al/2)}\\))<br>\\(\\chi^2_{1-\\alpha/2}(${a[0]})\\approx\\B{${w(nz(al/2),a[0]).toFixed(3)}}\\) (right-tail \\(${f(1-al/2)}\\))`}});
+})();
+</script></body></html>

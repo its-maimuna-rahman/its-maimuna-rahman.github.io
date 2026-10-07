@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One-Way ANOVA &amp; Single-Factor Experiments – AST204</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5EDE0;--card:#FCF7EE;--ink:#3A2A1E;--mut:#7A6552;--ac:#8A5A36;--ac2:#D9C3A0;--line:#DDCBB0;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+.dv .bd{font-size:1.08em}.dv .bd p{margin:1.1em 0 .4em}.dv .bd mjx-container[display]{font-size:125%;margin:.7em 0!important;padding:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">Overview</a><a href="#crd">Design &amp; Model</a><a href="#fr">Fixed vs Random</a><a href="#anova">ANOVA</a><a href="#est">Estimation</a><a href="#ci">Confidence Intervals</a><a href="#samp">Sampling Distributions</a><a href="#test">Hypothesis Testing</a><a href="#chk">Model Adequacy</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:48px 0 8px"><h1>Single-Factor Experiments &amp; One-Way ANOVA</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 3&ndash;11 &middot; Completely Randomized Design, ANOVA, estimation, confidence intervals, sampling distributions, hypothesis tests, residual diagnostics, Bartlett's test.</p>
+<div class="box nt"><b>Note:</b> the uploaded slides are on <b>Design of Experiments / ANOVA</b>, not stratified sampling (the HTML you attached was only used as the layout template). Corrections to the slides are marked in red boxes.</div></header>
+
+<section id="viz"><h2>Big Picture</h2>
+<p>We compare the mean response of <b>a</b> treatments using random data. We split the total variation into <i>between-treatment</i> and <i>within-treatment</i> parts and compare them with an F ratio. Then we estimate effects, build intervals, and check the model assumptions.</p>
+<div class="flow"><div class="pop">Completely Randomized Design <b>(CRD)</b></div>&darr;<div class="st"><div>Model<br>\(y_{ij}=\mu+\tau_i+\varepsilon_{ij}\)</div><div>Partition<br>\(SS_T=SS_{Tr}+SS_E\)</div><div>F test<br>\(F_0=MS_{Tr}/MS_E\)</div></div>&darr;<div class="st"><div>Estimates &amp; CIs</div><div>Bonferroni <b>(simultaneous)</b></div><div>Residual checks &amp; Bartlett</div></div></div>
+<h3>Interactive: when does the F test detect a difference?</h3>
+<p class="mut">4 treatments, 5 observations each. Move the sliders and watch the variation split.</p>
+<div class="row"><label>Spread of treatment means \(d\) <input type="range" id="vd" min="0" max="40" value="20"></label><label>Within-treatment noise \(s\) <input type="range" id="vs" min="2" max="40" value="12"></label></div>
+<svg id="vsv" class="sg" viewBox="0 0 700 220"></svg><div class="stk"><div id="b1"></div><div id="b2"></div></div><div class="out" id="vo"></div></section>
+
+<section id="crd"><h2>Single-Factor Experiment &amp; Completely Randomized Design <b>(CRD)</b></h2>
+<p>A <b>single-factor experiment</b> studies the effect of one factor (with several levels) on a response. Other influences that are not of interest are <b>nuisance factors</b>. If experimental units are essentially homogeneous and are assigned to treatments completely at random (no blocking, matching or grouping), the design is a <b>CRD</b>, the simplest design.</p>
+<div class="box ex"><b>Plasma etching example.</b> A wafer is a thin slice of semiconductor; unwanted coating is removed by <i>etching</i>. An engineer studies RF power (160, 180, 200, 220 W) and etch rate (&Aring;/min), with 5 wafers per level: \(a=4,\ n=5,\ N=20\) runs. The 20 runs must be in <b>random order</b> (e.g. assign RAND() to each run and sort). <b>Why:</b> if all 160 W runs came first, a warm-up effect (lower readings the longer the tool is on) would contaminate the data and destroy validity.</div>
+<table><tr><th>Power</th><th>Obs 1&ndash;5</th><th>\(y_{i\cdot}\)</th><th>\(\bar y_{i\cdot}\)</th></tr><tr><td>160</td><td>575 542 530 539 570</td><td>2756</td><td>551.2</td></tr><tr><td>180</td><td>565 593 590 579 610</td><td>2937</td><td>587.4</td></tr><tr><td>200</td><td>600 651 610 637 629</td><td>3127</td><td>625.4</td></tr><tr><td>220</td><td>725 700 715 685 710</td><td>3535</td><td>707.0</td></tr></table>
+<p><b>Graphical insight:</b> box plots and scatter plots show etch rate rising with power, and no strong evidence that spread depends on power. So we suspect (1) power affects etch rate and (2) higher power gives higher etch rate. ANOVA tests this formally.</p>
+<h3>Models</h3>
+<p><b>Means model:</b> \(y_{ij}=\mu_i+\varepsilon_{ij}\), \(i=1..a,\ j=1..n\). <b>Effects model</b> (one-way ANOVA model): \(y_{ij}=\mu+\tau_i+\varepsilon_{ij}\), with \(\mu_i=\mu+\tau_i\). Here \(\mu\) = overall mean, \(\tau_i\) = effect of treatment \(i\) (how far its mean is from the overall mean), \(\varepsilon_{ij}\) = random error.</p>
+<p><b>Assumption:</b> \(\varepsilon_{ij}\) are independent, normal, mean 0, common variance \(\sigma^2\) (<b>NID</b>\((0,\sigma^2)\)). Hence \(y_{ij}\sim N(\mu+\tau_i,\sigma^2)\). Objective: estimate treatment means and test differences among them.</p></section>
+
+<section id="fr"><h2>Fixed vs Random Factor</h2>
+<div class="two"><div><h3>Fixed effects model</h3><p>The \(a\) treatments are chosen deliberately by the experimenter. Conclusions apply <b>only to those levels</b>.</p><p class="mut">Example: doses 5, 10, 20 mg chosen by the researcher.</p></div><div><h3>Random effects model <b>(components of variance model)</b></h3><p>The \(a\) treatments are a random sample from a larger population of treatments. Conclusions extend to the whole population; we study variability among treatments.</p><p class="mut">Example: 10 hospitals randomly selected from hundreds.</p></div></div>
+<p class="mut">All analysis below is for the <b>fixed effects</b> model.</p></section>
+
+<section id="anova"><h2>Analysis of Variance <b>(ANOVA)</b></h2>
+<h3>Notation</h3>
+<div class="f">\[ y_{i\cdot}=\sum_{j=1}^{n}y_{ij},\quad \bar y_{i\cdot}=\frac{y_{i\cdot}}{n},\quad y_{\cdot\cdot}=\sum_{i=1}^{a}\sum_{j=1}^{n}y_{ij},\quad \bar y_{\cdot\cdot}=\frac{y_{\cdot\cdot}}{N},\quad N=an \]</div>
+<h3>Hypotheses</h3>
+<div class="f">\[ H_0:\mu_1=\dots=\mu_a \ \ (\Leftrightarrow\ \tau_1=\dots=\tau_a=0)\qquad H_1:\mu_i\neq\mu_j\ \text{for at least one pair}\ (\Leftrightarrow \tau_i\ne0 \text{ for some } i) \]</div>
+<p>Because \(\mu=\frac1a\sum\mu_i\), the effects satisfy \(\sum_{i=1}^{a}\tau_i=0\). If all means are equal, every deviation from the overall mean is zero.</p>
+<div class="box ex"><b>Tomato example.</b> Means 18, 20, 23, 19 give \(\mu=20\); effects \(-2,0,+3,-1\), which sum to 0.</div>
+<h3>Partition of variability</h3>
+<div class="f">\[ \underbrace{\sum_{i}\sum_{j}(y_{ij}-\bar y_{\cdot\cdot})^2}_{SS_T}=\underbrace{n\sum_{i}(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2}_{SS_{Tr}\ \text{(between)}}+\underbrace{\sum_{i}\sum_{j}(y_{ij}-\bar y_{i\cdot})^2}_{SS_E\ \text{(within)}} \]</div>
+<p>The cross-product term vanishes because \(\sum_j(y_{ij}-\bar y_{i\cdot})=0\) (see Derivations). Degrees of freedom: \(SS_T:\ N-1\); \(SS_{Tr}:\ a-1\); \(SS_E:\ a(n-1)=N-a\).</p>
+<p><b>Mean squares:</b> \(MS_{Tr}=SS_{Tr}/(a-1)\), \(MS_E=SS_E/(N-a)\). Two estimates of \(\sigma^2\): one from within treatments, one from between. If means are equal they are similar; a big gap suggests some mean differs.</p>
+<div class="f">\[ E(MS_E)=\sigma^2,\qquad E(MS_{Tr})=\sigma^2+\frac{n\sum_i\tau_i^2}{a-1} \]</div>
+<p>So under \(H_0\) both estimate \(\sigma^2\); otherwise \(MS_{Tr}\) is larger.</p>
+<h3>Distribution and test</h3>
+<p>\(SS_E/\sigma^2\sim\chi^2_{N-a}\); under \(H_0\), \(SS_{Tr}/\sigma^2\sim\chi^2_{a-1}\) and \(SS_T/\sigma^2\sim\chi^2_{N-1}\). By <b>Cochran's theorem</b> (df add up: \(\nu=\nu_1+\dots+\nu_s\)), \(SS_{Tr}\) and \(SS_E\) are independent. Hence</p>
+<div class="f">\[ F_0=\frac{SS_{Tr}/(a-1)}{SS_E/(N-a)}=\frac{MS_{Tr}}{MS_E}\sim F_{a-1,\,N-a}\ \text{under }H_0;\qquad \text{reject } H_0 \text{ if } F_0>F_{\alpha,\,a-1,\,N-a} \]</div>
+<div class="box nt"><b>Note:</b> \(SS_T/\sigma^2\sim\chi^2_{N-1}\) : Strictly this holds only <b>under \(H_0\)</b>; otherwise it is non-central.</div>
+<h3>Computing formulas &amp; ANOVA table</h3>
+<div class="f">\[ SS_T=\sum_i\sum_j y_{ij}^2-\frac{y_{\cdot\cdot}^2}{N},\quad SS_{Tr}=\frac1n\sum_i y_{i\cdot}^2-\frac{y_{\cdot\cdot}^2}{N},\quad SS_E=SS_T-SS_{Tr} \]</div>
+<table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>\(F_0\)</th></tr><tr><td>Between treatments</td><td>\(SS_{Tr}\)</td><td>\(a-1\)</td><td>\(MS_{Tr}\)</td><td>\(MS_{Tr}/MS_E\)</td></tr><tr><td>Error (within)</td><td>\(SS_E\)</td><td>\(N-a\)</td><td>\(MS_E\)</td><td></td></tr><tr><td>Total</td><td>\(SS_T\)</td><td>\(N-1\)</td><td></td><td></td></tr></table>
+<div class="box ex"><b>Etch example:</b> \(SS_T=72{,}209.75\), \(SS_{Tr}=66{,}870.55\), \(SS_E=5{,}339.20\); df 19, 3, 16; \(MS_{Tr}=22{,}290.18\), \(MS_E=333.70\); \(F_0=66.80\). With \(\alpha=0.05\), \(F_{0.05,3,16}=3.24\). Since \(66.80>3.24\), reject \(H_0\): RF power significantly affects etch rate.</div>
+<h3>Coding the data</h3>
+<p>Subtracting a constant (e.g. 600) from every observation <b>does not change</b> any sum of squares (coded totals \(-244,-63,127,535\); grand total 355; same \(SS_T,SS_{Tr},SS_E\)).</p>
+<h3>Unbalanced data</h3>
+<p>If treatment \(i\) has \(n_i\) observations, \(N=\sum n_i\) and ANOVA still works with modified formulas:</p>
+<div class="f">\[ SS_T=\sum_{i}\sum_{j=1}^{n_i}y_{ij}^2-\frac{y_{\cdot\cdot}^2}{N},\qquad SS_{Tr}=\sum_{i=1}^{a}\frac{y_{i\cdot}^2}{n_i}-\frac{y_{\cdot\cdot}^2}{N} \]</div>
+<p class="mut">Practice (from slides): use the calculator for the unequal-replicate table (A,B,C,D) and the tumor-drug data; for the blood-pressure exercise use \(SS_{Tr}=n\sum(\bar y_i-\bar y_{\cdot\cdot})^2\) with \(\bar y_{\cdot\cdot}=2.55\), \(SS_E=SS_T-SS_{Tr}\).</p></section>
+
+<section id="est"><h2>Estimation of Model Parameters</h2>
+<p>Least squares minimises \(L=\sum_i\sum_j(y_{ij}-\mu-\tau_i)^2\). Setting \(\partial L/\partial\mu=0\) and \(\partial L/\partial\tau_i=0\) gives \(a+1\) <b>normal equations</b>:</p>
+<div class="f">\[ N\hat\mu+n\hat\tau_1+\dots+n\hat\tau_a=y_{\cdot\cdot},\qquad n\hat\mu+n\hat\tau_i=y_{i\cdot}\ \ (i=1..a) \]</div>
+<p>The last \(a\) equations add up to the first, so they are <b>not linearly independent</b> and have no unique solution. We impose \(\sum\hat\tau_i=0\) (effects are deviations from the overall mean):</p>
+<div class="f">\[ \hat\mu=\bar y_{\cdot\cdot},\qquad \hat\tau_i=\bar y_{i\cdot}-\bar y_{\cdot\cdot},\qquad \hat\mu_i=\hat\mu+\hat\tau_i=\bar y_{i\cdot} \]</div>
+<div class="box ex"><b>Etch:</b> \(\hat\mu=12355/20=617.75\); \(\hat\tau=(-66.55,\,-30.35,\,+7.65,\,+89.25)\). At 160 W the mean etch rate is 66.55 below the overall mean, at 180 W 30.35 below, at 200 W 7.65 above, at 220 W 89.25 above.</div></section>
+
+<section id="ci"><h2>Confidence Intervals</h2>
+<p>Since \(\bar y_{i\cdot}\sim N(\mu_i,\sigma^2/n)\) and \(\sigma^2\) is unknown, use \(MS_E\) and the t distribution:</p>
+<div class="f">\[ \bar y_{i\cdot}\pm t_{\alpha/2,\,N-a}\sqrt{\frac{MS_E}{n}},\qquad (\bar y_{i\cdot}-\bar y_{j\cdot})\pm t_{\alpha/2,\,N-a}\sqrt{\frac{2MS_E}{n}} \]</div>
+<p>Differences matter because we want to know <i>which</i> treatments differ and by how much.</p>
+<div class="box ex"><b>Etch, 220 W:</b> \(707.00\pm2.120\sqrt{333.70/5}=707\pm17.32\Rightarrow 689.68\le\mu_4\le724.32\).</div>
+<h3>Simultaneous confidence intervals</h3>
+<p>A usual \(100(1-\alpha)\%\) CI is <b>one-at-a-time</b>: \(P(\text{this interval is correct})=1-\alpha\). With several intervals, the chance that <i>all</i> are correct is smaller. <b>Bonferroni inequality:</b> \(P(A_1\cup\dots\cup A_r)\le\sum P(A_i)\), so</p>
+<div class="f">\[ P(\text{all } r \text{ CIs correct})\ge 1-r\alpha \]</div>
+<table><tr><th>r</th><th>1</th><th>5</th><th>10</th></tr><tr><td>Simultaneous level \(\ge\) (\(\alpha=0.05\))</td><td>0.95</td><td>0.75</td><td>0.50</td></tr></table>
+<p>To keep overall confidence \(\ge1-\alpha\), build each interval at level \(\alpha/r\).</p></section>
+
+<section id="samp"><h2>Sampling Distributions</h2>
+<p>The <b>population distribution</b> is the probability distribution of population values. A <b>sampling distribution</b> is the distribution of a statistic (\(\bar x,\hat p,S^2\)) over all possible samples.</p>
+<div class="box ex"><b>Five midterm scores:</b> 70, 78, 80, 80, 95 (A..E). Distribution: \(P(70)=P(78)=P(95)=0.2,\ P(80)=0.4\). Samples of size 3 without replacement: \(\binom53=\frac{5!}{3!\,2!}=10\). Sampling distribution of \(\bar x\):
+<table><tr><th>\(\bar x\)</th><td>76.00</td><td>76.67</td><td>79.33</td><td>81.00</td><td>81.67</td><td>84.33</td><td>85.00</td></tr><tr><th>\(P\)</th><td>.20</td><td>.10</td><td>.10</td><td>.10</td><td>.20</td><td>.20</td><td>.10</td></tr></table></div>
+<p>Enumerating all samples is usually impossible, so we use known theoretical distributions. Sample mean from a normal population: \(\bar x\sim N(\mu,\sigma^2/n)\) exactly; from a non-normal population it is approximately so for large \(n\) (central limit theorem).</p>
+<h3>Chi-square, t and F</h3>
+<p><b>Chi-square \((\chi^2)\):</b> \(Z_1..Z_n\) independent standard normal \(\Rightarrow\chi^2=\sum Z_i^2\) has \(n\) df. For a normal sample, \(\dfrac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\).</p>
+<p><b>Student's t:</b> \(Z\sim N(0,1)\), \(U\sim\chi^2_n\) independent \(\Rightarrow T=Z/\sqrt{U/n}\sim t_n\). Substituting gives \(t=\dfrac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\).</p>
+<p><b>F:</b> \(U_1\sim\chi^2_{n_1},U_2\sim\chi^2_{n_2}\) independent \(\Rightarrow F=\dfrac{U_1/n_1}{U_2/n_2}\sim F_{n_1,n_2}\). For two normal samples \(F=\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,n_2-1}\); if \(\sigma_1^2=\sigma_2^2\), \(F=S_1^2/S_2^2\) (the <b>variance ratio</b>).</p>
+<p><b>Why in DOE:</b> they give CIs and tests (t, \(\chi^2\), F); F is the foundation of ANOVA.</p></section>
+
+<section id="test"><h2>Hypothesis Testing</h2>
+<p>A <b>hypothesis</b> is a statement about one or more populations. The <b>null hypothesis \(H_0\)</b> is assumed true until declared false; the <b>alternative \(H_1\)</b> is true if \(H_0\) is false. Like a court case, there are four outcomes:</p>
+<table><tr><th></th><th>\(H_0\) true</th><th>\(H_0\) false</th></tr><tr><td>Reject \(H_0\)</td><td>Type I error, prob. \(\alpha\) (significance level)</td><td>Correct (power \(=1-\beta\))</td></tr><tr><td>Do not reject</td><td>Correct</td><td>Type II error, prob. \(\beta\)</td></tr></table>
+<p><b>Tails:</b> two-tailed (\(H_1:\mu\ne\mu_0\), key word <i>changed</i>), left-tailed (\(H_1:\mu<\mu_0\), <i>less than</i>), right-tailed (\(H_1:\mu>\mu_0\), <i>higher than</i>). For a left-tailed test \(H_0\) may be written \(\mu\ge\mu_0\).</p>
+<h3>Test of \(\mu\) when \(\sigma\) is known</h3>
+<div class="f">\[ \bar x\sim N\!\left(\mu,\frac{\sigma^2}{n}\right)\ \Rightarrow\ Z=\frac{\bar x-\mu_0}{\sigma/\sqrt n} \]</div>
+<p>(Case I: normal population; Case II: non-normal with large \(n\).) Critical values at \(\alpha=0.05\): \(\pm1.96\) (two-tailed), \(+1.65\) (right), \(-1.65\) (left).</p>
+<div class="box ex"><b>Spending:</b> \(H_0:\mu=500\), \(\bar x=470\), \(n=10\), \(\sigma^2=4000\ (\sigma=63.25)\): \(Z=\dfrac{470-500}{63.25/\sqrt{10}}=-1.50\). Two-tailed: inside \(\pm1.96\); right-tailed: below \(1.65\); left-tailed: \(-1.50>-1.65\). In all three, <b>fail to reject</b> \(H_0\).</div></section>
+
+<section id="chk"><h2>Model Adequacy Checking</h2>
+<p>ANOVA is exact if errors are NID\((0,\sigma^2)\). We check this using <b>residuals</b>: \(e_{ij}=y_{ij}-\hat y_{ij}\), where \(\hat y_{ij}=\hat\mu+\hat\tau_i=\bar y_{i\cdot}\). So \(e_{ij}=y_{ij}-\bar y_{i\cdot}\): deviation from its treatment mean.</p>
+<h3>Normality: histogram and normal probability plot</h3>
+<p>Residuals should look like a normal sample centred at 0; on a normal probability plot the points follow a straight line. Steps: (1) compute residuals; (2) sort \(e_{(1)}\le\dots\le e_{(n)}\); (3) \(p_i=\dfrac{i-0.5}{n}\) (e.g. \(p_1=2.5\%,\ p_{20}=97.5\%\)); (4) plot \(e_{(i)}\) against \(z_i=\Phi^{-1}(p_i)\) (e.g. \(p=0.05\Rightarrow z\approx-1.64\)).</p>
+<p>Etch data: approximately normal; slight curvature at both ends means somewhat <b>thinner tails</b>, not substantial. The calculator draws this plot and a residual table for any data.</p>
+<h3>Residuals vs run order (independence)</h3>
+<ul><li><b>Random scatter</b>: independence and constant spread reasonable (etch data: no violation).</li><li><b>Long runs</b>: positive autocorrelation. <b>Alternating</b>: negative autocorrelation. Both violate independence.</li><li><b>Trend</b>: time drift (tool wear, temperature). <b>Cyclic</b>: periodic source (shifts, batches).</li><li><b>Changing spread</b>: non-constant variance.</li></ul>
+<h3>Residuals vs fitted values</h3>
+<p>Checks constant variance and model adequacy; residuals should be structureless and unrelated to \(\hat y\) (etch: no unusual structure).</p>
+<ul><li><b>Fan / reverse fan</b>: heteroscedasticity. <b>Curvature</b>: missing quadratic term or transformation. <b>Systematic trend</b>: wrong functional form. <b>Clusters</b>: missing factor.</li></ul>
+<h3>Bartlett's test for equal variances</h3>
+<p>\(H_0:\sigma_1^2=\dots=\sigma_a^2\) vs \(H_1\): not all equal. For independent samples from <b>normal</b> populations:</p>
+<div class="f">\[ \chi_0^2=2.3026\,\frac qc\ \sim\ \chi^2_{a-1}\ (\text{approx.}),\quad q=(N-a)\log_{10}S_p^2-\sum_i(n_i-1)\log_{10}S_i^2 \]
+\[ c=1+\frac{1}{3(a-1)}\left[\sum_i\frac1{n_i-1}-\frac1{N-a}\right],\qquad S_p^2=\frac{\sum_i(n_i-1)S_i^2}{N-a} \]</div>
+<p>Reject \(H_0\) if \(\chi_0^2>\chi^2_{\alpha,a-1}\). (\(2.3026=\ln 10\) converts \(\log_{10}\) to natural log.)</p>
+<div class="box ex"><b>Etch:</b> \(S^2=400.7,280.3,421.3,232.5\); \(S_p^2=333.7\); \(q=0.21\); \(c=1.10\); \(\chi_0^2=2.3026(0.21/1.10)=0.43<\chi^2_{0.05,3}=7.81\). Do not reject: <b>no evidence that the variances differ</b>, agreeing with the residual-vs-fitted plot.</div>
+<div class="box nt"><b>Note:</b> Bartlett's test is sensitive to non-normality; the slide's "no evidence that all four variances are not the same" is a double negative, meaning no evidence of unequal variances.</div></section>
+
+<section id="calc"><h2>Calculator</h2>
+<p class="mut">One group per line, values separated by commas or spaces (unequal sizes allowed). Default = plasma etch data.</p>
+<textarea id="cd" rows="5" style="width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line)">575 542 530 539 570
+565 593 590 579 610
+600 651 610 637 629
+725 700 715 685 710</textarea>
+<div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><label><input type="checkbox" id="bf"> Bonferroni-adjust pairwise CIs</label><button class="p" id="go">Compute</button></div>
+<div class="out" id="co"></div><svg id="npp" class="sg" viewBox="0 0 700 280"></svg><svg id="rvf" class="sg" viewBox="0 0 700 280"></svg>
+<h3>Quick tools</h3>
+<div class="row"><b>Z test:</b><label>\(\bar x\)<input type="number" id="zx" value="470"></label><label>\(\mu_0\)<input type="number" id="zm" value="500"></label><label>\(\sigma\)<input type="number" id="zs" value="63.25"></label><label>n<input type="number" id="zn" value="10"></label><select id="zt"><option value="2">two-tailed</option><option value="r">right</option><option value="l">left</option></select></div>
+<div class="out" id="zo"></div>
+<div class="row"><b>Bonferroni:</b><label>r intervals<input type="number" id="br" value="5"></label><label>&alpha;<input type="number" id="ba" value="0.05" step="0.01"></label></div><div class="out" id="bo"></div></section>
+
+<section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order. Each formula is followed by its notation.</p><div id="fl"></div>
+<h3>Notation</h3><table class="ft"><tr><td>\(a\)</td><td>number of treatments</td><td>\(n,\ n_i\)</td><td>replicates per treatment (balanced / unbalanced)</td></tr><tr><td>\(N\)</td><td>total observations</td><td>\(y_{ij}\)</td><td>\(j\)th observation of treatment \(i\)</td></tr><tr><td>\(\mu,\ \tau_i\)</td><td>overall mean, effect of treatment \(i\)</td><td>\(\varepsilon_{ij}\)</td><td>random error</td></tr><tr><td>\(\alpha,\ \beta\)</td><td>Type I, Type II error probabilities</td><td>\(e_{ij}\)</td><td>residual</td></tr></table></section></main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const D=[
+["D1","Partition \\(SS_T=SS_{Tr}+SS_E\\)",String.raw`<p>Add and subtract \(\bar y_{i\cdot}\) inside each square.</p>
+\[\sum_{i}\sum_{j}(y_{ij}-\bar y_{\cdot\cdot})^2\]
+\[=\sum_{i}\sum_{j}\big[(\bar y_{i\cdot}-\bar y_{\cdot\cdot})+(y_{ij}-\bar y_{i\cdot})\big]^2\]
+<p>Expanding the square gives three pieces. The first piece does not depend on \(j\), so summing over \(j\) gives a factor \(n\):</p>
+\[\sum_{i}\sum_{j}(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2=n\sum_{i}(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2=SS_{Tr}\]
+<p>The second piece is the error sum of squares:</p>
+\[\sum_{i}\sum_{j}(y_{ij}-\bar y_{i\cdot})^2=SS_E\]
+<p>The third piece is the cross-product term:</p>
+\[2\sum_{i}(\bar y_{i\cdot}-\bar y_{\cdot\cdot})\sum_{j}(y_{ij}-\bar y_{i\cdot})\]
+<p>It vanishes because the inner sum is zero for every \(i\):</p>
+\[\sum_{j}(y_{ij}-\bar y_{i\cdot})=y_{i\cdot}-n\bar y_{i\cdot}\]
+\[=y_{i\cdot}-n\,\frac{y_{i\cdot}}{n}=0\]
+<p>Therefore</p>
+\[SS_T=SS_{Tr}+SS_E\]`],
+["D2","Degrees of freedom \\(N-1=(a-1)+(N-a)\\)",String.raw`<p>\(SS_T\) uses \(N\) deviations about one estimated mean:</p>
+\[df_T=N-1\]
+<p>\(SS_{Tr}\) uses \(a\) treatment means about \(\bar y_{\cdot\cdot}\):</p>
+\[df_{Tr}=a-1\]
+<p>\(SS_E\) uses \(n\) values in each of \(a\) groups, each about its own mean:</p>
+\[df_E=a(n-1)=an-a=N-a\]
+<p>Check:</p>
+\[(a-1)+(N-a)=N-1\]`],
+["D3","Computing formulas for \\(SS_T\\) and \\(SS_{Tr}\\)",String.raw`<p>Expand \(SS_T\) and use \(\sum_{i,j}y_{ij}=y_{\cdot\cdot}\) and \(\bar y_{\cdot\cdot}=y_{\cdot\cdot}/N\):</p>
+\[SS_T=\sum_{i,j}(y_{ij}-\bar y_{\cdot\cdot})^2\]
+\[=\sum_{i,j}y_{ij}^2-2\bar y_{\cdot\cdot}\sum_{i,j}y_{ij}+N\bar y_{\cdot\cdot}^2\]
+\[=\sum_{i,j}y_{ij}^2-2\,\frac{y_{\cdot\cdot}^2}{N}+\frac{y_{\cdot\cdot}^2}{N}\]
+\[SS_T=\sum_{i,j}y_{ij}^2-\frac{y_{\cdot\cdot}^2}{N}\]
+<p>Now expand \(SS_{Tr}\):</p>
+\[SS_{Tr}=n\sum_{i}(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2\]
+\[=n\sum_{i}\bar y_{i\cdot}^2-2n\bar y_{\cdot\cdot}\sum_{i}\bar y_{i\cdot}+na\,\bar y_{\cdot\cdot}^2\]
+<p>Since \(\sum_i\bar y_{i\cdot}=a\bar y_{\cdot\cdot}\) and \(na=N\):</p>
+\[SS_{Tr}=n\sum_{i}\bar y_{i\cdot}^2-N\bar y_{\cdot\cdot}^2\]
+<p>Finally use \(n\bar y_{i\cdot}^2=y_{i\cdot}^2/n\):</p>
+\[SS_{Tr}=\frac1n\sum_{i}y_{i\cdot}^2-\frac{y_{\cdot\cdot}^2}{N}\]`],
+["D4","\\(E(MS_E)=\\sigma^2\\)",String.raw`<p>First rewrite \(SS_E\). Expand the square:</p>
+\[SS_E=\sum_{i,j}\big(y_{ij}^2-2y_{ij}\bar y_{i\cdot}+\bar y_{i\cdot}^2\big)\]
+<p>Sum over \(j\) inside each group:</p>
+\[\sum_{j}2y_{ij}\bar y_{i\cdot}=2n\bar y_{i\cdot}^2,\qquad \sum_{j}\bar y_{i\cdot}^2=n\bar y_{i\cdot}^2\]
+\[SS_E=\sum_{i,j}y_{ij}^2-n\sum_{i}\bar y_{i\cdot}^2\]
+\[SS_E=\sum_{i,j}y_{ij}^2-\frac1n\sum_{i}y_{i\cdot}^2\]
+<p>Substitute the model:</p>
+\[y_{ij}=\mu+\tau_i+\varepsilon_{ij},\qquad y_{i\cdot}=n\mu+n\tau_i+\varepsilon_{i\cdot}\]
+<p>Use \(E(\varepsilon_{ij}^2)=\sigma^2\), \(E(\varepsilon_{i\cdot}^2)=n\sigma^2\), zero mean for cross products with \(\varepsilon\), and \(\sum\tau_i=0\):</p>
+\[E\Big(\sum_{i,j}y_{ij}^2\Big)=N\mu^2+n\sum_{i}\tau_i^2+N\sigma^2\]
+\[E\Big(\frac1n\sum_{i}y_{i\cdot}^2\Big)=N\mu^2+n\sum_{i}\tau_i^2+a\sigma^2\]
+<p>Subtract:</p>
+\[E(SS_E)=(N-a)\sigma^2\]
+\[E(MS_E)=\frac{E(SS_E)}{N-a}=\sigma^2\]`],
+["D5","\\(E(MS_{Tr})=\\sigma^2+\\dfrac{n\\sum\\tau_i^2}{a-1}\\)",String.raw`<p>Start from the computing formula:</p>
+\[SS_{Tr}=\frac1n\sum_{i}y_{i\cdot}^2-\frac{y_{\cdot\cdot}^2}{N}\]
+<p>The first part was found in D4:</p>
+\[E\Big(\frac1n\sum_{i}y_{i\cdot}^2\Big)=N\mu^2+n\sum_{i}\tau_i^2+a\sigma^2\]
+<p>For the second part, \(y_{\cdot\cdot}=N\mu+\varepsilon_{\cdot\cdot}\), so</p>
+\[E(y_{\cdot\cdot}^2)=N^2\mu^2+N\sigma^2\]
+\[E\Big(\frac{y_{\cdot\cdot}^2}{N}\Big)=N\mu^2+\sigma^2\]
+<p>Subtract:</p>
+\[E(SS_{Tr})=(a-1)\sigma^2+n\sum_{i}\tau_i^2\]
+\[E(MS_{Tr})=\frac{E(SS_{Tr})}{a-1}=\sigma^2+\frac{n\sum_{i}\tau_i^2}{a-1}\]`],
+["D6","Distribution of \\(F_0\\) (Cochran's theorem)",String.raw`<p>The \(y_{ij}\) are independent normal, so sums of squares of them are \(\sigma^2\) times chi-square variables. Under \(H_0\):</p>
+\[\frac{SS_T}{\sigma^2}=\sum Z_i^2\sim\chi^2_{N-1}\]
+<p>and \(SS_T\) splits into two parts whose degrees of freedom add up:</p>
+\[SS_T=SS_{Tr}+SS_E\]
+\[N-1=(a-1)+(N-a)\]
+<p><b>Cochran:</b> if \(\sum_{i=1}^{\nu}Z_i^2=Q_1+\dots+Q_s\) with \(Q_k\) having \(\nu_k\) df, then the \(Q_k\) are independent chi-squares if and only if</p>
+\[\nu=\nu_1+\nu_2+\dots+\nu_s\]
+<p>Hence</p>
+\[\frac{SS_{Tr}}{\sigma^2}\sim\chi^2_{a-1},\qquad \frac{SS_E}{\sigma^2}\sim\chi^2_{N-a},\qquad\text{independent}\]
+<p>Divide each by its df; \(\sigma^2\) cancels:</p>
+\[F_0=\frac{(SS_{Tr}/\sigma^2)/(a-1)}{(SS_E/\sigma^2)/(N-a)}\]
+\[F_0=\frac{MS_{Tr}}{MS_E}\sim F_{a-1,\,N-a}\]`],
+["D7","Least squares estimators \\(\\hat\\mu,\\ \\hat\\tau_i\\)",String.raw`<p>Minimise the sum of squared errors:</p>
+\[L=\sum_{i}\sum_{j}(y_{ij}-\mu-\tau_i)^2\]
+<p>Differentiate with respect to \(\mu\):</p>
+\[\frac{\partial L}{\partial\mu}=-2\sum_{i}\sum_{j}(y_{ij}-\hat\mu-\hat\tau_i)=0\]
+\[N\hat\mu+n\sum_{i}\hat\tau_i=y_{\cdot\cdot}\]
+<p>Differentiate with respect to each \(\tau_i\):</p>
+\[\frac{\partial L}{\partial\tau_i}=-2\sum_{j}(y_{ij}-\hat\mu-\hat\tau_i)=0\]
+\[n\hat\mu+n\hat\tau_i=y_{i\cdot},\qquad i=1,\dots,a\]
+<p>Adding the last \(a\) equations gives the first, so the system has no unique solution. Impose the constraint:</p>
+\[\sum_{i}\hat\tau_i=0\]
+<p>The first equation becomes</p>
+\[N\hat\mu=y_{\cdot\cdot}\ \Rightarrow\ \hat\mu=\bar y_{\cdot\cdot}\]
+<p>and each of the other equations gives</p>
+\[\hat\tau_i=\bar y_{i\cdot}-\hat\mu=\bar y_{i\cdot}-\bar y_{\cdot\cdot}\]`],
+["D8","Confidence interval for \\(\\mu_i\\)",String.raw`<p>The treatment average is normal:</p>
+\[\bar y_{i\cdot}\sim N\Big(\mu_i,\ \frac{\sigma^2}{n}\Big)\]
+\[Z=\frac{\bar y_{i\cdot}-\mu_i}{\sigma/\sqrt n}\sim N(0,1)\]
+<p>\(\sigma^2\) is unknown, so use \(MS_E\), which is independent of \(\bar y_{i\cdot}\):</p>
+\[\frac{(N-a)\,MS_E}{\sigma^2}\sim\chi^2_{N-a}\]
+\[T=\frac{\bar y_{i\cdot}-\mu_i}{\sqrt{MS_E/n}}\sim t_{N-a}\]
+<p>Then</p>
+\[P\big(-t_{\alpha/2,N-a}\le T\le t_{\alpha/2,N-a}\big)=1-\alpha\]
+<p>Solving for \(\mu_i\):</p>
+\[\bar y_{i\cdot}-t_{\alpha/2,N-a}\sqrt{\frac{MS_E}{n}}\ \le\ \mu_i\ \le\ \bar y_{i\cdot}+t_{\alpha/2,N-a}\sqrt{\frac{MS_E}{n}}\]`],
+["D9","Confidence interval for \\(\\mu_i-\\mu_j\\)",String.raw`<p>The two averages are independent, so their variances add:</p>
+\[\mathrm{Var}(\bar y_{i\cdot}-\bar y_{j\cdot})=\frac{\sigma^2}{n}+\frac{\sigma^2}{n}=\frac{2\sigma^2}{n}\]
+<p>Estimate \(\sigma^2\) by \(MS_E\):</p>
+\[T=\frac{(\bar y_{i\cdot}-\bar y_{j\cdot})-(\mu_i-\mu_j)}{\sqrt{2MS_E/n}}\sim t_{N-a}\]
+<p>Invert \(P(|T|\le t_{\alpha/2,N-a})=1-\alpha\) as in D8:</p>
+\[(\bar y_{i\cdot}-\bar y_{j\cdot})\pm t_{\alpha/2,N-a}\sqrt{\frac{2MS_E}{n}}\]
+<p>For unbalanced data replace \(2/n\) by</p>
+\[\frac1{n_i}+\frac1{n_j}\]`],
+["D10","Bonferroni inequality \\(P(\\text{all correct})\\ge1-r\\alpha\\)",String.raw`<p>For any events \(A_1,\dots,A_r\):</p>
+\[P(A_1\cup A_2\cup\dots\cup A_r)\le\sum_{i=1}^{r}P(A_i)\]
+<p>Let \(A_i=\{\text{the }i\text{th CI is incorrect}\}\) with \(P(A_i)=\alpha\):</p>
+\[P(\text{at least one CI incorrect})\le r\alpha\]
+<p>Take the complement:</p>
+\[P(\text{all }r\text{ CIs correct})\ge1-r\alpha\]
+<p>Examples with \(\alpha=0.05\):</p>
+\[r=5:\ 1-5(0.05)=0.75\]
+\[r=10:\ 1-10(0.05)=0.50\]`],
+["D11","Sums of squares for unbalanced data",String.raw`<p>Repeat D1 and D3 with \(n\) replaced by \(n_i\) and \(N=\sum n_i\). The cross term still vanishes:</p>
+\[\sum_{j=1}^{n_i}(y_{ij}-\bar y_{i\cdot})=0\]
+<p>The treatment sum of squares picks up a weight \(n_i\):</p>
+\[SS_{Tr}=\sum_{i=1}^{a}n_i(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2\]
+\[SS_{Tr}=\sum_{i=1}^{a}\frac{y_{i\cdot}^2}{n_i}-\frac{y_{\cdot\cdot}^2}{N}\]
+<p>The error degrees of freedom are</p>
+\[df_E=\sum_{i=1}^{a}(n_i-1)=N-a\]`],
+["D12","Coding does not change the sums of squares",String.raw`<p>Subtract a constant \(c\) from every observation:</p>
+\[y'_{ij}=y_{ij}-c\]
+<p>Then every mean shifts by the same constant:</p>
+\[\bar y'_{i\cdot}=\bar y_{i\cdot}-c,\qquad \bar y'_{\cdot\cdot}=\bar y_{\cdot\cdot}-c\]
+<p>All deviations are unchanged, because \(c\) cancels:</p>
+\[y'_{ij}-\bar y'_{i\cdot}=y_{ij}-\bar y_{i\cdot}\]
+\[\bar y'_{i\cdot}-\bar y'_{\cdot\cdot}=\bar y_{i\cdot}-\bar y_{\cdot\cdot}\]
+<p>Hence \(SS_T\), \(SS_{Tr}\) and \(SS_E\) are all unchanged.</p>`],
+["D13","The one-sample \\(t\\) statistic from the definition of \\(T\\)",String.raw`<p>Take the two ingredients:</p>
+\[Z=\frac{\bar X-\mu}{\sigma/\sqrt n},\qquad U=\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\]
+<p>Substitute into \(T=Z/\sqrt{U/(n-1)}\):</p>
+\[T=\frac{(\bar X-\mu)/(\sigma/\sqrt n)}{\sqrt{S^2/\sigma^2}}\]
+<p>\(\sigma\) cancels:</p>
+\[T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\]`],
+["D14","The \\(F\\) statistic for two variances",String.raw`<p>For two independent normal samples:</p>
+\[U_k=\frac{(n_k-1)S_k^2}{\sigma_k^2}\sim\chi^2_{n_k-1},\qquad k=1,2\]
+<p>Divide each by its df and take the ratio:</p>
+\[F=\frac{U_1/(n_1-1)}{U_2/(n_2-1)}=\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,\,n_2-1}\]
+<p>If \(\sigma_1^2=\sigma_2^2\):</p>
+\[F=\frac{S_1^2}{S_2^2}\]`],
+["D15","The \\(Z\\) statistic for a mean with known \\(\\sigma\\)",String.raw`<p>For independent observations:</p>
+\[E(\bar x)=\mu,\qquad \mathrm{Var}(\bar x)=\frac{\sigma^2}{n}\]
+<p>\(\bar x\) is normal (exactly for a normal population, approximately by the CLT otherwise):</p>
+\[\bar x\sim N\Big(\mu,\ \frac{\sigma^2}{n}\Big)\]
+<p>Standardise under \(H_0:\mu=\mu_0\):</p>
+\[Z=\frac{\bar x-\mu_0}{\sigma/\sqrt n}\sim N(0,1)\]`],
+["D16","Fitted value, residual and normal score",String.raw`<p>The fitted value is</p>
+\[\hat y_{ij}=\hat\mu+\hat\tau_i\]
+\[=\bar y_{\cdot\cdot}+(\bar y_{i\cdot}-\bar y_{\cdot\cdot})=\bar y_{i\cdot}\]
+<p>so the residual is the deviation from the treatment mean:</p>
+\[e_{ij}=y_{ij}-\bar y_{i\cdot}\]
+<p>Residuals within a treatment sum to zero. For the normal probability plot, the plotting position of the \(i\)th ordered residual is</p>
+\[p_i=\frac{i-0.5}{n}=P(Z\le z_i)=\Phi(z_i)\]
+\[z_i=\Phi^{-1}\!\Big(\frac{i-0.5}{n}\Big)\]
+<p>If errors are normal, the points \((e_{(i)},z_i)\) lie close to a straight line.</p>`]];
+$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)));
+const F=[["1. Totals &amp; means",[["\\(y_{i\\cdot}=\\sum_j y_{ij},\\ \\bar y_{i\\cdot}=y_{i\\cdot}/n,\\ \\bar y_{\\cdot\\cdot}=y_{\\cdot\\cdot}/N,\\ N=an\\)","\\(y_{i\\cdot}\\) treatment total; \\(y_{\\cdot\\cdot}\\) grand total"],["\\(\\mu_i=\\mu+\\tau_i,\\ \\sum\\tau_i=0\\)","\\(\\mu_i\\) treatment mean"]]],
+["2. ANOVA",[["\\(SS_T=\\sum y_{ij}^2-y_{\\cdot\\cdot}^2/N\\)","total corrected SS, df \\(N-1\\)"],["\\(SS_{Tr}=\\frac1n\\sum y_{i\\cdot}^2-y_{\\cdot\\cdot}^2/N=n\\sum(\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot})^2\\)","df \\(a-1\\); unbalanced: \\(\\sum y_{i\\cdot}^2/n_i-y_{\\cdot\\cdot}^2/N\\)"],["\\(SS_E=SS_T-SS_{Tr}\\)","df \\(N-a\\)"],["\\(MS_{Tr}=SS_{Tr}/(a-1),\\ MS_E=SS_E/(N-a)\\)","mean squares"],["\\(F_0=MS_{Tr}/MS_E;\\ \\text{reject if }F_0>F_{\\alpha,a-1,N-a}\\)","\\(\\alpha\\) significance level"],["\\(E(MS_E)=\\sigma^2,\\ E(MS_{Tr})=\\sigma^2+n\\sum\\tau_i^2/(a-1)\\)","\\(\\sigma^2\\) error variance"]]],
+["3. Estimation &amp; CIs",[["\\(\\hat\\mu=\\bar y_{\\cdot\\cdot},\\ \\hat\\tau_i=\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot},\\ \\hat\\mu_i=\\bar y_{i\\cdot}\\)","least squares with \\(\\sum\\hat\\tau_i=0\\)"],["\\(\\bar y_{i\\cdot}\\pm t_{\\alpha/2,N-a}\\sqrt{MS_E/n}\\)","CI for \\(\\mu_i\\)"],["\\((\\bar y_{i\\cdot}-\\bar y_{j\\cdot})\\pm t_{\\alpha/2,N-a}\\sqrt{2MS_E/n}\\)","CI for \\(\\mu_i-\\mu_j\\)"],["\\(P(\\text{all }r\\text{ correct})\\ge1-r\\alpha\\)","Bonferroni; use \\(\\alpha/r\\) each"]]],
+["4. Sampling distributions &amp; tests",[["\\(\\chi^2=\\sum Z_i^2;\\ (n-1)S^2/\\sigma^2\\sim\\chi^2_{n-1}\\)","\\(S^2\\) sample variance"],["\\(T=Z/\\sqrt{U/n};\\ t=(\\bar X-\\mu)/(S/\\sqrt n)\\)","\\(U\\sim\\chi^2_n\\)"],["\\(F=(U_1/n_1)/(U_2/n_2);\\ F=S_1^2/S_2^2\\)","equal variances"],["\\(\\binom Nn=\\frac{N!}{n!(N-n)!}\\)","number of samples without replacement"],["\\(Z=(\\bar x-\\mu_0)/(\\sigma/\\sqrt n)\\)","known \\(\\sigma\\); crit. \\(\\pm1.96,\\pm1.65\\)"]]],
+["5. Diagnostics",[["\\(e_{ij}=y_{ij}-\\hat y_{ij}=y_{ij}-\\bar y_{i\\cdot}\\)","residual"],["\\(p_i=(i-0.5)/n,\\ z_i=\\Phi^{-1}(p_i)\\)","normal probability plot"],["\\(S_p^2=\\sum(n_i-1)S_i^2/(N-a)\\)","pooled variance"],["\\(q=(N-a)\\log_{10}S_p^2-\\sum(n_i-1)\\log_{10}S_i^2\\)","Bartlett \\(q\\)"],["\\(c=1+\\frac{1}{3(a-1)}[\\sum\\frac1{n_i-1}-\\frac1{N-a}]\\)","correction factor"],["\\(\\chi_0^2=2.3026\\,q/c;\\ \\text{reject if}>\\chi^2_{\\alpha,a-1}\\)","Bartlett statistic"]]]];
+$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('');
+// theme: keep scroll position
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// overview widget
+function viz(){const d=+$('vd').value,s=+$('vs').value;let seed=7,rnd=()=>(seed=(seed*9301+49297)%233280)/233280-.5,Y=[],svg='';
+for(let i=0;i<4;i++){Y.push([]);for(let j=0;j<5;j++)Y[i].push(100+d*(i-1.5)+s*rnd()*2)}
+const all=Y.flat(),lo=Math.min(...all),hi=Math.max(...all),M=y=>195-(y-lo)/((hi-lo)||1)*170;svg=`<rect x="10" y="10" width="680" height="200" fill="none" stroke="var(--line)"/>`;
+Y.forEach((r,i)=>{r.forEach(y=>svg+=`<circle cx="${100+i*160}" cy="${M(y)}" r="5" fill="var(--ac)"/>`);const m=r.reduce((x,y)=>x+y)/5;svg+=`<line x1="${70+i*160}" x2="${130+i*160}" y1="${M(m)}" y2="${M(m)}" stroke="var(--bad)" stroke-width="2"/>`});
+const gm=Y.flat().reduce((a,b)=>a+b)/20,tr=5*Y.reduce((a,r)=>a+(r.reduce((x,y)=>x+y)/5-gm)**2,0),er=Y.reduce((a,r)=>{const m=r.reduce((x,y)=>x+y)/5;return a+r.reduce((x,y)=>x+(y-m)**2,0)},0),f=(tr/3)/(er/16),fc=jStat.centralF.inv(.95,3,16);
+$('vsv').innerHTML=svg;$('b1').style.width=100*tr/(tr+er)+'%';$('b2').style.width=100*er/(tr+er)+'%';$('b1').textContent='SSTr';$('b2').textContent='SSE';
+$('vo').innerHTML=`SSTr = ${g(tr,1)}, SSE = ${g(er,1)}, F<sub>0</sub> = ${g(f,2)} vs F<sub>0.05,3,16</sub> = ${g(fc,2)} &rarr; <b>${f>fc?'reject H0 (means differ)':'do not reject H0'}</b>`}
+$('vd').oninput=$('vs').oninput=viz;viz();
+// scatter helper
+function sc(id,pts,xl,yl,line){const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),X=x=>80+(x-x0)/((x1-x0)||1)*560,Y=y=>220-(y-y0)/((y1-y0)||1)*170;
+let s=`<clipPath id="cp${id}"><rect x="60" y="30" width="600" height="210"/></clipPath><rect x="60" y="30" width="600" height="210" fill="none" stroke="var(--line)"/>`;if(line)s+=`<line clip-path="url(#cp${id})" x1="${X(x0)}" y1="${Y(line[0]+line[1]*x0)}" x2="${X(x1)}" y2="${Y(line[0]+line[1]*x1)}" stroke="var(--bad)"/>`;
+pts.forEach(p=>s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4" fill="var(--ac)"/>`);s+=`<text x="360" y="268" text-anchor="middle" fill="var(--ink)" font-size="14">${xl}</text><text x="360" y="20" text-anchor="middle" fill="var(--ink)" font-size="14">${yl}</text>`;$(id).innerHTML=s}
+// ANOVA calculator
+function calc(){const G=$('cd').value.trim().split(/\n+/).map(l=>l.trim().split(/[\s,]+/).map(Number).filter(v=>!isNaN(v))).filter(a=>a.length),a=G.length,al=+$('al').value;if(a<2){$('co').textContent='Enter at least 2 groups.';return}
+const ni=G.map(x=>x.length),N=ni.reduce((p,c)=>p+c),yi=G.map(x=>x.reduce((p,c)=>p+c)),mi=yi.map((v,i)=>v/ni[i]),yy=yi.reduce((p,c)=>p+c),gm=yy/N,sy2=G.flat().reduce((p,c)=>p+c*c,0),sst=sy2-yy*yy/N,sstr=yi.reduce((p,v,i)=>p+v*v/ni[i],0)-yy*yy/N,sse=sst-sstr,mtr=sstr/(a-1),mse=sse/(N-a),f=mtr/mse,fc=jStat.centralF.inv(1-al,a-1,N-a),p=1-jStat.centralF.cdf(f,a-1,N-a),tq=jStat.studentt.inv(1-al/2,N-a);
+let h=`<table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F0</th></tr><tr><td>Treatments</td><td>${g(sstr,2)}</td><td>${a-1}</td><td>${g(mtr,2)}</td><td>${g(f,2)}</td></tr><tr><td>Error</td><td>${g(sse,2)}</td><td>${N-a}</td><td>${g(mse,2)}</td><td></td></tr><tr><td>Total</td><td>${g(sst,2)}</td><td>${N-1}</td><td></td><td></td></tr></table>F crit (${al}, ${a-1}, ${N-a}) = ${g(fc,3)}; p-value = ${p<1e-4?p.toExponential(2):g(p,4)} &rarr; <b>${f>fc?'Reject H0: treatment means differ':'Fail to reject H0'}</b><br>Grand mean = ${g(gm,3)}`;
+h+=`<table><tr><th>Group</th><th>n</th><th>Total</th><th>Mean</th><th>Effect &tau;&#770;</th><th>${100*(1-al)}% CI for &mu;</th></tr>${mi.map((m,i)=>{const w=tq*Math.sqrt(mse/ni[i]);return`<tr><td>${i+1}</td><td>${ni[i]}</td><td>${g(yi[i],2)}</td><td>${g(m,3)}</td><td>${g(m-gm,3)}</td><td>${g(m-w,2)} to ${g(m+w,2)}</td></tr>`}).join('')}</table>`;
+const r=a*(a-1)/2,aa=$('bf').checked?al/r:al,t2=jStat.studentt.inv(1-aa/2,N-a);h+=`<b>Pairwise CIs</b> (each at level ${g(100*(1-aa),2)}%, t = ${g(t2,3)}${$('bf').checked?', Bonferroni, simultaneous &ge; '+g(100*(1-al),1)+'%':''})<table><tr><th>Pair</th><th>Diff</th><th>CI</th><th>Excludes 0?</th></tr>`;
+for(let i=0;i<a;i++)for(let j=i+1;j<a;j++){const d=mi[i]-mi[j],w=t2*Math.sqrt(mse*(1/ni[i]+1/ni[j]));h+=`<tr><td>${i+1}&minus;${j+1}</td><td>${g(d,2)}</td><td>${g(d-w,2)} to ${g(d+w,2)}</td><td>${Math.abs(d)>w?'yes':'no'}</td></tr>`}h+='</table>';
+if(ni.every(n=>n>1)){const s2=G.map((x,i)=>x.reduce((p,c)=>p+(c-mi[i])**2,0)/(ni[i]-1)),sp=s2.reduce((p,v,i)=>p+(ni[i]-1)*v,0)/(N-a),q=(N-a)*Math.log10(sp)-s2.reduce((p,v,i)=>p+(ni[i]-1)*Math.log10(v),0),c=1+(ni.reduce((p,n)=>p+1/(n-1),0)-1/(N-a))/(3*(a-1)),x2=2.3026*q/c,xc=jStat.chisquare.inv(1-al,a-1);h+=`<b>Bartlett:</b> S&sup2; = ${s2.map(v=>g(v,1)).join(', ')}; S<sub>p</sub>&sup2; = ${g(sp,2)}; q = ${g(q,3)}; c = ${g(c,3)}; &chi;&sup2;<sub>0</sub> = ${g(x2,3)} vs &chi;&sup2;<sub>${al},${a-1}</sub> = ${g(xc,2)} &rarr; <b>${x2>xc?'variances differ':'no evidence of unequal variances'}</b>`}
+$('co').innerHTML=h;
+const res=[];G.forEach((x,i)=>x.forEach(y=>res.push([y-mi[i],mi[i]])));const so=res.map(r=>r[0]).sort((u,v)=>u-v),n=so.length,zs=so.map((_,i)=>jStat.normal.inv((i+.5)/n,0,1)),mx=so.reduce((p,c)=>p+c)/n,sl=zs.reduce((p,z,i)=>p+(so[i]-mx)*z,0)/so.reduce((p,e)=>p+(e-mx)**2,0);
+sc('npp',so.map((e,i)=>[e,zs[i]]),'Ordered residual e(i)  (normal probability plot: should be roughly linear)','z_i',[0,sl]);sc('rvf',res.map(r=>[r[1],r[0]]),'Fitted value (should show no pattern)','Residual');
+if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([$('co')])}
+$('go').onclick=calc;$('bf').onchange=calc;
+// quick tools
+function qt(){const z=(+$('zx').value-+$('zm').value)/(+$('zs').value/Math.sqrt(+$('zn').value)),t=$('zt').value,al=.05,c=t=='2'?jStat.normal.inv(1-al/2,0,1):jStat.normal.inv(1-al,0,1),rej=t=='2'?Math.abs(z)>c:t=='r'?z>c:z<-c;$('zo').innerHTML=`Z = ${g(z,3)}; critical value at 5%: ${t=='l'?'-':t=='2'?'&plusmn;':''}${g(c,3)} &rarr; <b>${rej?'Reject H0':'Fail to reject H0'}</b>`;const r=+$('br').value,a=+$('ba').value;$('bo').innerHTML=`Simultaneous confidence &ge; ${g(1-r*a,3)}; per-interval level for overall ${g(1-a,2)}: ${g(100*(1-a/r),3)}%`}
+document.querySelectorAll('#zx,#zm,#zs,#zn,#zt,#br,#ba').forEach(e=>e.oninput=qt);qt();calc();
+</script></body></html>

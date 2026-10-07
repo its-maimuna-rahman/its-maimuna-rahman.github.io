@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Point Estimation – AST 203</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .4rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.25rem;margin:1.8rem 0 .6rem}
+main{max-width:860px;margin:0 auto;padding:0 18px 80px}section{padding:44px 0 30px;border-top:1px solid var(--line)}
+p{margin:.9em 0}li{margin:.6em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a{color:var(--ink);text-decoration:none;white-space:nowrap;padding:5px 12px;border:1px solid var(--line);background:var(--card);font-size:.95rem;border-radius:3px}
+nav a:hover{border-color:var(--ac)}
+a:focus-visible,summary:focus-visible,input:focus-visible+i{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 18px;margin:18px 0}
+.f{font-size:1.15rem;text-align:center;padding:14px 8px;margin:18px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto;overflow-y:hidden}
+.mut{color:var(--mut)}.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:620px){.two{grid-template-columns:1fr}}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}.cards .box{margin:0}.cards h3{margin:0 0 .4rem;font-size:1.1rem}.cards .f{margin:10px 0;padding:10px 6px;font-size:1rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0}td,th{border:1px solid var(--line);padding:6px 12px}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:16px 0}.dv summary{list-style:none;display:flex;gap:4px 14px;align-items:baseline;padding:16px 20px;cursor:pointer;color:var(--ac)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--mut)}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .ch{margin-left:auto;align-self:center;transition:transform .2s}.dv[open] .ch{transform:rotate(180deg)}
+.dv .bd{padding:10px 24px 20px;border-top:1px solid var(--line);color:var(--ink)}.dv .bd p,.dv .bd li{margin:1em 0}.dv .bd mjx-container[display=true]{margin:1.3em 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;margin-left:auto;padding:0 4px;position:relative}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{E:'\\mathrm{E}',V:'\\mathrm{V}',xb:'\\bar{x}',Xb:'\\bar{X}',hat:['\\widehat{#1}',1],S:'\\textstyle\\sum_{i=1}^{n}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head><body>
+<nav><a href="#est">Estimation</a><a href="#mom">Moments</a><a href="#eff">Efficiency</a><a href="#suf">Sufficiency</a><a href="#mle">MLE</a><a href="#exp">Exp. family</a><a href="#umvue">UMVUE</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a><label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Point Estimation</h1><p class="mut">AST 203: Statistical Inference I. Estimation, method of moments, efficiency, sufficiency, MLE, exponential family and UMVUE. Tap any "Example" bar to see the full working.</p></header>
+
+<section id="est"><h2>1. Estimation and properties of estimators</h2>
+<p>An <b>estimator</b> is a rule (a statistic) that turns the sample into a guess for a parameter. The main ways to find one are the <b>method of moments</b>, <b>maximum likelihood</b>, <b>Bayes estimators</b> and the <b>EM algorithm</b>. A good estimator should be unbiased, consistent, efficient and sufficient. The goal is an estimator that is close to the true value with high probability.</p>
+
+<h3>1.1 Maximum likelihood: quick examples</h3>
+<p>Write the likelihood, take the log (it turns products into sums and does not change the maximiser), differentiate, set to zero.</p>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">MLE for Bernoulli, Exponential, Geometric, Normal</span></summary><div class="bd">
+<p><b>Bernoulli:</b> \(f(x,p)=p^x(1-p)^{1-x}\), \(x=0,1\). With \(s=\sum x_i\):</p>
+\[\log L=s\log p+(n-s)\log(1-p),\quad \frac{s}{p}-\frac{n-s}{1-p}=0\;\Rightarrow\;\hat p=\bar x\]
+<p><b>Exponential:</b> \(f(x,\theta)=\frac1\theta e^{-x/\theta}\), \(x>0\).</p>
+\[\log L=-n\log\theta-\frac{\sum x_i}{\theta},\quad -\frac n\theta+\frac{\sum x_i}{\theta^2}=0\;\Rightarrow\;\hat\theta=\bar x\]
+<p><b>Geometric:</b> \(f(x,p)=(1-p)^{x-1}p\), \(x=1,2,\dots\)</p>
+\[\log L=n\log p+\Big(\sum x_i-n\Big)\log(1-p),\quad \frac np-\frac{\sum x_i-n}{1-p}=0\;\Rightarrow\;\hat p=\frac1{\bar x}\]
+<p><b>Normal</b> \(N(\theta_1,\theta_2)\) with \(\theta_1=\mu,\ \theta_2=\sigma^2\):</p>
+\[\hat\theta_1=\bar X,\qquad \hat\theta_2=\frac1n\sum_{i=1}^n(x_i-\bar X)^2\]
+<p>\(\hat\theta_1\) is an unbiased estimator of \(\mu\); \(\hat\theta_2\) is a biased estimator of \(\sigma^2\).</p></div></details>
+
+<h3>1.2 Unbiasedness, bias and MSE</h3>
+<p>\(T=t(x_1,\dots,x_n)\) is <b>unbiased</b> for \(\tau(\theta)\) if its average value is the true value: no systematic over- or under-estimation.</p>
+<div class="f">\[\E[T]=\tau(\theta),\qquad \text{Bias}=\E(T)-\tau(\theta)\]</div><p class="mut">where \(T=t(x_1,\dots,x_n)\) = the estimator (a statistic), \(\theta\) = the unknown parameter, \(\tau(\theta)\) = the parameter function being estimated, \(\E\) = expectation.</p>
+<p>For a sample with \(\E(x)=\mu,\ \V(x)=\sigma^2\), the sample mean is unbiased for \(\mu\), and there are two variance estimators:</p>
+<div class="f">\[\hat S^2=\frac1n\sum(x_i-\bar x)^2\ \text{(biased)},\qquad \hat S^2=\frac1{n-1}\sum(x_i-\bar x)^2\ \text{(unbiased)}\]</div><p class="mut">where \(x_i\) = the \(i\)th observation, \(n\) = sample size, \(\bar x\) = sample mean, \(\hat S^2\) = sample variance (divisor \(n\) in the first form, \(n-1\) in the second).</p>
+<p>The <b>mean squared error</b> measures the average squared miss, and splits into variance plus squared bias:</p>
+<div class="f">\[\text{MSE}(T)=\E\big[(T-\tau(\theta))^2\big]=\V(T)+\big(\text{Bias}(T)\big)^2\]</div><p class="mut">where \(\text{MSE}(T)\) = mean squared error of \(T\), \(\V(T)\) = variance of \(T\), \(\text{Bias}(T)=\E(T)-\tau(\theta)\).</p>
+
+<h3>1.3 Consistency</h3>
+<p>\(T_n\) is <b>consistent</b> if it settles on the true value as \(n\) grows. Biased estimators can be consistent too (law of large numbers: \(\bar x\xrightarrow{p}\mu\)).</p>
+<div class="f">\[\lim_{n\to\infty}P\big(|T_n-\tau(\theta)|>\epsilon\big)=0\quad\text{for all }\epsilon>0\]</div><p class="mut">where \(T_n\) = estimator based on a sample of size \(n\), \(\tau(\theta)\) = true value, \(\epsilon\) = any small positive number, \(P\) = probability.</p>
+<p><b>Asymptotically unbiased:</b> \(\lim_{n\to\infty}B(T)=0\). <b>MSE consistent:</b> \(\lim_{n\to\infty}\E\{T-\tau(\theta)\}^2=0\). An unbiased estimator whose variance goes to \(0\) is MSE consistent.</p>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Exponential: \(\bar X\) unbiased and consistent</span></summary><div class="bd">
+<p>\(X_i\sim\) Exp with mean \(\theta\): \(\E(X_i)=\theta\), \(\V(X_i)=\theta^2\).</p>
+\[\E(\bar X)=\frac1n\sum\E(X_i)=\frac1n\cdot n\theta=\theta\]
+\[\V(\bar X)=\frac1{n^2}\sum\V(X_i)=\frac{n\theta^2}{n^2}=\frac{\theta^2}{n}\]
+<p>By Chebyshev's inequality:</p>
+\[P(|\bar X-\theta|>\epsilon)\le\frac{\V(\bar X)}{\epsilon^2}=\frac{\theta^2}{n\epsilon^2}\to0\]
+<p>So \(\bar X\xrightarrow{p}\theta\): consistent.</p></div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">\(N(0,\theta)\): \(\tilde X=\frac1n\sum X_i^2\)</span></summary><div class="bd">
+<p>\(\E(X_i)=0\), \(\V(X_i)=\theta\), so \(\E(X_i^2)=\theta\). Since \(X_i^2/\theta\sim\chi^2_1\) has variance \(2\), \(\V(X_i^2)=2\theta^2\).</p>
+\[\E(\tilde X)=\frac1n\sum\E(X_i^2)=\theta,\qquad \V(\tilde X)=\frac1{n^2}\cdot n\cdot2\theta^2=\frac{2\theta^2}{n}\to0\]
+<p>So \(\tilde X\) is unbiased and consistent.</p></div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">\(\bar x\) and \(s^2\) are consistent and MSE consistent</span></summary><div class="bd">
+<p>\(x_1,\dots,x_n\sim N(\mu,\sigma^2)\), so \(\bar x\sim N(\mu,\sigma^2/n)\), \(\E(\bar x)=\mu\), \(\V(\bar x)=\sigma^2/n\to0\).</p>
+\[\E[(\bar x-\mu)^2]=\E[(\bar x-\E\bar x)^2]=\V(\bar x)=\frac{\sigma^2}{n}\to0\]
+<p>For \(s^2=\frac1{n-1}\sum(x_i-\bar x)^2\): \(\frac{(n-1)s^2}{\sigma^2}\sim\chi^2_{n-1}\), so \(\E(s^2)=\sigma^2\) and</p>
+\[\V(s^2)=\frac{\sigma^4}{(n-1)^2}\cdot2(n-1)=\frac{2\sigma^4}{n-1}\to0\]
+<p>Unbiased with variance \(\to0\) means MSE consistent, hence consistent.</p></div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">\(\frac Tn\big(1-\frac Tn\big)\) is asymptotically unbiased for \(p(1-p)\)</span></summary><div class="bd">
+<p>\(x_i\sim b(1,p)\), \(T=\sum x_i\sim b(n,p)\): \(\E(T)=np\), \(\V(T)=np(1-p)\), \(\E(T/n)=p\).</p>
+\[\E(T^2)=\V(T)+\{\E(T)\}^2=np(1-p)+n^2p^2\]
+\[\E\Big[\frac Tn\Big(1-\frac Tn\Big)\Big]=\E\Big(\frac Tn\Big)-\frac{\E(T^2)}{n^2}=p-\frac{np(1-p)+n^2p^2}{n^2}=p(1-p)\,\frac{n-1}{n}\]
+\[\text{Bias}=p(1-p)-p(1-p)\frac{n-1}n=\frac{p(1-p)}{n}\to0\]
+<p>So it is biased but asymptotically unbiased. Also \(\E(T/n)=p\) and</p>
+\[\V\Big(\frac Tn\Big)=\frac{np(1-p)}{n^2}=\frac{p(1-p)}n\to0\]
+<p>so \(T/n\) is a consistent estimator of \(p\).</p></div></details>
+
+<h3>1.4 Efficiency and sufficiency (preview)</h3>
+<p><b>Efficiency:</b> among unbiased estimators, smaller variance means more precise; the Cramér–Rao bound gives the minimum possible variance. <b>Sufficiency:</b> the estimator keeps all the information about the parameter that is in the sample; the factorization theorem finds such statistics (e.g. \(\bar x\) is sufficient for \(\mu\) in the normal).</p>
+</section>
+
+<section id="mom"><h2>2. Method of moments</h2>
+<p>The oldest method of finding point estimators (Karl Pearson). Idea: the sample looks like the population, so <b>sample moments should match population moments</b>. A good place to start when other methods are unavailable.</p>
+<div class="f">\[\mu_k=\E(X^k)=\int_{-\infty}^{\infty}x^kf(x)\,dx,\qquad M_k=\frac1n\sum_{i=1}^nX_i^k\]</div><p class="mut">where \(\mu_k\) = \(k\)th population moment, \(M_k\) = \(k\)th sample moment, \(f(x)\) = the pdf, \(X_i\) = the \(i\)th observation, \(n\) = sample size.</p>
+<h3>2.1 Procedure</h3>
+<ol><li>Identify the \(r\) unknown parameters \(\theta_1,\dots,\theta_r\).</li><li>Compute the first \(r\) population moments \(\E(X^k)\), \(k=1,\dots,r\).</li><li>Compute the first \(r\) sample moments \(M_k\).</li><li>Set \(\E(X^k)=M_k\) for \(k=1,\dots,r\).</li><li>Solve these \(r\) equations together. The solutions \(\tilde\theta_1,\dots,\tilde\theta_r\) are the estimators.</li></ol>
+<p><b>Central-moment version</b> (handy for location–scale families):</p>
+<div class="f">\[\E(X)=\bar X,\qquad \E\big[(X-\mu)^k\big]=\frac1n\sum(X_i-\bar X)^k,\ \ k=2,3,\dots\]</div><p class="mut">where \(\bar X\) = sample mean, \(\mu=\E(X)\) = population mean, \(\E[(X-\mu)^k]\) = \(k\)th population central moment, \(\frac1n\sum(X_i-\bar X)^k\) = \(k\)th sample central moment.</p>
+<h3>2.2 Examples</h3>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">One parameter: \(f(x;\theta)=\theta x^{\theta-1}\)</span></summary><div class="bd">
+<p>\(0<x<1\), \(\theta>0\).</p>
+\[\E(X)=\int_0^1x\cdot\theta x^{\theta-1}dx=\theta\int_0^1x^\theta dx=\frac{\theta}{\theta+1}\]
+<p>Set \(\frac{\theta}{\theta+1}=\bar X\) and solve:</p>
+\[\tilde\theta=\frac{\bar X}{1-\bar X}\]</div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Gamma distribution, two parameters</span></summary><div class="bd">
+<p>\(f(x;\theta_1,\theta_2)=\dfrac{x^{\theta_1-1}e^{-x/\theta_2}}{\Gamma(\theta_1)\theta_2^{\theta_1}}\), \(x>0\). Moments:</p>
+\[\E(X)=\theta_1\theta_2=\mu,\quad \E(X^2)=\theta_1\theta_2^2+\mu^2,\quad \V(X)=\theta_1\theta_2^2\]
+<p>Equate to the sample mean and \(V=\frac1n\sum(X_i-\bar X)^2\):</p>
+\[\theta_1\theta_2=\bar X,\qquad \theta_1\theta_2^2=V\]
+<p>Dividing, \(\theta_2=V/\bar X\); substituting back, \(\theta_1=\bar X^2/V\):</p>
+\[\tilde\theta_1=\frac{\bar X^2}{V},\qquad \tilde\theta_2=\frac{V}{\bar X}\]
+<p>Useful here because the gamma MLE is hard to get (it involves \(\Gamma\)).</p></div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Normal \(N(\mu,\sigma^2)\)</span></summary><div class="bd">
+\[\E(X)=\mu,\quad \E(X^2)=\sigma^2+\mu^2\]
+\[\frac1n\sum X_i=\mu,\qquad \frac1n\sum X_i^2=\sigma^2+\mu^2\]
+\[\tilde\mu=\bar X,\qquad \tilde\sigma^2=\frac1n\sum(X_i-\bar X)^2=V\]
+<p>These are identical to the maximum likelihood estimators.</p></div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Numerical gamma data (\(n=25\))</span></summary><div class="bd">
+<p>Data: 6.9, 7.3, 6.7, 6.4, 6.3, 5.9, 7.0, 7.1, 6.5, 7.6, 7.2, 7.1, 6.1, 7.3, 7.6, 7.6, 6.7, 6.3, 5.7, 6.7, 7.5, 5.3, 5.4, 7.4, 6.9.</p>
+\[\bar X=\frac1{25}\sum X_i=6.78,\qquad V=\frac1{25}\sum(X_i-\bar X)^2=0.45\]
+\[\tilde\alpha=\frac{\bar X^2}{V}=\frac{6.78^2}{0.45}\approx102.2,\qquad \tilde\theta=\frac{V}{\bar X}=\frac{0.45}{6.78}\approx0.0664\]</div></details>
+<h3>2.3 MOM versus MLE</h3>
+<table><tr><th>Property</th><th>MOM</th><th>MLE</th></tr><tr><td>Computation</td><td>Simple</td><td>Often complex</td></tr><tr><td>Consistency</td><td>Yes</td><td>Yes</td></tr><tr><td>Efficiency</td><td>Not optimal</td><td>Asymptotically optimal</td></tr><tr><td>Invariance</td><td>No</td><td>Yes</td></tr><tr><td>Distribution knowledge</td><td>Partial</td><td>Complete</td></tr></table>
+<p><b>Pros:</b> simple, closed form, consistent, needs only moments. <b>Cons:</b> may have larger variance than MLE, may land outside the parameter space, not invariant, needs moments that may not exist. <b>Use it</b> when the MLE is hard (gamma), as a starting value for iterative MLE, or when only moments are known.</p>
+</section>
+
+<section id="eff"><h2>3. Efficiency of estimators</h2>
+<p>Take two unbiased estimators \(T_1,T_2\) of \(\tau(\theta)\). The <b>relative efficiency</b> compares their variances:</p>
+<div class="f">\[E=\frac{\V(T_2)}{\V(T_1)}\]</div><p class="mut">where \(T_1,T_2\) = two unbiased estimators of \(\tau(\theta)\), \(E\) = relative efficiency, \(\V(T_i)\) = variance of \(T_i\).</p>
+<p>If \(\V(T_1)<\V(T_2)\) then \(T_1\) is more efficient. \(E>1\): \(T_1\) is more efficient. \(E<1\): \(T_1\) is less efficient.</p>
+<h3>3.1 Mean versus the other normal estimator</h3>
+<p>For \(X_i\sim N(\mu,\sigma^2)\), \(\V(\bar x)=\sigma^2/n\), while the other estimator \(\tilde x\) has \(\V(\tilde x)=\frac\pi2\cdot\frac{\sigma^2}{n}\). So</p>
+<div class="f">\[\frac{\V(\tilde x)}{\V(\bar x)}=\frac\pi2\approx1.6,\qquad \frac{\V(\bar x)}{\V(\tilde x)}=\frac2\pi\approx0.63\]</div><p class="mut">where \(\bar x\) = sample mean, \(\tilde x\) = the other estimator of \(\mu\) used above, \(\V(\cdot)\) = variance, \(\sigma^2\) = population variance, \(n\) = sample size.</p>
+<p>\(\tilde x\) varies about \(1.6\) times as much as \(\bar x\); equivalently the variability of \(\bar x\) is only \(63\%\) of that of \(\tilde x\).</p>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Three estimators for the exponential mean</span></summary><div class="bd">
+<p>\(x_1,x_2,x_3\sim\) Exp\((\theta)\), \(f=\frac1\theta e^{-x/\theta}\), so \(\E(x_i)=\theta\), \(\V(x_i)=\theta^2\). Estimators: \(\hat\theta_1=\frac{x_1+x_2}2\), \(\hat\theta_2=\frac{x_1+2x_2}3\), \(\hat\theta_3=\bar x\).</p>
+<p><b>Unbiased:</b></p>
+\[\E(\hat\theta_1)=\frac{2\theta}2=\theta,\quad \E(\hat\theta_2)=\frac{3\theta}3=\theta,\quad \E(\hat\theta_3)=\theta\]
+<p><b>Variances:</b></p>
+\[\V(\hat\theta_1)=\frac{2\theta^2}{4}=\frac{\theta^2}2,\quad \V(\hat\theta_2)=\frac{\theta^2+4\theta^2}{9}=\frac{5\theta^2}9,\quad \V(\hat\theta_3)=\frac{3\theta^2}{9}=\frac{\theta^2}3\]
+<p>Numerically \(0.5\theta^2,\ 0.556\theta^2,\ 0.333\theta^2\), so \(\hat\theta_3\) is the most efficient. Relative to \(\hat\theta_3\):</p>
+\[\frac{\V(\hat\theta_3)}{\V(\hat\theta_1)}=\frac23\approx0.67,\qquad \frac{\V(\hat\theta_3)}{\V(\hat\theta_2)}=\frac35=0.6\]</div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Normal: \(t_1=\bar x\) versus \(t_2=\frac{2x_1+x_2+\lambda x_3}{3}\)</span></summary><div class="bd">
+<p><b>Unbiasedness of \(t_2\):</b></p>
+\[\E(t_2)=\frac13(2\mu+\mu+\lambda\mu)=\frac{(3+\lambda)\mu}{3}=\mu\;\Rightarrow\;\lambda=0,\quad t_2=\frac{2x_1+x_2}3\]
+<p><b>Variances:</b></p>
+\[\V(t_1)=\frac{\sigma^2}n,\qquad \V(t_2)=\frac19(4\sigma^2+\sigma^2+\lambda^2\sigma^2)=\frac{\sigma^2}9(5+\lambda^2)\overset{\lambda=0}{=}\frac{5\sigma^2}9\]
+<p>For \(n>2\), \(\frac{\sigma^2}n<\frac{5\sigma^2}9\), so \(t_1=\bar x\) is more efficient. The sample mean is the best linear unbiased estimator (BLUE).</p></div></details>
+<details class="dv"><summary><span class="cd">Example</span><span class="tt">Two variance estimators</span></summary><div class="bd">
+<p>For \(X_i\sim N(\mu,\sigma^2)\):</p>
+\[\hat\sigma_1^2=\frac1{n-1}\sum(X_i-\bar X)^2,\qquad \hat\sigma_2^2=\frac12(X_1-X_2)^2\]
+<p>Both are unbiased: \(\E(\hat\sigma_1^2)=\E(\hat\sigma_2^2)=\sigma^2\). Variances: \(\V(\hat\sigma_1^2)=\frac{2\sigma^4}{n-1}\), \(\V(\hat\sigma_2^2)=2\sigma^4\). Relative efficiency of \(\hat\sigma_2^2\) with respect to \(\hat\sigma_1^2\):</p>
+\[\frac{\V(\hat\sigma_1^2)}{\V(\hat\sigma_2^2)}=\frac{2\sigma^4/(n-1)}{2\sigma^4}=\frac1{n-1}\]
+<p>For \(n>2\) this is below \(1\), so \(\hat\sigma_2^2\) is less efficient.</p></div></details>
+<p class="mut">Reminder (standardising): if \(X\sim N(\mu,\sigma^2)\) then \(Z=\frac{X-\mu}{\sigma}\sim N(0,1)\).</p>
+</section>
+
+<section id="suf"><h2>4. Sufficiency of estimators</h2>
+<h3>4.1 Definitions</h3>
+<p>A <b>sufficient statistic</b> carries all the information about \(\theta\) in the sample. Once you know it, the individual \(X_i\) tell you nothing more about \(\theta\), so the data can be thrown away after computing it. Formally, \(S=s(X_1,\dots,X_n)\) is sufficient iff the conditional distribution \(P(T\mid S=s)\) does not depend on \(\theta\) for any statistic \(T\).</p>
+<p><b>Jointly sufficient:</b> \(S_1,\dots,S_r\) are jointly sufficient iff \(P(X_1,\dots,X_n\mid S_1,\dots,S_r)\) does not depend on \(\theta\). For \(N(\mu,\sigma^2)\), \((\bar X,S^2)\) are jointly sufficient for \((\mu,\sigma^2)\); neither alone is enough.</p>
+<p><b>Minimal sufficient:</b> sufficient, and a function of every other sufficient statistic (maximum data reduction). It is unique up to one-to-one transformations.</p>
+<p><b>Why it matters:</b> it holds all the estimation information, simplifies the data, underlies many optimal estimators, arises naturally in exponential families, and is the basis of optimal decision rules.</p>
+<h3>4.2 Neyman factorization theorem</h3>
+<div class="f">\[L(\theta)=\prod_{i=1}^nf(X_i;\theta)=g\big[s(X_1,\dots,X_n);\theta\big]\cdot h(X_1,\dots,X_n)\]</div><p class="mut">where \(L(\theta)\) = likelihood, \(f(X_i;\theta)\) = pdf/pmf of one observation, \(s(X_1,\dots,X_n)\) = the statistic \(S\), \(g\) = function of the data only through \(s\) (and of \(\theta\)), \(h\) = function that does not depend on \(\theta\).</p>
+<p>\(S\) is sufficient iff the likelihood splits like this, where \(h\ge0\) does <b>not</b> depend on \(\theta\), and \(g\ge0\) depends on the data only through \(s\). For several parameters:</p>
+<div class="f">\[L(\theta_1,\dots,\theta_r)=g(s_1,\dots,s_r;\theta)\,h(X_1,\dots,X_n)\]</div><p class="mut">where \(\theta_1,\dots,\theta_r\) = the \(r\) parameters, \(s_1,\dots,s_r\) = the jointly sufficient statistics, \(g\) and \(h\) as above.</p>
+<h3>4.3 Examples</h3>
+<details class="dv"><summary><span class="cd">Example 1</span><span class="tt">Poisson</span></summary><div class="bd">
+<p>\(f(x;\lambda)=\dfrac{e^{-\lambda}\lambda^x}{x!}\).</p>
+\[L(\lambda)=\prod\frac{e^{-\lambda}\lambda^{X_i}}{X_i!}=e^{-n\lambda}\lambda^{\sum X_i}\cdot\frac1{\prod X_i!}=g\Big(\sum X_i;\lambda\Big)\,h(X_1,\dots,X_n)\]
+<p>Here \(g=e^{-n\lambda}\lambda^{\sum X_i}\) and \(h=1/\prod X_i!\). Hence \(\sum X_i\) is sufficient for \(\lambda\).</p></div></details>
+<details class="dv"><summary><span class="cd">Example 2</span><span class="tt">Bernoulli: MLE is a function of the sufficient statistic</span></summary><div class="bd">
+\[L(p)=\prod p^{X_i}(1-p)^{1-X_i}=p^{\sum X_i}(1-p)^{n-\sum X_i}=g(s;p)\,h,\quad s=\sum X_i\]
+\[\log L=s\log p+(n-s)\log(1-p),\qquad \frac{\partial\log L}{\partial p}=\frac sp-\frac{n-s}{1-p}=0\;\Rightarrow\;\hat p=\frac sn\]
+<p>The MLE is a function of \(s\).</p></div></details>
+<p><b>MLE theorem:</b> if the MLE exists, it is a function of the sufficient statistic. <b>One-to-one functions</b> of a sufficient statistic are sufficient too (e.g. \(\sum X_i\) and \(\bar X=\frac{\sum X_i}n\) for Bernoulli). The function must be one-to-one; many-to-one functions may lose information.</p>
+<details class="dv"><summary><span class="cd">Example 3</span><span class="tt">Normal: \(\bar X\) and \(S^2\) jointly sufficient</span></summary><div class="bd">
+\[L(\mu,\sigma^2)=\Big(\frac1{\sqrt{2\pi}\sigma}\Big)^ne^{-\frac1{2\sigma^2}\sum(X_i-\mu)^2}\]
+<p>Key identity:</p>
+\[\sum(X_i-\mu)^2=\sum(X_i-\bar X)^2+n(\bar X-\mu)^2=(n-1)S^2+n(\bar X-\mu)^2\]
+\[L(\mu,\sigma^2)=\Big(\frac1{\sqrt{2\pi}\sigma}\Big)^ne^{-\frac1{2\sigma^2}\left[n(\bar X-\mu)^2+(n-1)S^2\right]}\]
+<p>It depends on the data only through \(\bar X\) and \(S^2\), with \(h=1\). So they are jointly sufficient.</p></div></details>
+<details class="dv"><summary><span class="cd">Example 4</span><span class="tt">Normal with known \(\sigma^2\): sufficient for \(\mu\)</span></summary><div class="bd">
+\[L(\mu)=e^{-\frac{n}{2\sigma^2}(\bar X-\mu)^2}\cdot\underbrace{\Big(\frac1{\sqrt{2\pi}\sigma}\Big)^ne^{-\frac{(n-1)S^2}{2\sigma^2}}}_{h(X_1,\dots,X_n)}\]
+<p>Since \(\sigma^2\) is known, \(h\) does not involve \(\mu\). So \(\bar X\) is sufficient for \(\mu\).</p></div></details>
+<h3>4.4 Exponential family (introduction)</h3>
+<p>A pdf/pmf is in the exponential family if</p>
+<div class="f">\[f(x;\theta)=\exp\big[P(\theta)K(x)+S(x)+q(\theta)\big],\quad a\lt x\lt b\]</div><p class="mut">where \(P(\theta),\ q(\theta)\) = functions of the parameter, \(K(x),\ S(x)\) = functions of the observation, \((a,b)\) = the support, which does not depend on \(\theta\).</p>
+<p>with: support \((a,b)\) free of \(\theta\); \(P(\theta)\) a non-trivial continuous function; \(K,S,q\) continuous. Normal, Poisson, Bernoulli, Binomial, Exponential and Gamma all belong. Then \(\sum_{i=1}^nK(X_i)\) is sufficient automatically; for \(k\) parameters,</p>
+<div class="f">\[f(x;\theta_1,\dots,\theta_k)=\exp\Big[\sum_{j=1}^kP_j(\theta_1,\dots,\theta_k)K_j(x)+S(x)+q(\theta_1,\dots,\theta_k)\Big]\]</div><p class="mut">where \(k\) = number of parameters, \(P_j\) = functions of the parameters, \(K_j(x),\ S(x)\) = functions of the observation, \(q\) = function of the parameters.</p>
+<details class="dv"><summary><span class="cd">Example 5</span><span class="tt">Binomial\((n,p)\) is in the family</span></summary><div class="bd">
+\[f(x;p)=\binom nxp^x(1-p)^{n-x}=\exp\Big[x\log\frac p{1-p}+\log\binom nx+n\log(1-p)\Big]\]
+\[P(p)=\log\frac p{1-p},\quad K(x)=x,\quad S(x)=\log\binom nx,\quad q(p)=n\log(1-p)\]
+<p>So the Binomial is in the exponential family and \(\sum_{i=1}^nX_i\) is sufficient.</p></div></details>
+<p><b>Summary:</b> factorization finds sufficient statistics in practice; MLEs are functions of them; exponential families give them automatically; they give optimal data reduction; one-to-one functions keep sufficiency.</p>
+</section>
+
+<section id="mle"><h2>5. Maximum likelihood: properties and examples</h2>
+<h3>5.1 Properties of the MLE</h3>
+<ul><li><b>Invariance:</b> if \(\hat\theta\) is the MLE of \(\theta\), then for any function \(g\) the MLE of \(g(\theta)\) is \(g(\hat\theta)\).</li><li><b>Sufficiency:</b> if a sufficient statistic exists, the MLE is a function of it.</li><li><b>Efficiency:</b> if a UMVUE exists, the MLE is that estimator, reaching the Cramér–Rao bound.</li><li><b>Consistency:</b> \(\hat\theta\xrightarrow{p}\theta\) as \(n\to\infty\).</li><li><b>Asymptotic normality:</b> for large \(n\),</li></ul>
+<div class="f">\[\hat\theta\ \dot\sim\ N\!\Big(\theta,\ \frac1{I_n(\theta)}\Big),\qquad I_n(\theta)=-\E\Big[\frac{\partial^2\log L}{\partial\theta^2}\Big]\]</div><p class="mut">where \(\hat\theta\) = the MLE, \(\dot\sim\) = approximately distributed as (large \(n\)), \(I_n(\theta)\) = Fisher information, \(L\) = likelihood, \(\log\) = natural logarithm.</p>
+<p>\(I_n(\theta)\) is the <b>Fisher information</b>.</p>
+<h3>5.2 Examples</h3>
+<details class="dv"><summary><span class="cd">Example 1</span><span class="tt">Poisson: MLE of \(\lambda\) and of \(g(\lambda)=(1+\lambda)e^{-\lambda}\)</span></summary><div class="bd">
+\[L(\lambda)=\prod\frac{\lambda^{x_i}e^{-\lambda}}{x_i!}=\frac{\lambda^{\sum x_i}e^{-n\lambda}}{\prod x_i!}\]
+\[\log L=-n\lambda+\Big(\sum x_i\Big)\log\lambda-\log\prod x_i!,\qquad \frac{d\log L}{d\lambda}=-n+\frac{\sum x_i}\lambda=0\;\Rightarrow\;\hat\lambda=\bar x\]
+<p>By invariance:</p>
+\[\widehat{g(\lambda)}=g(\hat\lambda)=(1+\bar x)e^{-\bar x}\]
+<p><b>Consistency of \(\hat\lambda\):</b> unbiased, \(\E(\bar x)=\frac1n\cdot n\lambda=\lambda\); and \(\V(\hat\lambda)=\V(x_i)/n=\lambda/n\to0\). So \(\hat\lambda\) is consistent.</p>
+<p><b>Variance via Fisher information:</b></p>
+\[\frac{\partial\log L}{\partial\lambda}=-n+\frac{\sum X_i}{\lambda},\qquad \frac{\partial^2\log L}{\partial\lambda^2}=-\frac{\sum X_i}{\lambda^2}\]
+\[I_n(\lambda)=-\E\Big(-\frac{\sum X_i}{\lambda^2}\Big)=\frac{n\lambda}{\lambda^2}=\frac n\lambda,\qquad \V(\hat\lambda)\approx\frac1{I_n}=\frac\lambda n\]
+<p>This matches the direct result, so the MLE reaches the Cramér–Rao lower bound.</p></div></details>
+<details class="dv"><summary><span class="cd">Example 2</span><span class="tt">\(f(x;\theta)=\frac1{\theta^2}xe^{-x/\theta}\): MLE and consistency</span></summary><div class="bd">
+\[L(\theta)=\prod\frac1{\theta^2}x_ie^{-x_i/\theta}=\frac1{\theta^{2n}}\Big(\prod x_i\Big)e^{-\sum x_i/\theta}\]
+\[\log L=-2n\log\theta+\sum\log x_i-\frac{\sum x_i}\theta,\qquad -\frac{2n}\theta+\frac{\sum x_i}{\theta^2}=0\;\Rightarrow\;\hat\theta=\frac{\sum x_i}{2n}=\frac12\bar x\]
+<p><b>Mean</b> (with \(z=x/\theta\), and \(\int_0^\infty z^{k-1}e^{-z}dz=\Gamma(k)\)):</p>
+\[\E(X)=\frac1{\theta^2}\int_0^\infty x^2e^{-x/\theta}dx=\frac1{\theta^2}\int_0^\infty\theta^3z^2e^{-z}dz=\theta\,\Gamma(3)=2\theta\]
+<p><b>Unbiased:</b> \(\E(\hat\theta)=\frac12\cdot\frac1n\sum2\theta=\theta\).</p>
+<p><b>Fisher information:</b></p>
+\[\frac{\partial^2\log L}{\partial\theta^2}=\frac{2n}{\theta^2}-\frac{2\sum X_i}{\theta^3},\qquad I_n(\theta)=-\frac{2n}{\theta^2}+\frac{2}{\theta^3}(2n\theta)=\frac{2n}{\theta^2}\]
+\[\V(\hat\theta)\approx\frac1{I_n(\theta)}=\frac{\theta^2}{2n}\to0\]
+<p>So \(\hat\theta\) is consistent.</p></div></details>
+<details class="dv"><summary><span class="cd">Example 3</span><span class="tt">Normal: jointly sufficient statistics via exponential form</span></summary><div class="bd">
+<p>The joint likelihood is \(L(\mu,\sigma^2)=(2\pi\sigma^2)^{-n/2}\exp\!\big[-\frac1{2\sigma^2}\sum(x_i-\mu)^2\big]\). Write the pdf as</p>
+\[f(x;\mu,\sigma^2)=\exp\Big[\underbrace{\tfrac\mu{\sigma^2}}_{P_1}\underbrace{x}_{K_1}+\underbrace{\big(-\tfrac1{2\sigma^2}\big)}_{P_2}\underbrace{x^2}_{K_2}+\underbrace{0}_{S}+\underbrace{\Big(-\tfrac{\mu^2}{2\sigma^2}-\tfrac12\log(2\pi\sigma^2)\Big)}_{q}\Big]\]
+<p>So \(\sum x_i\) and \(\sum x_i^2\) are jointly sufficient for \((\mu,\sigma^2)\). Since \(\bar x=\frac{\sum x_i}n\) and \(s^2=\frac{\sum x_i^2-(\sum x_i)^2/n}{n-1}\) are functions of them, they are sufficient too.</p></div></details>
+</section>
+
+<section id="exp"><h2>6. Sufficient statistics and the exponential family</h2>
+<p>A distribution is in the exponential family if its pdf/pmf can be written</p>
+<div class="f">\[f(x;\theta)=\exp\Big[\sum_{j=1}^kP_j(\theta)K_j(x)+S(x)+q(\theta)\Big]\]</div><p class="mut">where \(k\) = number of parameters, \(P_j(\theta)\) = functions of the parameter, \(K_j(x),\ S(x)\) = functions of the observation, \(q(\theta)\) = function of the parameter.</p>
+<p><b>Key properties:</b> \(\sum_{i=1}^nK_j(x_i)\) are jointly sufficient; the number of sufficient statistics equals the number of parameters \(k\); it helps in finding MVUEs and simplifies theory. Method: take logs of the pdf, match it to this form, read off \(K_j\).</p>
+<details class="dv"><summary><span class="cd">Example 1</span><span class="tt">Gamma\((\alpha,\beta)\)</span></summary><div class="bd">
+<p>\(f(x;\alpha,\beta)=\dfrac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\), \(x>0\).</p>
+\[f=\exp\Big[\alpha\log\beta-\log\Gamma(\alpha)+(\alpha-1)\log x-\beta x\Big]=\exp\Big[\alpha\log x-\beta x-\log x+\alpha\log\beta-\log\Gamma(\alpha)\Big]\]
+\[P_1=\alpha,\ K_1=\log x;\quad P_2=-\beta,\ K_2=x;\quad S(x)=-\log x;\quad q=\alpha\log\beta-\log\Gamma(\alpha)\]
+<p>Hence \(\sum\log x_i\) and \(\sum x_i\) are jointly sufficient for \((\alpha,\beta)\).</p>
+<p class="mut">(The slide's "\(\sqrt\alpha\)" is read here as \(\Gamma(\alpha)\), the gamma function.)</p></div></details>
+<details class="dv"><summary><span class="cd">Example 2</span><span class="tt">Beta\((\theta_1,\theta_2)\)</span></summary><div class="bd">
+<p>\(f(x;\theta_1,\theta_2)=\dfrac1{B(\theta_1,\theta_2)}x^{\theta_1-1}(1-x)^{\theta_2-1}\), \(0<x<1\).</p>
+\[f=\exp\Big[\theta_1\log x+\theta_2\log(1-x)-\log x-\log(1-x)-\log B(\theta_1,\theta_2)\Big]\]
+\[P_1=\theta_1,\ K_1=\log x;\quad P_2=\theta_2,\ K_2=\log(1-x);\quad S=-[\log x+\log(1-x)];\quad q=-\log B(\theta_1,\theta_2)\]
+<p>Jointly sufficient: \(\sum\log x_i\) and \(\sum\log(1-x_i)\).</p></div></details>
+<details class="dv"><summary><span class="cd">Example 3</span><span class="tt">Poisson\((\lambda)\)</span></summary><div class="bd">
+\[f(x;\lambda)=e^{-\lambda}\frac{\lambda^x}{x!}=\exp\big[(\log\lambda)x-\log(x!)-\lambda\big]\]
+\[p(\lambda)=\log\lambda,\quad k(x)=x,\quad s(x)=-\log(x!),\quad q(\lambda)=-\lambda\]
+<p>One-parameter family; \(\sum x_i\) is sufficient for \(\lambda\).</p></div></details>
+<details class="dv"><summary><span class="cd">Example 4</span><span class="tt">Exponential\((\theta)\)</span></summary><div class="bd">
+\[f(x;\theta)=\frac1\theta e^{-x/\theta}=\exp\Big[-\frac1\theta x-\log\theta\Big]\]
+\[p(\theta)=-\frac1\theta,\quad k(x)=x,\quad s(x)=0,\quad q(\theta)=-\log\theta\]
+<p>One-parameter family; \(\sum x_i\) is sufficient for \(\theta\).</p></div></details>
+<details class="dv"><summary><span class="cd">Example 5</span><span class="tt">Special case \(f(x;\theta)=\frac1{6\theta^4}x^3e^{-x/\theta}\)</span></summary><div class="bd">
+\[f=\exp\Big[-\log(6\theta^4)+3\log x-\frac x\theta\Big]=\exp\Big[-\frac1\theta x+3\log x-\log6-4\log\theta\Big]\]
+\[p(\theta)=-\frac1\theta,\quad k(x)=x,\quad s(x)=3\log x-\log6,\quad q(\theta)=-4\log\theta\]
+<p>\(\sum x_i\) is sufficient. The \(x^3\) term goes into \(s(x)\), not into the sufficient statistic.</p></div></details>
+<table><tr><th>Distribution</th><th>Parameters</th><th>Sufficient statistics</th></tr><tr><td>Gamma \(G(\alpha,\beta)\)</td><td>\(\alpha,\beta\)</td><td>\(\sum\log x_i,\ \sum x_i\)</td></tr><tr><td>Beta \(\beta(\theta_1,\theta_2)\)</td><td>\(\theta_1,\theta_2\)</td><td>\(\sum\log x_i,\ \sum\log(1-x_i)\)</td></tr><tr><td>Poisson</td><td>\(\lambda\)</td><td>\(\sum x_i\)</td></tr><tr><td>Exponential</td><td>\(\theta\)</td><td>\(\sum x_i\)</td></tr><tr><td>Special case</td><td>\(\theta\)</td><td>\(\sum x_i\)</td></tr></table>
+</section>
+
+<section id="umvue"><h2>7. UMVUE and the Cramér–Rao bound</h2>
+<h3>7.1 Best unbiased estimator</h3>
+<p>\(T^*=t(x_1,\dots,x_n)\) is a <b>UMVUE</b> of \(\tau(\theta)\) iff (1) \(\E(T^*)=\tau(\theta)\), and (2) \(\V(T^*)\le\V(T)\) for every other unbiased \(T\) of \(\tau(\theta)\). It has the smallest possible variance among all unbiased estimators.</p>
+<h3>7.2 Cramér–Rao lower bound</h3>
+<p><b>Regularity conditions:</b> (1) \(\frac\partial{\partial\theta}\log f(x_i;\theta)\) (or \(\frac\partial{\partial\theta}\log L\)) exists for all \(x,\theta\); (2) we may differentiate under the integral:</p>
+<div class="f">\[\frac\partial{\partial\theta}\int\!\!\cdots\!\!\int L\,dx_1\cdots dx_n=\int\!\!\cdots\!\!\int\frac{\partial L}{\partial\theta}dx_1\cdots dx_n,\quad\text{and the same with }t(x_1,\dots,x_n)L\]</div><p class="mut">where \(L\) = likelihood, \(\theta\) = parameter, \(t(x_1,\dots,x_n)\) = an unbiased estimator, \(\int\!\cdots\!\int\) = integral over all \(x_1,\dots,x_n\).</p>
+<p>Then for any unbiased \(T\) of \(\tau(\theta)\):</p>
+<div class="f">\[\V(T)\ \ge\ \frac{[\tau'(\theta)]^2}{n\,\E\Big[\big(\frac{\partial\log f(x;\theta)}{\partial\theta}\big)^2\Big]}=\frac{[\tau'(\theta)]^2}{\E\Big[\big(\frac{\partial\log L}{\partial\theta}\big)^2\Big]}=\frac{[\tau'(\theta)]^2}{-\E\Big[\frac{\partial^2\log L}{\partial\theta^2}\Big]}\]</div><p class="mut">where \(T\) = an unbiased estimator of \(\tau(\theta)\), \(\tau'(\theta)\) = derivative of \(\tau\), \(n\) = sample size, \(f(x;\theta)\) = pdf/pmf, \(L\) = likelihood; the right side is the CRLB (the denominator is the Fisher information).</p>
+<p>This is the <b>Cramér–Rao inequality</b>; the right side is the <b>CRLB</b>, the minimum possible variance of an unbiased estimator. (The proof is in the Derivations section.)</p>
+<p><b>MVBE:</b> an estimator attaining the CRLB is the minimum variance bound estimator, and is automatically a UMVUE. Uses: it bounds the variance, certifies a UMVUE, and measures efficiency. If your variance is close to the CRLB it is good; if equal, it is optimal.</p>
+<h3>7.3 Finding the UMVUE (Cramér–Rao approach)</h3>
+<p>Cauchy–Schwarz becomes an equality when</p>
+<div class="f">\[\frac{\partial\log L}{\partial\theta}=k(\theta,n)\,\big[t(x_1,\dots,x_n)-\tau(\theta)\big]\]</div><p class="mut">where \(k(\theta,n)\) = a function of \(\theta\) and \(n\) that does not involve the data, \(t(x_1,\dots,x_n)\) = the statistic, \(\tau(\theta)\) = the parameter function.</p>
+<p>If this holds, \(t(x_1,\dots,x_n)\) is the UMVUE of \(\tau(\theta)\), with variance</p>
+<div class="f">\[\V\big(t(x_1,\dots,x_n)\big)=\frac{\tau'(\theta)}{k(\theta,n)}\]</div><p class="mut">where \(\V(t)\) = variance of the UMVUE \(t\), \(\tau'(\theta)\) = derivative of \(\tau\), \(k(\theta,n)\) as above.</p>
+<h3>7.4 Examples</h3>
+<details class="dv"><summary><span class="cd">Example 1</span><span class="tt">Exponential \(f=\theta e^{-\theta x}\): CRLB and UMVUE of \(\tau(\theta)=1/\theta\)</span></summary><div class="bd">
+<p>\(x>0,\ \theta>0\).</p>
+\[\log f=\log\theta-\theta x,\qquad \frac\partial{\partial\theta}\log f=\frac1\theta-x\]
+\[\E\Big[\Big(\frac1\theta-x\Big)^2\Big]=\E\Big[\Big(x-\frac1\theta\Big)^2\Big]=\E[x-\E(x)]^2=\V(x)=\frac1{\theta^2}\]
+<p>With \(\tau=\frac1\theta\), \(\tau'(\theta)=-\frac1{\theta^2}\):</p>
+\[\text{CRLB}=\frac{(-1/\theta^2)^2}{n\cdot1/\theta^2}=\frac1{n\theta^2}\]
+<p><b>Finding the UMVUE:</b></p>
+\[L=\theta^ne^{-\theta\sum x_i},\quad \log L=n\log\theta-\theta\sum x_i\]
+\[\frac{\partial\log L}{\partial\theta}=\frac n\theta-\sum x_i=-n\Big(\frac{\sum x_i}n-\frac1\theta\Big)=k(\theta,n)\,[t-\tau(\theta)]\]
+<p>with \(k(\theta,n)=-n\), \(t=\bar x\), \(\tau=\frac1\theta\). So \(\bar x\) is the UMVUE of \(\frac1\theta\), and</p>
+\[\V(\bar x)=\frac{\tau'(\theta)}{k(\theta,n)}=\frac{-1/\theta^2}{-n}=\frac1{n\theta^2}\]
+<p>which equals the CRLB: the best possible unbiased estimator.</p></div></details>
+<details class="dv"><summary><span class="cd">Example 2</span><span class="tt">Poisson: CRLB and UMVUE of \(\tau(\lambda)=\lambda\)</span></summary><div class="bd">
+\[\log f=-\lambda+x\log\lambda-\log x!,\qquad \frac\partial{\partial\lambda}\log f=-1+\frac x\lambda\]
+\[\E\Big[\Big(-1+\frac x\lambda\Big)^2\Big]=\frac1{\lambda^2}\E[x-\lambda]^2=\frac{\V(x)}{\lambda^2}=\frac\lambda{\lambda^2}=\frac1\lambda\]
+<p>With \(\tau'(\lambda)=1\):</p>
+\[\text{CRLB}=\frac{1^2}{n\cdot\frac1\lambda}=\frac\lambda n\]
+<p><b>Finding the UMVUE:</b></p>
+\[L=\prod\frac{e^{-\lambda}\lambda^{x_i}}{x_i!}=\frac{e^{-n\lambda}\lambda^{\sum x_i}}{\prod x_i!},\qquad \log L=\sum x_i\log\lambda-n\lambda-\log\prod x_i!\]
+\[\frac{\partial\log L}{\partial\lambda}=\frac{\sum x_i}\lambda-n=\frac n\lambda\Big(\frac{\sum x_i}n-\lambda\Big)=k(n,\lambda)\,[T-\tau(\lambda)]\]
+<p>with \(k=\frac n\lambda\), \(T=\bar x\). So \(\bar x\) is the UMVUE of \(\lambda\) with</p>
+\[\V(T)=\frac{\tau'(\lambda)}{k(n,\lambda)}=\frac1{n/\lambda}=\frac\lambda n=\text{CRLB}\]</div></details>
+</section>
+
+<section id="deriv"><h2>8. Derivations and proofs</h2>
+<p class="mut">The main proofs from the lectures, step by step. Tap one to open it.</p>
+<details class="dv"><summary><span class="cd">D1</span><span class="tt">MSE = variance + bias²</span></summary><div class="bd"><ol>
+<li>Add and subtract \(\E(T)\): \[T-\tau=(T-\E T)+(\E T-\tau)\]</li>
+<li>Square and take expectation: \[\E(T-\tau)^2=\E(T-\E T)^2+2(\E T-\tau)\,\E(T-\E T)+(\E T-\tau)^2\]</li>
+<li>Since \(\E(T-\E T)=0\), the middle term vanishes: \[\text{MSE}(T)=\V(T)+\big(\E T-\tau\big)^2=\V(T)+\text{Bias}^2\]</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D2</span><span class="tt">Unbiased with variance \(\to0\) implies consistent (Chebyshev)</span></summary><div class="bd"><ol>
+<li>Chebyshev: for any \(\epsilon>0\), \[P(|T_n-\E T_n|>\epsilon)\le\frac{\V(T_n)}{\epsilon^2}\]</li>
+<li>If \(\E T_n=\tau(\theta)\), this reads \[P(|T_n-\tau(\theta)|>\epsilon)\le\frac{\V(T_n)}{\epsilon^2}\]</li>
+<li>If \(\V(T_n)\to0\), the right side \(\to0\), so \(T_n\xrightarrow{p}\tau(\theta)\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D3</span><span class="tt">MLE is a function of the sufficient statistic</span></summary><div class="bd"><ol>
+<li>If \(S=s(x_1,\dots,x_n)\) is sufficient, factorization gives \[L(\theta)=g(s;\theta)\,h(X_1,\dots,X_n)\]</li>
+<li>Take logs: \[\log L(\theta)=\log g(s;\theta)+\log h(X_1,\dots,X_n)\]</li>
+<li>Since \(h\) is free of \(\theta\), maximising \(L\) means solving \[\frac{\partial\log L}{\partial\theta}=\frac{\partial\log g(s;\theta)}{\partial\theta}=0\]</li>
+<li>The solution \(\hat\theta\) depends on the data only through \(s\): the MLE is a function of the sufficient statistic.</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D4</span><span class="tt">Exponential family gives \(\sum K(X_i)\) sufficient</span></summary><div class="bd"><ol>
+<li>Let \(f(x;\theta)=\exp[P(\theta)K(x)+S(x)+q(\theta)]\). Then \[L(\theta)=\prod_{i=1}^n\exp\big[P(\theta)K(X_i)+S(X_i)+q(\theta)\big]\]</li>
+<li>Combine the exponents: \[L(\theta)=\exp\Big[P(\theta)\sum K(X_i)+\sum S(X_i)+nq(\theta)\Big]\]</li>
+<li>Split into two factors: \[L(\theta)=\underbrace{\exp\Big[P(\theta)\sum K(X_i)+nq(\theta)\Big]}_{g(s;\theta)}\cdot\underbrace{\exp\Big[\sum S(X_i)\Big]}_{h(X_1,\dots,X_n)}\]</li>
+<li>By the factorization theorem, \(s=\sum_{i=1}^nK(X_i)\) is sufficient.</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D5</span><span class="tt">Cramér–Rao inequality</span></summary><div class="bd"><ol>
+<li>\(L=\prod f(x_i;\theta)\) is a joint density, so \[\int\!\!\cdots\!\!\int L\,dx_1\cdots dx_n=1\tag{1}\]</li>
+<li>Differentiate (1) in \(\theta\) (regularity), and use \(\frac{\partial L}{\partial\theta}=\frac{\partial\log L}{\partial\theta}L\): \[\int\!\!\cdots\!\!\int\frac{\partial\log L}{\partial\theta}\,L\,dx_1\cdots dx_n=0\tag{2}\] so \(\E\big[\frac{\partial\log L}{\partial\theta}\big]=0\).</li>
+<li>Differentiate (2) again: \[\int\!\!\cdots\!\!\int\Big[\frac{\partial\log L}{\partial\theta}\frac{\partial L}{\partial\theta}+L\frac{\partial^2\log L}{\partial\theta^2}\Big]dx_1\cdots dx_n=0\] \[\int\!\!\cdots\!\!\int\Big[\Big(\frac{\partial\log L}{\partial\theta}\Big)^2+\frac{\partial^2\log L}{\partial\theta^2}\Big]L\,dx_1\cdots dx_n=0\] \[\Rightarrow\ \E\Big[\Big(\frac{\partial\log L}{\partial\theta}\Big)^2\Big]=-\E\Big[\frac{\partial^2\log L}{\partial\theta^2}\Big]\tag{3}\]</li>
+<li>\(T\) unbiased means \[\E[T]=\int\!\!\cdots\!\!\int t(x_1,\dots,x_n)\,L\,dx_1\cdots dx_n=\tau(\theta)\tag{4}\]</li>
+<li>Differentiate (4): \[\tau'(\theta)=\int\!\!\cdots\!\!\int t\,\frac{\partial L}{\partial\theta}\,dx=\int\!\!\cdots\!\!\int[t-\tau(\theta)]\frac{\partial\log L}{\partial\theta}L\,dx\] (we may subtract \(\tau(\theta)\) because of (2)). So \[\tau'(\theta)=\E\Big[\{T-\tau(\theta)\}\frac{\partial\log L}{\partial\theta}\Big]\tag{5}\]</li>
+<li>Cauchy–Schwarz on (5): \[[\tau'(\theta)]^2\le\E[T-\tau(\theta)]^2\cdot\E\Big[\Big(\frac{\partial\log L}{\partial\theta}\Big)^2\Big]=\V(T)\cdot\E\Big[\Big(\frac{\partial\log L}{\partial\theta}\Big)^2\Big]\]</li>
+<li>Divide, and use (3): \[\V(T)\ge\frac{[\tau'(\theta)]^2}{\E\big[(\partial\log L/\partial\theta)^2\big]}=\frac{[\tau'(\theta)]^2}{-\E\big[\partial^2\log L/\partial\theta^2\big]}\]</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D6</span><span class="tt">Equality condition and variance of the UMVUE</span></summary><div class="bd"><ol>
+<li>Cauchy–Schwarz is an equality when \[\frac{\partial\log L}{\partial\theta}=k(\theta,n)\,[t(x_1,\dots,x_n)-\tau(\theta)]\]</li>
+<li>Multiply by \([t-\tau(\theta)]\) and integrate against \(L\): \[\int\!\!\cdots\!\!\int[t-\tau]\frac{\partial\log L}{\partial\theta}L\,dx=k(\theta,n)\int\!\!\cdots\!\!\int[t-\tau]^2L\,dx\]</li>
+<li>The left side is \(\tau'(\theta)\) by (5) of D5; the right side is \(k(\theta,n)\,\V(t)\): \[\tau'(\theta)=k(\theta,n)\V(t)\ \Rightarrow\ \V(t)=\frac{\tau'(\theta)}{k(\theta,n)}\]</li>
+<li>This variance equals the CRLB, so \(t\) attains the bound and is the UMVUE.</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D7</span><span class="tt">\(\Gamma(3)\) integral used for \(\E(X)=2\theta\)</span></summary><div class="bd"><ol>
+<li>\(\E(X)=\int_0^\infty x\cdot\frac1{\theta^2}xe^{-x/\theta}dx=\frac1{\theta^2}\int_0^\infty x^2e^{-x/\theta}dx\).</li>
+<li>Let \(z=x/\theta\), \(x=\theta z\), \(dx=\theta\,dz\): \[\E(X)=\frac1{\theta^2}\int_0^\infty(\theta z)^2e^{-z}\theta\,dz=\theta\int_0^\infty z^2e^{-z}dz\]</li>
+<li>With \(\int_0^\infty z^{k-1}e^{-z}dz=\Gamma(k)\) and \(k=3\): \(\Gamma(3)=2!=2\), so \(\E(X)=2\theta\).</li></ol></div></details>
+</section>
+
+<section id="form"><h2>9. Formulas</h2>
+<div class="cards">
+<div class="box"><h3>Estimator properties</h3><div class="f">\[\E[T]=\tau(\theta)\]</div><div class="f">\[\text{Bias}=\E(T)-\tau(\theta)\]</div><div class="f">\[\text{MSE}=\V(T)+\text{Bias}^2\]</div><div class="f">\[P(|T_n-\tau|>\epsilon)\to0\]</div><div class="f">\[\lim_{n\to\infty}\E\{T-\tau(\theta)\}^2=0\]</div></div>
+<div class="box"><h3>Sample variances</h3><div class="f">\[\hat S^2=\tfrac1n\sum(x_i-\bar x)^2\ \text{(biased)}\]</div><div class="f">\[s^2=\tfrac1{n-1}\sum(x_i-\bar x)^2\ \text{(unbiased)}\]</div><div class="f">\[\V(s^2)=\frac{2\sigma^4}{n-1}\]</div></div>
+<div class="box"><h3>Method of moments</h3><div class="f">\[\mu_k=\E(X^k),\quad M_k=\tfrac1n\sum X_i^k\]</div><div class="f">\[\E(X^k)=M_k,\ k=1,\dots,r\]</div><div class="f">\[\theta x^{\theta-1}:\ \tilde\theta=\frac{\bar X}{1-\bar X}\]</div><div class="f">\[\text{Gamma: }\tilde\theta_1=\frac{\bar X^2}{V},\ \tilde\theta_2=\frac V{\bar X}\]</div><div class="f">\[\text{Normal: }\tilde\mu=\bar X,\ \tilde\sigma^2=V\]</div></div>
+<div class="box"><h3>Efficiency</h3><div class="f">\[E=\frac{\V(T_2)}{\V(T_1)}\]</div><div class="f">\[\frac{\V(\tilde x)}{\V(\bar x)}=\frac\pi2\approx1.6\]</div><div class="f">\[\V(\hat\theta_1,\hat\theta_2,\hat\theta_3)=\tfrac{\theta^2}2,\tfrac{5\theta^2}9,\tfrac{\theta^2}3\]</div><div class="f">\[\V(\hat\sigma_1^2)=\frac{2\sigma^4}{n-1},\ \V(\hat\sigma_2^2)=2\sigma^4\]</div><div class="f">\[Z=\frac{X-\mu}{\sigma}\sim N(0,1)\]</div></div>
+<div class="box"><h3>MLE results</h3><div class="f">\[\text{Bernoulli: }\hat p=\bar x\qquad\text{Exp: }\hat\theta=\bar x\]</div><div class="f">\[\text{Geometric: }\hat p=\frac1{\bar x}\qquad\text{Poisson: }\hat\lambda=\bar x\]</div><div class="f">\[\text{Normal: }\hat\mu=\bar X,\ \hat\sigma^2=\tfrac1n\sum(x_i-\bar X)^2\]</div><div class="f">\[\widehat{g(\theta)}=g(\hat\theta)\]</div><div class="f">\[\hat\theta\ \dot\sim\ N\big(\theta,1/I_n(\theta)\big)\]</div><div class="f">\[I_n(\theta)=-\E\Big[\frac{\partial^2\log L}{\partial\theta^2}\Big]\]</div></div>
+<div class="box"><h3>Sufficiency</h3><div class="f">\[L=g[s(X);\theta]\cdot h(X_1,\dots,X_n)\]</div><div class="f">\[\sum(X_i-\mu)^2=(n-1)S^2+n(\bar X-\mu)^2\]</div><div class="f">\[\text{Binomial: }P=\log\tfrac p{1-p},\ q=n\log(1-p)\]</div></div>
+<div class="box"><h3>Exponential family</h3><div class="f">\[f=\exp[P(\theta)K(x)+S(x)+q(\theta)]\]</div><div class="f">\[f=\exp\Big[\sum_{j=1}^kP_jK_j+S+q\Big]\]</div><div class="f">\[\text{Sufficient: }\sum_{i=1}^nK_j(x_i)\]</div><div class="f">\[\text{Gamma: }\sum\log x_i,\ \sum x_i\]</div><div class="f">\[\text{Beta: }\sum\log x_i,\ \sum\log(1-x_i)\]</div></div>
+<div class="box"><h3>Cramér–Rao and UMVUE</h3><div class="f">\[\V(T)\ge\frac{[\tau'(\theta)]^2}{n\,\E\big[(\partial\log f/\partial\theta)^2\big]}\]</div><div class="f">\[=\frac{[\tau'(\theta)]^2}{-\E[\partial^2\log L/\partial\theta^2]}\]</div><div class="f">\[\frac{\partial\log L}{\partial\theta}=k(\theta,n)[t-\tau(\theta)]\]</div><div class="f">\[\V(t)=\frac{\tau'(\theta)}{k(\theta,n)}\]</div><div class="f">\[\text{Exp }(\theta e^{-\theta x}):\ \bar x\text{ for }\tfrac1\theta,\ \V=\tfrac1{n\theta^2}\]</div><div class="f">\[\text{Poisson: }\bar x\text{ for }\lambda,\ \V=\tfrac\lambda n\]</div></div>
+</div>
+<h3>Meaning of symbols</h3><div style="overflow-x:auto"><table><tr><th>Symbol</th><th>Meaning</th></tr><tr><td>\(\theta,\ \tau(\theta)\)</td><td>unknown parameter, parameter function being estimated</td></tr><tr><td>\(T,\ T_n,\ t(x_1,\dots,x_n)\)</td><td>estimator (a statistic); \(T_n\) when based on a sample of size \(n\)</td></tr><tr><td>\(x_i,\ X_i,\ n\)</td><td>\(i\)th observation, sample size</td></tr><tr><td>\(\bar x,\ \bar X\)</td><td>sample mean</td></tr><tr><td>\(\hat S^2,\ s^2,\ S^2\)</td><td>sample variance (divisor \(n\) for \(\hat S^2\), divisor \(n-1\) for \(s^2\) and \(S^2\))</td></tr><tr><td>\(\E,\ \V\)</td><td>expectation, variance</td></tr><tr><td>\(\text{Bias},\ \text{MSE}\)</td><td>\(\E(T)-\tau(\theta)\), and \(\E[(T-\tau(\theta))^2]=\V(T)+\text{Bias}^2\)</td></tr><tr><td>\(E\)</td><td>relative efficiency \(\V(T_2)/\V(T_1)\) (italic \(E\), not expectation)</td></tr><tr><td>\(\epsilon\)</td><td>any small positive number (consistency)</td></tr><tr><td>\(\mu_k,\ M_k\)</td><td>\(k\)th population moment, \(k\)th sample moment</td></tr><tr><td>\(\tilde\theta,\ \tilde\mu,\ \tilde\sigma^2\)</td><td>method-of-moments estimators</td></tr><tr><td>\(V\)</td><td>\(\frac1n\sum(X_i-\bar X)^2\), the sample variance with divisor \(n\) (method of moments)</td></tr><tr><td>\(\hat\theta,\ \hat p,\ \hat\mu,\ \hat\sigma^2\)</td><td>maximum likelihood estimators</td></tr><tr><td>\(L,\ f\)</td><td>likelihood, pdf/pmf</td></tr><tr><td>\(g,\ h,\ s\)</td><td>factorization: \(g\) depends on the data only through \(s\), \(h\) does not depend on \(\theta\), \(s\) = the sufficient statistic</td></tr><tr><td>\(P(\theta),\ K(x),\ S(x),\ q(\theta)\)</td><td>exponential-family functions; \(k\) = number of parameters</td></tr><tr><td>\(I_n(\theta)\)</td><td>Fisher information \(-\E[\partial^2\log L/\partial\theta^2]\)</td></tr><tr><td>\(\dot\sim\)</td><td>approximately distributed as (large \(n\))</td></tr><tr><td>\(\tau'(\theta)\)</td><td>derivative of \(\tau(\theta)\)</td></tr><tr><td>\(k(\theta,n)\)</td><td>function of \(\theta\) and \(n\) not involving the data (Cramér–Rao equality condition)</td></tr><tr><td>\(Z\)</td><td>standard normal variable \((X-\mu)/\sigma\)</td></tr></table></div>
+</section>
+</main>
+<script>
+(function(){var r=document.documentElement,c=document.getElementById('th'),d;
+try{d=localStorage.getItem('ast203theme')}catch(e){}
+if(!d)d=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+r.setAttribute('data-theme',d);c.checked=d==='dark';
+c.addEventListener('change',function(){var t=c.checked?'dark':'light';r.setAttribute('data-theme',t);try{localStorage.setItem('ast203theme',t)}catch(e){}});
+document.querySelectorAll('.dv summary').forEach(function(s){s.insertAdjacentHTML('beforeend','<svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>')});
+})();
+</script>
+</body></html>
