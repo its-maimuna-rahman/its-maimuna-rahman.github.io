@@ -154,7 +154,7 @@ main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
 <section id="vall"><h2>Variance under different allocations</h2>
 <div class="box nt"><b>Assumption.</b> FPC is ignored: \(1-n_i/N_i\approx1\), so \(\V(\bar y_i)\approx S_i^2/n_i\). Allocation rules from the earlier sections are used as given.</div>
 <h3>General variance</h3>
-<p>From \(\bar y_{st}=\sum w_i\bar y_i\) and the rule for a linear combination (D3): \(\V=\sum w_i^2\V(\bar y_i)+2\sum_{i<l}w_iw_l\mathrm{Cov}(\bar y_i,\bar y_l)\). Independence kills the covariances:</p>
+<p>From \(\bar y_{st}=\sum w_i\bar y_i\) and the rule for a linear combination (D3): \(\V=\sum w_i^2\V(\bar y_i)+2\sum_{i&lt;l}w_iw_l\mathrm{Cov}(\bar y_i,\bar y_l)\). Independence kills the covariances:</p>
 <div class="f">\[V\equiv\V(\bar y_{st})\approx\sum_{i=1}^k\frac{w_i^2S_i^2}{n_i}\]</div>
 <p>Larger \(w_i\) or \(S_i\) raises the contribution; larger \(n_i\) lowers it. Strategy: <i>final allocation formula → substitute into \(V\) → simplify.</i></p>
 <table><tr><th>Allocation</th><th>Substitution</th><th>Result</th></tr>
@@ -247,7 +247,7 @@ const D=[
 <li><b>Bias.</b> \[\E(\bar y_{naive})-\bar Y=\sum_i\Big(\frac{n_i}n-w_i\Big)\bar Y_i.\]</li>
 <li>It is zero only if \(n_i/n=w_i\) for all \(i\) (proportional allocation) or all \(\bar Y_i\) are equal. Otherwise the estimator is biased, so use \(w_i=N_i/N\).</li></ol>`],
 ["D3",String.raw`\(\V(\bar y_{st})=\sum w_i^2(1-f_i)S_i^2/n_i\) and \(\approx\sum w_i^2S_i^2/n_i\)`,String.raw`<ol>
-<li><b>Linear combination.</b> \[\V\Big(\sum_{i=1}^kw_i\bar y_i\Big)=\sum_{i=1}^kw_i^2\V(\bar y_i)+2\sum_{i<l}w_iw_l\,\mathrm{Cov}(\bar y_i,\bar y_l).\]</li>
+<li><b>Linear combination.</b> \[\V\Big(\sum_{i=1}^kw_i\bar y_i\Big)=\sum_{i=1}^kw_i^2\V(\bar y_i)+2\sum_{i&lt;l}w_iw_l\,\mathrm{Cov}(\bar y_i,\bar y_l).\]</li>
 <li><b>Independence.</b> Samples are drawn independently in different strata, so \(\mathrm{Cov}(\bar y_i,\bar y_l)=0\) for \(i\ne l\): \[\V(\bar y_{st})=\sum_iw_i^2\V(\bar y_i).\]</li>
 <li><b>SRSWOR in a stratum:</b> \(\V(\bar y_i)=(1-\frac{n_i}{N_i})\frac{S_i^2}{n_i}\). Hence \[\V(\bar y_{st})=\sum_{i=1}^kw_i^2\Big(1-\frac{n_i}{N_i}\Big)\frac{S_i^2}{n_i}.\]</li>
 <li><b>Ignoring FPC</b> (\(1-n_i/N_i\approx1\)): \[V\approx\sum_{i=1}^k\frac{w_i^2S_i^2}{n_i}.\]</li>
@@ -331,22 +331,22 @@ const FT=[
 ["Stratified mean",String.raw`\bar y_{st}=\sum w_i\bar y_i`],["Unbiasedness",String.raw`\E(\bar y_{st})=\bar Y`],["Biased naive estimator",String.raw`\E\Big(\sum\tfrac{n_i}n\bar y_i\Big)=\sum\tfrac{n_i}n\bar Y_i\ne\bar Y`],
 ["Stratum mean variance",String.raw`\V(\bar y_i)=\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{S_i^2}{n_i}`],["Variance (SRSWOR)",String.raw`\V(\bar y_{st})=\sum w_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{S_i^2}{n_i}`],
 ["Variance (SRSWR)",String.raw`\sum w_i^2\dfrac{\sigma_i^2}{n_i},\ \ \sigma_i^2=\dfrac{N_i-1}{N_i}S_i^2`],["Variance, FPC ignored",String.raw`V\approx\sum\dfrac{w_i^2S_i^2}{n_i}`],
-["Estimated variance, SE",String.raw`\vh(\bar y_{st})=\sum w_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{s_i^2}{n_i},\quad SE=\sqrt{\vh}`],["Unbiased \(s_i^2\)",String.raw`\E(s_i^2)=S_i^2`]]],
+["Estimated variance, SE",String.raw`\vh(\bar y_{st})=\sum w_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{s_i^2}{n_i},\quad SE=\sqrt{\vh}`],["Unbiased \\(s_i^2\\)",String.raw`\E(s_i^2)=S_i^2`]]],
 ["Allocation rules",["Rule","Formula"],[
 ["Equal",String.raw`n_i=\dfrac nk`],["Proportional",String.raw`n_i=nw_i=n\dfrac{N_i}N`],["Neyman",String.raw`n_i=n\dfrac{w_iS_i}{\sum_jw_jS_j}=n\dfrac{N_iS_i}{\sum_jN_jS_j}`],
-["Cost-optimum (shape)",String.raw`n_i\propto\dfrac{w_iS_i}{\sqrt{C_i}}`],["Total cost",String.raw`C=C_0+\sum C_in_i`],["\(B\)",String.raw`B=\sum w_iS_i\sqrt{C_i}`],
-["Fixed cost \(C^*\)",String.raw`n_i^*=(C^*-C_0)\dfrac{w_iS_i/\sqrt{C_i}}{B}`],["Fixed variance \(V_0\)",String.raw`n_i^*=\dfrac B{V_0}\dfrac{w_iS_i}{\sqrt{C_i}}`],
-["Fixed variable cost \(C_v\)",String.raw`n_i^*=C_v\dfrac{w_iS_i/\sqrt{C_i}}{B}`],
+["Cost-optimum (shape)",String.raw`n_i\propto\dfrac{w_iS_i}{\sqrt{C_i}}`],["Total cost",String.raw`C=C_0+\sum C_in_i`],["\\(B\\)",String.raw`B=\sum w_iS_i\sqrt{C_i}`],
+["Fixed cost \\(C^*\\)",String.raw`n_i^*=(C^*-C_0)\dfrac{w_iS_i/\sqrt{C_i}}{B}`],["Fixed variance \\(V_0\\)",String.raw`n_i^*=\dfrac B{V_0}\dfrac{w_iS_i}{\sqrt{C_i}}`],
+["Fixed variable cost \\(C_v\\)",String.raw`n_i^*=C_v\dfrac{w_iS_i/\sqrt{C_i}}{B}`],
 ["Proportional, fixed cost",String.raw`n=\dfrac{C^*-C_0}{\sum w_iC_i},\ \ n_i=nw_i`],["Proportional, fixed variance",String.raw`n=\dfrac{\sum w_iS_i^2}{V_0},\ \ n_i=nw_i`],
 ["Special cases",String.raw`C_i\text{ equal}\Rightarrow\text{Neyman};\ S_i\text{ also equal}\Rightarrow\text{proportional}`]]],
 ["Variance and cost under each allocation (FPC ignored)",["Quantity","Formula"],[
 ["Equal",String.raw`V_{eq}=\dfrac kn\sum w_i^2S_i^2`],["Proportional",String.raw`V_{prop}=\dfrac1n\sum w_iS_i^2`],["Neyman (minimum)",String.raw`V_{opt}=\dfrac1n\Big(\sum w_iS_i\Big)^2=\dfrac{A^2}n,\ \ A=\sum w_iS_i`],
-["Min variance, fixed \(C^*\)",String.raw`V_{\min}=\dfrac{(\sum w_iS_i\sqrt{C_i})^2}{C^*-C_0}`],["Min variance, fixed \(C_v\)",String.raw`V_{\min}=\dfrac{B^2}{C_v}`],
-["Min cost, fixed \(V_0\)",String.raw`C_v^*=\dfrac{B^2}{V_0},\ \ C^*=C_0+C_v^*`],
-["\(V_{prop}-V_{opt}\)",String.raw`\dfrac1n\Big[\sum w_iS_i^2-\Big(\sum w_iS_i\Big)^2\Big]=\dfrac1n\sum w_i(S_i-S_w)^2\ge0`],["Ordering",String.raw`V_{opt}\le V_{prop}\le V_{SRS}`]]],
+["Min variance, fixed \\(C^*\\)",String.raw`V_{\min}=\dfrac{(\sum w_iS_i\sqrt{C_i})^2}{C^*-C_0}`],["Min variance, fixed \\(C_v\\)",String.raw`V_{\min}=\dfrac{B^2}{C_v}`],
+["Min cost, fixed \\(V_0\\)",String.raw`C_v^*=\dfrac{B^2}{V_0},\ \ C^*=C_0+C_v^*`],
+["\\(V_{prop}-V_{opt}\\)",String.raw`\dfrac1n\Big[\sum w_iS_i^2-\Big(\sum w_iS_i\Big)^2\Big]=\dfrac1n\sum w_i(S_i-S_w)^2\ge0`],["Ordering",String.raw`V_{opt}\le V_{prop}\le V_{SRS}`]]],
 ["Precision, gain and interval",["Quantity","Formula"],[
 ["SRS benchmark",String.raw`V_{SRS}\approx\dfrac{S^2}n`],["Within + between",String.raw`S^2\approx\sum w_iS_i^2+\sum w_i(\bar Y_i-\bar Y)^2`],["Exact",String.raw`(N-1)S^2=\sum(N_i-1)S_i^2+\sum N_i(\bar Y_i-\bar Y)^2`],
-["\(V_{SRS}-V_{prop}\)",String.raw`\dfrac1n\sum w_i(\bar Y_i-\bar Y)^2\ge0`],["Relative gain",String.raw`G_{st}=\dfrac{V_{SRS}-V_{st}}{V_{st}}\times100\%`],["Gain, proportional",String.raw`G_{prop}=\Big[\dfrac{S^2}{\sum w_iS_i^2}-1\Big]100\%`],
+["\\(V_{\\text{SRS}} - V_{\\text{prop}}\\)",String.raw`\dfrac1n\sum w_i(\bar Y_i-\bar Y)^2\ge0`],["Relative gain",String.raw`G_{st}=\dfrac{V_{SRS}-V_{st}}{V_{st}}\times100\%`],["Gain, proportional",String.raw`G_{prop}=\Big[\dfrac{S^2}{\sum w_iS_i^2}-1\Big]100\%`],
 ["Gain, optimum",String.raw`G_{opt}=\Big[\dfrac{S^2}{(\sum w_iS_i)^2}-1\Big]100\%`],["Variance reduction",String.raw`RV=\dfrac{V_{SRS}-V_{st}}{V_{SRS}}\times100\%,\ \ G=\dfrac{RV}{1-RV}`],
 ["Confidence interval",String.raw`\bar y_{st}\pm z_{\alpha/2}\sqrt{\hat V_{st}},\ \ \hat V_{st}=\sum w_i^2\dfrac{s_i^2}{n_i}`],["SE ordering",String.raw`SE_{opt}\le SE_{prop}\le SE_{SRS}`]]],
 ["Population proportion",["Quantity","Formula"],[
