@@ -73,7 +73,7 @@ mjx-container{color:inherit}.f mjx-container{margin:0!important}mjx-container:no
 <h3>Half-range expansions (HRE)</h3>
 <p>A function defined only on \([0,L]\) is artificially extended to \([-L,L]\). <b>Even periodic expansion</b> \(f_e\): reflect symmetrically across the \(y\)-axis, giving a cosine series. <b>Odd periodic expansion</b> \(f_o\): reflect anti-symmetrically across the origin, giving a sine series.</p>
 <div class="f">\(f_e=a_0+\sn a_n\cos\frac{n\pi x}L,\ a_0=\frac1L\int_0^Lf,\ a_n=\frac2L\int_0^Lf\cos\frac{n\pi x}L\qquad f_o=\sn b_n\sin\frac{n\pi x}L,\ b_n=\frac2L\int_0^Lf\sin\frac{n\pi x}L\)</div>
-<div class="box ex"><b>Example (odd HRE, triangular wave).</b> \(f=\frac{2kx}L\) on \(0<x<\frac L2\); \(f=\frac{2k}L(L-x)\) on \(\frac L2<x<L\). Split the integral at \(L/2\): \(b_n=\frac{8k}{n^2\pi^2}\sin\frac{n\pi}2\), so \(f_o=\frac{8k}{\pi^2}\left(\sin\frac{\pi x}L-\frac1{3^2}\sin\frac{3\pi x}L+\frac1{5^2}\sin\frac{5\pi x}L-\cdots\right)\).</div></section>
+<div class="box ex"><b>Example (odd HRE, triangular wave).</b> \(f=\frac{2kx}L\) on \(0\lt x\lt\frac L2\); \(f=\frac{2k}L(L-x)\) on \(\frac L2\lt x\lt L\). Split the integral at \(L/2\): \(b_n=\frac{8k}{n^2\pi^2}\sin\frac{n\pi}2\), so \(f_o=\frac{8k}{\pi^2}\left(\sin\frac{\pi x}L-\frac1{3^2}\sin\frac{3\pi x}L+\frac1{5^2}\sin\frac{5\pi x}L-\cdots\right)\).</div></section>
 
 <section id="s117"><h2>11.7 Fourier Integral (FI)</h2>
 <h3>Why: non-periodic functions</h3>
@@ -93,7 +93,7 @@ mjx-container{color:inherit}.f mjx-container{margin:0!important}mjx-container:no
 <p>Writing \(A=\sqrt{2/\pi}\,\fh_c\) (even \(f\)) or \(B=\sqrt{2/\pi}\,\fh_s\) (odd \(f\)) splits the FI symmetrically into a transform and its inverse.</p>
 <div class="f">\(\fh_c(\omega)=\Fc(f)=\sqrt{\tfrac2\pi}\io f(v)\cos\omega v\,dv,\qquad f(x)=\sqrt{\tfrac2\pi}\io\fh_c(\omega)\cos\omega x\,d\omega\)</div>
 <div class="f">\(\fh_s(\omega)=\Fs(f)=\sqrt{\tfrac2\pi}\io f(v)\sin\omega v\,dv,\qquad f(x)=\sqrt{\tfrac2\pi}\io\fh_s(\omega)\sin\omega x\,d\omega\)</div>
-<div class="box ex"><b>Example.</b> \(f=k\) for \(0<x<a\), \(0\) for \(x>a\): \(\fh_c=\sqrt{\frac2\pi}\,k\frac{\sin a\omega}\omega\) (a sinc function), \(\fh_s=\sqrt{\frac2\pi}\frac k\omega(1-\cos a\omega)\).</div>
+<div class="box ex"><b>Example.</b> \(f=k\) for \(0\lt x\lt a\), \(0\) for \(x>a\): \(\fh_c=\sqrt{\frac2\pi}\,k\frac{\sin a\omega}\omega\) (a sinc function), \(\fh_s=\sqrt{\frac2\pi}\frac k\omega(1-\cos a\omega)\).</div>
 <h3>Linearity</h3>
 <p>\(\Fc(af+bg)=a\Fc(f)+b\Fc(g)\) and \(\Fs(af+bg)=a\Fs(f)+b\Fs(g)\).</p>
 <h3>Transforms of derivatives</h3>
