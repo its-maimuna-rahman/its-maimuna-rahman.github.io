@@ -157,7 +157,7 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
           <div class="course-title-group"><span class="course-code">MATH207</span><span class="course-name">Mathematical Methods</span></div>
           <span class="toggle-icon">⌄</span>
         </button>
-        <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
+        <div class="course-body"><ul><li><a href="resources/207_fourier_transformation.html" target="_blank" rel="noopener">Fourier Transformation</a></li></ul></div>
       </div>
       <div class="course-card">
         <button class="course-header" type="button" aria-expanded="false">
@@ -215,6 +215,7 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
 (function(){
   var tabs=[].slice.call(document.querySelectorAll('.year-tab')),sec=document.getElementById('year-2'),pick=document.getElementById('pick');
   tabs[1].onclick=function(){tabs[1].setAttribute('aria-selected','true');sec.classList.add('active');pick.style.display='none'};
+  tabs[1].onclick();
   [].forEach.call(document.querySelectorAll('.course-header'),function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')!=='true')}});
 })();
 </script>

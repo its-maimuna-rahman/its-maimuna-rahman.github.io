@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fourier Transformation – Series, Integral, Transforms, DFT &amp; FFT</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}main p,main li{line-height:2.1}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}.nt{border-left-color:var(--bad)}.ex{border-left-color:var(--ok)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}
+.mut{color:var(--mut);font-size:.95rem}ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem;flex:1;min-width:0}.dv .bd{padding:6px 22px 20px;line-height:1.85;overflow:hidden;box-sizing:border-box}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s}.dv.op .ch{transform:rotate(90deg)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}mjx-container:not([display]){margin:0 .15em}
+.sg{width:100%;height:auto;display:block}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{ip:'\\int_{-\\pi}^{\\pi}',iL:'\\int_{-L}^{L}',ii:'\\int_{-\\infty}^{\\infty}',io:'\\int_{0}^{\\infty}',sn:'\\sum_{n=1}^{\\infty}',FT:'\\mathcal{F}',Fc:'\\mathcal{F}_c',Fs:'\\mathcal{F}_s',fh:'\\hat f'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">Overview</a><a href="#s111">11.1 Fourier series</a><a href="#s112">11.2 Arbitrary period &amp; half-range</a><a href="#s117">11.7 Fourier integral</a><a href="#s118">11.8 Cosine &amp; sine transforms</a><a href="#s119">11.9 Fourier transform, DFT, FFT</a><a href="#vis">Visuals</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Fourier Transformation</h1><p class="mut">Mathematical Methods (207). Fourier series, arbitrary period, half-range expansions, Fourier integral, cosine and sine transforms, Fourier transform, DFT and FFT. Short forms are shown in <b>bold brackets</b>.</p></header>
+
+<section id="viz"><h2>Overview</h2>
+<p>A periodic signal is a sum of sines and cosines (<b>Fourier series, FS</b>). Letting the period grow to infinity turns the sum into an integral (<b>Fourier integral, FI</b>), and this gives the <b>Fourier transform (FT)</b> for non-periodic functions. Sampling at \(N\) points gives the <b>discrete Fourier transform (DFT)</b>, computed fast by the <b>fast Fourier transform (FFT)</b>.</p>
+<div class="box"><b>Road map.</b> \(2\pi\)-periodic FS \(\to\) period \(2L\) FS \(\to\) \(L\to\infty\) FI \(\to\) cosine/sine transforms (even/odd) \(\to\) complex FT \(\to\) samples: DFT \(\to\) FFT. <span class="mut">Laplace uses \(s=a+ib\) on \((0,\infty)\); Fourier uses \(i\omega\) on \((-\infty,\infty)\).</span></div>
+
+<section id="s111"><h2>11.1 Fourier Series (FS)</h2>
+<h3>Periodic functions and the series</h3>
+<p>\(f\) is periodic with <b>period (T)</b> \(2\pi\) if \(f(x+2\pi)=f(x)\) for all \(x\in\mathbb R\); frequency is \(1/T\). Its Fourier series is</p>
+<div class="f">\(f(x)=a_0+\sn\left(a_n\cos nx+b_n\sin nx\right)\)</div>
+<h3>Euler formulas</h3>
+<div class="f">\(a_0=\dfrac1{2\pi}\ip f\,dx,\quad a_n=\dfrac1\pi\ip f\cos nx\,dx,\quad b_n=\dfrac1\pi\ip f\sin nx\,dx\)</div>
+<div class="box"><b>Orthogonality (key insight).</b> Over a full period \(\ip\cos nx\,dx=\ip\sin nx\,dx=0\) (equal positive and negative cycles); \(\ip\sin nx\cos mx\,dx=0\); \(\ip\cos nx\cos mx\,dx=\ip\sin nx\sin mx\,dx=0\) for \(n\ne m\) and \(=\pi\) for \(n=m\ge1\). This is why each coefficient can be isolated.</div>
+<h3>Example: square wave</h3>
+<p>\(f=-k\) on \((-\pi,0)\), \(f=k\) on \((0,\pi)\), \(f(x+2\pi)=f(x)\). \(f\) is odd, so \(a_0=a_n=0\) and \(b_n=\frac{2k}{n\pi}(1-(-1)^n)\), which is \(\frac{4k}{n\pi}\) for odd \(n\) and \(0\) for even \(n\). With \(n=2m+1\):</p>
+<div class="f">\(f(x)=\dfrac{4k}{\pi}\sum_{m=0}^{\infty}\dfrac{\sin(2m+1)x}{2m+1}\)</div>
+<div class="box nt"><b>Convergence at a jump.</b> At a discontinuity the series gives the average of the left and right limits: \(f(0)=\frac{-k+k}2=0\).</div>
+<div class="box ex"><b>Leibniz series.</b> At \(x=\pi/2\): \(k=\frac{4k}\pi\left(1-\frac13+\frac15-\cdots\right)\), so \(\frac\pi4=1-\frac13+\frac15-\cdots\).</div></section>
+
+<section id="s112"><h2>11.2 Arbitrary Period, Even/Odd Functions, Half-Range Expansions</h2>
+<h3>Arbitrary period \(2L\)</h3>
+<p>For \(f(x+2L)=f(x)\), the change of variable \(v=\pi x/L\) maps \([-L,L]\) to \([-\pi,\pi]\):</p>
+<div class="f">\(f(x)=a_0+\sn\left(a_n\cos\frac{n\pi x}{L}+b_n\sin\frac{n\pi x}{L}\right)\)</div>
+<div class="f">\(a_0=\dfrac1{2L}\iL f\,dx,\quad a_n=\dfrac1L\iL f\cos\dfrac{n\pi x}L dx,\quad b_n=\dfrac1L\iL f\sin\dfrac{n\pi x}L dx\)</div>
+<div class="box ex"><b>Example.</b> Square wave \(f=-4\) on \((-2,0)\), \(4\) on \((0,2)\), \(f(x+4)=f(x)\) (\(L=2\)): \(f=\frac{16}\pi\left(\sin\frac{\pi x}2+\frac13\sin\frac{3\pi x}2+\frac15\sin\frac{5\pi x}2+\cdots\right)\).</div>
+<h3>Even and odd functions</h3>
+<p><b>Even</b> \(f\) (<b>Fourier cosine series</b>): \(b_n=0\) and the interval is halved and doubled. <b>Odd</b> \(f\) (<b>Fourier sine series</b>): \(a_0=a_n=0\). Symmetry greatly reduces the integration.</p>
+<div class="f">Even: \(a_0=\frac1L\int_0^Lf\,dx,\ a_n=\frac2L\int_0^Lf\cos\frac{n\pi x}Ldx\qquad\) Odd: \(b_n=\frac2L\int_0^Lf\sin\frac{n\pi x}Ldx\)</div>
+<h3>Linearity</h3>
+<p>The FS of a linear combination of functions is the same linear combination of their individual FS: \(\mathrm{FS}(\alpha f+\beta g)=\alpha\,\mathrm{FS}(f)+\beta\,\mathrm{FS}(g)\).</p>
+<div class="box ex"><b>Example.</b> \(f(x)=x+\pi\) on \((-\pi,\pi)\), \(f(x+2\pi)=f(x)\). Let \(g=x\) (odd), so only \(b_n=-\frac2n\cos n\pi\) is needed; \(f=g+\pi=\pi-2\sn\frac{\cos n\pi}{n}\sin nx\).</div>
+<h3>Half-range expansions (HRE)</h3>
+<p>A function defined only on \([0,L]\) is artificially extended to \([-L,L]\). <b>Even periodic expansion</b> \(f_e\): reflect symmetrically across the \(y\)-axis, giving a cosine series. <b>Odd periodic expansion</b> \(f_o\): reflect anti-symmetrically across the origin, giving a sine series.</p>
+<div class="f">\(f_e=a_0+\sn a_n\cos\frac{n\pi x}L,\ a_0=\frac1L\int_0^Lf,\ a_n=\frac2L\int_0^Lf\cos\frac{n\pi x}L\qquad f_o=\sn b_n\sin\frac{n\pi x}L,\ b_n=\frac2L\int_0^Lf\sin\frac{n\pi x}L\)</div>
+<div class="box ex"><b>Example (odd HRE, triangular wave).</b> \(f=\frac{2kx}L\) on \(0<x<\frac L2\); \(f=\frac{2k}L(L-x)\) on \(\frac L2<x<L\). Split the integral at \(L/2\): \(b_n=\frac{8k}{n^2\pi^2}\sin\frac{n\pi}2\), so \(f_o=\frac{8k}{\pi^2}\left(\sin\frac{\pi x}L-\frac1{3^2}\sin\frac{3\pi x}L+\frac1{5^2}\sin\frac{5\pi x}L-\cdots\right)\).</div></section>
+
+<section id="s117"><h2>11.7 Fourier Integral (FI)</h2>
+<h3>Why: non-periodic functions</h3>
+<p>Take the pulse \(f=1\) for \(|x|<1\), else \(0\). Make it periodic with period \(2L\) (\(L>1\)): \(f_L=1\) on \((-1,1)\), \(0\) elsewhere in \((-L,L)\). It is even, so \(b_n=0\), \(a_0=\frac1L\), \(a_n=\frac2{n\pi}\sin\frac{n\pi}L=\frac2L\frac{\sin\omega_n}{\omega_n}\) with \(\omega_n=\frac{n\pi}L\). Then \(f_L=\frac1L+\sn\frac2{n\pi}\sin\frac{n\pi}L\cos\frac{n\pi x}L\).</p>
+<div class="box"><b>Insight.</b> As \(L\to\infty\) the spacing \(\Delta\omega=\omega_{n+1}-\omega_n=\frac\pi L\to0\), so the line spectrum (heights \(\propto\sin\omega/\omega\), the <b>sinc</b> envelope) becomes a continuous curve. See the visual below.</div>
+<h3>Fourier integral representation</h3>
+<p>For \(f\) absolutely integrable (\(\ii|f|<\infty\)), with \(L\to\infty\), \(\Delta\omega\to0\), \(\frac1L=\frac{\Delta\omega}\pi\):</p>
+<div class="f">\(f(x)=\io\left[A(\omega)\cos\omega x+B(\omega)\sin\omega x\right]d\omega\)</div>
+<div class="f">\(A(\omega)=\dfrac1\pi\ii f(v)\cos\omega v\,dv,\qquad B(\omega)=\dfrac1\pi\ii f(v)\sin\omega v\,dv\)</div>
+<p>At a jump, the integral equals the average of the left and right limits.</p>
+<h3>Special cases</h3>
+<ul><li>\(f\) even: \(B=0\), \(f=\io A\cos\omega x\,d\omega\), \(A=\frac2\pi\io f(v)\cos\omega v\,dv\) (<b>Fourier cosine integral</b>).</li>
+<li>\(f\) odd: \(A=0\), \(f=\io B\sin\omega x\,d\omega\), \(B=\frac2\pi\io f(v)\sin\omega v\,dv\) (<b>Fourier sine integral</b>).</li></ul>
+<div class="box ex"><b>Example.</b> \(f=1\) for \(|x|<1\), \(0\) for \(|x|>1\): \(A=\frac{2\sin\omega}{\pi\omega}\), \(B=0\), so \(f=\frac2\pi\io\frac{\sin\omega\cos\omega x}\omega d\omega\). Hence \(\io\frac{\cos\omega x\sin\omega}\omega d\omega=\frac\pi2\ (|x|<1),\ \frac\pi4\ (|x|=1),\ 0\ (|x|>1)\). At \(x=0\): \(\io\frac{\sin\omega}\omega d\omega=\frac\pi2\).</div></section>
+
+<section id="s118"><h2>11.8 Fourier Cosine and Sine Transforms</h2>
+<p>Writing \(A=\sqrt{2/\pi}\,\fh_c\) (even \(f\)) or \(B=\sqrt{2/\pi}\,\fh_s\) (odd \(f\)) splits the FI symmetrically into a transform and its inverse.</p>
+<div class="f">\(\fh_c(\omega)=\Fc(f)=\sqrt{\tfrac2\pi}\io f(v)\cos\omega v\,dv,\qquad f(x)=\sqrt{\tfrac2\pi}\io\fh_c(\omega)\cos\omega x\,d\omega\)</div>
+<div class="f">\(\fh_s(\omega)=\Fs(f)=\sqrt{\tfrac2\pi}\io f(v)\sin\omega v\,dv,\qquad f(x)=\sqrt{\tfrac2\pi}\io\fh_s(\omega)\sin\omega x\,d\omega\)</div>
+<div class="box ex"><b>Example.</b> \(f=k\) for \(0<x<a\), \(0\) for \(x>a\): \(\fh_c=\sqrt{\frac2\pi}\,k\frac{\sin a\omega}\omega\) (a sinc function), \(\fh_s=\sqrt{\frac2\pi}\frac k\omega(1-\cos a\omega)\).</div>
+<h3>Linearity</h3>
+<p>\(\Fc(af+bg)=a\Fc(f)+b\Fc(g)\) and \(\Fs(af+bg)=a\Fs(f)+b\Fs(g)\).</p>
+<h3>Transforms of derivatives</h3>
+<p>Given \(|f(v)|\to0\) as \(v\to\infty\):</p>
+<div class="f">\(\Fc(f')=\omega\Fs(f)-\sqrt{\tfrac2\pi}f(0),\qquad\Fs(f')=-\omega\Fc(f)\)</div>
+<div class="box ex"><b>Example.</b> \(\Fc(e^{-ax})=\sqrt{\frac2\pi}\frac{a}{a^2+\omega^2}\), \(a>0\) (using \(f''=a^2f\) and the two rules above).</div></section>
+
+<section id="s119"><h2>11.9 Fourier Transform (FT), Discrete FT (DFT), Fast FT (FFT)</h2>
+<h3>Complex form of the Fourier integral</h3>
+<div class="f">\(f(x)=\dfrac1{2\pi}\ii\ii f(v)\,e^{i\omega(x-v)}dv\,d\omega\)</div>
+<p>The integrand is even in \(\omega\) for the cosine part, so \((0,\infty)\) becomes \((-\infty,\infty)\) with factor \(\frac12\); the sine part is odd in \(\omega\) and integrates to \(0\), so adding \(i\) times it changes nothing.</p>
+<h3>Fourier transform and inverse</h3>
+<div class="f">\(\fh(\omega)=\FT(f)=\dfrac1{\sqrt{2\pi}}\ii f(x)e^{-i\omega x}dx,\qquad f(x)=\FT^{-1}(\fh)=\dfrac1{\sqrt{2\pi}}\ii\fh(\omega)e^{i\omega x}d\omega\)</div>
+<div class="box ex"><b>Examples.</b> (a) \(f=1\) for \(|x|<1\): \(\FT(f)=\sqrt{\frac2\pi}\frac{\sin\omega}\omega\). (b) \(f=e^{-ax}\) for \(x>0\), \(0\) for \(x<0\), \(a>0\): \(\FT(f)=\frac1{\sqrt{2\pi}(a+i\omega)}\). (c) \(\FT(xe^{-x^2})=\frac{-i\omega e^{-\omega^2/4}}{2\sqrt2}\).</div>
+<h3>Properties</h3>
+<ul><li><b>Linearity:</b> \(\FT(af+bg)=a\FT(f)+b\FT(g)\).</li>
+<li><b>Derivative</b> (with \(f\to0\) at \(\pm\infty\)): \(\FT(f')=i\omega\FT(f)\).</li>
+<li><b>Convolution:</b> \((f*g)(x)=\ii f(p)g(x-p)dp\) and \(\FT(f*g)=\sqrt{2\pi}\,\FT(f)\FT(g)\).</li></ul>
+<h3>Discrete Fourier Transform (DFT)</h3>
+<p>Take \(f\) as \(2\pi\)-periodic, sample at \(x_k=\frac{2\pi k}N\), \(k=0,\dots,N-1\) (\(N\) samples on \([0,2\pi]\)), and find the complex trigonometric polynomial \(q(x)=\sum_{n=0}^{N-1}c_ne^{inx}\) that <b>interpolates</b> \(f\): \(q(x_k)=f(x_k)=f_k\) (curve passes through every point, error \(0\); unlike regression).</p>
+<div class="f">\(c_m=\dfrac1N\sum_{k=0}^{N-1}f_ke^{-imx_k},\qquad\hat f_n=Nc_n=\sum_{k=0}^{N-1}f_kw^{nk},\quad w=e^{-2\pi i/N}\)</div>
+<p>In matrix form \(\hat{\mathbf f}=F_N\mathbf f\) with \((F_N)_{nk}=w^{nk}\) (an \(A\mathbf x=\mathbf b\) system), and \(F_N\overline{F_N}=NI\), so \(F_N^{-1}=\frac1N\overline{F_N}\).</p>
+<div class="box ex"><b>Example.</b> \(\mathbf f=[0,1,4,9]^T\), \(N=4\), \(w=e^{-i\pi/2}=-i\): \(\hat{\mathbf f}=[14,\ -4+8i,\ -6,\ -4-8i]^T\).</div>
+<h3>Fast Fourier Transform (FFT)</h3>
+<p>If \(N=2m\) (even), split \(\mathbf f\) into even-indexed and odd-indexed samples; \(w_N^2=e^{-2\pi i/m}\) is the \(m\)-point root. Compute two DFTs of size \(m\): \(\hat f_{ev}=F_mf_{ev}\), \(\hat f_{odd}=F_mf_{odd}\), then combine, for \(n=0,\dots,m-1\):</p>
+<div class="f">\(\hat f_n=\hat f_{ev,n}+w_N^n\hat f_{odd,n},\qquad\hat f_{n+m}=\hat f_{ev,n}-w_N^n\hat f_{odd,n}\)</div>
+<div class="box ex"><b>Example.</b> \(\mathbf f=[0,1,4,9]\): \(f_{ev}=[0,4]\), \(f_{odd}=[1,9]\), \(F_2=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\) give \(\hat f_{ev}=[4,-4]\), \(\hat f_{odd}=[10,-8]\). Then \(\hat f_0=14\), \(\hat f_1=-4+8i\), \(\hat f_2=-6\), \(\hat f_3=-4-8i\), same as the DFT.</div>
+<div class="box"><b>Insight.</b> Repeating the splitting cuts the cost from about \(N^2\) to about \(N\log_2N\) operations.</div></section>
+
+<section id="vis"><h2>Visuals</h2>
+<h3>Partial sums of a Fourier series</h3>
+<div class="row"><label>Function <select id="wf"><option value="sq">Square wave</option><option value="sw">f(x) = x on (−π, π)</option><option value="tr">Triangular wave (odd half-range)</option></select></label><label>Terms N <input type="range" id="wn" min="1" max="40" value="3"></label><b id="wv">3</b></div>
+<svg id="wp" class="sg" viewBox="0 0 700 220" role="img"></svg>
+<p class="mut">Dashed: the function. Solid: the sum of the first N terms. More terms fit better, with an overshoot near jumps that does not vanish (Gibbs effect).</p>
+<h3>From line spectrum to continuous spectrum</h3>
+<div class="row"><label>Half-period L <input type="range" id="ln" min="1" max="12" value="1"></label><b id="lv">1</b></div>
+<svg id="lp" class="sg" viewBox="0 0 700 200" role="img"></svg>
+<p class="mut">Bars: \(a_n\) of the pulse series at \(\omega_n=n\pi/L\), scaled by \(L/2\) so they sit on \(\sin\omega/\omega\). Larger L packs the bars closer (\(\Delta\omega=\pi/L\)).</p></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it. D1–D3 Euler formulas, D4–D5 square wave, D6–D12 period, symmetry, half-range, D13–D16 Fourier integral, D17–D21 cosine/sine transforms, D22–D29 Fourier transform, D30–D32 DFT and FFT.</p>
+<div id="dl"></div></section>
+
+<section id="form"><h2>Formula sheet</h2><div id="fl"></div><h3>Meaning of symbols</h3><div id="sy"></div></section>
+</main>
+<script>
+const D=[
+["D1",String.raw`\(a_0=\frac1{2\pi}\ip f\,dx\)`,String.raw`<p>Integrate \(f=a_0+\sn(a_n\cos nx+b_n\sin nx)\) over \([-\pi,\pi]\) term by term: \[\ip f\,dx=2\pi a_0+\sn\Big(a_n\ip\cos nx\,dx+b_n\ip\sin nx\,dx\Big)=2\pi a_0,\] since a full period of \(\cos nx\) or \(\sin nx\) has equal positive and negative area. So \(a_0=\frac1{2\pi}\ip f\,dx\).</p>`],
+["D2",String.raw`\(a_m=\frac1\pi\ip f\cos mx\,dx,\ m=1,2,\dots\)`,String.raw`<p>Multiply the series by \(\cos mx\) and integrate: \[\ip f\cos mx\,dx=a_0\ip\cos mx\,dx+\sn\Big(a_n\ip\cos nx\cos mx\,dx+b_n\ip\sin nx\cos mx\,dx\Big).\] The first term and every \(\sin\cos\) integral are \(0\); \(\cos nx\cos mx\) integrates to \(0\) unless \(n=m\), when it gives \(\ip\cos^2mx\,dx=\pi\). So the right side is \(\pi a_m\).</p>`],
+["D3",String.raw`\(b_m=\frac1\pi\ip f\sin mx\,dx,\ m=1,2,\dots\)`,String.raw`<p>Multiply the series by \(\sin mx\) and integrate. Only \(b_n\ip\sin nx\sin mx\,dx\) with \(n=m\) survives, equal to \(\pi b_m\).</p>`],
+["D4",String.raw`Square wave: \(f=\frac{4k}\pi\sum_{m\ge0}\frac{\sin(2m+1)x}{2m+1}\)`,String.raw`<ol><li>\(a_0=\frac1{2\pi}\big[\int_{-\pi}^0(-k)dx+\int_0^\pi k\,dx\big]=\frac1{2\pi}(-k\pi+k\pi)=0\) (also because \(f\) is odd).</li><li>\(f\cos nx\) is odd, so \(a_n=0\).</li><li>\[b_n=\frac1\pi\Big[-k\!\int_{-\pi}^0\!\sin nx\,dx+k\!\int_0^\pi\!\sin nx\,dx\Big]=-\frac k{n\pi}(\cos n\pi-1)+\frac k{n\pi}(1-\cos n\pi)=\frac{2k}{n\pi}(1-(-1)^n).\]</li><li>This is \(\frac{4k}{n\pi}\) for odd \(n\) and \(0\) for even \(n\). Substituting \(n=2m+1\), \(m=0,1,\dots\) gives the series.</li></ol>`],
+["D5",String.raw`\(\frac\pi4=1-\frac13+\frac15-\cdots\) and \(f(0)=0\)`,String.raw`<p>At \(x=\pi/2\), \(\sin\frac{(2m+1)\pi}2=(-1)^m\) and \(f(\pi/2)=k\): \[k=\frac{4k}\pi\Big[1-\frac13+\frac15-\cdots\Big]\Rightarrow\frac\pi4=1-\frac13+\frac15-\cdots\] At the jump \(x=0\) every term is \(\sin0=0\), matching \(\frac{-k+k}2=0\) (average of left and right limits).</p>`],
+["D6",String.raw`Arbitrary period: \(a_n=\frac1L\iL f\cos\frac{n\pi x}Ldx\)`,String.raw`<ol><li>Let \(v=\frac{\pi x}L\), so \(x\in[-L,L]\leftrightarrow v\in[-\pi,\pi]\). Then \(g(v)=f(Lv/\pi)\) has period \(2\pi\): \(f(x)=g(v)=a_0+\sn(a_n\cos nv+b_n\sin nv)\).</li><li>Substitute back \(v=\frac{n\pi x}{L}\)-form: \(f(x)=a_0+\sn\big(a_n\cos\frac{n\pi x}L+b_n\sin\frac{n\pi x}L\big)\).</li><li>With \(dv=\frac\pi Ldx\): \(a_n=\frac1\pi\ip g\cos nv\,dv=\frac1L\iL f\cos\frac{n\pi x}Ldx\); likewise \(b_n\), and \(a_0=\frac1{2L}\iL f\,dx\).</li></ol>`],
+["D7",String.raw`Even: \(b_n=0,\ a_n=\frac2L\int_0^L\); odd: \(a_0=a_n=0,\ b_n=\frac2L\int_0^L\)`,String.raw`<p><b>Even \(f\):</b> \(f\sin\) is odd, so \(b_n=0\); \(f\) and \(f\cos\) are even, so \(\iL=2\int_0^L\): \(a_0=\frac1L\int_0^Lf\,dx\), \(a_n=\frac2L\int_0^Lf\cos\frac{n\pi x}Ldx\).</p><p><b>Odd \(f\):</b> \(f\) and \(f\cos\) are odd, so \(a_0=a_n=0\); \(f\sin\) is even, so \(b_n=\frac2L\int_0^Lf\sin\frac{n\pi x}Ldx\).</p>`],
+["D8",String.raw`Linearity of FS`,String.raw`<p>If \(h=\alpha f+\beta g\), then each coefficient is an integral of \(h\), and integrals are linear: \(a_n(h)=\alpha a_n(f)+\beta a_n(g)\), same for \(a_0,b_n\). Hence \(\mathrm{FS}(h)=\alpha\,\mathrm{FS}(f)+\beta\,\mathrm{FS}(g)\).</p>`],
+["D9",String.raw`\(f=x+\pi\Rightarrow f=\pi-2\sn\frac{\cos n\pi}n\sin nx\)`,String.raw`<ol><li>\(g=x\) is odd: \(a_0=a_n=0\).</li><li>By parts, \(\int x\sin nx\,dx=-\frac{x\cos nx}n+\frac{\sin nx}{n^2}\). Over \([-\pi,\pi]\): \[b_n=\frac1\pi\Big[-\frac{\pi\cos n\pi}n-\frac{\pi\cos n\pi}n\Big]=-\frac2n\cos n\pi.\]</li><li>So \(g=-2\sn\frac{\cos n\pi}n\sin nx\) and \(f=g+\pi\).</li></ol>`],
+["D10",String.raw`Half-range expansions (even and odd)`,String.raw`<p><b>Even extension</b> \(f_e(x)=f(-x)\) on \([-L,0]\) is even, so by D7: \(a_0=\frac1L\int_0^Lf\,dx\), \(a_n=\frac2L\int_0^Lf\cos\frac{n\pi x}Ldx\). <b>Odd extension</b> \(f_o(x)=-f(-x)\) is odd: \(b_n=\frac2L\int_0^Lf\sin\frac{n\pi x}Ldx\).</p>`],
+["D11",String.raw`Triangular wave: \(b_n=\frac{8k}{n^2\pi^2}\sin\frac{n\pi}2\)`,String.raw`<ol><li>\(b_n=\frac2L\Big[\int_0^{L/2}\frac{2kx}L\sin cx\,dx+\int_{L/2}^L\frac{2k}L(L-x)\sin cx\,dx\Big]\), \(c=\frac{n\pi}L\).</li><li>By parts: \(\int_0^{L/2}x\sin cx\,dx=-\frac{L\cos(n\pi/2)}{2c}+\frac{\sin(n\pi/2)}{c^2}\); \(\int_{L/2}^L(L-x)\sin cx\,dx=\frac{L\cos(n\pi/2)}{2c}+\frac{\sin(n\pi/2)}{c^2}\) (using \(\sin n\pi=0\)).</li><li>The cosine terms cancel: bracket \(=\frac{2k}L\cdot\frac{2\sin(n\pi/2)}{c^2}=\frac{4kL\sin(n\pi/2)}{n^2\pi^2}\). Multiply by \(\frac2L\): \(b_n=\frac{8k}{n^2\pi^2}\sin\frac{n\pi}2\).</li><li>\(\sin\frac{n\pi}2=1,0,-1,0,\dots\) gives \(\frac{8k}{\pi^2}\big(\sin\frac{\pi x}L-\frac1{3^2}\sin\frac{3\pi x}L+\cdots\big)\).</li></ol>`],
+["D12",String.raw`Period 4 square wave (\(L=2,\ k=4\))`,String.raw`<p>\(f\) is odd, so \(a_0=a_n=0\), and \[b_n=\frac22\int_0^24\sin\frac{n\pi x}2dx=\frac8{n\pi}(1-\cos n\pi)=\begin{cases}\frac{16}{n\pi}&n\text{ odd}\\0&n\text{ even}\end{cases}\] so \(f=\frac{4\times4}\pi\big(\sin\frac{\pi x}2+\frac13\sin\frac{3\pi x}2+\cdots\big)\).</p>`],
+["D13",String.raw`Pulse \(f_L\): \(a_0=\frac1L,\ a_n=\frac2L\frac{\sin\omega_n}{\omega_n},\ b_n=0\)`,String.raw`<p>\(f_L\) is even, so \(b_n=0\). \(a_0=\frac1{2L}\iL f_L\,dx=\frac1{2L}\cdot2=\frac1L\). \[a_n=\frac2L\int_0^11\cdot\cos\frac{n\pi x}Ldx=\frac2L\Big[\frac{\sin(n\pi x/L)}{n\pi/L}\Big]_0^1=\frac2{n\pi}\sin\frac{n\pi}L=\frac2L\frac{\sin\omega_n}{\omega_n},\ \omega_n=\frac{n\pi}L.\]</p>`],
+["D14",String.raw`Fourier integral from the series (\(L\to\infty\))`,String.raw`<ol><li>With \(\omega_n=\frac{n\pi}L\), \(\Delta\omega=\omega_{n+1}-\omega_n=\frac\pi L\). Insert the coefficients: \[f_L(x)=\frac1{2L}\iL f_L\,dv+\sn\Big[\Big\{\frac1L\iL f_L\cos\omega_nv\,dv\Big\}\cos\omega_nx+\Big\{\frac1L\iL f_L\sin\omega_nv\,dv\Big\}\sin\omega_nx\Big].\]</li><li>Use \(\frac1L=\frac{\Delta\omega}\pi\): \[f_L=\frac1{2L}\iL f_L\,dv+\frac1\pi\sn\Big[\cos\omega_nx\,\Delta\omega\iL f_L\cos\omega_nv\,dv+\sin\omega_nx\,\Delta\omega\iL f_L\sin\omega_nv\,dv\Big].\]</li><li>As \(L\to\infty\): \(\Delta\omega\to0\), the first term \(\to0\) (\(\ii|f|<\infty\)), and the sum becomes an integral over \(\omega\in(0,\infty)\): \[f(x)=\frac1\pi\io\Big[\cos\omega x\ii f(v)\cos\omega v\,dv+\sin\omega x\ii f(v)\sin\omega v\,dv\Big]d\omega.\]</li><li>Defining \(A,B\) as the \(\frac1\pi\) integrals gives \(f=\io[A\cos\omega x+B\sin\omega x]d\omega\).</li></ol>`],
+["D15",String.raw`Fourier cosine and sine integrals (even/odd \(f\))`,String.raw`<p>If \(f\) is even, \(f\sin\omega v\) is odd so \(B=0\), and \(f\cos\omega v\) is even so \(A=\frac2\pi\io f\cos\omega v\,dv\). If \(f\) is odd, \(A=0\) and \(B=\frac2\pi\io f\sin\omega v\,dv\).</p>`],
+["D16",String.raw`Pulse: \(f=\frac2\pi\io\frac{\sin\omega\cos\omega x}\omega d\omega\) and \(\io\frac{\sin\omega}\omega d\omega=\frac\pi2\)`,String.raw`<p>\(A=\frac1\pi\int_{-1}^1\cos\omega v\,dv=\frac1\pi\Big[\frac{\sin\omega v}\omega\Big]_{-1}^1=\frac{2\sin\omega}{\pi\omega}\); \(B=0\) (\(f\) even). So \(f(x)=\frac2\pi\io\frac{\sin\omega\cos\omega x}\omega d\omega\), which equals \(1\) for \(|x|<1\), \(\frac12\) at \(|x|=1\), \(0\) for \(|x|>1\). Therefore \(\io\frac{\cos\omega x\sin\omega}\omega d\omega=\frac\pi2,\frac\pi4,0\) respectively. Put \(x=0\): \(\io\frac{\sin\omega}\omega d\omega=\frac\pi2\).</p>`],
+["D17",String.raw`Cosine and sine transform pairs`,String.raw`<p>Even \(f\): \(A=\frac2\pi\io f\cos\omega v\,dv=\sqrt{\frac2\pi}\cdot\sqrt{\frac2\pi}\io f\cos\omega v\,dv\). Let \(A=\sqrt{\frac2\pi}\fh_c\) with \(\fh_c=\sqrt{\frac2\pi}\io f\cos\omega v\,dv\); then \(f=\io A\cos\omega x\,d\omega=\sqrt{\frac2\pi}\io\fh_c\cos\omega x\,d\omega\). The odd case is identical with \(B=\sqrt{\frac2\pi}\fh_s\) and \(\sin\).</p>`],
+["D18",String.raw`\(f=k\) on \((0,a)\): \(\fh_c,\ \fh_s\)`,String.raw`<p>\(\fh_c=\sqrt{\frac2\pi}k\int_0^a\cos\omega v\,dv=\sqrt{\frac2\pi}k\frac{\sin a\omega}\omega\). \(\fh_s=\sqrt{\frac2\pi}k\Big[\frac{-\cos\omega v}\omega\Big]_0^a=\sqrt{\frac2\pi}\frac k\omega(1-\cos a\omega)\).</p>`],
+["D19",String.raw`\(\Fc(f')=\omega\Fs(f)-\sqrt{2/\pi}f(0)\)`,String.raw`<p>By parts with \(u=\cos\omega v\), \(dv=f'dv\): \[\Fc(f')=\sqrt{\tfrac2\pi}\Big\{[\cos\omega v\,f(v)]_0^\infty+\omega\io f(v)\sin\omega v\,dv\Big\}=\sqrt{\tfrac2\pi}(0-f(0))+\omega\Fs(f),\] because \(f\to0\) at \(\infty\).</p>`],
+["D20",String.raw`\(\Fs(f')=-\omega\Fc(f)\)`,String.raw`<p>\(\Fs(f')=\sqrt{\frac2\pi}\Big\{[f\sin\omega v]_0^\infty-\omega\io f\cos\omega v\,dv\Big\}=-\omega\Fc(f)\), since \(\sin0=0\) and \(f\to0\).</p>`],
+["D21",String.raw`\(\Fc(e^{-ax})=\sqrt{\frac2\pi}\frac a{a^2+\omega^2}\)`,String.raw`<ol><li>\(f=e^{-ax}\), \(f'=-ae^{-ax}\), \(f''=a^2e^{-ax}\), so \(\Fc(f'')=a^2\Fc(f)\).</li><li>Apply D19 to \(f'\): \(\Fc(f'')=\omega\Fs(f')-\sqrt{\frac2\pi}f'(0)\); apply D20: \(\Fs(f')=-\omega\Fc(f)\) and \(f'(0)=-a\): \[\Fc(f'')=-\omega^2\Fc(f)+\sqrt{\tfrac2\pi}a.\]</li><li>Equate: \((a^2+\omega^2)\Fc(f)=\sqrt{\frac2\pi}a\).</li></ol>`],
+["D22",String.raw`Complex form: \(f=\frac1{2\pi}\ii\ii f(v)e^{i\omega(x-v)}dv\,d\omega\)`,String.raw`<ol><li>Insert \(A,B\): \(f=\frac1\pi\io\ii f(v)[\cos\omega v\cos\omega x+\sin\omega v\sin\omega x]dv\,d\omega=\frac1\pi\io\ii f(v)\cos\omega(x-v)dv\,d\omega\).</li><li>The integrand is even in \(\omega\): \(f=\frac1{2\pi}\ii\ii f(v)\cos\omega(x-v)dv\,d\omega\) (4).</li><li>\(\sin\omega(x-v)\) is odd in \(\omega\): \(\frac1{2\pi}\ii\ii f(v)\sin\omega(x-v)dv\,d\omega=0\) (5).</li><li>(4)\(+i\)(5) and Euler's formula give \(f=\frac1{2\pi}\ii\ii f(v)e^{i\omega(x-v)}dv\,d\omega\).</li></ol>`],
+["D23",String.raw`Fourier transform pair`,String.raw`<p>Write \(f(x)=\frac1{2\pi}\ii e^{i\omega x}\Big[\ii f(v)e^{-i\omega v}dv\Big]d\omega\) and split \(\frac1{2\pi}=\frac1{\sqrt{2\pi}}\cdot\frac1{\sqrt{2\pi}}\). Let \(\fh(\omega)=\frac1{\sqrt{2\pi}}\ii f(x)e^{-i\omega x}dx\); then \(f(x)=\frac1{\sqrt{2\pi}}\ii\fh(\omega)e^{i\omega x}d\omega\).</p>`],
+["D24",String.raw`\(\FT(\text{pulse})=\sqrt{\frac2\pi}\frac{\sin\omega}\omega\)`,String.raw`<p>\(\frac1{\sqrt{2\pi}}\int_{-1}^1e^{-i\omega x}dx=\frac1{\sqrt{2\pi}}\Big[\frac{e^{-i\omega x}}{-i\omega}\Big]_{-1}^1=\frac{e^{i\omega}-e^{-i\omega}}{\sqrt{2\pi}\,i\omega}=\frac{2i\sin\omega}{\sqrt{2\pi}\,i\omega}=\sqrt{\tfrac2\pi}\frac{\sin\omega}\omega.\)</p>`],
+["D25",String.raw`\(\FT(e^{-ax}\mathbf 1_{x>0})=\frac1{\sqrt{2\pi}(a+i\omega)}\)`,String.raw`<p>\(\frac1{\sqrt{2\pi}}\int_0^\infty e^{-(a+i\omega)x}dx=\frac1{\sqrt{2\pi}}\cdot\frac1{-(a+i\omega)}\big[e^{-(a+i\omega)x}\big]_0^\infty=\frac1{\sqrt{2\pi}}\frac{1-0}{a+i\omega}\), since \(a>0\) makes \(e^{-\infty}=0\).</p>`],
+["D26",String.raw`Linearity of \(\FT\)`,String.raw`<p>\(\FT(af+bg)=\frac1{\sqrt{2\pi}}\ii(af+bg)e^{-i\omega x}dx=a\FT(f)+b\FT(g)\) by linearity of the integral.</p>`],
+["D27",String.raw`\(\FT(f')=i\omega\FT(f)\)`,String.raw`<p>\(\FT(f')=\frac1{\sqrt{2\pi}}\Big([e^{-i\omega x}f]_{-\infty}^\infty-\ii(-i\omega)e^{-i\omega x}f\,dx\Big)=\frac1{\sqrt{2\pi}}\Big(0-0+i\omega\ii fe^{-i\omega x}dx\Big)=i\omega\FT(f)\), using \(f\to0\) at \(\pm\infty\).</p>`],
+["D28",String.raw`\(\FT(xe^{-x^2})=\frac{-i\omega e^{-\omega^2/4}}{2\sqrt2}\)`,String.raw`<ol><li>\(xe^{-x^2}=-\frac12\frac d{dx}e^{-x^2}\), so \(\FT(xe^{-x^2})=-\frac12\,i\omega\,\FT(e^{-x^2})\) (D27).</li><li>\(\FT(e^{-x^2})=\frac1{\sqrt{2\pi}}\ii e^{-x^2-i\omega x}dx\). Complete the square: \(-x^2-i\omega x=-(x+\frac{i\omega}2)^2-\frac{\omega^2}4\).</li><li>\(\ii e^{-(x+i\omega/2)^2}dx=\sqrt\pi\) (a Gaussian density with \(\mu=-\frac{i\omega}2,\ \sigma=\frac1{\sqrt2}\) integrates to \(1\)). So \(\FT(e^{-x^2})=\frac{e^{-\omega^2/4}}{\sqrt2}\).</li><li>\(\FT(xe^{-x^2})=-\frac{i\omega}2\cdot\frac{e^{-\omega^2/4}}{\sqrt2}=\frac{-i\omega e^{-\omega^2/4}}{2\sqrt2}\).</li></ol>`],
+["D29",String.raw`Convolution: \(\FT(f*g)=\sqrt{2\pi}\FT(f)\FT(g)\)`,String.raw`<p>\(\FT(f*g)=\frac1{\sqrt{2\pi}}\ii\ii f(p)g(x-p)dp\,e^{-i\omega x}dx\). Swap the integrals and set \(q=x-p\), \(e^{-i\omega x}=e^{-i\omega p}e^{-i\omega q}\): \[=\frac1{\sqrt{2\pi}}\ii f(p)e^{-i\omega p}dp\ii g(q)e^{-i\omega q}dq=\frac1{\sqrt{2\pi}}\big(\sqrt{2\pi}\FT f\big)\big(\sqrt{2\pi}\FT g\big)=\sqrt{2\pi}\FT(f)\FT(g).\]</p>`],
+["D30",String.raw`DFT coefficients: \(c_m=\frac1N\sum_kf_ke^{-imx_k}\)`,String.raw`<ol><li>Interpolation: \(f_k=\sum_{n=0}^{N-1}c_ne^{inx_k}\), \(x_k=\frac{2\pi k}N\). Multiply by \(e^{-imx_k}\) and sum over \(k\): \[\sum_kf_ke^{-imx_k}=\sum_nc_n\sum_{k=0}^{N-1}e^{i(n-m)x_k}.\]</li><li>Let \(r=e^{i(n-m)2\pi/N}\), so \(e^{i(n-m)x_k}=r^k\). If \(n=m\): \(r=1\), \(\sum_kr^k=N\).</li><li>If \(n\ne m\): \(r\ne1\) and \(\sum_kr^k=\frac{1-r^N}{1-r}=0\), because \(r^N=e^{i(n-m)2\pi}=1\).</li><li>So the sum is \(c_mN\), giving \(c_m=\frac1N\sum_kf_ke^{-imx_k}\) (\(k=0..N-1\)).</li></ol>`],
+["D31",String.raw`DFT matrix, \(F_N\overline{F_N}=NI\), and \(\mathbf f=[0,1,4,9]^T\)`,String.raw`<ol><li>\(\hat f_n=Nc_n=\sum_kf_ke^{-2\pi ink/N}=\sum_kf_kw^{nk}\), so \(\hat{\mathbf f}=F_N\mathbf f\), \((F_N)_{nk}=w^{nk}\).</li><li>\((F_N\overline{F_N})_{nm}=\sum_kw^{nk}\overline w^{mk}=\sum_kr^k=N\delta_{nm}\) (as in D30). So \(F_N^{-1}=\frac1N\overline{F_N}\).</li><li>\(N=4\), \(w=e^{-i\pi/2}=-i\): \(F_4=\begin{pmatrix}1&1&1&1\\1&-i&-1&i\\1&-1&1&-1\\1&i&-1&-i\end{pmatrix}\), and \(F_4[0,1,4,9]^T=[14,\,-4+8i,\,-6,\,-4-8i]^T\).</li></ol>`],
+["D32",String.raw`FFT: \(\hat f_n=\hat f_{ev,n}+w_N^n\hat f_{odd,n}\), \(\hat f_{n+m}=\hat f_{ev,n}-w_N^n\hat f_{odd,n}\)`,String.raw`<ol><li>\(N=2m\). Split \(\hat f_n=\sum_{j=0}^{m-1}f_{2j}w_N^{2jn}+w_N^n\sum_{j=0}^{m-1}f_{2j+1}w_N^{2jn}\). Since \(w_N^2=e^{-4\pi i/N}=e^{-2\pi i/m}=w_m\), the sums are the \(m\)-point DFTs \(\hat f_{ev,n},\hat f_{odd,n}\).</li><li>For \(n+m\): \(w_m^{j(n+m)}=w_m^{jn}\) and \(w_N^{n+m}=w_N^nw_N^m=-w_N^n\), giving the minus sign.</li><li>Example \(\mathbf f=[0,1,4,9]\): \(f_{ev}=[0,4]\to\hat f_{ev}=[4,-4]\); \(f_{odd}=[1,9]\to\hat f_{odd}=[10,-8]\); \(w_4=-i\): \(\hat f_0=14\), \(\hat f_1=-4+(-i)(-8)=-4+8i\), \(\hat f_2=4-10=-6\), \(\hat f_3=-4-(-i)(-8)=-4-8i\).</li></ol>`]];
+const dl=document.getElementById('dl');dl.innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+dl.querySelectorAll('.dv').forEach(d=>{const sm=d.querySelector('summary'),b=d.querySelector('.bd'),T=matchMedia('(prefers-reduced-motion:reduce)').matches?0:320;
+sm.addEventListener('click',e=>{e.preventDefault();if(d._a)d._a.cancel();
+if(!d.classList.contains('op')){d.open=true;d.classList.add('op');const h=b.scrollHeight;d._a=b.animate({height:['0px',h+'px'],opacity:[0,1]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d._a=null}}
+else{d.classList.remove('op');const h=b.offsetHeight;d._a=b.animate({height:[h+'px','0px'],opacity:[1,0]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d.open=false;d._a=null}}})});
+const FT=[
+["Fourier series (period \\(2\\pi\\))",[["Series","f(x)=a_0+\\sum_{n=1}^{\\infty}(a_n\\cos nx+b_n\\sin nx)"],["Euler coefficients","a_0=\\frac1{2\\pi}\\int_{-\\pi}^{\\pi}f\\,dx,\\ a_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f\\cos nx\\,dx,\\ b_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f\\sin nx\\,dx"],["Orthogonality","\\int_{-\\pi}^{\\pi}\\cos nx\\cos mx\\,dx=\\int_{-\\pi}^{\\pi}\\sin nx\\sin mx\\,dx=\\pi\\delta_{nm},\\ \\int_{-\\pi}^{\\pi}\\sin nx\\cos mx\\,dx=0"],["Jump point","f(x_0)=\\frac{f(x_0^-)+f(x_0^+)}2"],["Square wave (\\(\\pm k\\))","f=\\frac{4k}\\pi\\sum_{m\\ge0}\\frac{\\sin(2m+1)x}{2m+1},\\ \\frac\\pi4=1-\\frac13+\\frac15-\\cdots"],["\\(f=x+\\pi\\)","f=\\pi-2\\sum_{n\\ge1}\\frac{\\cos n\\pi}n\\sin nx"]]],
+["Period \\(2L\\), symmetry, half-range",[["Series","f=a_0+\\sum_{n\\ge1}(a_n\\cos\\frac{n\\pi x}L+b_n\\sin\\frac{n\\pi x}L)"],["Coefficients","a_0=\\frac1{2L}\\int_{-L}^{L}f,\\ a_n=\\frac1L\\int_{-L}^{L}f\\cos\\frac{n\\pi x}L,\\ b_n=\\frac1L\\int_{-L}^{L}f\\sin\\frac{n\\pi x}L"],["Even \\(f\\)","b_n=0,\\ a_0=\\frac1L\\int_0^Lf,\\ a_n=\\frac2L\\int_0^Lf\\cos\\frac{n\\pi x}L"],["Odd \\(f\\)","a_0=a_n=0,\\ b_n=\\frac2L\\int_0^Lf\\sin\\frac{n\\pi x}L"],["Even / odd HRE","f_e=a_0+\\sum a_n\\cos\\frac{n\\pi x}L;\\ f_o=\\sum b_n\\sin\\frac{n\\pi x}L"],["Linearity","FS(\\alpha f+\\beta g)=\\alpha FS(f)+\\beta FS(g)"],["Period-4 square wave (\\(\\pm4\\))","f=\\frac{16}\\pi\\left(\\sin\\frac{\\pi x}2+\\frac13\\sin\\frac{3\\pi x}2+\\cdots\\right)"],["Triangular wave","b_n=\\frac{8k}{n^2\\pi^2}\\sin\\frac{n\\pi}2"]]],
+["Fourier integral",[["Spacing","\\omega_n=\\frac{n\\pi}L,\\ \\Delta\\omega=\\frac\\pi L,\\ \\frac1L=\\frac{\\Delta\\omega}\\pi"],["Pulse \\(f_L\\)","a_0=\\frac1L,\\ a_n=\\frac2L\\frac{\\sin\\omega_n}{\\omega_n},\\ b_n=0"],["Integral","f=\\int_0^\\infty[A\\cos\\omega x+B\\sin\\omega x]d\\omega"],["\\(A,B\\)","A=\\frac1\\pi\\int_{-\\infty}^{\\infty}f\\cos\\omega v\\,dv,\\ B=\\frac1\\pi\\int_{-\\infty}^{\\infty}f\\sin\\omega v\\,dv"],["Even / odd","B=0,\\,A=\\frac2\\pi\\int_0^\\infty f\\cos\\omega v\\,dv;\\ A=0,\\,B=\\frac2\\pi\\int_0^\\infty f\\sin\\omega v\\,dv"],["Pulse result","\\int_0^\\infty\\frac{\\cos\\omega x\\sin\\omega}\\omega d\\omega=\\frac\\pi2,\\frac\\pi4,0;\\ \\int_0^\\infty\\frac{\\sin\\omega}\\omega d\\omega=\\frac\\pi2"]]],
+["Cosine and sine transforms",[["Cosine","\\hat f_c=\\sqrt{\\tfrac2\\pi}\\int_0^\\infty f\\cos\\omega v\\,dv,\\ f=\\sqrt{\\tfrac2\\pi}\\int_0^\\infty\\hat f_c\\cos\\omega x\\,d\\omega"],["Sine","\\hat f_s=\\sqrt{\\tfrac2\\pi}\\int_0^\\infty f\\sin\\omega v\\,dv,\\ f=\\sqrt{\\tfrac2\\pi}\\int_0^\\infty\\hat f_s\\sin\\omega x\\,d\\omega"],["Constant \\(k\\) on \\((0,a)\\)","\\hat f_c=\\sqrt{\\tfrac2\\pi}k\\frac{\\sin a\\omega}\\omega,\\ \\hat f_s=\\sqrt{\\tfrac2\\pi}\\frac k\\omega(1-\\cos a\\omega)"],["Linearity","\\mathcal F_{c,s}(af+bg)=a\\mathcal F_{c,s}(f)+b\\mathcal F_{c,s}(g)"],["Derivatives","\\mathcal F_c(f')=\\omega\\mathcal F_s(f)-\\sqrt{\\tfrac2\\pi}f(0),\\ \\mathcal F_s(f')=-\\omega\\mathcal F_c(f)"],["\\(e^{-ax}\\)","\\mathcal F_c(e^{-ax})=\\sqrt{\\tfrac2\\pi}\\frac a{a^2+\\omega^2}"]]],
+["Fourier transform",[["Complex FI","f=\\frac1{2\\pi}\\int_{-\\infty}^{\\infty}\\int_{-\\infty}^{\\infty}f(v)e^{i\\omega(x-v)}dv\\,d\\omega"],["Transform","\\hat f(\\omega)=\\frac1{\\sqrt{2\\pi}}\\int_{-\\infty}^{\\infty}f(x)e^{-i\\omega x}dx"],["Inverse","f(x)=\\frac1{\\sqrt{2\\pi}}\\int_{-\\infty}^{\\infty}\\hat f(\\omega)e^{i\\omega x}d\\omega"],["Pulse \\(|x|<1\\)","\\mathcal F(f)=\\sqrt{\\tfrac2\\pi}\\frac{\\sin\\omega}\\omega"],["\\(e^{-ax}\\) (\\(x>0\\))","\\mathcal F(f)=\\frac1{\\sqrt{2\\pi}(a+i\\omega)}"],["\\(xe^{-x^2}\\)","\\mathcal F=\\frac{-i\\omega e^{-\\omega^2/4}}{2\\sqrt2}"],["Linearity, derivative","\\mathcal F(af+bg)=a\\mathcal F(f)+b\\mathcal F(g),\\ \\mathcal F(f')=i\\omega\\mathcal F(f)"],["Convolution","(f*g)(x)=\\int_{-\\infty}^{\\infty}f(p)g(x-p)dp,\\ \\mathcal F(f*g)=\\sqrt{2\\pi}\\mathcal F(f)\\mathcal F(g)"]]],
+["DFT and FFT",[["Samples","x_k=\\frac{2\\pi k}N,\\ k=0..N-1,\\ q(x)=\\sum_{n=0}^{N-1}c_ne^{inx},\\ q(x_k)=f_k"],["Coefficient","c_m=\\frac1N\\sum_{k=0}^{N-1}f_ke^{-imx_k}"],["DFT","\\hat f_n=Nc_n=\\sum_{k=0}^{N-1}f_kw^{nk},\\ w=e^{-2\\pi i/N},\\ \\hat{\\mathbf f}=F_N\\mathbf f"],["Inverse matrix","F_N\\overline{F_N}=NI,\\ F_N^{-1}=\\frac1N\\overline{F_N}"],["FFT (\\(N=2m\\))","\\hat f_n=\\hat f_{ev,n}+w_N^n\\hat f_{odd,n},\\ \\hat f_{n+m}=\\hat f_{ev,n}-w_N^n\\hat f_{odd,n},\\ n=0..m-1"],["FFT inputs","\\hat f_{ev}=F_mf_{ev},\\ \\hat f_{odd}=F_mf_{odd},\\ w_N^2=w_m"],["Example","[0,1,4,9]^T\\mapsto[14,\\,-4+8i,\\,-6,\\,-4-8i]^T"]]]];
+document.getElementById('fl').innerHTML=FT.map(g=>`<h3>${g[0]}</h3><div style="overflow-x:auto"><table class="ft"><tr><th>Quantity</th><th>Formula</th></tr>`+g[1].map(r=>`<tr><td>${r[0]}</td><td>\\(\\displaystyle ${r[1]}\\)</td></tr>`).join('')+'</table></div>').join('');
+const SY=[["a_0,a_n,b_n","Fourier coefficients (constant, cosine, sine)"],["f(x)","function (period \\(2\\pi\\) or \\(2L\\)); \\(T\\) = period"],["L","half-period"],["n,m","integer harmonic indices"],["k","height of a wave (or sample index in DFT)"],["f_e,f_o","even and odd half-range extensions"],["\\omega,\\omega_n","angular frequency; \\(\\omega_n=n\\pi/L\\)"],["\\Delta\\omega","spacing \\(\\pi/L\\)"],["v,p,q","dummy integration variables"],["A(\\omega),B(\\omega)","cosine and sine amplitudes of the Fourier integral"],["\\hat f_c,\\hat f_s","Fourier cosine and sine transforms"],["\\hat f=\\mathcal F(f)","Fourier transform"],["*","convolution"],["a","positive decay constant (\\(a>0\\))"],["N,\\,m","number of samples; \\(N=2m\\)"],["x_k,f_k","sample points and values"],["c_n,\\hat f_n","DFT coefficient and its scaled value \\(Nc_n\\)"],["w,w_N","\\(e^{-2\\pi i/N}\\)"],["F_N","DFT matrix, \\((F_N)_{nk}=w^{nk}\\)"],["f_{ev},f_{odd}","even- and odd-indexed samples"],["i","imaginary unit"]];
+document.getElementById('sy').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr><th>Symbol</th><th>Meaning</th></tr>'+SY.map(r=>`<tr><td>\\(${r[0]}\\)</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
+// theme toggle (scroll position preserved)
+const th=document.getElementById('th'),R=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// visuals
+const e=id=>document.getElementById(id),pi=Math.PI;
+const TG={sq:u=>u>0?1:u<0?-1:0,sw:u=>u,tr:u=>Math.sign(u)*(Math.abs(u)<pi/2?2*Math.abs(u)/pi:2*(pi-Math.abs(u))/pi)};
+const PS={sq:(x,N)=>{let s=0;for(let n=1;n<=N;n+=2)s+=4/(n*pi)*Math.sin(n*x);return s},sw:(x,N)=>{let s=0;for(let n=1;n<=N;n++)s+=2*(n%2?1:-1)/n*Math.sin(n*x);return s},tr:(x,N)=>{let s=0;for(let n=1;n<=N;n++)s+=8/(n*n*pi*pi)*Math.sin(n*pi/2)*Math.sin(n*x);return s}};
+function wp(){const f=e('wf').value,N=+e('wn').value,ym=f=='sw'?4:1.5;e('wv').textContent=N;
+const X=x=>20+(x+2*pi)/(4*pi)*660,Y=y=>110-y/ym*95,red=x=>((x+pi)%(2*pi)+2*pi)%(2*pi)-pi;let a='',b='';
+for(let i=0;i<=400;i++){const x=-2*pi+4*pi*i/400;a+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(PS[f](x,N)).toFixed(1);b+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(TG[f](red(x))).toFixed(1)}
+e('wp').innerHTML=`<line x1="20" y1="110" x2="680" y2="110" style="stroke:var(--line);stroke-width:2"/><line x1="350" y1="8" x2="350" y2="212" style="stroke:var(--line)"/><path d="${b}" style="fill:none;stroke:var(--mut);stroke-dasharray:5 4;stroke-width:1.5"/><path d="${a}" style="fill:none;stroke:var(--ac);stroke-width:2.5"/>`}
+function lp(){const L=+e('ln').value;e('lv').textContent=L;let s='',W=12;const X=w=>30+w/W*650,Y=y=>170-y*140;
+s+=`<line x1="30" y1="170" x2="680" y2="170" style="stroke:var(--line);stroke-width:2"/>`;let c='';
+for(let i=1;i<=240;i++){const w=W*i/240;c+=(i>1?'L':'M')+X(w).toFixed(1)+' '+Y(Math.sin(w)/w).toFixed(1)}
+s+=`<path d="${c}" style="fill:none;stroke:var(--mut);stroke-dasharray:4 3"/>`;
+for(let n=1;n*pi/L<=W;n++){const w=n*pi/L,v=Math.sin(w)/w;s+=`<line x1="${X(w)}" y1="170" x2="${X(w)}" y2="${Y(v)}" style="stroke:var(--ac);stroke-width:2"/>`}
+e('lp').innerHTML=s}
+e('wf').onchange=e('wn').oninput=wp;e('ln').oninput=lp;wp();lp();
+</script></body></html>
