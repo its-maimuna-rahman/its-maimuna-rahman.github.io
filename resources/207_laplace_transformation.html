@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laplace Transformation – Mathematical Methods (MATH207)</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1.2rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.4rem 0 .8rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 90px}section{padding:56px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:16px 22px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto;overflow-y:hidden}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:8px 18px;min-width:0}.two h3{margin-top:.9rem}
+.row{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:96px}input[type=range]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.15rem;margin-top:14px;line-height:2}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.6em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:14px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px 16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.dv .bd li{margin:1.1em 0}
+/* additions for this page */
+.cv{display:block;width:100%;height:250px;background:var(--bg);border:1px solid var(--line);border-radius:3px;margin:12px 0}.cv.s{height:190px}
+a.dl{color:var(--ac);font-weight:700;text-decoration:none;border-bottom:1px dotted var(--ac);white-space:nowrap}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin:22px 0}.flow>div{flex:1 1 150px;background:var(--card);border:1px solid var(--line);padding:12px 14px;text-align:center;border-radius:3px;min-width:0}.flow>i{align-self:center;font-style:normal;color:var(--ac);font-size:1.5rem}.flow small{display:block;color:var(--mut);font-size:.85rem;line-height:1.5}
+.lg{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:.92rem;color:var(--mut)}.lg i{display:inline-block;width:22px;height:3px;vertical-align:middle;margin-right:6px}
+.cs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 18px;margin:14px 0}.cs label{display:flex;flex-direction:column;gap:4px}.cs input,.cs select{width:100%;box-sizing:border-box}
+h4{font-family:Radley,Georgia,serif;font-weight:400;font-size:1.1rem;color:var(--ac);margin:1.8rem 0 .4rem}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{Lp:['\\mathcal{L}\\left\\{#1\\right\\}',1],Li:['\\mathcal{L}^{-1}\\left\\{#1\\right\\}',1],Rs:'\\operatorname{Re}(s)'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head><body>
+<nav><a href="#intro">Intro</a><a href="#s61">6.1 Transform</a><a href="#s62">6.2 Derivatives</a><a href="#s63">6.3 Step &amp; t-shift</a><a href="#s64">6.4 Delta</a><a href="#s65">6.5 Convolution</a><a href="#s66">6.6 Diff. of F</a><a href="#s67">6.7 Systems</a><a href="#vis">Visuals</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Laplace Transformation</h1><p class="mut">Mathematical Methods (MATH207). Based on Kreyszig, <i>Advanced Engineering Mathematics</i>, 10th edition, Chapters 6.1 to 6.7. Every definition, theorem, formula and proof is here, in the order you meet them. Worked proofs are in the <b>Derivations</b> bars; every formula is collected in the <b>Formulas</b> section.</p></header>
+
+<section id="intro"><h2>Laplace analysis: the big idea</h2>
+<p>The <b>Laplace transform (LT)</b> changes a function \(f(t)\) of time \(t\) into a function \(F(s)\) of a new variable \(s\). It turns calculus problems (derivatives, integrals, differential equations) into algebra problems. Solve the algebra problem for \(F(s)\), then transform back to get \(f(t)\).</p>
+<div class="flow">
+<div>\(y''+ay'+by=r(t)\)<small>ODE in \(t\)</small></div><i>&rarr;</i>
+<div>\(\mathcal{L}\)<small>transform both sides</small></div><i>&rarr;</i>
+<div>\((s^2+as+b)Y=\cdots\)<small>algebraic (subsidiary) equation</small></div><i>&rarr;</i>
+<div>\(Y(s)=\cdots\)<small>solve by algebra</small></div><i>&rarr;</i>
+<div>\(\mathcal{L}^{-1}\)<small>partial fractions and tables</small></div><i>&rarr;</i>
+<div>\(y(t)\)<small>the solution</small></div></div>
+
+<h3>Where Laplace analysis sits in Mathematical Methods</h3>
+<p><b>Mathematical Methods</b> is an applied collection of advanced mathematical techniques used to formulate, analyse and solve real-world quantitative problems. It focuses on the practical tools and analytical frameworks needed across scientific disciplines.</p>
+<ul><li><b>Integral transforms</b> (Fourier analysis, Laplace analysis) and <b>special functions</b> (gamma, beta): used to convert differential equations into algebraic equations.</li>
+<li><b>Complex analysis</b>: complex numbers, analytic functions, Cauchy&ndash;Riemann equations, contour integration.</li>
+<li><b>Numerical methods</b>: numerical differentiation and integration, root-finding algorithms, linear programming, least-squares optimisation.</li></ul>
+<p>The course runs in this order: (1) Laplace analysis, (2) Fourier analysis (series analysis), (3) numerical methods, (4) complex series expansion (complex analysis).</p>
+
+<h3>What Laplace analysis is</h3>
+<p>Laplace analysis is a systematic framework for analysing <b>linear time-invariant (LTI)</b> systems, especially systems with initial conditions. The Laplace transform takes a function of time \(f(t)\), \(t\ge0\), and converts it into a function of a complex frequency variable \(s\). It is one member of the family of <b>integral transforms</b>, which all have the shape</p>
+<div class="f">\[F(s)=\int f(x)\,K(x,s)\,dx\qquad(K=\text{kernel})\]</div>
+<p>The Laplace transform uses the kernel \(K(t,s)=e^{-st}\) and integrates over \(t\ge0\):</p>
+<div class="f">\[\Lp{f(t)}=F(s)=\int_0^\infty f(t)\,e^{-st}\,dt\]</div>
+<p class="mut">where \(t\) = time-domain variable (\(t\ge0\)); \(s=\sigma+j\omega\) = complex frequency variable (\(j\) is the imaginary unit, written \(i\) in Kreyszig); \(\sigma\) = growth (or decay) rate; \(\omega\) = angular frequency of oscillation; \(K\) = kernel of the transform.</p>
+<div class="box">The kernel \(e^{-st}\) decomposes \(f(t)\) into a combination of <b>growing or decaying sinusoids</b>. The real part of \(s\) sets growth or decay, the imaginary part sets oscillation.</div>
+<p class="mut">Interactive picture: see <a class="dl" href="#vis" onclick="return true">Visuals</a>.</p>
+
+<h3>Relation to the Fourier transform</h3>
+<p>The Laplace kernel splits into a damping part and an oscillating part:</p>
+<div class="f">\[e^{-st}=e^{-(\sigma+j\omega)t}=e^{-\sigma t}\,e^{-j\omega t}\]</div>
+<p>The Fourier kernel is just \(e^{-j\omega t}\). If you set the real part of \(s\) to zero (\(\sigma=0\)), the Laplace transform evaluated along the imaginary axis becomes the <b>unilateral Fourier transform</b>. So the Laplace transform can be viewed as a <b>generalised version of the Fourier transform</b>. The extra damping factor \(e^{-\sigma t}\) is what lets it handle functions such as \(1\), \(t\) and \(e^{t}\), for which the Fourier integral does not converge.</p>
+</section>
+
+<section id="s61"><h2>6.1 Laplace transform, linearity, first shifting</h2>
+
+<h3>Definition: Laplace transform <b>(LT)</b> and inverse <b>(ILT)</b></h3>
+<p>For a function \(f(t)\) defined for \(t\ge0\), the Laplace transform of \(f\) is</p>
+<div class="f">\[\Lp{f(t)}=F(s)=\int_0^\infty e^{-st}f(t)\,dt\]</div>
+<p>We say \(F(s)\) is the <b>transform</b> of \(f(t)\). Going backward, \(f(t)\) is the <b>inverse transform</b> of \(F(s)\):</p>
+<div class="f">\[f(t)=\Li{F(s)}\]</div>
+<p class="mut">where \(f(t)\) = original function (lowercase), \(F(s)\) = its transform (capital), \(\mathcal{L}\) = Laplace operator, \(\mathcal{L}^{-1}\) = inverse Laplace operator.</p>
+<div class="box">The integral is done over \(t\); the result is a function of \(s\) only. Only values \(t\ge0\) matter (the one-sided transform).</div>
+
+<h3>Region of convergence <b>(ROC)</b></h3>
+<p>Write \(s=a+ib\) with \(a,b\) real. Then \(e^{-st}=e^{-at}\,e^{-ibt}\), and the factor \(e^{-ibt}\) always has modulus \(1\), so \(|e^{-st}|=e^{-at}\). As \(t\to\infty\):</p>
+<table><tr><th>Real part \(a\)</th><th>\(e^{-at}\) as \(t\to\infty\)</th><th>Effect</th></tr>
+<tr><td>\(a&gt;0\)</td><td>\(\to0\)</td><td>integral can converge</td></tr>
+<tr><td>\(a=0\)</td><td>stays \(1\)</td><td>no decay</td></tr>
+<tr><td>\(a&lt;0\)</td><td>\(\to\infty\)</td><td>integral diverges</td></tr></table>
+<p>So convergence depends only on the <b>real part</b> of \(s\). The set of \(s\) for which \(\int_0^\infty e^{-st}f(t)\,dt\) converges is the <b>region of convergence (ROC)</b>. For \(f=1\) it is \(\Rs&gt;0\); otherwise the integral diverges.</p>
+<p class="mut">Interactive picture: see <a class="dl" href="#vis" onclick="return true">Visuals</a>.</p>
+
+<h3>Basic transforms from the definition</h3>
+<table class="ft"><tr><th>\(f(t)\)</th><th>\(F(s)\)</th><th>ROC</th><th>Proof</th></tr>
+<tr><td>\(1\)</td><td>\(\dfrac1s\)</td><td>\(\Rs&gt;0\)</td><td><a class="dl" href="#D1">D1</a></td></tr>
+<tr><td>\(t\)</td><td>\(\dfrac1{s^2}\)</td><td>\(\Rs&gt;0\)</td><td><a class="dl" href="#D2">D2</a></td></tr>
+<tr><td>\(t^n\ (n=0,1,2,\dots)\)</td><td>\(\dfrac{n!}{s^{n+1}}\)</td><td>\(\Rs&gt;0\)</td><td><a class="dl" href="#D3">D3</a></td></tr>
+<tr><td>\(t^a\ (a&gt;-1)\)</td><td>\(\dfrac{\Gamma(a+1)}{s^{a+1}}\)</td><td>\(\Rs&gt;0\)</td><td><a class="dl" href="#D3">D3</a></td></tr>
+<tr><td>\(e^{at}\)</td><td>\(\dfrac1{s-a}\)</td><td>\(\Rs&gt;a\)</td><td><a class="dl" href="#D4">D4</a></td></tr></table>
+<p class="mut">where \(n!\) = factorial; \(a\) = any real number (positive, negative or zero); \(\Gamma\) = gamma function.</p>
+<div class="box"><b>Gamma function <b>(&Gamma;)</b>.</b> \(\Gamma(a)=\displaystyle\int_0^\infty e^{-x}x^{a-1}\,dx\), with \(\Gamma(a+1)=a\,\Gamma(a)\), \(\Gamma(n+1)=n!\) for integers \(n\ge0\), and \(\Gamma(\tfrac12)=\sqrt\pi\). It extends the factorial to fractions, which is why non-integer powers of \(t\) have transforms with \(\Gamma\) instead of \(n!\).</div>
+<div class="box">For \(e^{at}\) the ROC is \(\Rs&gt;a\), written equivalently \(\operatorname{Re}(s-a)&gt;0\). The sign of \(a\) does not matter; \(a\) can be negative (decay) or positive (growth).</div>
+
+<h3>Table of basic Laplace transforms</h3>
+<div style="overflow-x:auto"><table class="ft"><tr><th>No.</th><th>\(f(t)\)</th><th>\(F(s)=\Lp{f(t)}\)</th><th>ROC</th></tr>
+<tr><td>1</td><td>\(1\)</td><td>\(\dfrac1s\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>2</td><td>\(t\)</td><td>\(\dfrac1{s^2}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>3</td><td>\(t^n\ (n=0,1,2,\dots)\)</td><td>\(\dfrac{n!}{s^{n+1}}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>4</td><td>\(t^a\ (a&gt;-1)\)</td><td>\(\dfrac{\Gamma(a+1)}{s^{a+1}}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>5</td><td>\(\dfrac1{\sqrt{\pi t}}\)</td><td>\(\dfrac1{\sqrt s}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>6</td><td>\(2\sqrt{t/\pi}\)</td><td>\(\dfrac1{s^{3/2}}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>7</td><td>\(e^{at}\)</td><td>\(\dfrac1{s-a}\)</td><td>\(\Rs&gt;a\)</td></tr>
+<tr><td>8</td><td>\(\cos\omega t\)</td><td>\(\dfrac{s}{s^2+\omega^2}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>9</td><td>\(\sin\omega t\)</td><td>\(\dfrac{\omega}{s^2+\omega^2}\)</td><td>\(\Rs&gt;0\)</td></tr>
+<tr><td>10</td><td>\(\cosh at\)</td><td>\(\dfrac{s}{s^2-a^2}\)</td><td>\(\Rs&gt;|a|\)</td></tr>
+<tr><td>11</td><td>\(\sinh at\)</td><td>\(\dfrac{a}{s^2-a^2}\)</td><td>\(\Rs&gt;|a|\)</td></tr>
+<tr><td>12</td><td>\(e^{at}\cos\omega t\)</td><td>\(\dfrac{s-a}{(s-a)^2+\omega^2}\)</td><td>\(\Rs&gt;a\)</td></tr>
+<tr><td>13</td><td>\(e^{at}\sin\omega t\)</td><td>\(\dfrac{\omega}{(s-a)^2+\omega^2}\)</td><td>\(\Rs&gt;a\)</td></tr></table></div>
+<p class="mut">where \(\omega\) = angular frequency (real); \(a\) = real constant; \(n\) = non-negative integer. Proofs: rows 1&ndash;7 in <a class="dl" href="#D1">D1</a>&ndash;<a class="dl" href="#D4">D4</a>; rows 5, 6 in <a class="dl" href="#D3">D3</a>; rows 8, 9 in <a class="dl" href="#D7">D7</a>; rows 10, 11 in <a class="dl" href="#D6">D6</a>; rows 12, 13 in <a class="dl" href="#D8">D8</a>.</p>
+<div class="box">When solving a problem, first try to match it to a table row directly. If it does not match, use a theorem (shifting, derivative or integral rule, convolution) or partial fractions to break it into pieces that do.</div>
+
+<h3>Linearity</h3>
+<p>The Laplace transform is a <b>linear operation</b>. For functions \(f(t),g(t)\) whose transforms exist and any constants \(a,b\):</p>
+<div class="f">\[\Lp{af(t)+bg(t)}=aF(s)+bG(s)\]</div>
+<p class="mut">where \(a,b\) = constants; \(F=\Lp{f}\), \(G=\Lp{g}\). Written with two functions \(k_1f_1+k_2f_2\) it reads \(k_1\Lp{f_1}+k_2\Lp{f_2}\) (proof <a class="dl" href="#D5">D5</a>).</p>
+<div class="box">You can transform <b>term by term</b> and pull constants out. The same is true for the inverse transform: \(\Li{aF+bG}=af+bg\).</div>
+<p><b>Hyperbolic functions</b> follow from linearity, since \(\sinh t=\tfrac12(e^{t}-e^{-t})\). For example \(\Lp{\sinh t}=\dfrac1{s^2-1}\) with ROC \(\Rs&gt;1\): the term \(e^{t}\) needs \(\Rs&gt;1\), the term \(e^{-t}\) needs \(\Rs&gt;-1\), and both must hold, so the stricter one wins (<a class="dl" href="#D6">D6</a>).</p>
+<p><b>Sine and cosine</b> are found by integrating by parts twice (the pair of equations in \(I=\Lp{\sin\omega t}\) and \(J=\Lp{\cos\omega t}\) is solved together), see <a class="dl" href="#D7">D7</a>.</p>
+
+<h3>First shifting theorem <b>(FST)</b>, s-shifting</h3>
+<p>If \(f(t)\) has the transform \(F(s)\) for \(\Rs&gt;k\) (for some real \(k\)), then \(e^{at}f(t)\) has the transform \(F(s-a)\) for \(\operatorname{Re}(s-a)&gt;k\):</p>
+<div class="f">\[\Lp{e^{at}f(t)}=F(s-a)\qquad\Longleftrightarrow\qquad e^{at}f(t)=\Li{F(s-a)}\]</div>
+<p class="mut">where \(a\) = real shift; \(k\) = abscissa of convergence of \(F\) (from the existence theorem below); \(F(s-a)\) = \(F\) with every \(s\) replaced by \(s-a\). Proof: <a class="dl" href="#D8">D8</a>.</p>
+<div class="box">Multiplying \(f(t)\) by \(e^{at}\) simply <b>shifts</b> the transform: replace every \(s\) in \(F(s)\) by \(s-a\). That is why it is called the s-shift. Example: \(\Lp{e^{at}\sin\omega t}=\dfrac{\omega}{(s-a)^2+\omega^2}\), and similarly for cosine.</div>
+<div style="overflow-x:auto"><table class="ft"><tr><th>\(f(t)\)</th><th>\(F(s)=\Lp{f(t)}\)</th></tr>
+<tr><td>\(e^{at}t^n\)</td><td>\(\dfrac{n!}{(s-a)^{n+1}}\)</td></tr>
+<tr><td>\(e^{at}\cos\omega t\)</td><td>\(\dfrac{s-a}{(s-a)^2+\omega^2}\)</td></tr>
+<tr><td>\(e^{at}\sin\omega t\)</td><td>\(\dfrac{\omega}{(s-a)^2+\omega^2}\)</td></tr>
+<tr><td>\(e^{at}\cosh bt\)</td><td>\(\dfrac{s-a}{(s-a)^2-b^2}\)</td></tr>
+<tr><td>\(e^{at}\sinh bt\)</td><td>\(\dfrac{b}{(s-a)^2-b^2}\)</td></tr></table></div>
+<p class="mut">Interactive picture: see <a class="dl" href="#vis" onclick="return true">Visuals</a>.</p>
+
+<h3>Inverse Laplace transform <b>(ILT)</b></h3>
+<p>If \(\Lp{f(t)}=F(s)\) then \(\Li{F(s)}=f(t)\). The inverse is also linear. It is <b>unique</b>: two continuous functions with the same transform are equal, so reading a table backward is safe.</p>
+<div class="box"><b>Method for \(\dfrac{\alpha s+\beta}{s^2+ps+q}\) with no real roots.</b> (1) Complete the square: \(s^2+ps+q=(s+\tfrac p2)^2+\omega^2\) with \(\omega^2=q-\tfrac{p^2}4\). (2) Rewrite the numerator as \(\alpha(s+\tfrac p2)+\text{constant}\). (3) Match the two pieces with the \(e^{at}\cos\omega t\) and \(e^{at}\sin\omega t\) rows.</div>
+<h4>Example: \(\Li{\dfrac{3s-137}{s^2+2s+401}}\)</h4>
+<h4>Step 1: complete the square in the denominator</h4>
+<div class="f">\(\begin{aligned}s^2+2s+401&amp;=(s+1)^2+400\\[.8em]&amp;=(s+1)^2+20^2\end{aligned}\)</div>
+<h4>Step 2: write the numerator in terms of \(s+1\)</h4>
+<div class="f">\(\begin{gathered}3s-137=3(s+1)-3-137\\[.8em]3s-137=3(s+1)-140\end{gathered}\)</div>
+<h4>Step 3: split and match the table</h4>
+<div class="f">\(\begin{aligned}F(s)&amp;=3\,\dfrac{s+1}{(s+1)^2+20^2}-\dfrac{140}{(s+1)^2+20^2}\\[.8em]&amp;=3\,\dfrac{s+1}{(s+1)^2+20^2}-7\cdot\dfrac{20}{(s+1)^2+20^2}\end{aligned}\)</div>
+<p>These are the rows \(e^{at}\cos\omega t\) and \(e^{at}\sin\omega t\) with \(a=-1\), \(\omega=20\):</p>
+<div class="f">\(\begin{aligned}f(t)&amp;=3e^{-t}\cos20t-7e^{-t}\sin20t\\[.8em]&amp;=e^{-t}\big(3\cos20t-7\sin20t\big)\end{aligned}\)</div>
+
+<h3>Existence of the Laplace transform</h3>
+<p>Let \(f(t)\) be defined and <b>piecewise continuous</b> on every finite interval of \([0,\infty)\), and satisfy</p>
+<div class="f">\[|f(t)|\le Me^{kt}\quad\text{for all }t\ge0\text{ and some constants }M,k.\]</div>
+<p>Then \(\Lp{f}\) exists for all \(\operatorname{Re}(s)&gt;k\). Proof: <a class="dl" href="#D9">D9</a>.</p>
+<p class="mut">where \(M\) = a positive constant; \(k\) = growth constant (can be negative); a function satisfying the bound is of <b>exponential order</b>.</p>
+<div class="box nt">This condition is <b>sufficient, not necessary</b>. A few functions without this property still have a transform; for example \(1/\sqrt{t}\) is not piecewise continuous at \(0\), yet \(\Lp{1/\sqrt{\pi t}}=1/\sqrt s\). On the other hand \(e^{t^2}\) grows faster than every \(e^{kt}\) and has no transform.</div>
+<p>Functions such as polynomials, \(e^{at}\), \(\sin\omega t\), \(\cos\omega t\) and their products are of exponential order. A transform need not be computed from the integral every time: the existence theorem tells you it exists, and the tables give its value. When \(f\) is non-zero only on a finite interval, integrate only over that interval, as in the example below.</p>
+<h4>Example: a ramp on \((1,2)\)</h4>
+<div class="f">\(\begin{gathered}f(t)=\begin{cases}t-1,&amp;1\lt t\lt2\\0,&amp;\text{otherwise}\end{cases}\end{gathered}\)</div>
+<h4>Step 1: integrate only where \(f\ne0\)</h4>
+<div class="f">\(\begin{aligned}F(s)&amp;=\int_0^\infty e^{-st}f(t)\,dt\\[.8em]&amp;=\int_1^2e^{-st}(t-1)\,dt\end{aligned}\)</div>
+<h4>Step 2: substitute \(u=t-1\)</h4>
+<p>Then \(dt=du\), \(u\) runs from \(0\) to \(1\), and \(e^{-st}=e^{-s}e^{-su}\):</p>
+<div class="f">\(F(s)=e^{-s}\displaystyle\int_0^1u\,e^{-su}\,du\)</div>
+<h4>Step 3: integrate by parts</h4>
+<div class="f">\(\begin{aligned}\int_0^1u\,e^{-su}\,du&amp;=\Big[-\dfrac{u\,e^{-su}}s\Big]_0^1+\dfrac1s\int_0^1e^{-su}\,du\\[.8em]&amp;=-\dfrac{e^{-s}}s+\dfrac{1-e^{-s}}{s^2}\\[.8em]&amp;=\dfrac{1-e^{-s}-s\,e^{-s}}{s^2}\end{aligned}\)</div>
+<h4>Step 4: multiply by \(e^{-s}\)</h4>
+<div class="f">\(F(s)=\dfrac{e^{-s}-e^{-2s}-s\,e^{-2s}}{s^2}\)</div>
+<p class="mut">Section 6.3 gives a second route to the same answer through step functions.</p>
+</section>
+
+<section id="s62"><h2>6.2 Transforms of derivatives and integrals; ODEs</h2>
+<p>This is the key idea that makes the Laplace transform useful for ODEs: <b>differentiation with respect to \(t\) turns into multiplication by \(s\)</b>, plus some initial-value terms.</p>
+
+<h3>Transform of the derivative</h3>
+<p>Suppose \(f(t)\) is continuous for all \(t\ge0\), satisfies \(|f(t)|\le Me^{kt}\), and \(f'(t)\) is piecewise continuous on every finite interval of \(t\ge0\). Then the transform of \(f'\) exists for \(s\gt k\) and</p>
+<div class="f">\(\Lp{f'(t)}=sF(s)-f(0)\)</div>
+<p class="mut">where \(F(s)=\Lp{f(t)}\); \(f(0)\) = value of \(f\) at \(t=0\) (the initial condition). Proof: <a class="dl" href="#D10">D10</a>.</p>
+
+<h3>Transforms of higher derivatives</h3>
+<table class="ft"><tr><th>Derivative</th><th>Formula</th></tr>
+<tr><td>1st</td><td>\(\Lp{f'}=sF(s)-f(0)\)</td></tr>
+<tr><td>2nd</td><td>\(\Lp{f''}=s^2F(s)-sf(0)-f'(0)\)</td></tr>
+<tr><td>3rd</td><td>\(\Lp{f'''}=s^3F(s)-s^2f(0)-sf'(0)-f''(0)\)</td></tr>
+<tr><td>\(n\)th</td><td>\(\Lp{f^{(n)}}=s^nF(s)-s^{n-1}f(0)-s^{n-2}f'(0)-\cdots-f^{(n-1)}(0)\)</td></tr></table>
+<p class="mut">where \(f^{(n)}\) = \(n\)th derivative; \(f^{(k)}(0)\) = the \(k\)th derivative at \(t=0\). The \(n\)th-derivative rule needs \(f,f',\dots,f^{(n-1)}\) continuous and of exponential order, and \(f^{(n)}\) piecewise continuous. Proof: <a class="dl" href="#D11">D11</a>.</p>
+<div class="box">The formula <b>automatically brings in the initial conditions</b>. This is why the method needs no general solution with unknown constants.</div>
+
+<h3>Using the derivative rule to find new transforms</h3>
+<p>If a function satisfies \(f''=-\omega^2f+(\text{known term})\), transforming gives an algebraic equation for \(F(s)\).</p>
+<h4>Example: \(\Lp{t\sin\omega t}\)</h4>
+<h4>Step 1: derivatives and initial values</h4>
+<div class="f">\(\begin{gathered}f=t\sin\omega t\\[.8em]f'=\sin\omega t+\omega t\cos\omega t\\[.8em]f''=2\omega\cos\omega t-\omega^2t\sin\omega t=2\omega\cos\omega t-\omega^2f\\[.8em]f(0)=0,\quad f'(0)=0\end{gathered}\)</div>
+<h4>Step 2: transform the left side</h4>
+<div class="f">\(\begin{aligned}\Lp{f''}&amp;=s^2F-sf(0)-f'(0)\\[.8em]&amp;=s^2F\end{aligned}\)</div>
+<h4>Step 3: transform the right side</h4>
+<div class="f">\(\Lp{-\omega^2f+2\omega\cos\omega t}=-\omega^2F+\dfrac{2\omega s}{s^2+\omega^2}\)</div>
+<h4>Step 4: equate and solve for \(F\)</h4>
+<div class="f">\(\begin{gathered}s^2F=-\omega^2F+\dfrac{2\omega s}{s^2+\omega^2}\\[.8em](s^2+\omega^2)F=\dfrac{2\omega s}{s^2+\omega^2}\\[.8em]\Lp{t\sin\omega t}=\dfrac{2\omega s}{(s^2+\omega^2)^2}\end{gathered}\)</div>
+<h4>Example: \(\Lp{\sin\omega t}\) and \(\Lp{\cos\omega t}\)</h4>
+<p>For \(f=\sin\omega t\): \(f(0)=0\), \(f'=\omega\cos\omega t\), \(f'(0)=\omega\), \(f''=-\omega^2\sin\omega t=-\omega^2f\).</p>
+<div class="f">\(\begin{gathered}s^2F-s\cdot0-\omega=-\omega^2F\\[.8em](s^2+\omega^2)F=\omega\\[.8em]\Lp{\sin\omega t}=\dfrac{\omega}{s^2+\omega^2}\end{gathered}\)</div>
+<p>For \(f=\cos\omega t\): \(f(0)=1\), \(f'(0)=0\), \(f''=-\omega^2f\).</p>
+<div class="f">\(\begin{gathered}s^2F-s=-\omega^2F\\[.8em]\Lp{\cos\omega t}=\dfrac{s}{s^2+\omega^2}\end{gathered}\)</div>
+
+<h3>Transform of the integral</h3>
+<p>Let \(F(s)\) be the transform of \(f(t)\), where \(f\) is piecewise continuous and \(|f(t)|\le Me^{kt}\) (some \(k\), possibly negative). Then for \(s\gt0\) and \(s\gt k\):</p>
+<div class="f">\(\begin{gathered}\Lp{\displaystyle\int_0^tf(\tau)\,d\tau}=\dfrac{F(s)}s\\[.8em]\displaystyle\int_0^tf(\tau)\,d\tau=\Li{\dfrac{F(s)}s}\end{gathered}\)</div>
+<p class="mut">where \(\tau\) = dummy integration variable. Proof: <a class="dl" href="#D12">D12</a>.</p>
+<div class="box">Integrating \(f(t)\) from \(0\) to \(t\) corresponds to <b>dividing \(F(s)\) by \(s\)</b>. Repeating gives \(\Li{F/s^n}\) = the \(n\)-fold integral of \(f\).</div>
+<h4>Example: \(\Li{\dfrac1{s(s^2+\omega^2)}}\) and \(\Li{\dfrac1{s^2(s^2+\omega^2)}}\)</h4>
+<h4>Step 1: first inverse</h4>
+<p>Take \(f(t)=\sin\omega t\), so \(F(s)=\dfrac{\omega}{s^2+\omega^2}\). Integrate:</p>
+<div class="f">\(\begin{aligned}\int_0^t\sin\omega\tau\,d\tau&amp;=\Big[-\dfrac{\cos\omega\tau}\omega\Big]_0^t\\[.8em]&amp;=\dfrac1\omega(1-\cos\omega t)\end{aligned}\)</div>
+<p>By the integral theorem this is \(\Li{F/s}=\Li{\dfrac1s\cdot\dfrac\omega{s^2+\omega^2}}\). Divide both sides by \(\omega\):</p>
+<div class="f">\(\Li{\dfrac1{s(s^2+\omega^2)}}=\dfrac1{\omega^2}(1-\cos\omega t)\)</div>
+<h4>Step 2: second inverse</h4>
+<p>Let \(g(t)=\dfrac1{\omega^2}(1-\cos\omega t)\) with \(G(s)=\dfrac1{s(s^2+\omega^2)}\). Integrate once more:</p>
+<div class="f">\(\begin{aligned}\Li{\dfrac1s\cdot\dfrac1{s(s^2+\omega^2)}}&amp;=\dfrac1{\omega^2}\int_0^t(1-\cos\omega\tau)\,d\tau\\[.8em]&amp;=\dfrac1{\omega^2}\Big[\tau-\dfrac{\sin\omega\tau}\omega\Big]_0^t\\[.8em]&amp;=\dfrac1{\omega^2}\Big(t-\dfrac{\sin\omega t}\omega\Big)\\[.8em]&amp;=\dfrac1{\omega^3}\big(\omega t-\sin\omega t\big)\end{aligned}\)</div>
+
+<h3>Method: solving an ODE with the Laplace transform</h3>
+<ol><li><b>Transform.</b> Apply \(\mathcal{L}\) to both sides. Use the derivative formulas, which bring in \(y(0),y'(0),\dots\). The ODE becomes an algebraic equation in \(Y(s)=\Lp{y(t)}\), called the <b>subsidiary equation</b>.</li>
+<li><b>Solve.</b> Solve the subsidiary equation for \(Y(s)\) by ordinary algebra.</li>
+<li><b>Invert.</b> Find \(y(t)=\Li{Y(s)}\), usually with tables and partial fractions.</li></ol>
+<div class="box"><b>Why it is useful.</b> Initial conditions are used immediately, so you never find a general solution with unknown constants first. It also handles discontinuous or impulsive right-hand sides directly (Sections 6.3 and 6.4).</div>
+
+<h4>Example (IVP): \(y''-y=t\), \(y(0)=1\), \(y'(0)=1\)</h4>
+<h4>Step 1: transform both sides</h4>
+<div class="f">\(\begin{gathered}\Lp{y''}-\Lp{y}=\Lp{t}\\[.8em]s^2Y-sy(0)-y'(0)-Y=\dfrac1{s^2}\end{gathered}\)</div>
+<h4>Step 2: insert the initial conditions and solve</h4>
+<div class="f">\(\begin{aligned}s^2Y-s-1-Y&amp;=\dfrac1{s^2}\\[.8em](s^2-1)Y&amp;=s+1+\dfrac1{s^2}\\[.8em]Y&amp;=\dfrac{s+1}{s^2-1}+\dfrac1{s^2(s^2-1)}\\[.8em]&amp;=\dfrac1{s-1}+\dfrac1{s^2(s^2-1)}\end{aligned}\)</div>
+<h4>Step 3: partial fractions</h4>
+<div class="f">\(\begin{aligned}\dfrac1{s^2(s^2-1)}&amp;=\dfrac{s^2-(s^2-1)}{s^2(s^2-1)}\\[.8em]&amp;=\dfrac1{s^2-1}-\dfrac1{s^2}\end{aligned}\)</div>
+<h4>Step 4: invert</h4>
+<div class="f">\(\begin{aligned}y(t)&amp;=\Li{\dfrac1{s-1}}+\Li{\dfrac1{s^2-1}}-\Li{\dfrac1{s^2}}\\[.8em]&amp;=e^{t}+\sinh t-t\end{aligned}\)</div>
+<h4>Step 5: check</h4>
+<div class="f">\(\begin{gathered}y''=e^{t}+\sinh t\\[.8em]y''-y=t\\[.8em]y(0)=1,\quad y'(0)=1+1-1=1\end{gathered}\)</div>
+
+<h3>Initial conditions given at a point other than \(t=0\)</h3>
+<p>The Laplace method needs conditions at \(t=0\). If they are given at \(t=t_0\), shift the variable: let \(\tau=t-t_0\) and \(z(\tau)=y(\tau+t_0)\). Then \(z\) satisfies a new IVP with conditions at \(\tau=0\). Solve it, then put \(\tau=t-t_0\) back.</p>
+<h4>Example: \(y''+y=2t\), \(y(\tfrac\pi4)=\tfrac\pi2\), \(y'(\tfrac\pi4)=2-\sqrt2\)</h4>
+<h4>Step 1: shift</h4>
+<div class="f">\(\begin{gathered}\tau=t-\tfrac\pi4\quad(t=\tfrac\pi4\Rightarrow\tau=0)\\[.8em]z(\tau)=y\big(\tau+\tfrac\pi4\big),\quad z'(\tau)=y'\big(\tau+\tfrac\pi4\big)\\[.8em]z(0)=\dfrac\pi2,\quad z'(0)=2-\sqrt2\end{gathered}\)</div>
+<h4>Step 2: the new IVP</h4>
+<div class="f">\(z''(\tau)+z(\tau)=2\big(\tau+\tfrac\pi4\big)=2\tau+\dfrac\pi2\)</div>
+<h4>Step 3: transform</h4>
+<div class="f">\(\begin{gathered}s^2Z-sz(0)-z'(0)+Z=\dfrac2{s^2}+\dfrac\pi{2s}\\[.8em](s^2+1)Z=\dfrac\pi2s+2-\sqrt2+\dfrac2{s^2}+\dfrac\pi{2s}\end{gathered}\)</div>
+<h4>Step 4: divide and split</h4>
+<div class="f">\(Z=\dfrac\pi2\dfrac{s}{s^2+1}+\dfrac{2-\sqrt2}{s^2+1}+\dfrac2{s^2(s^2+1)}+\dfrac\pi2\dfrac1{s(s^2+1)}\)</div>
+<h4>Step 5: partial fractions of the last two terms</h4>
+<div class="f">\(\begin{gathered}\dfrac2{s^2(s^2+1)}=\dfrac2{s^2}-\dfrac2{s^2+1}\\[.8em]\dfrac1{s(s^2+1)}=\dfrac1s-\dfrac{s}{s^2+1}\end{gathered}\)</div>
+<h4>Step 6: collect like terms</h4>
+<div class="f">\(\begin{aligned}Z&amp;=\Big(\dfrac\pi2-\dfrac\pi2\Big)\dfrac{s}{s^2+1}+\big(2-\sqrt2-2\big)\dfrac1{s^2+1}+\dfrac2{s^2}+\dfrac\pi2\cdot\dfrac1s\\[.8em]&amp;=\dfrac2{s^2}+\dfrac\pi{2s}-\dfrac{\sqrt2}{s^2+1}\end{aligned}\)</div>
+<h4>Step 7: invert, then go back to \(t\)</h4>
+<div class="f">\(\begin{aligned}z(\tau)&amp;=2\tau+\dfrac\pi2-\sqrt2\sin\tau\\[.8em]y(t)&amp;=2\big(t-\tfrac\pi4\big)+\dfrac\pi2-\sqrt2\sin\big(t-\tfrac\pi4\big)\\[.8em]&amp;=2t-\sqrt2\Big(\sin t\cos\tfrac\pi4-\cos t\sin\tfrac\pi4\Big)\\[.8em]&amp;=2t-\sin t+\cos t\end{aligned}\)</div>
+<h4>Step 8: check</h4>
+<div class="f">\(\begin{gathered}y'=2-\cos t-\sin t,\quad y''=\sin t-\cos t\\[.8em]y''+y=2t\\[.8em]y(\tfrac\pi4)=\dfrac\pi2,\quad y'(\tfrac\pi4)=2-\sqrt2\end{gathered}\)</div>
+</section>
+
+<section id="s63"><h2>6.3 Unit step function; second shifting (t-shifting)</h2>
+<p>The unit step function describes inputs that &ldquo;turn on&rdquo; (or off) at a certain time, such as a switch closing or a force suddenly applied.</p>
+
+<h3>Unit step (Heaviside) function <b>(u)</b></h3>
+<div class="f">\(u(t-a)=\begin{cases}0,&amp;t\lt a\\[2pt]1,&amp;t\ge a\end{cases}\qquad(a\ge0)\)</div>
+<p class="mut">where \(a\) = the switch-on time; \(u(t)\) is the case \(a=0\): \(0\) for \(t\lt0\), \(1\) for \(t\gt0\).</p>
+<p>It &ldquo;switches on&rdquo; at \(t=a\). The value exactly at \(t=a\) (taken as \(1\), left undefined, or \(\tfrac12\)) never changes a transform, since a single point has zero integral. The combination \(u(t-a)-u(t-b)\) with \(a\lt b\) is a <b>pulse</b>: it equals \(1\) for \(a\le t\lt b\) and \(0\) elsewhere, so multiplying any \(f(t)\) by it keeps \(f\) only on \([a,b)\).</p>
+<div class="f">\(\begin{gathered}\Lp{u(t-a)}=\dfrac{e^{-as}}s\quad(\Rs\gt0)\\[.8em]\Lp{u(t)}=\dfrac1s\end{gathered}\)</div>
+<p class="mut">Proof: <a class="dl" href="#D13">D13</a>.</p>
+<div class="box nt"><b>Correction.</b> The region of convergence of \(\Lp{u(t-a)}\) is \(\Rs\gt0\) for every \(a\ge0\), not \(\Rs\gt a\): the integral is \(\int_a^\infty e^{-st}dt\), which converges exactly when \(\Rs\gt0\).</div>
+
+<h3>Second shifting theorem <b>(SST)</b>, t-shifting</h3>
+<p>If \(f(t)\) has the transform \(F(s)\), then the shifted and switched-on function</p>
+<div class="f">\(\tilde f(t)=f(t-a)\,u(t-a)=\begin{cases}0,&amp;t\lt a\\ f(t-a),&amp;t\ge a\end{cases}\)</div>
+<p>has the transform \(e^{-as}F(s)\):</p>
+<div class="f">\(\begin{gathered}\Lp{f(t-a)\,u(t-a)}=e^{-as}F(s)\\[.8em]f(t-a)\,u(t-a)=\Li{e^{-as}F(s)}\end{gathered}\)</div>
+<p><b>Alternative form</b> (useful when the shift is written differently):</p>
+<div class="f">\(\Lp{f(t)\,u(t-a)}=e^{-as}\,\Lp{f(t+a)}\)</div>
+<p class="mut">where \(a\ge0\) = the delay; \(F=\Lp{f}\). Proofs: <a class="dl" href="#D14">D14</a>.</p>
+<div class="box">Multiplying \(F(s)\) by \(e^{-as}\) <b>delays</b> the function \(f(t)\) by \(a\) and switches it on at \(t=a\). Compare with the first shift: the s-shift multiplies \(f\) by \(e^{at}\); the t-shift multiplies \(F\) by \(e^{-as}\).</div>
+<div class="box nt"><b>Why the step function is essential.</b> \(\Lp{f(t-a)u(t-a)}\) and \(\Lp{f(t-a)}\) are different. The Laplace transform only sees \(t\ge0\). The plain shift \(f(t-a)\) is non-zero on \([0,a)\) and the transform counts that stretch; \(f(t-a)u(t-a)\) is exactly zero before \(a\) and starts afresh at \(a\), so only that one has the clean answer \(e^{-as}F(s)\).</div>
+<p class="mut">Interactive picture: see <a class="dl" href="#vis" onclick="return true">Visuals</a>.</p>
+<div style="overflow-x:auto"><table class="ft"><tr><th>\(f(t)\)</th><th>\(F(s)=\Lp{f(t)}\)</th></tr>
+<tr><td>\(u(t-a)\)</td><td>\(\dfrac{e^{-as}}{s}\)</td></tr>
+<tr><td>\((t-a)\,u(t-a)\)</td><td>\(\dfrac{e^{-as}}{s^2}\)</td></tr>
+<tr><td>\(\dfrac{(t-a)^n}{n!}\,u(t-a)\)</td><td>\(\dfrac{e^{-as}}{s^{n+1}}\)</td></tr>
+<tr><td>\(\sin\omega(t-a)\,u(t-a)\)</td><td>\(e^{-as}\dfrac{\omega}{s^2+\omega^2}\)</td></tr>
+<tr><td>\(\cos\omega(t-a)\,u(t-a)\)</td><td>\(e^{-as}\dfrac{s}{s^2+\omega^2}\)</td></tr></table></div>
+
+<h3>Writing a piecewise function with step functions</h3>
+<p>A function with different formulas on different intervals is written as a sum of pieces, each multiplied by a pulse \(u(t-a_i)-u(t-a_{i+1})\):</p>
+<div class="f">\(f(t)=\sum_if_i(t)\,\big[u(t-a_i)-u(t-a_{i+1})\big]\)</div>
+<p>Each piece is then rewritten as \(g(t-a)\,u(t-a)\) by re-expressing \(t=(t-a)+a\), so that the second shifting theorem applies.</p>
+<h4>Example: find \(\Lp{f}\) for a three-piece function</h4>
+<div class="f">\(\begin{gathered}f(t)=\begin{cases}2,&amp;0\lt t\lt1\\[2pt]\tfrac12t^2,&amp;1\lt t\lt\tfrac\pi2\\[2pt]\cos t,&amp;t\gt\tfrac\pi2\\[2pt]0,&amp;\text{otherwise}\end{cases}\end{gathered}\)</div>
+<h4>Step 1: write with pulses</h4>
+<div class="f">\(\begin{aligned}f(t)&amp;=2\big[u(t)-u(t-1)\big]+\tfrac12t^2\big[u(t-1)-u(t-\tfrac\pi2)\big]+\cos t\;u(t-\tfrac\pi2)\\[.8em]&amp;=2u(t)-2u(t-1)+\tfrac12t^2u(t-1)-\tfrac12t^2u(t-\tfrac\pi2)+\cos t\;u(t-\tfrac\pi2)\end{aligned}\)</div>
+<h4>Step 2: rewrite each term as \(g(t-a)\,u(t-a)\)</h4>
+<div class="f">\(\begin{aligned}\tfrac12t^2\,\big|_{t=(t-1)+1}&amp;=\tfrac12(t-1)^2+(t-1)+\tfrac12\\[.8em]\tfrac12t^2\,\big|_{t=(t-\frac\pi2)+\frac\pi2}&amp;=\tfrac12\big(t-\tfrac\pi2\big)^2+\tfrac\pi2\big(t-\tfrac\pi2\big)+\tfrac{\pi^2}8\\[.8em]\cos t\,\big|_{t=(t-\frac\pi2)+\frac\pi2}&amp;=-\sin\big(t-\tfrac\pi2\big)\end{aligned}\)</div>
+<h4>Step 3: assemble</h4>
+<div class="f">\(\begin{aligned}f(t)&amp;=2u(t)-2u(t-1)+\Big\{\tfrac12(t-1)^2+(t-1)+\tfrac12\Big\}u(t-1)\\[.8em]&amp;\quad-\Big\{\tfrac12\big(t-\tfrac\pi2\big)^2+\tfrac\pi2\big(t-\tfrac\pi2\big)+\tfrac{\pi^2}8\Big\}u\big(t-\tfrac\pi2\big)\\[.8em]&amp;\quad-\sin\big(t-\tfrac\pi2\big)\,u\big(t-\tfrac\pi2\big)\end{aligned}\)</div>
+<h4>Step 4: transform with the table</h4>
+<p>Use \(\Lp{(t-a)^n u(t-a)}=\dfrac{n!\,e^{-as}}{s^{n+1}}\) and \(\Lp{\sin(t-a)u(t-a)}=\dfrac{e^{-as}}{s^2+1}\):</p>
+<div class="f">\(\begin{aligned}F(s)&amp;=\dfrac2s-\dfrac{2e^{-s}}s+e^{-s}\Big[\tfrac12\cdot\dfrac2{s^3}+\dfrac1{s^2}+\dfrac1{2s}\Big]\\[.8em]&amp;\quad-e^{-\pi s/2}\Big[\tfrac12\cdot\dfrac2{s^3}+\dfrac\pi2\cdot\dfrac1{s^2}+\dfrac{\pi^2}8\cdot\dfrac1s\Big]-\dfrac{e^{-\pi s/2}}{s^2+1}\end{aligned}\)</div>
+<h4>Step 5: simplify</h4>
+<div class="f">\(F(s)=\dfrac{2-2e^{-s}}s+e^{-s}\Big[\dfrac1{s^3}+\dfrac1{s^2}+\dfrac1{2s}\Big]-e^{-\pi s/2}\Big[\dfrac1{s^3}+\dfrac\pi{2s^2}+\dfrac{\pi^2}{8s}+\dfrac1{s^2+1}\Big]\)</div>
+<p class="mut">If the cosine piece stops at \(t=\tfrac{3\pi}2\) (a pulse \(u(t-\frac\pi2)-u(t-\frac{3\pi}2)\)), use \(\cos t=\sin\big(t-\tfrac{3\pi}2\big)\) there; this adds the term \(-\dfrac{e^{-3\pi s/2}}{s^2+1}\) to \(F(s)\).</p>
+<p><b>Second route for the earlier ramp.</b> The ramp \(f=t-1\) on \((1,2)\) is \((t-1)\big[u(t-1)-u(t-2)\big]=(t-1)u(t-1)-(t-2)u(t-2)-u(t-2)\), so</p>
+<div class="f">\(F(s)=\dfrac{e^{-s}}{s^2}-\dfrac{e^{-2s}}{s^2}-\dfrac{e^{-2s}}s\)</div>
+<p>which equals \(\dfrac{e^{-s}-e^{-2s}-se^{-2s}}{s^2}\), the answer found by direct integration.</p>
+
+<h3>Inverse transforms containing \(e^{-as}\)</h3>
+<p>Whenever \(F(s)\) contains a factor \(e^{-as}\): (1) invert the remaining rational part to get \(f(t)\); (2) replace \(t\) by \(t-a\) and multiply by \(u(t-a)\).</p>
+<h4>Example: \(\Li{\dfrac{e^{-s}}{s^2+\pi^2}+\dfrac{e^{-2s}}{s^2+\pi^2}+\dfrac{e^{-3s}}{(s+2)^2}}\)</h4>
+<h4>Step 1: first term, \(a=1\)</h4>
+<div class="f">\(\begin{aligned}\Li{\dfrac{e^{-s}}{s^2+\pi^2}}&amp;=\dfrac1\pi\Li{e^{-s}\dfrac{\pi}{s^2+\pi^2}}\\[.8em]&amp;=\dfrac1\pi\sin\pi(t-1)\,u(t-1)\end{aligned}\)</div>
+<h4>Step 2: second term, \(a=2\)</h4>
+<div class="f">\(\Li{\dfrac{e^{-2s}}{s^2+\pi^2}}=\dfrac1\pi\sin\pi(t-2)\,u(t-2)\)</div>
+<h4>Step 3: third term, \(a=3\)</h4>
+<p>Invert \(\dfrac1{(s+2)^2}\) first: \(\dfrac1{s^2}\to t\), and the s-shift \(s\to s+2\) multiplies by \(e^{-2t}\):</p>
+<div class="f">\(\begin{gathered}\Li{\dfrac1{(s+2)^2}}=t\,e^{-2t}\\[.8em]\Li{\dfrac{e^{-3s}}{(s+2)^2}}=(t-3)\,e^{-2(t-3)}\,u(t-3)\end{gathered}\)</div>
+<h4>Step 4: add</h4>
+<div class="f">\(f(t)=\dfrac1\pi\sin\pi(t-1)\,u(t-1)+\dfrac1\pi\sin\pi(t-2)\,u(t-2)+(t-3)\,e^{-2(t-3)}\,u(t-3)\)</div>
+
+<h3>Laplace transform of a periodic function</h3>
+<p>Let \(f(t)\) be periodic with period \(p\) (so \(f(t+p)=f(t)\) for all \(t\ge0\)) and piecewise continuous on one period. Then</p>
+<div class="f">\(F(s)=\dfrac1{1-e^{-ps}}\displaystyle\int_0^pe^{-st}f(t)\,dt\)</div>
+<p class="mut">where \(p\) = period; the integral is over <b>one period</b> only. Proof: <a class="dl" href="#D15">D15</a>.</p>
+<div class="box">Integrate over one period, then divide by \(1-e^{-ps}\), instead of integrating over \(0\) to \(\infty\) directly.</div>
+<h4>Example: square pulse train with period \(2\)</h4>
+<div class="f">\(\begin{gathered}f(t)=\begin{cases}1,&amp;0\lt t\lt1\\0,&amp;1\lt t\lt2\end{cases}\qquad f(t+2)=f(t)\end{gathered}\)</div>
+<div class="f">\(\begin{aligned}\int_0^2e^{-st}f\,dt&amp;=\int_0^1e^{-st}\,dt=\dfrac{1-e^{-s}}s\\[.8em]F(s)&amp;=\dfrac{1-e^{-s}}{s(1-e^{-2s})}\\[.8em]&amp;=\dfrac{1-e^{-s}}{s(1-e^{-s})(1+e^{-s})}\\[.8em]&amp;=\dfrac1{s\,(1+e^{-s})}\end{aligned}\)</div>
+</section>
+
+<section id="s64"><h2>6.4 Short impulses; Dirac delta; partial fractions</h2>
+<p>Sometimes a force acts for a very short time but is large, like a hammer strike. We model this with the Dirac delta function.</p>
+
+<h3>Dirac delta function <b>(DDF)</b></h3>
+<p>Take a short rectangular pulse starting at \(t=a\) with duration \(k\) and height \(1/k\), so its <b>area is always \(1\)</b>:</p>
+<div class="f">\(\begin{gathered}f_k(t-a)=\begin{cases}1/k,&amp;a\le t\le a+k\\ 0,&amp;\text{otherwise}\end{cases}\\[.8em]\displaystyle\int_{-\infty}^{\infty}f_k(t-a)\,dt=\dfrac1k\cdot k=1\end{gathered}\)</div>
+<p>The Dirac delta function \(\delta(t-a)\) is the limit as the duration \(k\to0\) (so the height \(\to\infty\)) of this pulse. Its properties:</p>
+<div class="f">\(\begin{gathered}\delta(t-a)=\begin{cases}\infty,&amp;t=a\\ 0,&amp;t\ne a\end{cases}\\[.8em]\displaystyle\int_{-\infty}^{\infty}\delta(t-a)\,dt=1\end{gathered}\)</div>
+<p class="mut">where \(k\) = pulse duration; \(a\) = location of the impulse; \(f_k\) = the pulse of area 1. A pulse centred at the origin (height \(1/k\) on \(-\tfrac k2\lt x\lt\tfrac k2\)) or a triangular pulse of unit area gives the same limit: the shape does not matter. \(\delta\) is not an ordinary function but a <b>generalised function</b>.</p>
+<p class="mut">Interactive picture: see <a class="dl" href="#vis" onclick="return true">Visuals</a>.</p>
+
+<h3>Sifting property</h3>
+<p>For any function \(g(t)\) continuous at \(t=a\):</p>
+<div class="f">\(\begin{gathered}\displaystyle\int_{-\infty}^{\infty}g(t)\,\delta(t-a)\,dt=g(a)\\[.8em]\displaystyle\int_0^\infty g(t)\,\delta(t-a)\,dt=g(a)\quad(a\gt0)\end{gathered}\)</div>
+<p class="mut">where \(g\) = any function continuous at \(a\). The delta &ldquo;sifts out&rdquo; the value of \(g\) at the point \(a\), because \(\delta(t-a)\) is zero everywhere else, so the rest of the curve is multiplied by \(0\). Proof: <a class="dl" href="#D16">D16</a>.</p>
+
+<h3>Laplace transform of the delta function</h3>
+<div class="f">\(\begin{gathered}\Lp{\delta(t-a)}=e^{-as}\quad(a\ge0)\\[.8em]\Lp{\delta(t)}=1\end{gathered}\)</div>
+<p>Proof: <a class="dl" href="#D17">D17</a>. In an ODE, \(\delta(t-a)\) on the right-hand side models a sudden impulse (a hit, a spike, a single sharp push) applied at \(t=a\).</p>
+<h4>Example (mass-spring system): \(y''+3y'+2y=\delta(t-1)\), \(y(0)=0\), \(y'(0)=0\)</h4>
+<h4>Step 1: transform</h4>
+<div class="f">\(\big[s^2Y-sy(0)-y'(0)\big]+3\big[sY-y(0)\big]+2Y=e^{-s}\)</div>
+<div class="box nt"><b>Correction.</b> The derivative terms carry the signs \(s^2Y-sy(0)-y'(0)\). With zero initial conditions this makes no numerical difference here, but those are the correct signs.</div>
+<h4>Step 2: insert the initial conditions and solve</h4>
+<div class="f">\(\begin{aligned}(s^2+3s+2)\,Y&amp;=e^{-s}\\[.8em]Y&amp;=\dfrac{e^{-s}}{(s+1)(s+2)}\end{aligned}\)</div>
+<h4>Step 3: partial fractions</h4>
+<div class="f">\(\begin{gathered}\dfrac1{(s+1)(s+2)}=\dfrac A{s+1}+\dfrac B{s+2}\\[.8em]A=\dfrac1{-1+2}=1,\quad B=\dfrac1{-2+1}=-1\\[.8em]Y=e^{-s}\Big(\dfrac1{s+1}-\dfrac1{s+2}\Big)\end{gathered}\)</div>
+<h4>Step 4: invert and delay by \(1\)</h4>
+<div class="f">\(y(t)=\Big[e^{-(t-1)}-e^{-2(t-1)}\Big]u(t-1)\)</div>
+<p>The system is at rest (\(y=0\)) until the impulse arrives at \(t=1\), then it responds.</p>
+
+<h3>Partial fractions <b>(PF)</b> for finding inverse transforms</h3>
+<p>When \(F(s)=\dfrac{N(s)}{D(s)}\) is a fraction of two polynomials with \(\deg N\lt\deg D\) (if not, divide first), split it into simple fractions before reading the table backward. After splitting, invert each simple term separately and add the results (the inverse transform is linear).</p>
+<table class="ft"><tr><th>Case</th><th>Factor in \(D(s)\)</th><th>Partial fraction term(s)</th></tr>
+<tr><td>Distinct linear factor</td><td>\((s-a)\)</td><td>\(\dfrac{A}{s-a}\)</td></tr>
+<tr><td>Repeated linear factor, order \(m\)</td><td>\((s-a)^m\)</td><td>\(\dfrac{A_1}{s-a}+\dfrac{A_2}{(s-a)^2}+\cdots+\dfrac{A_m}{(s-a)^m}\)</td></tr>
+<tr><td>Distinct irreducible quadratic (complex roots \(a\pm ib\))</td><td>\((s-a)^2+b^2\)</td><td>\(\dfrac{As+B}{(s-a)^2+b^2}\)</td></tr></table>
+<p class="mut">where \(A,A_k,B\) = constants to be found; \(a\) = real root; \(a\pm ib\) = complex-conjugate roots; \(m\) = multiplicity.</p>
+<div class="box"><b>Finding the constants.</b> (i) <b>Cover-up</b> for a simple root: \(A=\big[(s-a)F(s)\big]_{s=a}\). (ii) <b>Repeated root</b> of order \(m\): with \(g(s)=(s-a)^mF(s)\), \(A_m=g(a)\), \(A_{m-1}=g'(a)\), \(A_{m-2}=g''(a)/2!\), and so on. (iii) <b>Compare coefficients</b> of like powers of \(s\), or substitute convenient values of \(s\). Quadratic case: \(\Li{\dfrac{As+B}{(s-a)^2+b^2}}=e^{at}\Big[A\cos bt+\dfrac{Aa+B}{b}\sin bt\Big]\). Derivation: <a class="dl" href="#D18">D18</a>.</div>
+<h4>Example: \(\Li{\dfrac1{s^2(s^2-1)}}\) (repeated root)</h4>
+<div class="f">\(\begin{gathered}\dfrac1{s^2(s^2-1)}=\dfrac As+\dfrac B{s^2}+\dfrac C{s-1}+\dfrac D{s+1}\end{gathered}\)</div>
+<div class="f">\(\begin{aligned}C&amp;=\Big[\dfrac1{s^2(s+1)}\Big]_{s=1}=\dfrac12\\[.8em]D&amp;=\Big[\dfrac1{s^2(s-1)}\Big]_{s=-1}=-\dfrac12\\[.8em]B&amp;=g(0),\ g=\dfrac1{s^2-1}\ \Rightarrow\ B=-1\\[.8em]A&amp;=g'(0)=\Big[-\dfrac{2s}{(s^2-1)^2}\Big]_{s=0}=0\end{aligned}\)</div>
+<div class="f">\(\begin{aligned}\Li{\dfrac1{s^2(s^2-1)}}&amp;=-t+\tfrac12e^{t}-\tfrac12e^{-t}\\[.8em]&amp;=\sinh t-t\end{aligned}\)</div>
+<h4>Example: \(\Li{\dfrac1{(s+1)(s^2+1)}}\) (quadratic factor)</h4>
+<div class="f">\(\begin{gathered}\dfrac1{(s+1)(s^2+1)}=\dfrac A{s+1}+\dfrac{Bs+C}{s^2+1}\\[.8em]1=A(s^2+1)+(Bs+C)(s+1)\end{gathered}\)</div>
+<div class="f">\(\begin{aligned}s=-1:&amp;\quad1=2A\Rightarrow A=\tfrac12\\[.8em]s^2:&amp;\quad0=A+B\Rightarrow B=-\tfrac12\\[.8em]s^0:&amp;\quad1=A+C\Rightarrow C=\tfrac12\end{aligned}\)</div>
+<div class="f">\(\Li{\cdot}=\tfrac12e^{-t}-\tfrac12\cos t+\tfrac12\sin t\)</div>
+</section>
+
+<section id="s65"><h2>6.5 Convolution; integral equations</h2>
+<p>Convolution lets us find the inverse transform of a <b>product</b> \(F(s)G(s)\), even when the product is not a simple rational function that partial fractions can split.</p>
+
+<h3>Convolution <b>(*)</b> and the convolution theorem <b>(CT)</b></h3>
+<p>The transform of an ordinary product is <b>not</b> the product of transforms: \(\Lp{f(t)g(t)}\ne\Lp{f}\Lp{g}\). The operation whose transform <i>is</i> the product is the convolution:</p>
+<div class="f">\((f*g)(t)=\displaystyle\int_0^tf(\tau)\,g(t-\tau)\,d\tau\)</div>
+<p>If \(f\) and \(g\) satisfy the existence condition and have transforms \(F(s)\) and \(G(s)\), then \(h=f*g\) has the transform \(H(s)=F(s)G(s)\):</p>
+<div class="f">\(\begin{gathered}\Lp{f*g}=F(s)\,G(s)\\[.8em]f*g=\Li{F(s)\,G(s)}\end{gathered}\)</div>
+<p class="mut">where \(\tau\) = dummy variable; \(f*g\) = convolution of \(f\) and \(g\). Proof: <a class="dl" href="#D19">D19</a>.</p>
+<div class="box">Multiplying two transforms corresponds to <b>convolving</b> the two original functions, not to multiplying \(f(t)g(t)\) directly.</div>
+
+<h3>Properties of convolution</h3>
+<table class="ft"><tr><th>Property</th><th>Formula</th></tr>
+<tr><td>Commutative</td><td>\(f*g=g*f\)</td></tr>
+<tr><td>Distributive</td><td>\(f*(g_1+g_2)=f*g_1+f*g_2\)</td></tr>
+<tr><td>Associative</td><td>\((f*g)*v=f*(g*v)\)</td></tr>
+<tr><td>Zero element</td><td>\(f*0=0*f=0\)</td></tr>
+<tr><td>Not a true &ldquo;product&rdquo;</td><td>\(f*1\ne f\) in general</td></tr>
+<tr><td>Not always non-negative</td><td>\(f*f\) can be negative for some \(t\) (unlike an ordinary product \(f\cdot f=f^2\ge0\))</td></tr></table>
+<p class="mut">Proofs: <a class="dl" href="#D20">D20</a>.</p>
+<h4>Why \(f*1\ne f\)</h4>
+<div class="f">\(\begin{gathered}f*1=\displaystyle\int_0^tf(\tau)\cdot1\,d\tau\\[.8em]f=t:\quad t*1=\displaystyle\int_0^t\tau\,d\tau=\dfrac{t^2}2\ne t\end{gathered}\)</div>
+<h4>Why \(f*f\) can be negative</h4>
+<p>With \(f=\sin t\) (worked out in the second example below with \(\omega=1\)):</p>
+<div class="f">\(\begin{aligned}(\sin t*\sin t)(t)&amp;=\tfrac12\big(\sin t-t\cos t\big)\\[.8em]t=2\pi:\quad&amp;=\tfrac12(0-2\pi)=-\pi\lt0\end{aligned}\)</div>
+
+<h3>Inverse transforms by convolution</h3>
+<h4>Example: \(\Li{\dfrac1{s(s-a)}}\)</h4>
+<h4>Step 1: split the product</h4>
+<div class="f">\(\dfrac1{s(s-a)}=\dfrac1s\cdot\dfrac1{s-a}\ \Rightarrow\ \Li{\dfrac1s}=1,\quad\Li{\dfrac1{s-a}}=e^{at}\)</div>
+<h4>Step 2: convolve</h4>
+<div class="f">\(\begin{aligned}\Li{\dfrac1{s(s-a)}}&amp;=e^{at}*1\\[.8em]&amp;=\int_0^te^{a\tau}\cdot1\,d\tau\\[.8em]&amp;=\dfrac1a\big(e^{at}-1\big)\end{aligned}\)</div>
+<h4>Step 3: check with partial fractions</h4>
+<div class="f">\(\dfrac1{s(s-a)}=\dfrac1a\Big(\dfrac1{s-a}-\dfrac1s\Big)\ \Rightarrow\ \dfrac1a\big(e^{at}-1\big)\ \checkmark\)</div>
+
+<h4>Example: \(\Li{\dfrac1{(s^2+\omega^2)^2}}\)</h4>
+<div class="box nt"><b>Correction.</b> The product needed here is \(\dfrac1{(s^2+\omega^2)^2}\), the square. (\(\dfrac1{s^2+\omega^2}\) alone is simply \(\dfrac1\omega\sin\omega t\).)</div>
+<h4>Step 1: split into two sine transforms</h4>
+<div class="f">\(\begin{aligned}\dfrac1{(s^2+\omega^2)^2}&amp;=\dfrac1{\omega^2}\cdot\dfrac\omega{s^2+\omega^2}\cdot\dfrac\omega{s^2+\omega^2}\\[.8em]\Li{\cdot}&amp;=\dfrac1{\omega^2}\,(\sin\omega t*\sin\omega t)\\[.8em]&amp;=\dfrac1{\omega^2}\int_0^t\sin\omega\tau\,\sin\omega(t-\tau)\,d\tau\end{aligned}\)</div>
+<h4>Step 2: product-to-sum</h4>
+<p>\(\sin A\sin B=\tfrac12\big[\cos(A-B)-\cos(A+B)\big]\) with \(A=\omega\tau\), \(B=\omega(t-\tau)\), so \(A-B=\omega(2\tau-t)\) and \(A+B=\omega t\):</p>
+<div class="f">\(\begin{aligned}\int_0^t\sin\omega\tau\sin\omega(t-\tau)\,d\tau&amp;=\dfrac12\int_0^t\big[\cos\omega(2\tau-t)-\cos\omega t\big]d\tau\\[.8em]&amp;=\dfrac12\Big[\dfrac{\sin\omega(2\tau-t)}{2\omega}\Big]_0^t-\dfrac t2\cos\omega t\\[.8em]&amp;=\dfrac12\cdot\dfrac{\sin\omega t-\sin(-\omega t)}{2\omega}-\dfrac t2\cos\omega t\\[.8em]&amp;=\dfrac{\sin\omega t}{2\omega}-\dfrac t2\cos\omega t\end{aligned}\)</div>
+<h4>Step 3: multiply by \(\dfrac1{\omega^2}\)</h4>
+<div class="f">\(\Li{\dfrac1{(s^2+\omega^2)^2}}=\dfrac{\sin\omega t-\omega t\cos\omega t}{2\omega^3}\)</div>
+
+<h3>An ODE with a resonant-looking input</h3>
+<h4>Example: \(y''+\omega_0^2y=k\sin\omega_0t\), \(y(0)=y'(0)=0\)</h4>
+<div class="box nt"><b>Correction.</b> The left side is \(y''+\omega_0^2\,y\) (the coefficient of \(y\) is \(\omega_0^2\), not \(\omega_0\)).</div>
+<h4>Step 1: transform and solve</h4>
+<div class="f">\(\begin{gathered}s^2Y-sy(0)-y'(0)+\omega_0^2Y=\dfrac{k\omega_0}{s^2+\omega_0^2}\\[.8em](s^2+\omega_0^2)Y=\dfrac{k\omega_0}{s^2+\omega_0^2}\\[.8em]Y=\dfrac{k\omega_0}{(s^2+\omega_0^2)^2}\end{gathered}\)</div>
+<h4>Step 2: invert with the previous result (\(\omega=\omega_0\))</h4>
+<div class="f">\(\begin{aligned}y(t)&amp;=k\omega_0\cdot\dfrac{\sin\omega_0t-\omega_0t\cos\omega_0t}{2\omega_0^3}\\[.8em]&amp;=\dfrac{k}{2\omega_0^2}\big(\sin\omega_0t-\omega_0t\cos\omega_0t\big)\end{aligned}\)</div>
+<p>The term \(t\cos\omega_0t\) grows linearly: the response keeps growing when the input frequency equals the natural frequency.</p>
+<h4>Now with input frequency \(\omega_1\): \(y''+\omega_0^2y=k\sin\omega_1t\)</h4>
+<h4>Step 1: transform</h4>
+<div class="f">\(Y=\dfrac{k\omega_1}{(s^2+\omega_0^2)(s^2+\omega_1^2)}\)</div>
+<h4>Step 2: partial fractions in \(s^2\)</h4>
+<div class="f">\(\begin{aligned}\dfrac1{(s^2+\omega_0^2)(s^2+\omega_1^2)}&amp;=\dfrac1{\omega_1^2-\omega_0^2}\Big[\dfrac1{s^2+\omega_0^2}-\dfrac1{s^2+\omega_1^2}\Big]\end{aligned}\)</div>
+<p>(Check: \((s^2+\omega_1^2)-(s^2+\omega_0^2)=\omega_1^2-\omega_0^2\).)</p>
+<h4>Step 3: invert</h4>
+<div class="f">\(\begin{aligned}y(t)&amp;=\dfrac{k\omega_1}{\omega_1^2-\omega_0^2}\Big[\dfrac{\sin\omega_0t}{\omega_0}-\dfrac{\sin\omega_1t}{\omega_1}\Big]\\[.8em]&amp;=\dfrac{k}{\omega_1^2-\omega_0^2}\Big[\dfrac{\omega_1}{\omega_0}\sin\omega_0t-\sin\omega_1t\Big]\end{aligned}\)</div>
+<h4>Step 4: the limit \(\omega_1\to\omega_0\) (L&rsquo;H&ocirc;pital in \(\omega_1\))</h4>
+<div class="f">\(\begin{aligned}y&amp;\to\dfrac k{2\omega_0}\Big[\dfrac{\sin\omega_0t}{\omega_0}-t\cos\omega_0t\Big]\\[.8em]&amp;=\dfrac k{2\omega_0^2}\big(\sin\omega_0t-\omega_0t\cos\omega_0t\big)\end{aligned}\)</div>
+<p>This agrees with the first answer.</p>
+
+<h3>The general second-order ODE with any input</h3>
+<h4>Step 1: transform \(y''+ay'+by=r(t)\)</h4>
+<div class="f">\(s^2Y-sy(0)-y'(0)+a\big[sY-y(0)\big]+bY=R(s)\)</div>
+<h4>Step 2: collect \(Y\)</h4>
+<div class="f">\((s^2+as+b)\,Y=(s+a)\,y(0)+y'(0)+R(s)\)</div>
+<div class="box nt"><b>Correction.</b> The initial-value part is \((s+a)\,y(0)+y'(0)\), not \(s(a+1)\,y(0)+y'(0)\).</div>
+<h4>Step 3: define \(Q\) and solve</h4>
+<div class="f">\(\begin{gathered}Q(s)=\dfrac1{s^2+as+b}\\[.8em]Y(s)=Q(s)\big[(s+a)y(0)+y'(0)\big]+R(s)\,Q(s)\end{gathered}\)</div>
+<h4>Step 4: the usual case \(y(0)=y'(0)=0\)</h4>
+<div class="f">\(\begin{gathered}Y(s)=R(s)\,Q(s)\\[.8em]y(t)=(r*q)(t)=\displaystyle\int_0^tr(\tau)\,q(t-\tau)\,d\tau\end{gathered}\)</div>
+<p class="mut">where \(r(t)\) = input (external force); \(a\) = coefficient of \(y'\) (resistance or damping); \(b\) = coefficient of \(y\); \(y\) = response (displacement); \(Q(s)\) = transfer function; \(q=\Li{Q}\) = weight function. Derivation: <a class="dl" href="#D21">D21</a>.</p>
+<div class="box">If \(r=\delta(t)\) then \(R=1\), so \(Y=Q\) and \(y=q\): the weight function is the response to a unit impulse. The response to any input is then the input convolved with this weight function.</div>
+
+<h3>Integral equations</h3>
+<p>Convolution solves <b>Volterra integral equations (VIE)</b> of convolution type:</p>
+<div class="f">\(y(t)-\displaystyle\int_0^ty(\tau)\,k(t-\tau)\,d\tau=r(t)\)</div>
+<p>The integral is the convolution \(y*k\). Taking the Laplace transform of both sides:</p>
+<div class="f">\(\begin{gathered}Y(s)-Y(s)K(s)=R(s)\\[.8em]Y(s)=\dfrac{R(s)}{1-K(s)}\end{gathered}\)</div>
+<p class="mut">where \(y\) = unknown; \(k\) = kernel; \(r\) = known right-hand side; \(K=\Lp{k}\), \(R=\Lp{r}\); requires \(K(s)\ne1\). Then invert \(Y(s)\) to find \(y(t)\). Derivation: <a class="dl" href="#D22">D22</a>.</p>
+<h4>Example: \(y(t)-\displaystyle\int_0^ty(\tau)\sin(t-\tau)\,d\tau=t\)</h4>
+<div class="f">\(\begin{aligned}Y-Y\,\Lp{\sin t}&amp;=\dfrac1{s^2}\\[.8em]Y\Big(1-\dfrac1{s^2+1}\Big)&amp;=\dfrac1{s^2}\\[.8em]Y\cdot\dfrac{s^2}{s^2+1}&amp;=\dfrac1{s^2}\\[.8em]Y&amp;=\dfrac{s^2+1}{s^4}=\dfrac1{s^2}+\dfrac1{s^4}\\[.8em]y(t)&amp;=t+\dfrac{t^3}{3!}=t+\dfrac{t^3}6\end{aligned}\)</div>
+<h4>Example: \(y(t)-\displaystyle\int_0^t(1+\tau)\,y(t-\tau)\,d\tau=1-\sinh t\)</h4>
+<h4>Step 1: transform (the integral is \((1+t)*y\))</h4>
+<div class="f">\(Y-\Big(\dfrac1s+\dfrac1{s^2}\Big)Y=\dfrac1s-\dfrac1{s^2-1}\)</div>
+<h4>Step 2: simplify both sides</h4>
+<div class="f">\(\begin{aligned}Y\cdot\dfrac{s^2-s-1}{s^2}&amp;=\dfrac{(s^2-1)-s}{s(s^2-1)}\\[.8em]&amp;=\dfrac{s^2-s-1}{s(s^2-1)}\end{aligned}\)</div>
+<h4>Step 3: solve and invert</h4>
+<div class="f">\(\begin{aligned}Y&amp;=\dfrac{s^2-s-1}{s(s^2-1)}\cdot\dfrac{s^2}{s^2-s-1}\\[.8em]&amp;=\dfrac{s}{s^2-1}\\[.8em]y(t)&amp;=\cosh t\end{aligned}\)</div>
+</section>
+
+<section id="s66"><h2>6.6 Differentiation and integration of transforms; variable coefficients</h2>
+<p>Besides transforming derivatives of \(f(t)\) (Section 6.2), we can also differentiate or integrate the transform \(F(s)\) itself. This gives new formulas, especially useful for ODEs whose coefficients involve \(t\).</p>
+
+<h3>Differentiation of transforms</h3>
+<p>If \(f(t)\) has the transform \(F(s)\), then, except at points where \(f(t)\) has jumps,</p>
+<div class="f">\(\begin{gathered}\Lp{t\,f(t)}=-F'(s)\\[.8em]\Lp{t^n f(t)}=(-1)^nF^{(n)}(s),\quad n=1,2,3,\dots\end{gathered}\)</div>
+<p class="mut">where \(F^{(n)}\) = \(n\)th derivative of \(F\) with respect to \(s\). Proofs: <a class="dl" href="#D23">D23</a>, <a class="dl" href="#D24">D24</a>.</p>
+<div class="box">Multiplying \(f(t)\) by \(t\) corresponds to <b>differentiating \(F(s)\) and changing sign</b>.</div>
+<h4>Ready-made results</h4>
+<div class="f">\(\begin{aligned}\Lp{t\sin\omega t}&amp;=-\dfrac d{ds}\dfrac\omega{s^2+\omega^2}=\dfrac{2\omega s}{(s^2+\omega^2)^2}\\[.8em]\Lp{t\cos\omega t}&amp;=-\dfrac d{ds}\dfrac s{s^2+\omega^2}=\dfrac{s^2-\omega^2}{(s^2+\omega^2)^2}\end{aligned}\)</div>
+
+<h3>Integration of transforms</h3>
+<p>Let \(f(t)\) be piecewise continuous for \(t\ge0\), satisfy \(|f(t)|\le Me^{kt}\), and suppose the limit of \(f(t)/t\) as \(t\to0^+\) exists. Then for \(s\gt k\):</p>
+<div class="f">\(\begin{gathered}\Lp{\dfrac{f(t)}t}=\displaystyle\int_s^\infty F(\tilde s)\,d\tilde s\\[.8em]\dfrac{f(t)}t=\Li{\displaystyle\int_s^\infty F(\tilde s)\,d\tilde s}\end{gathered}\)</div>
+<p class="mut">where \(\tilde s\) = dummy variable of integration (\(s\) is held fixed as the lower limit). Proof: <a class="dl" href="#D25">D25</a>.</p>
+<div class="box">Dividing \(f(t)\) by \(t\) corresponds to <b>integrating \(F(s)\) from \(s\) to \(\infty\)</b>. The limit condition fails for functions like \(\cos\omega t\) (\(f(0)\ne0\), so \(f/t\to\infty\) at \(0\)), and then \(f/t\) has no transform.</div>
+<table class="ft"><tr><th>Operation on \(f(t)\)</th><th>Result in terms of \(F(s)\)</th></tr>
+<tr><td>Multiply by \(t\)</td><td>\(\Lp{tf(t)}=-F'(s)\)</td></tr>
+<tr><td>Multiply by \(t^n\)</td><td>\(\Lp{t^nf(t)}=(-1)^nF^{(n)}(s)\)</td></tr>
+<tr><td>Divide by \(t\)</td><td>\(\Lp{f(t)/t}=\displaystyle\int_s^\infty F(\tilde s)\,d\tilde s\)</td></tr></table>
+
+<h3>Inverse transforms with squared denominators</h3>
+<h4>Example: show the three inverses</h4>
+<div class="f">\(\begin{gathered}\text{(i)}\ \ \Li{\dfrac1{(s^2+\beta^2)^2}}=\dfrac1{2\beta^3}\big(\sin\beta t-\beta t\cos\beta t\big)\\[.8em]\text{(ii)}\ \ \Li{\dfrac s{(s^2+\beta^2)^2}}=\dfrac1{2\beta}\,t\sin\beta t\\[.8em]\text{(iii)}\ \ \Li{\dfrac{s^2}{(s^2+\beta^2)^2}}=\dfrac1{2\beta}\big(\sin\beta t+\beta t\cos\beta t\big)\end{gathered}\)</div>
+<h4>Step 1: two transforms to combine</h4>
+<div class="f">\(\begin{gathered}\Lp{-t\cos\beta t}=\dfrac d{ds}\dfrac s{s^2+\beta^2}=\dfrac{(s^2+\beta^2)-2s^2}{(s^2+\beta^2)^2}=\dfrac{\beta^2-s^2}{(s^2+\beta^2)^2}\qquad(1)\\[.8em]\Lp{\sin\beta t}=\dfrac\beta{s^2+\beta^2}\qquad(2)\end{gathered}\)</div>
+<h4>Step 2: add \(\beta\times\)(1) to (2) &rarr; (i)</h4>
+<div class="f">\(\begin{aligned}\Lp{\sin\beta t-\beta t\cos\beta t}&amp;=\dfrac\beta{s^2+\beta^2}+\dfrac{\beta(\beta^2-s^2)}{(s^2+\beta^2)^2}\\[.8em]&amp;=\dfrac{\beta s^2+\beta^3+\beta^3-\beta s^2}{(s^2+\beta^2)^2}\\[.8em]&amp;=\dfrac{2\beta^3}{(s^2+\beta^2)^2}\end{aligned}\)</div>
+<p>Divide by \(2\beta^3\) to get (i).</p>
+<h4>Step 3: subtract \(\beta\times\)(1) from (2) &rarr; (iii)</h4>
+<div class="f">\(\begin{aligned}\Lp{\sin\beta t+\beta t\cos\beta t}&amp;=\dfrac\beta{s^2+\beta^2}-\dfrac{\beta(\beta^2-s^2)}{(s^2+\beta^2)^2}\\[.8em]&amp;=\dfrac{\beta s^2+\beta^3-\beta^3+\beta s^2}{(s^2+\beta^2)^2}\\[.8em]&amp;=\dfrac{2\beta s^2}{(s^2+\beta^2)^2}\end{aligned}\)</div>
+<p>Divide by \(2\beta\) to get (iii).</p>
+<h4>Step 4: (ii) by differentiating a transform</h4>
+<div class="f">\(\begin{aligned}\Lp{t\sin\beta t}&amp;=-\dfrac d{ds}\dfrac\beta{s^2+\beta^2}=\dfrac{2\beta s}{(s^2+\beta^2)^2}\\[.8em]\Li{\dfrac s{(s^2+\beta^2)^2}}&amp;=\dfrac1{2\beta}\,t\sin\beta t\end{aligned}\)</div>
+
+<h3>Inverse transform of a logarithm</h3>
+<h4>Example: \(\Li{\ln\Big(1+\dfrac{\omega^2}{s^2}\Big)}\)</h4>
+<h4>Step 1: differentiate \(F\)</h4>
+<div class="f">\(\begin{aligned}F(s)&amp;=\ln\Big(1+\dfrac{\omega^2}{s^2}\Big)=\ln(s^2+\omega^2)-2\ln s\\[.8em]F'(s)&amp;=\dfrac{2s}{s^2+\omega^2}-\dfrac2s\end{aligned}\)</div>
+<h4>Step 2: use \(\Lp{-tf}=F'\)</h4>
+<div class="f">\(\begin{aligned}\Lp{-t\,f(t)}&amp;=\dfrac{2s}{s^2+\omega^2}-\dfrac2s\\[.8em]-t\,f(t)&amp;=2\cos\omega t-2\\[.8em]f(t)&amp;=\dfrac{2(1-\cos\omega t)}t\end{aligned}\)</div>
+<h4>Second route: the integral formula</h4>
+<p>Let \(G(s)=\dfrac2s-\dfrac{2s}{s^2+\omega^2}=\Lp{2-2\cos\omega t}\). Then</p>
+<div class="f">\(\begin{aligned}\int_s^\infty G(\tilde s)\,d\tilde s&amp;=\Big[2\ln\tilde s-\ln(\tilde s^2+\omega^2)\Big]_s^\infty\\[.8em]&amp;=\Big[\ln\dfrac{\tilde s^2}{\tilde s^2+\omega^2}\Big]_s^\infty\\[.8em]&amp;=0-\ln\dfrac{s^2}{s^2+\omega^2}\\[.8em]&amp;=\ln\Big(1+\dfrac{\omega^2}{s^2}\Big)=F(s)\end{aligned}\)</div>
+<p>So \(F\) is the transform of \(\dfrac{2-2\cos\omega t}t\), the same answer. The limit \(\lim_{t\to0^+}\dfrac{2(1-\cos\omega t)}t=0\) exists, as the theorem requires.</p>
+
+<h3>ODEs with variable coefficients</h3>
+<p>For an ODE whose coefficients are polynomials in \(t\) (for example Laguerre&rsquo;s equation \(ty''+(1-t)y'+ny=0\)), combine \(\Lp{tf(t)}=-F'(s)\) with the derivative formulas of Section 6.2. This changes the ODE in \(y(t)\) into a new ODE in \(Y(s)\), often a simpler, lower-order one. Solve it for \(Y(s)\), then transform back.</p>
+<div class="box">This trick is needed exactly when \(t\) multiplies a derivative. That combination does not turn into a plain algebraic term as in Section 6.2; instead it turns into a derivative with respect to \(s\).</div>
+<h4>Example: Laguerre&rsquo;s equation \(ty''+(1-t)y'+ny=0\), \(n\) an integer</h4>
+<h4>Step 1: transform each term</h4>
+<div class="f">\(\begin{aligned}\Lp{y'}&amp;=sY-y(0)\\[.8em]\Lp{t\,y'}&amp;=-\dfrac d{ds}\big(sY-y(0)\big)=-sY'-Y\\[.8em]\Lp{t\,y''}&amp;=-\dfrac d{ds}\big(s^2Y-sy(0)-y'(0)\big)=-s^2Y'-2sY+y(0)\end{aligned}\)</div>
+<h4>Step 2: assemble \(\Lp{ty''}+\Lp{y'}-\Lp{ty'}+n\Lp y=0\)</h4>
+<div class="f">\(\big[-s^2Y'-2sY+y(0)\big]+\big[sY-y(0)\big]+\big[sY'+Y\big]+nY=0\)</div>
+<h4>Step 3: simplify (the \(y(0)\) terms cancel)</h4>
+<div class="f">\(\begin{gathered}(s-s^2)\,Y'+(n+1-s)\,Y=0\end{gathered}\)</div>
+<h4>Step 4: separate variables</h4>
+<div class="f">\(\dfrac{Y'}Y=\dfrac{s-n-1}{s(1-s)}=-\dfrac{n+1}s+\dfrac n{s-1}\)</div>
+<p>(Partial fractions: \(A=-(n+1)\) from covering \(s\) at \(s=0\); the \(\frac1{1-s}\) coefficient is \(-n\), i.e. \(+\frac n{s-1}\).)</p>
+<h4>Step 5: integrate</h4>
+<div class="f">\(\begin{aligned}\ln Y&amp;=-(n+1)\ln s+n\ln(s-1)+\text{const}\\[.8em]Y(s)&amp;=c\,\dfrac{(s-1)^n}{s^{n+1}}\end{aligned}\)</div>
+<p>As \(s\to\infty\), \(sY\to c\), and \(\lim sY=y(0)\), so \(c=y(0)=1\) for the standard solution.</p>
+<h4>Step 6: invert (route 1, binomial expansion)</h4>
+<div class="f">\(\begin{aligned}\dfrac{(s-1)^n}{s^{n+1}}&amp;=\dfrac1s\Big(1-\dfrac1s\Big)^n=\sum_{k=0}^n\dbinom nk(-1)^k\dfrac1{s^{k+1}}\\[.8em]y(t)&amp;=\sum_{k=0}^n\dbinom nk\dfrac{(-1)^k}{k!}\,t^k\end{aligned}\)</div>
+<h4>Step 6 (route 2): shift to a familiar form</h4>
+<p>We are more comfortable with \(\dfrac{s^n}{(s+1)^{n+1}}\), where \(s\) has been replaced by \(s+1\). Write \(\dfrac{(s-1)^n}{s^{n+1}}=G(s-1)\) with \(G(s)=\dfrac{s^n}{(s+1)^{n+1}}\). By the first shifting theorem \(y=e^{t}\,g(t)\), \(g=\Li{G}\). Now \(\Li{\dfrac1{(s+1)^{n+1}}}=\dfrac{t^ne^{-t}}{n!}\), and multiplying by \(s^n\) means differentiating \(n\) times (the first \(n-1\) derivatives of \(t^ne^{-t}\) vanish at \(0\)):</p>
+<div class="f">\(\begin{aligned}g(t)&amp;=\dfrac{d^n}{dt^n}\Big[\dfrac{t^ne^{-t}}{n!}\Big]\\[.8em]y(t)&amp;=\dfrac{e^{t}}{n!}\dfrac{d^n}{dt^n}\big(t^ne^{-t}\big)\end{aligned}\)</div>
+<p>Check \(n=1\): both routes give \(y=1-t\). These are the <b>Laguerre polynomials</b> \(L_n(t)\) (route 2 is Rodrigues&rsquo; formula).</p>
+</section>
+
+<section id="s67"><h2>6.7 Systems of ODEs</h2>
+<p>The Laplace method also solves systems of linear ODEs with constant coefficients: the system of ODEs becomes a system of algebraic equations.</p>
+
+<h3>Method: solving a system</h3>
+<p>For a system such as</p>
+<div class="f">\(\begin{gathered}y_1'=a_{11}y_1+a_{12}y_2+g_1(t)\\[.8em]y_2'=a_{21}y_1+a_{22}y_2+g_2(t)\end{gathered}\)</div>
+<p>with initial conditions \(y_1(0),y_2(0)\):</p>
+<ol><li><b>Transform each equation.</b> Using \(\Lp{y_j'}=sY_j(s)-y_j(0)\) turns the ODE system into a system of linear algebraic equations in \(Y_1(s),Y_2(s)\).</li>
+<li><b>Solve the algebraic system</b> for \(Y_1(s)\) and \(Y_2(s)\) (substitution, elimination, or Cramer&rsquo;s rule).</li>
+<li><b>Invert</b> \(Y_1,Y_2\) to get \(y_1(t),y_2(t)\), using tables and partial fractions exactly as before.</li></ol>
+
+<h3>Matrix form</h3>
+<p>For the vector system \(\mathbf y'=A\mathbf y+\mathbf g(t)\) with \(\mathbf y(0)=\mathbf y_0\), transforming every component gives</p>
+<div class="f">\(\begin{gathered}s\,\mathbf Y(s)-\mathbf y_0=A\,\mathbf Y(s)+\mathbf G(s)\\[.8em](sI-A)\,\mathbf Y(s)=\mathbf y_0+\mathbf G(s)\\[.8em]\mathbf Y(s)=(sI-A)^{-1}\big(\mathbf y_0+\mathbf G(s)\big)\end{gathered}\)</div>
+<p class="mut">where \(\mathbf y\) = vector of unknown functions; \(A\) = constant coefficient matrix; \(\mathbf g\) = vector of inputs; \(\mathbf Y=\Lp{\mathbf y}\), \(\mathbf G=\Lp{\mathbf g}\) (componentwise); \(I\) = identity matrix. Derivation: <a class="dl" href="#D26">D26</a>.</p>
+<div class="box">This is the same idea as Section 6.2, applied to a vector \(\mathbf y(t)\) and a matrix \(A\) instead of a single function and a number. The matrix \(sI-A\) must be invertible, i.e. \(s\) must not be an eigenvalue of \(A\).</div>
+
+<h3>Worked system</h3>
+<h4>Example: \(2x'-3y'=1\), \(x'+y'=e^{t}\), with \(x(0)=y(0)=0\)</h4>
+<h4>Step 1: transform both equations</h4>
+<div class="f">\(\begin{aligned}2\big[sX-x(0)\big]-3\big[sY-y(0)\big]&amp;=\dfrac1s\\[.8em]\big[sX-x(0)\big]+\big[sY-y(0)\big]&amp;=\dfrac1{s-1}\end{aligned}\)</div>
+<p>With zero initial conditions:</p>
+<div class="f">\(\begin{gathered}2sX-3sY=\dfrac1s\\[.8em]sX+sY=\dfrac1{s-1}\end{gathered}\)</div>
+<h4>Step 2: solve the algebraic system</h4>
+<p>From the second equation \(sX=\dfrac1{s-1}-sY\). Substitute into the first:</p>
+<div class="f">\(\begin{aligned}\dfrac2{s-1}-2sY-3sY&amp;=\dfrac1s\\[.8em]5sY&amp;=\dfrac2{s-1}-\dfrac1s=\dfrac{2s-(s-1)}{s(s-1)}=\dfrac{s+1}{s(s-1)}\\[.8em]Y&amp;=\dfrac{s+1}{5s^2(s-1)}\end{aligned}\)</div>
+<div class="f">\(\begin{aligned}sX&amp;=\dfrac1{s-1}-\dfrac{s+1}{5s(s-1)}=\dfrac{5s-(s+1)}{5s(s-1)}=\dfrac{4s-1}{5s(s-1)}\\[.8em]X&amp;=\dfrac{4s-1}{5s^2(s-1)}\end{aligned}\)</div>
+<h4>Step 3: partial fractions</h4>
+<div class="f">\(\begin{aligned}\dfrac{4s-1}{s^2(s-1)}&amp;=-\dfrac3s+\dfrac1{s^2}+\dfrac3{s-1}\\[.8em]\dfrac{s+1}{s^2(s-1)}&amp;=-\dfrac2s-\dfrac1{s^2}+\dfrac2{s-1}\end{aligned}\)</div>
+<p>(Cover-up: for the first, \(C=\frac{4-1}{1}=3\), \(B=\frac{-1}{-1}=1\), and \(A+C=0\) gives \(A=-3\); the second is the same way.)</p>
+<h4>Step 4: invert</h4>
+<div class="f">\(\begin{aligned}x(t)&amp;=\tfrac15\big(3e^{t}+t-3\big)\\[.8em]y(t)&amp;=\tfrac15\big(2e^{t}-t-2\big)\end{aligned}\)</div>
+<h4>Step 5: check</h4>
+<div class="f">\(\begin{gathered}x'=\tfrac15(3e^{t}+1),\quad y'=\tfrac15(2e^{t}-1)\\[.8em]x'+y'=e^{t}\\[.8em]2x'-3y'=\tfrac15(6e^{t}+2-6e^{t}+3)=1\\[.8em]x(0)=0,\quad y(0)=0\end{gathered}\)</div>
+</section>
+
+<section id="vis"><h2>Visuals</h2>
+<p class="mut">Drag the controls. Every picture follows the theory above.</p>
+
+<h3>The kernel \(e^{-st}\)</h3>
+<div class="row"><label>\(\sigma\) <input type="range" id="kS" min="-1" max="1" step="0.05" value="0.25"> <b id="kSv"></b></label><label>\(\omega\) <input type="range" id="kW" min="0" max="8" step="0.1" value="3"> <b id="kWv"></b></label></div>
+<svg id="kc" class="sg" viewBox="0 0 700 230" role="img" aria-label="Real part of the kernel e^{-st}"></svg>
+<div class="out" id="ko"></div>
+
+<h3>The Laplace integral and its region of convergence</h3>
+<div class="row"><label>\(f(t)\) <select id="bf"></select></label><label>\(s\) <input type="range" id="bs" min="0.1" max="6" step="0.1" value="2"> <b id="bsv"></b></label></div>
+<div class="lg"><span><i style="background:var(--mut)"></i>\(f(t)\)</span><span><i style="background:var(--ac)"></i>\(e^{-st}f(t)\) (area = \(F(s)\))</span></div>
+<svg id="bc" class="sg" viewBox="0 0 700 230" role="img" aria-label="Integrand e^{-st} f(t) with shaded area"></svg>
+<div class="out" id="bo"></div>
+
+<h3>s-shifting</h3>
+<div class="row"><label>\(f(t)\) <select id="cf1"></select></label><label>\(a\) <input type="range" id="ca" min="-2" max="1" step="0.1" value="-0.5"> <b id="cav"></b></label></div>
+<div class="lg"><span><i style="background:var(--mut)"></i>\(f(t)\)</span><span><i style="background:var(--ac)"></i>\(e^{at}f(t)\)</span></div>
+<svg id="cc1" class="sg" viewBox="0 0 700 230" role="img" aria-label="f(t) and e^{at}f(t)"></svg>
+<div class="out" id="co1"></div>
+
+<h3>t-shifting with the unit step</h3>
+<div class="row"><label>\(a\) <input type="range" id="da" min="0" max="6" step="0.1" value="2"> <b id="dav"></b></label></div>
+<div class="lg"><span><i style="background:var(--ac)"></i>\(f(t-a)u(t-a)\)</span><span><i style="background:var(--mut)"></i>\(f(t-a)\) for \(t\ge0\)</span></div>
+<svg id="dc" class="sg" viewBox="0 0 700 230" role="img" aria-label="Shifted function with and without the unit step"></svg>
+<div class="out" id="do"></div>
+
+<h3>The pulse tends to the delta</h3>
+<div class="row"><label>\(a\) <input type="range" id="ga" min="0" max="3" step="0.1" value="1"> <b id="gav"></b></label><label>\(k\) <input type="range" id="gk" min="0.02" max="2" step="0.02" value="1"> <b id="gkv"></b></label></div>
+<svg id="gc" class="sg" viewBox="0 0 700 230" role="img" aria-label="Rectangular pulse of height 1/k and width k"></svg>
+<div class="out" id="go"></div>
+
+<h3>Convolution at a glance</h3>
+<div class="row"><label>\(f\) <select id="vf"></select></label><label>\(g\) <select id="vg"></select></label><label>\(t\) <input type="range" id="vt" min="0" max="8" step="0.1" value="3"> <b id="vtv"></b></label></div>
+<div class="lg"><span><i style="background:var(--mut)"></i>\(f(\tau)\)</span><span><i style="background:var(--ac2)"></i>\(g(t-\tau)\)</span><span><i style="background:var(--ac)"></i>\(f(\tau)g(t-\tau)\), shaded area = \((f*g)(t)\)</span></div>
+<svg id="vc1" class="sg" viewBox="0 0 700 220" role="img" aria-label="Overlap of f and the flipped g"></svg>
+<svg id="vc2" class="sg" viewBox="0 0 700 160" role="img" aria-label="The convolution f*g as a function of t"></svg>
+<div class="out" id="vo"></div>
+
+<h3>Multiplying by \(t\) is minus the slope of \(F\)</h3>
+<div class="row"><label>\(f(t)\) <select id="wf"></select></label><label>\(s\) <input type="range" id="ws" min="0.6" max="5" step="0.1" value="1.5"> <b id="wsv"></b></label></div>
+<svg id="wc" class="sg" viewBox="0 0 700 220" role="img" aria-label="F(s) with its tangent line"></svg>
+<div class="out" id="wo"></div>
+</section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it. D1&ndash;D9 Section 6.1 (basic transforms, linearity, shifting, existence), D10&ndash;D12 Section 6.2 (derivative and integral rules), D13&ndash;D15 Section 6.3 (step function, second shift, periodic), D16&ndash;D18 Section 6.4 (sifting, delta, partial fractions), D19&ndash;D22 Section 6.5 (convolution, ODE, integral equations), D23&ndash;D25 Section 6.6, D26 Section 6.7.</p>
+<div id="dl">
+<details class="dv" id="D1"><summary><span class="cd">D1</span><span class="tt">\(\Lp{1}=\dfrac1s\), ROC \(\Rs\gt0\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Start from the definition and integrate up to a finite limit \(T\):</p>
+\[\begin{aligned}\Lp{1}&=\lim_{T\to\infty}\int_0^Te^{-st}\,dt\\[.8em]&=\lim_{T\to\infty}\Big[-\frac{e^{-st}}s\Big]_0^T\\[.8em]&=\lim_{T\to\infty}\frac{1-e^{-sT}}s\end{aligned}\]
+<p>Put \(s=a+ib\). Then \(e^{-sT}=e^{-aT}e^{-ibT}\) and \(|e^{-ibT}|=1\), so \(|e^{-sT}|=e^{-aT}\). For \(a\gt0\) this tends to \(0\); for \(a\lt0\) it blows up; for \(a=0\) it keeps modulus \(1\) and has no limit. So the limit exists exactly when \(\Rs\gt0\), and then</p>
+\[\Lp{1}=\frac1s\qquad(\Rs\gt0).\]</div></details>
+<details class="dv" id="D2"><summary><span class="cd">D2</span><span class="tt">\(\Lp{t}=\dfrac1{s^2}\), ROC \(\Rs\gt0\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Integrate by parts with \(u=t\), \(dv=e^{-st}dt\):</p>
+\[\begin{aligned}\Lp{t}&=\int_0^\infty t\,e^{-st}\,dt\\[.8em]&=\Big[-\frac{t\,e^{-st}}s\Big]_0^\infty+\frac1s\int_0^\infty e^{-st}\,dt\end{aligned}\]
+<p>At \(t=0\) the bracket is \(0\). At \(\infty\), by L&rsquo;H&ocirc;pital,</p>
+\[\lim_{t\to\infty}\frac t{e^{st}}=\lim_{t\to\infty}\frac1{s\,e^{st}}=0\qquad(\Rs\gt0).\]
+<p>What remains is \(\dfrac1s\Lp{1}\):</p>
+\[\Lp{t}=\frac1s\cdot\frac1s=\frac1{s^2}.\]</div></details>
+<details class="dv" id="D3"><summary><span class="cd">D3</span><span class="tt">\(\Lp{t^n}=\dfrac{n!}{s^{n+1}}\) and \(\Lp{t^a}=\dfrac{\Gamma(a+1)}{s^{a+1}}\) (Table rows 3 to 6)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p><b>Integer powers.</b> Integrate by parts with \(u=t^n\), \(dv=e^{-st}dt\):</p>
+\[\begin{aligned}\Lp{t^n}&=\Big[-\frac{t^ne^{-st}}s\Big]_0^\infty+\frac ns\int_0^\infty t^{n-1}e^{-st}\,dt\\[.8em]&=0+\frac ns\,\Lp{t^{n-1}}\end{aligned}\]
+<p>The boundary term is \(0\) because \(t^n/e^{st}\to0\) (L&rsquo;H&ocirc;pital \(n\) times). Repeat the recursion down to \(\Lp{t^0}=\Lp1=\frac1s\):</p>
+\[\begin{aligned}\Lp{t^n}&=\frac ns\cdot\frac{n-1}s\cdot\frac{n-2}s\cdots\frac1s\cdot\frac1s\\[.8em]&=\frac{n!}{s^{n+1}}\qquad(\Rs\gt0)\end{aligned}\]
+<p><b>Any power \(a\gt-1\).</b> For real \(s\gt0\) substitute \(x=st\), \(dt=dx/s\):</p>
+\[\begin{aligned}\Lp{t^a}&=\int_0^\infty t^ae^{-st}\,dt\\[.8em]&=\frac1{s^{a+1}}\int_0^\infty x^ae^{-x}\,dx\\[.8em]&=\frac{\Gamma(a+1)}{s^{a+1}}\end{aligned}\]
+<p>(\(a\gt-1\) is needed for convergence at \(t=0\). For \(a=n\), \(\Gamma(n+1)=n!\) recovers the integer case.)</p>
+<p><b>Rows 5 and 6.</b> Use \(\Gamma(\tfrac12)=\sqrt\pi\) and \(\Gamma(\tfrac32)=\tfrac12\Gamma(\tfrac12)=\tfrac{\sqrt\pi}2\):</p>
+\[\begin{aligned}a=-\tfrac12:\quad\Lp{t^{-1/2}}&=\frac{\sqrt\pi}{s^{1/2}}\ \Rightarrow\ \Lp{\frac1{\sqrt{\pi t}}}=\frac1{\sqrt s}\\[.8em]a=\tfrac12:\quad\Lp{t^{1/2}}&=\frac{\sqrt\pi}{2s^{3/2}}\ \Rightarrow\ \Lp{2\sqrt{t/\pi}}=\frac2{\sqrt\pi}\cdot\frac{\sqrt\pi}{2s^{3/2}}=\frac1{s^{3/2}}\end{aligned}\]</div></details>
+<details class="dv" id="D4"><summary><span class="cd">D4</span><span class="tt">\(\Lp{e^{at}}=\dfrac1{s-a}\), ROC \(\Rs\gt a\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">\[\begin{aligned}\Lp{e^{at}}&=\int_0^\infty e^{at}e^{-st}\,dt\\[.8em]&=\int_0^\infty e^{-(s-a)t}\,dt\\[.8em]&=\Big[-\frac{e^{-(s-a)t}}{s-a}\Big]_0^\infty\end{aligned}\]
+<p>The upper limit is \(0\) when \(\operatorname{Re}(s-a)\gt0\), i.e. \(\Rs\gt a\). Then</p>
+\[\Lp{e^{at}}=\frac1{s-a}.\]
+<p>The constant \(a\) may be positive, negative or zero; only the region of convergence changes.</p></div></details>
+<details class="dv" id="D5"><summary><span class="cd">D5</span><span class="tt">Linearity: \(\Lp{k_1f_1+k_2f_2}=k_1\Lp{f_1}+k_2\Lp{f_2}\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">\[\begin{aligned}\Lp{k_1f_1(t)+k_2f_2(t)}&=\int_0^\infty\big[k_1f_1(t)+k_2f_2(t)\big]e^{-st}\,dt\\[.8em]&=k_1\int_0^\infty f_1(t)e^{-st}\,dt+k_2\int_0^\infty f_2(t)e^{-st}\,dt\\[.8em]&=k_1\Lp{f_1}+k_2\Lp{f_2}\end{aligned}\]
+<p>This uses only that the integral is linear, and holds for \(s\) where both transforms exist. Applying \(\mathcal{L}^{-1}\) to both sides gives \(\Li{k_1F_1+k_2F_2}=k_1f_1+k_2f_2\).</p></div></details>
+<details class="dv" id="D6"><summary><span class="cd">D6</span><span class="tt">\(\Lp{\sinh at}=\dfrac a{s^2-a^2}\), \(\Lp{\cosh at}=\dfrac s{s^2-a^2}\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Write \(\sinh t=\tfrac12(e^{t}-e^{-t})\) and use linearity and \(\Lp{e^{at}}=\frac1{s-a}\):</p>
+\[\begin{aligned}\Lp{\sinh t}&=\frac12\Lp{e^{t}}-\frac12\Lp{e^{-t}}\\[.8em]&=\frac12\cdot\frac1{s-1}-\frac12\cdot\frac1{s-(-1)}\\[.8em]&=\frac12\cdot\frac{(s+1)-(s-1)}{s^2-1}\\[.8em]&=\frac1{s^2-1}\end{aligned}\]
+<p>\(e^{t}\) needs \(\Rs\gt1\) and \(e^{-t}\) needs \(\Rs\gt-1\); both must hold, so the ROC is \(\Rs\gt1\). In general:</p>
+\[\begin{aligned}\Lp{\cosh at}&=\frac12\Big[\frac1{s-a}+\frac1{s+a}\Big]=\frac s{s^2-a^2}\\[.8em]\Lp{\sinh at}&=\frac12\Big[\frac1{s-a}-\frac1{s+a}\Big]=\frac a{s^2-a^2}\end{aligned}\]
+<p>with ROC \(\Rs\gt|a|\).</p></div></details>
+<details class="dv" id="D7"><summary><span class="cd">D7</span><span class="tt">\(\Lp{\sin\omega t}=\dfrac\omega{s^2+\omega^2}\), \(\Lp{\cos\omega t}=\dfrac s{s^2+\omega^2}\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Let \(I=\Lp{\sin\omega t}\) and \(J=\Lp{\cos\omega t}\). Integrate \(I\) by parts with \(u=\sin\omega t\), \(dv=e^{-st}dt\):</p>
+\[\begin{aligned}I&=\Big[-\frac{\sin\omega t\;e^{-st}}s\Big]_0^\infty+\frac\omega s\int_0^\infty\cos\omega t\,e^{-st}\,dt\\[.8em]&=(0-0)+\frac\omega sJ\end{aligned}\]
+<p>The boundary term is \(0\): \(\sin\omega t\) stays in \([-1,1]\) while \(e^{-st}\to0\), and \(\sin0=0\). So \(I=\dfrac\omega sJ\quad(1)\). Now \(J\) with \(u=\cos\omega t\):</p>
+\[\begin{aligned}J&=\Big[-\frac{\cos\omega t\;e^{-st}}s\Big]_0^\infty-\frac\omega s\int_0^\infty\sin\omega t\,e^{-st}\,dt\\[.8em]&=\big(0+\tfrac1s\big)-\frac\omega sI\end{aligned}\]
+<p>so \(J=\dfrac1s-\dfrac\omega sI\quad(2)\). Substitute (1) into (2):</p>
+\[\begin{aligned}J&=\frac1s-\frac\omega s\cdot\frac\omega sJ\\[.8em]J\Big(1+\frac{\omega^2}{s^2}\Big)&=\frac1s\\[.8em]J&=\frac s{s^2+\omega^2}\end{aligned}\]
+<p>and then \(I=\dfrac\omega sJ=\dfrac\omega{s^2+\omega^2}\), both for \(\Rs\gt0\).</p></div></details>
+<details class="dv" id="D8"><summary><span class="cd">D8</span><span class="tt">First shifting theorem: \(\Lp{e^{at}f(t)}=F(s-a)\), and Table 6.2</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Combine the exponentials inside the integral:</p>
+\[\begin{aligned}\Lp{e^{at}f(t)}&=\int_0^\infty e^{at}f(t)e^{-st}\,dt\\[.8em]&=\int_0^\infty e^{-(s-a)t}f(t)\,dt\end{aligned}\]
+<p>The definition says \(F(s)=\int_0^\infty e^{-st}f(t)\,dt\). The last integral is the same with \(s\) replaced by \(s-a\), so it equals \(F(s-a)\), valid when \(\operatorname{Re}(s-a)\gt k\).</p>
+<p><b>Table 6.2.</b> Replace \(s\) by \(s-a\) in Table 6.1:</p>
+\[\begin{gathered}t^n\to\frac{n!}{s^{n+1}}\ \Rightarrow\ \Lp{e^{at}t^n}=\frac{n!}{(s-a)^{n+1}}\\[.8em]\Lp{e^{at}\cos\omega t}=\frac{s-a}{(s-a)^2+\omega^2},\quad\Lp{e^{at}\sin\omega t}=\frac\omega{(s-a)^2+\omega^2}\\[.8em]\Lp{e^{at}\cosh bt}=\frac{s-a}{(s-a)^2-b^2},\quad\Lp{e^{at}\sinh bt}=\frac b{(s-a)^2-b^2}\end{gathered}\]</div></details>
+<details class="dv" id="D9"><summary><span class="cd">D9</span><span class="tt">Existence theorem for \(\Lp{f}\) (the bound \(|f|\le Me^{kt}\))</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Use \(\big|\int g\big|\le\int|g|\) and \(|e^{-st}|=e^{-\operatorname{Re}(s)\,t}\) (from \(s=a+ib\), \(|e^{-ibt}|=1\)):</p>
+\[\begin{aligned}\big|\Lp{f(t)}\big|&=\Big|\int_0^\infty e^{-st}f(t)\,dt\Big|\\[.8em]&\le\int_0^\infty|e^{-st}|\,|f(t)|\,dt\\[.8em]&\le\int_0^\infty e^{-\operatorname{Re}(s)t}\,M e^{kt}\,dt\\[.8em]&=M\int_0^\infty e^{-(\operatorname{Re}(s)-k)t}\,dt\\[.8em]&=M\Big[-\frac{e^{-(\operatorname{Re}(s)-k)t}}{\operatorname{Re}(s)-k}\Big]_0^\infty\end{aligned}\]
+<p>If \(\operatorname{Re}(s)-k\gt0\) the bracket equals \(\dfrac1{\operatorname{Re}(s)-k}\), so</p>
+\[\big|\Lp{f(t)}\big|\le\frac M{\operatorname{Re}(s)-k}\lt\infty.\]
+<p>The integral converges (absolutely) for \(\Rs\gt k\). Piecewise continuity guarantees the integrals over finite intervals exist.</p></div></details>
+<details class="dv" id="D10"><summary><span class="cd">D10</span><span class="tt">\(\Lp{f'(t)}=sF(s)-f(0)\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Integrate by parts with \(u=e^{-st}\), \(dv=f'(t)\,dt\):</p>
+\[\begin{aligned}\Lp{f'}&=\int_0^\infty e^{-st}f'(t)\,dt\\[.8em]&=\Big[e^{-st}f(t)\Big]_0^\infty+s\int_0^\infty e^{-st}f(t)\,dt\\[.8em]&=\big[0-f(0)\big]+sF(s)\end{aligned}\]
+<p>At \(\infty\) the product vanishes because \(|e^{-st}f(t)|\le Me^{-(\operatorname{Re}(s)-k)t}\to0\) for \(\Rs\gt k\). Hence</p>
+\[\Lp{f'}=sF(s)-f(0).\]</div></details>
+<details class="dv" id="D11"><summary><span class="cd">D11</span><span class="tt">\(\Lp{f''}\), \(\Lp{f'''}\) and the general \(\Lp{f^{(n)}}\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Apply D10 to \(g=f'\):</p>
+\[\begin{aligned}\Lp{f''}&=\Lp{(f')'}\\[.8em]&=s\,\Lp{f'}-f'(0)\\[.8em]&=s\big[sF-f(0)\big]-f'(0)\\[.8em]&=s^2F-sf(0)-f'(0)\end{aligned}\]
+<p>Once more, with \(g=f''\):</p>
+\[\Lp{f'''}=s\,\Lp{f''}-f''(0)=s^3F-s^2f(0)-sf'(0)-f''(0).\]
+<p><b>Induction.</b> Assume \(\Lp{f^{(n-1)}}=s^{n-1}F-s^{n-2}f(0)-\cdots-f^{(n-2)}(0)\). Then by D10 applied to \(f^{(n-1)}\):</p>
+\[\begin{aligned}\Lp{f^{(n)}}&=s\,\Lp{f^{(n-1)}}-f^{(n-1)}(0)\\[.8em]&=s^nF-s^{n-1}f(0)-s^{n-2}f'(0)-\cdots-f^{(n-1)}(0)\end{aligned}\]</div></details>
+<details class="dv" id="D12"><summary><span class="cd">D12</span><span class="tt">\(\Lp{\displaystyle\int_0^tf(\tau)\,d\tau}=\dfrac{F(s)}s\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Let \(g(t)=\displaystyle\int_0^tf(\tau)\,d\tau\). Then \(g(0)=0\) and, by the fundamental theorem of calculus, \(g'(t)=f(t)\). Also \(|g(t)|\le\int_0^tMe^{k\tau}d\tau\) is of exponential order, so the derivative rule applies:</p>
+\[\begin{aligned}\Lp{f}&=\Lp{g'}\\[.8em]F(s)&=s\,\Lp{g}-g(0)\\[.8em]F(s)&=s\,\Lp{g}\end{aligned}\]
+<p>Divide by \(s\):</p>
+\[\Lp{\int_0^tf(\tau)\,d\tau}=\frac{F(s)}s.\]</div></details>
+<details class="dv" id="D13"><summary><span class="cd">D13</span><span class="tt">\(\Lp{u(t-a)}=\dfrac{e^{-as}}s\), ROC \(\Rs\gt0\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>The step is \(0\) before \(t=a\) and \(1\) after, so only \([a,\infty)\) contributes:</p>
+\[\begin{aligned}\Lp{u(t-a)}&=\int_0^\infty e^{-st}u(t-a)\,dt\\[.8em]&=\int_a^\infty e^{-st}\,dt\\[.8em]&=\Big[-\frac{e^{-st}}s\Big]_a^\infty\\[.8em]&=\frac{e^{-as}}s\end{aligned}\]
+<p>The upper limit is \(0\) when \(\Rs\gt0\). For \(a=0\): \(\Lp{u(t)}=\frac1s\).</p></div></details>
+<details class="dv" id="D14"><summary><span class="cd">D14</span><span class="tt">Second shifting theorem: \(\Lp{f(t-a)u(t-a)}=e^{-as}F(s)\), alternative form, Table 6.5</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Start from the right-hand side and bring \(e^{-as}\) inside the integral:</p>
+\[\begin{aligned}e^{-as}F(s)&=e^{-as}\int_0^\infty e^{-s\tau}f(\tau)\,d\tau\\[.8em]&=\int_0^\infty e^{-s(\tau+a)}f(\tau)\,d\tau\end{aligned}\]
+<p>Substitute \(t=\tau+a\), \(dt=d\tau\); when \(\tau\) runs \(0\to\infty\), \(t\) runs \(a\to\infty\):</p>
+\[\begin{aligned}e^{-as}F(s)&=\int_a^\infty e^{-st}f(t-a)\,dt\\[.8em]&=\int_0^\infty e^{-st}f(t-a)\,u(t-a)\,dt\\[.8em]&=\Lp{f(t-a)u(t-a)}\end{aligned}\]
+<p>(The step \(u(t-a)\) zeroes the part \(0\le t\lt a\).)</p>
+<p><b>Alternative form.</b> Let \(h(x)=f(x+a)\), so \(f(t)=h(t-a)\). Then \(f(t)u(t-a)=h(t-a)u(t-a)\), and by the theorem</p>
+\[\Lp{f(t)u(t-a)}=e^{-as}\Lp{h}=e^{-as}\Lp{f(t+a)}.\]
+<p><b>Table 6.5.</b> Apply the theorem to known \(F\):</p>
+\[\begin{gathered}f=1:\ \Lp{u(t-a)}=\frac{e^{-as}}s\\[.8em]f=t:\ \Lp{(t-a)u(t-a)}=\frac{e^{-as}}{s^2}\\[.8em]f=\frac{t^n}{n!}:\ \Lp{\frac{(t-a)^n}{n!}u(t-a)}=\frac{e^{-as}}{s^{n+1}}\\[.8em]\Lp{\sin\omega(t-a)u(t-a)}=e^{-as}\frac\omega{s^2+\omega^2}\\[.8em]\Lp{\cos\omega(t-a)u(t-a)}=e^{-as}\frac s{s^2+\omega^2}\end{gathered}\]</div></details>
+<details class="dv" id="D15"><summary><span class="cd">D15</span><span class="tt">Periodic function: \(F(s)=\dfrac1{1-e^{-ps}}\displaystyle\int_0^pe^{-st}f(t)\,dt\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Split \([0,\infty)\) into periods:</p>
+\[F(s)=\sum_{m=0}^{\infty}\int_{mp}^{(m+1)p}e^{-st}f(t)\,dt\]
+<p>In the \(m\)th piece put \(t=\tau+mp\) with \(0\le\tau\le p\). Periodicity gives \(f(\tau+mp)=f(\tau)\):</p>
+\[\begin{aligned}\int_{mp}^{(m+1)p}e^{-st}f(t)\,dt&=\int_0^pe^{-s(\tau+mp)}f(\tau)\,d\tau\\[.8em]&=e^{-mps}\int_0^pe^{-s\tau}f(\tau)\,d\tau\end{aligned}\]
+<p>Let \(I=\displaystyle\int_0^pe^{-st}f(t)\,dt\). The sum is a geometric series with ratio \(e^{-ps}\), convergent for \(\Rs\gt0\):</p>
+\[\begin{aligned}F(s)&=I\sum_{m=0}^\infty\big(e^{-ps}\big)^m\\[.8em]&=\frac I{1-e^{-ps}}\end{aligned}\]</div></details>
+<details class="dv" id="D16"><summary><span class="cd">D16</span><span class="tt">Sifting property: \(\displaystyle\int g(t)\,\delta(t-a)\,dt=g(a)\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p><b>Area check.</b> For every \(k\), \(\displaystyle\int f_k(t-a)\,dt=\frac1k\cdot k=1\), so the limit keeps area \(1\).</p>
+<p><b>Using the pulse.</b> For \(g\) continuous,</p>
+\[\int_0^\infty g(t)f_k(t-a)\,dt=\frac1k\int_a^{a+k}g(t)\,dt=g(\tilde t)\]
+<p>for some \(\tilde t\in[a,a+k]\) (mean value theorem for integrals). As \(k\to0\), \(\tilde t\to a\), so the value tends to \(g(a)\).</p>
+<p><b>Direct argument.</b> \(\delta(t-a)=0\) for \(t\ne a\), so \(g(t)\delta(t-a)=g(a)\delta(t-a)\); only the value of \(g\) at \(a\) matters:</p>
+\[\int g(t)\delta(t-a)\,dt=g(a)\int\delta(t-a)\,dt=g(a)\cdot1.\]</div></details>
+<details class="dv" id="D17"><summary><span class="cd">D17</span><span class="tt">\(\Lp{\delta(t-a)}=e^{-as}\) and \(\Lp{\delta(t)}=1\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>The pulse is \(f_k(t-a)=\dfrac1k\big[u(t-a)-u(t-(a+k))\big]\). By linearity and D13:</p>
+\[\begin{aligned}\Lp{f_k(t-a)}&=\frac1k\Big[\frac{e^{-as}}s-\frac{e^{-(a+k)s}}s\Big]\\[.8em]&=e^{-as}\,\frac{1-e^{-ks}}{ks}\end{aligned}\]
+<p>Let \(k\to0\). By L&rsquo;H&ocirc;pital in \(k\) (numerator derivative \(se^{-ks}\), denominator derivative \(s\)):</p>
+\[\lim_{k\to0}\frac{1-e^{-ks}}{ks}=\lim_{k\to0}e^{-ks}=1.\]
+\[\Lp{\delta(t-a)}=e^{-as},\qquad a=0:\ \Lp{\delta(t)}=1.\]
+<p><b>Centred pulse (the version drawn symmetrically).</b> With \(f_k(t)=\frac1k\big[u(t+\tfrac k2)-u(t-\tfrac k2)\big]\) and the transform taken from \(0^-\) (so the whole pulse is counted):</p>
+\[\begin{aligned}\Lp{f_k}&=\frac1k\cdot\frac{e^{ks/2}-e^{-ks/2}}s\\[.8em]&\to\frac1s\lim_{k\to0}\frac{\tfrac s2\big(e^{ks/2}+e^{-ks/2}\big)}1=\frac1s\cdot s=1\end{aligned}\]</div></details>
+<details class="dv" id="D18"><summary><span class="cd">D18</span><span class="tt">Partial fraction rules (cover-up, repeated roots, quadratic factors)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p><b>Distinct linear factors.</b> Write \(F=\dfrac{N}{(s-a_1)\cdots(s-a_n)}=\displaystyle\sum_k\frac{A_k}{s-a_k}\). Multiply by \((s-a_k)\) and set \(s=a_k\); every other term still has a factor \((s-a_j)\to0\) or \((s-a_k)\to0\), so</p>
+\[A_k=\Big[(s-a_k)F(s)\Big]_{s=a_k}.\]
+<p><b>Repeated root of order \(m\).</b> Let \(g(s)=(s-a)^mF(s)\), analytic at \(a\). Expand in a Taylor series about \(a\):</p>
+\[F=\frac{g(s)}{(s-a)^m}=\frac{g(a)}{(s-a)^m}+\frac{g'(a)}{(s-a)^{m-1}}+\frac{g''(a)/2!}{(s-a)^{m-2}}+\cdots\]
+<p>so \(A_m=g(a)\), \(A_{m-1}=g'(a)\), \(A_{m-2}=\dfrac{g''(a)}{2!}\), and so on.</p>
+<p><b>Irreducible quadratic.</b> Multiply through and compare coefficients of like powers of \(s\) (or evaluate at the complex root \(s=a+ib\)). Then write \(As+B=A(s-a)+(Aa+B)\):</p>
+\[\begin{aligned}\frac{As+B}{(s-a)^2+b^2}&=A\,\frac{s-a}{(s-a)^2+b^2}+\frac{Aa+B}b\cdot\frac b{(s-a)^2+b^2}\\[.8em]\Li{\cdot}&=e^{at}\Big[A\cos bt+\frac{Aa+B}b\sin bt\Big]\end{aligned}\]
+<p>by Table 6.2. After splitting, invert each simple term separately and add (linearity).</p></div></details>
+<details class="dv" id="D19"><summary><span class="cd">D19</span><span class="tt">Convolution theorem: \(\Lp{f*g}=F(s)G(s)\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Write the product of the two transforms as a double integral (using \(x\) and \(\tau\) as dummy variables):</p>
+\[\begin{aligned}F(s)G(s)&=\int_0^\infty e^{-sx}f(x)\,dx\int_0^\infty e^{-s\tau}g(\tau)\,d\tau\\[.8em]&=\int_0^\infty f(x)\Big[\int_0^\infty e^{-s(x+\tau)}g(\tau)\,d\tau\Big]dx\end{aligned}\]
+<p>In the inner integral put \(t=x+\tau\), \(\tau=t-x\), \(d\tau=dt\); \(\tau:0\to\infty\) becomes \(t:x\to\infty\):</p>
+\[F(s)G(s)=\int_0^\infty f(x)\int_x^\infty e^{-st}g(t-x)\,dt\,dx\]
+<p>The region of integration is \(0\le x\le t\lt\infty\). Swap the order (allowed since the integrals converge absolutely for \(\Rs\gt k\)): \(t\) from \(0\) to \(\infty\), and for each \(t\), \(x\) from \(0\) to \(t\):</p>
+\[\begin{aligned}F(s)G(s)&=\int_0^\infty e^{-st}\Big[\int_0^tf(x)g(t-x)\,dx\Big]dt\\[.8em]&=\int_0^\infty e^{-st}(f*g)(t)\,dt\\[.8em]&=\Lp{f*g}\end{aligned}\]</div></details>
+<details class="dv" id="D20"><summary><span class="cd">D20</span><span class="tt">Properties of convolution</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p><b>Commutative.</b> In \((f*g)(t)=\displaystyle\int_0^tf(\tau)g(t-\tau)\,d\tau\) put \(\alpha=t-\tau\), \(\tau=t-\alpha\), \(d\tau=-d\alpha\); \(\tau=0\to\alpha=t\) and \(\tau=t\to\alpha=0\):</p>
+\[\begin{aligned}f*g&=-\int_t^0f(t-\alpha)g(\alpha)\,d\alpha\\[.8em]&=\int_0^tg(\alpha)f(t-\alpha)\,d\alpha\\[.8em]&=g*f\end{aligned}\]
+<p><b>Distributive.</b> The integral is linear: \(\displaystyle\int_0^tf(\tau)[g_1+g_2](t-\tau)\,d\tau=f*g_1+f*g_2\).</p>
+<p><b>Associative.</b> By the convolution theorem \(\Lp{(f*g)*v}=(FG)V=F(GV)=\Lp{f*(g*v)}\); equal transforms mean equal functions (uniqueness).</p>
+<p><b>Zero element.</b> \(f*0=\displaystyle\int_0^tf(\tau)\cdot0\,d\tau=0\).</p>
+<p><b>Not a true product.</b> \(f*1=\displaystyle\int_0^tf\,d\tau\ne f\) (its transform is \(F/s\), matching the integral rule). <b>Can be negative.</b> \(\sin t*\sin t=\tfrac12(\sin t-t\cos t)=-\pi\) at \(t=2\pi\).</p></div></details>
+<details class="dv" id="D21"><summary><span class="cd">D21</span><span class="tt">\(Y=Q\,[(s+a)y(0)+y'(0)]+RQ\) and \(y=r*q\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Collecting \(Y\) in the transformed equation gives</p>
+\[(s^2+as+b)Y=(s+a)y(0)+y'(0)+R(s).\]
+<p>Divide by \(s^2+as+b\), i.e. multiply by \(Q=\dfrac1{s^2+as+b}\):</p>
+\[Y=Q\big[(s+a)y(0)+y'(0)\big]+RQ.\]
+<p>With zero initial conditions \(Y=RQ\), a product of two transforms. By the convolution theorem its inverse is the convolution of the inverses, \(y=r*q\), with \(q=\Li{Q}\).</p>
+<p><b>The weight function is the impulse response.</b> If \(r=\delta(t)\) then \(R=\Lp{\delta}=1\), so \(Y=Q\) and \(y=q\). Hence \(q\) is the response to a unit impulse, and the response to any input is the input convolved with \(q\).</p></div></details>
+<details class="dv" id="D22"><summary><span class="cd">D22</span><span class="tt">Volterra equation of convolution type: \(Y=\dfrac{R}{1-K}\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>The equation is \(y(t)-\displaystyle\int_0^ty(\tau)k(t-\tau)\,d\tau=r(t)\). The integral is exactly the convolution \((y*k)(t)\), so the equation reads</p>
+\[y-y*k=r.\]
+<p>Transform with linearity and the convolution theorem:</p>
+\[\begin{aligned}Y-YK&=R\\[.8em]Y(1-K)&=R\\[.8em]Y&=\frac R{1-K}\qquad(K\ne1)\end{aligned}\]
+<p>Then \(y=\Li{Y}\) by partial fractions.</p></div></details>
+<details class="dv" id="D23"><summary><span class="cd">D23</span><span class="tt">\(\Lp{t\,f(t)}=-F'(s)\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Differentiate the definition of \(F\) with respect to \(s\). Differentiation under the integral sign is allowed for \(\Rs\gt k\):</p>
+\[\begin{aligned}F'(s)&=\frac d{ds}\int_0^\infty e^{-st}f(t)\,dt\\[.8em]&=\int_0^\infty\frac\partial{\partial s}\big(e^{-st}\big)f(t)\,dt\\[.8em]&=\int_0^\infty(-t)\,e^{-st}f(t)\,dt\\[.8em]&=-\int_0^\infty e^{-st}\big[t\,f(t)\big]\,dt\\[.8em]&=-\Lp{t\,f(t)}\end{aligned}\]
+<p>Hence \(\Lp{t\,f(t)}=-F'(s)\).</p></div></details>
+<details class="dv" id="D24"><summary><span class="cd">D24</span><span class="tt">\(\Lp{t^nf(t)}=(-1)^nF^{(n)}(s)\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Differentiate \(n\) times under the integral sign; each derivative of \(e^{-st}\) brings down a factor \(-t\):</p>
+\[\begin{aligned}F^{(n)}(s)&=\int_0^\infty(-t)^n\,e^{-st}f(t)\,dt\\[.8em]&=(-1)^n\int_0^\infty e^{-st}\big[t^nf(t)\big]\,dt\\[.8em]&=(-1)^n\Lp{t^nf(t)}\end{aligned}\]
+<p>Multiply by \((-1)^n\) (note \((-1)^n(-1)^n=1\)): \(\Lp{t^nf(t)}=(-1)^nF^{(n)}(s)\). (Equivalently, apply D23 repeatedly.)</p></div></details>
+<details class="dv" id="D25"><summary><span class="cd">D25</span><span class="tt">\(\Lp{\dfrac{f(t)}t}=\displaystyle\int_s^\infty F(\tilde s)\,d\tilde s\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Write \(F(\tilde s)\) as its integral and integrate over \(\tilde s\) from \(s\) to \(\infty\) (here \(s\) is a fixed constant, \(\tilde s\) is the variable):</p>
+\[\int_s^\infty F(\tilde s)\,d\tilde s=\int_{\tilde s=s}^{\infty}\int_{t=0}^\infty e^{-\tilde st}f(t)\,dt\,d\tilde s\]
+<p>Swap the order of integration (allowed for \(s\gt k\)); the inner integral is now over \(\tilde s\):</p>
+\[\begin{aligned}\int_s^\infty F(\tilde s)\,d\tilde s&=\int_0^\infty f(t)\Big[\int_s^\infty e^{-\tilde st}\,d\tilde s\Big]dt\\[.8em]&=\int_0^\infty f(t)\Big[-\frac{e^{-\tilde st}}t\Big]_{\tilde s=s}^{\infty}dt\\[.8em]&=\int_0^\infty f(t)\,\frac{e^{-st}}t\,dt\\[.8em]&=\int_0^\infty e^{-st}\,\frac{f(t)}t\,dt\\[.8em]&=\Lp{\frac{f(t)}t}\end{aligned}\]
+<p>The existence of \(\lim_{t\to0^+}f(t)/t\) keeps \(f(t)/t\) piecewise continuous near \(t=0\), so its transform exists.</p></div></details>
+<details class="dv" id="D26"><summary><span class="cd">D26</span><span class="tt">Matrix form: \(\mathbf Y=(sI-A)^{-1}(\mathbf y_0+\mathbf G)\)</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd"><p>Transform \(\mathbf y'=A\mathbf y+\mathbf g\) componentwise, using \(\Lp{y_j'}=sY_j-y_j(0)\):</p>
+\[s\mathbf Y-\mathbf y_0=A\mathbf Y+\mathbf G\]
+<p>Move the \(A\mathbf Y\) term to the left (using \(s\mathbf Y=sI\,\mathbf Y\)):</p>
+\[\begin{aligned}sI\,\mathbf Y-A\mathbf Y&=\mathbf y_0+\mathbf G\\[.8em](sI-A)\,\mathbf Y&=\mathbf y_0+\mathbf G\end{aligned}\]
+<p>If \(\det(sI-A)\ne0\), i.e. \(s\) is not an eigenvalue of \(A\), the matrix is invertible and</p>
+\[\mathbf Y(s)=(sI-A)^{-1}\big(\mathbf y_0+\mathbf G(s)\big).\]
+<p>Inverting each component gives \(\mathbf y(t)\).</p></div></details>
+</div></section>
+
+<section id="form"><h2>Formula sheet</h2><p class="mut">Every formula, grouped by section, in the order of the notes. Learn each group top to bottom.</p><div id="fl"></div><h3>Meaning of symbols</h3><div id="sy"></div></section>
+</main>
+<script>
+const e=id=>document.getElementById(id),pi=Math.PI;
+/* ---------- derivation bars: animated open/close, deep links ---------- */
+const dvs=[...document.querySelectorAll('.dv')];
+function setDv(d,open){const b=d.querySelector('.bd'),T=matchMedia('(prefers-reduced-motion:reduce)').matches?0:320;if(d._a)d._a.cancel();
+if(open&&!d.classList.contains('op')){d.open=true;d.classList.add('op');const h=b.scrollHeight;d._a=b.animate({height:['0px',h+'px'],opacity:[0,1]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d._a=null}}
+else if(!open&&d.classList.contains('op')){d.classList.remove('op');const h=b.offsetHeight;d._a=b.animate({height:[h+'px','0px'],opacity:[1,0]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d.open=false;d._a=null}}}
+dvs.forEach(d=>d.querySelector('summary').addEventListener('click',ev=>{ev.preventDefault();setDv(d,!d.classList.contains('op'))}));
+function gotoDv(id){const d=e(id);if(!d||!d.classList.contains('dv'))return false;setDv(d,true);setTimeout(()=>d.scrollIntoView({block:'start'}),30);return true}
+document.addEventListener('click',ev=>{const a=ev.target.closest&&ev.target.closest('a.dl');if(!a)return;const id=a.getAttribute('href').slice(1);if(gotoDv(id))ev.preventDefault()});
+if(location.hash&&/^#D\d+$/.test(location.hash))setTimeout(()=>gotoDv(location.hash.slice(1)),400);
+
+/* ---------- formula sheet ---------- */
+const FT=[
+["6.1 Definitions, existence, linearity, shifting",[
+["Laplace transform <b>(LT)</b>",String.raw`F(s)=\Lp{f(t)}=\int_0^\infty e^{-st}f(t)\,dt`],
+["Inverse <b>(ILT)</b>",String.raw`f(t)=\Li{F(s)}`],
+["Kernel modulus (\(s=a+ib\))",String.raw`|e^{-st}|=e^{-at}`],
+["Existence",String.raw`|f(t)|\le Me^{kt}\ (t\ge0)\ \Rightarrow\ \Lp{f}\ \text{exists for}\ \operatorname{Re}(s)\gt k`],
+["Linearity",String.raw`\Lp{af+bg}=aF(s)+bG(s),\quad\Li{aF+bG}=af+bg`],
+["Gamma function",String.raw`\Gamma(a)=\int_0^\infty e^{-x}x^{a-1}dx,\ \ \Gamma(a+1)=a\,\Gamma(a),\ \ \Gamma(n+1)=n!,\ \ \Gamma(\tfrac12)=\sqrt\pi`],
+["First shifting <b>(FST)</b>",String.raw`\Lp{e^{at}f(t)}=F(s-a),\quad e^{at}f(t)=\Li{F(s-a)}`],
+["Complete the square",String.raw`s^2+ps+q=\big(s+\tfrac p2\big)^2+\omega^2,\quad\omega^2=q-\tfrac{p^2}4`],
+["ILT of a quadratic",String.raw`\Li{\frac{\alpha s+\beta}{(s+\frac p2)^2+\omega^2}}=e^{-pt/2}\Big[\alpha\cos\omega t+\frac{\beta-\alpha p/2}\omega\sin\omega t\Big]`],
+["Example",String.raw`\Li{\frac{3s-137}{s^2+2s+401}}=e^{-t}\big(3\cos20t-7\sin20t\big)`],
+["Example: ramp \(t-1\) on \((1,2)\)",String.raw`\Lp{f}=\frac{e^{-s}-e^{-2s}-se^{-2s}}{s^2}`]]],
+["Table 6.1 Basic transforms",[
+["\(1\)",String.raw`\frac1s\ \ (\operatorname{Re}s\gt0)`],
+["\(t\)",String.raw`\frac1{s^2}`],
+["\(t^n\ (n=0,1,2,\dots)\)",String.raw`\frac{n!}{s^{n+1}}`],
+["\(t^a\ (a\gt-1)\)",String.raw`\frac{\Gamma(a+1)}{s^{a+1}}`],
+["\(\dfrac1{\sqrt{\pi t}}\)",String.raw`\frac1{\sqrt s}`],
+["\(2\sqrt{t/\pi}\)",String.raw`\frac1{s^{3/2}}`],
+["\(e^{at}\)",String.raw`\frac1{s-a}\ \ (\operatorname{Re}s\gt a)`],
+["\(\cos\omega t\)",String.raw`\frac s{s^2+\omega^2}`],
+["\(\sin\omega t\)",String.raw`\frac\omega{s^2+\omega^2}`],
+["\(\cosh at\)",String.raw`\frac s{s^2-a^2}\ \ (\operatorname{Re}s\gt|a|)`],
+["\(\sinh at\)",String.raw`\frac a{s^2-a^2}`],
+["\(e^{at}\cos\omega t\)",String.raw`\frac{s-a}{(s-a)^2+\omega^2}`],
+["\(e^{at}\sin\omega t\)",String.raw`\frac\omega{(s-a)^2+\omega^2}`]]],
+["Table 6.2 Built with s-shifting",[
+["\(e^{at}t^n\)",String.raw`\frac{n!}{(s-a)^{n+1}}`],
+["\(e^{at}\cos\omega t\)",String.raw`\frac{s-a}{(s-a)^2+\omega^2}`],
+["\(e^{at}\sin\omega t\)",String.raw`\frac\omega{(s-a)^2+\omega^2}`],
+["\(e^{at}\cosh bt\)",String.raw`\frac{s-a}{(s-a)^2-b^2}`],
+["\(e^{at}\sinh bt\)",String.raw`\frac b{(s-a)^2-b^2}`]]],
+["6.2 Derivatives, integrals, ODEs",[
+["1st derivative",String.raw`\Lp{f'}=sF(s)-f(0)`],
+["2nd derivative",String.raw`\Lp{f''}=s^2F(s)-sf(0)-f'(0)`],
+["3rd derivative",String.raw`\Lp{f'''}=s^3F(s)-s^2f(0)-sf'(0)-f''(0)`],
+["\(n\)th derivative",String.raw`\Lp{f^{(n)}}=s^nF(s)-s^{n-1}f(0)-s^{n-2}f'(0)-\cdots-f^{(n-1)}(0)`],
+["Integral",String.raw`\Lp{\int_0^tf(\tau)\,d\tau}=\frac{F(s)}s,\quad\int_0^tf(\tau)\,d\tau=\Li{\frac{F(s)}s}`],
+["ODE method",String.raw`\text{transform}\ \to\ \text{subsidiary equation in }Y\ \to\ \text{solve for }Y\ \to\ y=\Li Y`],
+["\(\Lp{t\sin\omega t}\) (by derivative rule)",String.raw`\frac{2\omega s}{(s^2+\omega^2)^2}`],
+["\(\sin\omega t,\ \cos\omega t\) (by derivative rule)",String.raw`\frac\omega{s^2+\omega^2},\quad\frac s{s^2+\omega^2}`],
+["Integral inverses",String.raw`\Li{\frac1{s(s^2+\omega^2)}}=\frac{1-\cos\omega t}{\omega^2},\quad\Li{\frac1{s^2(s^2+\omega^2)}}=\frac{\omega t-\sin\omega t}{\omega^3}`],
+["IVP \(y''-y=t,\ y(0)=y'(0)=1\)",String.raw`Y=\frac1{s-1}+\frac1{s^2(s^2-1)},\quad y=e^{t}+\sinh t-t`],
+["Condition at \(t_0\)",String.raw`\tau=t-t_0,\ \ z(\tau)=y(\tau+t_0),\ \ z(0)=y(t_0),\ \ z'(0)=y'(t_0)`],
+["\(y''+y=2t,\ y(\tfrac\pi4)=\tfrac\pi2,\ y'(\tfrac\pi4)=2-\sqrt2\)",String.raw`z(\tau)=2\tau+\tfrac\pi2-\sqrt2\sin\tau,\quad y(t)=2t-\sin t+\cos t`]]],
+["6.3 Step function, second shifting, periodic",[
+["Unit step",String.raw`u(t-a)=\begin{cases}0,&t\lt a\\1,&t\ge a\end{cases}\quad(a\ge0)`],
+["Pulse",String.raw`u(t-a)-u(t-b)=1\ \text{on}\ [a,b),\ 0\ \text{elsewhere}\quad(a\lt b)`],
+["Step transform",String.raw`\Lp{u(t-a)}=\frac{e^{-as}}s\ (\operatorname{Re}s\gt0),\quad\Lp{u(t)}=\frac1s`],
+["Second shifting <b>(SST)</b>",String.raw`\Lp{f(t-a)u(t-a)}=e^{-as}F(s),\quad f(t-a)u(t-a)=\Li{e^{-as}F(s)}`],
+["Alternative form",String.raw`\Lp{f(t)u(t-a)}=e^{-as}\Lp{f(t+a)}`],
+["\((t-a)u(t-a)\)",String.raw`\frac{e^{-as}}{s^2}`],
+["\(\frac{(t-a)^n}{n!}u(t-a)\)",String.raw`\frac{e^{-as}}{s^{n+1}}`],
+["\(\sin\omega(t-a)u(t-a)\)",String.raw`e^{-as}\frac\omega{s^2+\omega^2}`],
+["\(\cos\omega(t-a)u(t-a)\)",String.raw`e^{-as}\frac s{s^2+\omega^2}`],
+["Piecewise rule",String.raw`f=\sum_if_i(t)\big[u(t-a_i)-u(t-a_{i+1})\big],\quad t=(t-a)+a`],
+["Example (three pieces)",String.raw`F(s)=\frac{2-2e^{-s}}s+e^{-s}\Big[\frac1{s^3}+\frac1{s^2}+\frac1{2s}\Big]-e^{-\pi s/2}\Big[\frac1{s^3}+\frac\pi{2s^2}+\frac{\pi^2}{8s}+\frac1{s^2+1}\Big]`],
+["Example (inverse with shifts)",String.raw`\tfrac1\pi\sin\pi(t-1)u(t-1)+\tfrac1\pi\sin\pi(t-2)u(t-2)+(t-3)e^{-2(t-3)}u(t-3)`],
+["Periodic, period \(p\)",String.raw`F(s)=\frac1{1-e^{-ps}}\int_0^pe^{-st}f(t)\,dt`],
+["Example (pulse train, \(p=2\))",String.raw`F(s)=\frac1{s(1+e^{-s})}`]]],
+["6.4 Delta function and partial fractions",[
+["Pulse of area 1",String.raw`f_k(t-a)=\tfrac1k\ (a\le t\le a+k),\ 0\ \text{otherwise};\quad\int f_k\,dt=1`],
+["Dirac delta <b>(DDF)</b>",String.raw`\delta(t-a)=\lim_{k\to0}f_k(t-a):\ \ \delta=\infty\ (t=a),\ 0\ (t\ne a),\ \ \int_{-\infty}^\infty\delta(t-a)\,dt=1`],
+["Sifting",String.raw`\int_{-\infty}^\infty g(t)\delta(t-a)\,dt=g(a),\quad\int_0^\infty g(t)\delta(t-a)\,dt=g(a)\ (a\gt0)`],
+["Transform of \(\delta\)",String.raw`\Lp{\delta(t-a)}=e^{-as}\ (a\ge0),\quad\Lp{\delta(t)}=1`],
+["Pulse transform",String.raw`\Lp{f_k(t-a)}=e^{-as}\frac{1-e^{-ks}}{ks}\to e^{-as}`],
+["Impulse ODE",String.raw`y''+3y'+2y=\delta(t-1),\ y(0)=y'(0)=0:\ \ y=\big[e^{-(t-1)}-e^{-2(t-1)}\big]u(t-1)`],
+["PF: simple root",String.raw`\frac A{s-a},\quad A=\big[(s-a)F(s)\big]_{s=a}`],
+["PF: repeated root",String.raw`\frac{A_1}{s-a}+\cdots+\frac{A_m}{(s-a)^m},\ \ g=(s-a)^mF,\ A_m=g(a),\ A_{m-1}=g'(a),\ A_{m-2}=\tfrac{g''(a)}{2!}`],
+["PF: quadratic factor",String.raw`\frac{As+B}{(s-a)^2+b^2}\ \to\ e^{at}\Big[A\cos bt+\frac{Aa+B}b\sin bt\Big]`],
+["Examples",String.raw`\Li{\frac1{s^2(s^2-1)}}=\sinh t-t,\quad\Li{\frac1{(s+1)(s^2+1)}}=\tfrac12\big(e^{-t}-\cos t+\sin t\big)`]]],
+["6.5 Convolution and integral equations",[
+["Convolution <b>(*)</b>",String.raw`(f*g)(t)=\int_0^tf(\tau)g(t-\tau)\,d\tau`],
+["Convolution theorem <b>(CT)</b>",String.raw`\Lp{f*g}=F(s)G(s),\quad f*g=\Li{F(s)G(s)}`],
+["Not the product",String.raw`\Lp{f\,g}\ne F(s)G(s)`],
+["Properties",String.raw`f*g=g*f,\ \ f*(g_1+g_2)=f*g_1+f*g_2,\ \ (f*g)*v=f*(g*v),\ \ f*0=0`],
+["Not a product",String.raw`f*1=\int_0^tf\,d\tau\ne f;\ \ t*1=\tfrac{t^2}2;\ \ \sin t*\sin t=\tfrac12(\sin t-t\cos t)\ \text{can be}\lt0`],
+["Inverse by convolution",String.raw`\Li{\frac1{s(s-a)}}=e^{at}*1=\frac{e^{at}-1}a`],
+["Squared quadratic",String.raw`\Li{\frac1{(s^2+\omega^2)^2}}=\frac1{\omega^2}\sin\omega t*\sin\omega t=\frac{\sin\omega t-\omega t\cos\omega t}{2\omega^3}`],
+["\(y''+\omega_0^2y=k\sin\omega_0t\)",String.raw`Y=\frac{k\omega_0}{(s^2+\omega_0^2)^2},\quad y=\frac k{2\omega_0^2}\big(\sin\omega_0t-\omega_0t\cos\omega_0t\big)`],
+["Input \(k\sin\omega_1t\)",String.raw`y=\frac k{\omega_1^2-\omega_0^2}\Big[\frac{\omega_1}{\omega_0}\sin\omega_0t-\sin\omega_1t\Big]`],
+["General 2nd-order ODE",String.raw`Y=Q(s)\big[(s+a)y(0)+y'(0)\big]+R(s)Q(s),\quad Q=\frac1{s^2+as+b}`],
+["Zero initial values",String.raw`Y=RQ,\quad y(t)=(r*q)(t)=\int_0^tr(\tau)q(t-\tau)\,d\tau,\quad q=\Li Q`],
+["Volterra equation <b>(VIE)</b>",String.raw`y(t)-\int_0^ty(\tau)k(t-\tau)\,d\tau=r(t)\ \Rightarrow\ Y=\frac{R}{1-K}`],
+["Examples",String.raw`k=\sin t,\ r=t:\ y=t+\tfrac{t^3}6;\quad k=1+t,\ r=1-\sinh t:\ y=\cosh t`]]],
+["6.6 Differentiating and integrating transforms",[
+["Differentiation",String.raw`\Lp{tf(t)}=-F'(s),\quad\Lp{t^nf(t)}=(-1)^nF^{(n)}(s)`],
+["Integration",String.raw`\Lp{\frac{f(t)}t}=\int_s^\infty F(\tilde s)\,d\tilde s,\quad\frac{f(t)}t=\Li{\int_s^\infty F(\tilde s)\,d\tilde s}`],
+["Condition",String.raw`\lim_{t\to0^+}\frac{f(t)}t\ \text{exists}`],
+["\(t\sin\omega t\)",String.raw`\frac{2\omega s}{(s^2+\omega^2)^2}`],
+["\(t\cos\omega t\)",String.raw`\frac{s^2-\omega^2}{(s^2+\omega^2)^2}`],
+["Inverse (i)",String.raw`\Li{\frac1{(s^2+\beta^2)^2}}=\frac1{2\beta^3}\big(\sin\beta t-\beta t\cos\beta t\big)`],
+["Inverse (ii)",String.raw`\Li{\frac s{(s^2+\beta^2)^2}}=\frac1{2\beta}t\sin\beta t`],
+["Inverse (iii)",String.raw`\Li{\frac{s^2}{(s^2+\beta^2)^2}}=\frac1{2\beta}\big(\sin\beta t+\beta t\cos\beta t\big)`],
+["Logarithm",String.raw`\Li{\ln\Big(1+\frac{\omega^2}{s^2}\Big)}=\frac{2(1-\cos\omega t)}t`],
+["Laguerre ODE",String.raw`ty''+(1-t)y'+ny=0\ \Rightarrow\ (s-s^2)Y'+(n+1-s)Y=0`],
+["Laguerre solution",String.raw`Y=\frac{(s-1)^n}{s^{n+1}},\quad y=\sum_{k=0}^n\binom nk\frac{(-1)^k}{k!}t^k=\frac{e^{t}}{n!}\frac{d^n}{dt^n}\big(t^ne^{-t}\big)`]]],
+["6.7 Systems of ODEs",[
+["Method",String.raw`\Lp{y_j'}=sY_j-y_j(0)\ \to\ \text{algebraic system}\ \to\ \text{solve}\ \to\ \text{invert}`],
+["Matrix form",String.raw`\mathbf y'=A\mathbf y+\mathbf g,\ \mathbf y(0)=\mathbf y_0\ \Rightarrow\ (sI-A)\mathbf Y=\mathbf y_0+\mathbf G`],
+["Solution",String.raw`\mathbf Y(s)=(sI-A)^{-1}\big(\mathbf y_0+\mathbf G(s)\big),\quad s\ne\text{eigenvalue of }A`],
+["Example \(2x'-3y'=1,\ x'+y'=e^{t}\)",String.raw`x=\tfrac15(3e^{t}+t-3),\quad y=\tfrac15(2e^{t}-t-2)`]]],
+["Master summary of general rules",[
+["1 Linearity",String.raw`\Lp{af+bg}=aF(s)+bG(s)`],
+["2 First shift",String.raw`\Lp{e^{at}f(t)}=F(s-a)`],
+["3 Derivative",String.raw`\Lp{f'(t)}=sF(s)-f(0)`],
+["4 \(n\)th derivative",String.raw`\Lp{f^{(n)}}=s^nF(s)-s^{n-1}f(0)-\cdots-f^{(n-1)}(0)`],
+["5 Integral",String.raw`\Lp{\int_0^tf\,d\tau}=\frac{F(s)}s`],
+["6 Step",String.raw`\Lp{u(t-a)}=\frac{e^{-as}}s`],
+["7 Second shift",String.raw`\Lp{f(t-a)u(t-a)}=e^{-as}F(s)`],
+["8 Periodic (period \(p\))",String.raw`F(s)=\frac1{1-e^{-ps}}\int_0^pe^{-st}f(t)\,dt`],
+["9 Delta",String.raw`\Lp{\delta(t-a)}=e^{-as}`],
+["10 Convolution",String.raw`\Lp{f*g}=F(s)G(s)`],
+["11 Derivative of \(F\)",String.raw`\Lp{t^nf(t)}=(-1)^nF^{(n)}(s)`],
+["12 Integral of \(F\)",String.raw`\Lp{\frac{f(t)}t}=\int_s^\infty F(\tilde s)\,d\tilde s`],
+["13 Systems",String.raw`(sI-A)\mathbf Y(s)=\mathbf y_0+\mathbf G(s)`]]]];
+e('fl').innerHTML=FT.map(g=>`<h3>${g[0]}</h3><div style="overflow-x:auto"><table class="ft"><tr><th>Quantity</th><th>Formula</th></tr>`+g[1].map(r=>`<tr><td>${r[0]}</td><td>\\(\\displaystyle ${r[1]}\\)</td></tr>`).join('')+'</table></div>').join('');
+const SY=[
+[String.raw`f(t),\ F(s)`,'original function (\\(t\\ge0\\)) and its Laplace transform'],
+[String.raw`\mathcal L,\ \mathcal L^{-1}`,'Laplace and inverse Laplace operators'],
+[String.raw`s=\sigma+j\omega,\ \operatorname{Re}(s)`,'complex frequency variable; \\(\\sigma\\) = growth or decay rate, \\(\\omega\\) = oscillation frequency; real part'],
+[String.raw`M,\ k`,'constants in the exponential-order bound \\(|f|\\le Me^{kt}\\)'],
+[String.raw`a,\ b,\ \omega,\ \beta`,'real constants (shift, damping, angular frequency)'],
+[String.raw`n,\ n!`,'non-negative integer and its factorial'],
+[String.raw`\Gamma`,'gamma function, \\(\\Gamma(n+1)=n!\\)'],
+[String.raw`y,\ y',\ y'',\ Y(s)`,'unknown function, its derivatives, and the transform of \\(y\\)'],
+[String.raw`y(0),\ y'(0)`,'initial values at \\(t=0\\)'],
+[String.raw`\tau,\ \tilde s,\ x`,'dummy variables of integration'],
+[String.raw`u(t-a)`,'unit step (Heaviside) function, switches on at \\(t=a\\)'],
+[String.raw`\delta(t-a)`,'Dirac delta (unit impulse) at \\(t=a\\)'],
+[String.raw`f_k(t-a),\ k`,'pulse of height \\(1/k\\) and width \\(k\\); \\(k\\to0\\) gives \\(\\delta\\)'],
+[String.raw`p`,'period of a periodic function (or the coefficient in \\(s^2+ps+q\\))'],
+[String.raw`f*g`,'convolution \\(\\int_0^tf(\\tau)g(t-\\tau)d\\tau\\)'],
+[String.raw`Q(s),\ q(t),\ R(s),\ r(t)`,'transfer function, weight function, transform of the input, input function'],
+[String.raw`K(s),\ k(t)`,'kernel of a Volterra equation and its transform'],
+[String.raw`F^{(n)}(s)`,'\\(n\\)th derivative of \\(F\\) with respect to \\(s\\)'],
+[String.raw`A_k,\ B,\ C`,'partial-fraction constants'],
+[String.raw`\mathbf y,\ \mathbf Y,\ \mathbf g,\ \mathbf G`,'vector of unknowns, its transform, input vector, its transform'],
+[String.raw`A,\ I`,'constant coefficient matrix; identity matrix'],
+[String.raw`L_n(t)`,'Laguerre polynomial of degree \\(n\\)'],
+[String.raw`(\mathrm{LT, ILT, ROC, FST, SST, DDF, PF, CT, VIE, IVP, ODE, LTI})`,'Laplace transform, inverse LT, region of convergence, first and second shifting theorems, Dirac delta function, partial fractions, convolution theorem, Volterra integral equation, initial value problem, ordinary differential equation, linear time-invariant']];
+e('sy').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr><th>Symbol</th><th>Meaning</th></tr>'+SY.map(r=>`<tr><td>\\(${r[0]}\\)</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
+
+/* ---------- theme toggle (scroll position preserved) ---------- */
+const th=e('th'),R=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+
+/* ---------- visual helpers ---------- */
+function tx(el){if(window.MathJax&&MathJax.startup&&MathJax.typesetPromise){MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise([el])).catch(()=>{})}}
+const g4=x=>String(+x.toFixed(4)),sg=x=>x<0?'-':'+';
+function simp(f,a,b,n){const h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=f(a+i*h)*(i%2?4:2);return s*h/3}
+function nice(x){const p=Math.pow(10,Math.floor(Math.log10(x))),m=x/p;return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p}
+function plot(id,xr,yr,items,o){o=o||{};const el=e(id),W=700,H=+el.getAttribute('viewBox').split(' ')[3],L=44,Rr=14,T=12,B=28,ex=yr[1]-yr[0];
+const X=x=>L+(x-xr[0])/(xr[1]-xr[0])*(W-L-Rr),Y=y=>H-B-(y-yr[0])/(yr[1]-yr[0])*(H-T-B),cl=v=>Math.max(yr[0]-ex,Math.min(yr[1]+ex,v));
+let s=`<defs><clipPath id="cp${id}"><rect x="${L}" y="${T}" width="${W-L-Rr}" height="${H-T-B}"/></clipPath></defs>`;
+const xs=o.xs||nice((xr[1]-xr[0])/6),ys=o.ys||nice(ex/4),tk='style="fill:var(--mut);font:12px Carlito,Calibri,sans-serif"';
+for(let x=Math.ceil(xr[0]/xs-1e-9)*xs;x<=xr[1]+1e-9;x+=xs){s+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${H-B}" style="stroke:var(--line);opacity:.5"/><text x="${X(x)}" y="${H-B+16}" text-anchor="middle" ${tk}>${g4(x)}</text>`}
+for(let y=Math.ceil(yr[0]/ys-1e-9)*ys;y<=yr[1]+1e-9;y+=ys){s+=`<line x1="${L}" y1="${Y(y)}" x2="${W-Rr}" y2="${Y(y)}" style="stroke:var(--line);opacity:.5"/><text x="${L-6}" y="${Y(y)+4}" text-anchor="end" ${tk}>${g4(y)}</text>`}
+const ya=yr[0]<=0&&yr[1]>=0?Y(0):H-B,xa=xr[0]<=0&&xr[1]>=0?X(0):L;
+s+=`<line x1="${L}" y1="${ya}" x2="${W-Rr}" y2="${ya}" style="stroke:var(--mut);stroke-width:1.5"/><line x1="${xa}" y1="${T}" x2="${xa}" y2="${H-B}" style="stroke:var(--mut);stroke-width:1.5"/>`;
+items.forEach(it=>{let p=it.pts;if(!p){p=[];const n=it.n||320;for(let i=0;i<=n;i++){const x=xr[0]+(xr[1]-xr[0])*i/n;p.push([x,it.f(x)])}}
+p=p.filter(q=>isFinite(q[1]));if(p.length<2)return;const d=p.map((q,i)=>(i?'L':'M')+X(q[0]).toFixed(1)+' '+Y(cl(q[1])).toFixed(1)).join('');
+if(it.fill)s+=`<path clip-path="url(#cp${id})" d="${d}L${X(p[p.length-1][0]).toFixed(1)} ${Y(0)}L${X(p[0][0]).toFixed(1)} ${Y(0)}Z" style="fill:var(--ac);opacity:.25;stroke:none"/>`;
+s+=`<path clip-path="url(#cp${id})" d="${d}" style="fill:none;stroke:var(--${it.c||'ac'});stroke-width:${it.w||2.4};stroke-dasharray:${it.dash||'none'}"/>`});
+(o.extra||[]).forEach(x=>{s+=x(X,Y)});el.innerHTML=s}
+function fill(sel,list){e(sel).innerHTML=list.map((x,i)=>`<option value="${i}">${x.n}</option>`).join('')}
+
+/* function library for the visuals */
+const LV=[
+{n:'1',f:t=>1,k:0,F:s=>1/s,F1:s=>-1/(s*s),tx:S=>String.raw`\frac1{${S}}`},
+{n:'t',f:t=>t,k:0,F:s=>1/(s*s),F1:s=>-2/Math.pow(s,3),tx:S=>String.raw`\frac1{${S}^2}`},
+{n:'t²',f:t=>t*t,k:0,F:s=>2/Math.pow(s,3),F1:s=>-6/Math.pow(s,4),tx:S=>String.raw`\frac2{${S}^3}`},
+{n:'e^t',f:t=>Math.exp(t),k:1,F:s=>1/(s-1),tx:S=>String.raw`\frac1{${S}-1}`},
+{n:'e^(2t)',f:t=>Math.exp(2*t),k:2,F:s=>1/(s-2),tx:S=>String.raw`\frac1{${S}-2}`},
+{n:'e^(−t)',f:t=>Math.exp(-t),k:-1,F:s=>1/(s+1),F1:s=>-1/((s+1)*(s+1)),tx:S=>String.raw`\frac1{${S}+1}`},
+{n:'sin 2t',f:t=>Math.sin(2*t),k:0,F:s=>2/(s*s+4),F1:s=>-4*s/Math.pow(s*s+4,2),tx:S=>String.raw`\frac2{${S}^2+4}`},
+{n:'cos 2t',f:t=>Math.cos(2*t),k:0,F:s=>s/(s*s+4),F1:s=>(4-s*s)/Math.pow(s*s+4,2),tx:S=>String.raw`\frac{${S}}{${S}^2+4}`}];
+const nm=i=>LV[i].n;
+
+/* 1 kernel */
+function vk(){const S=+e('kS').value,W=+e('kW').value;e('kSv').textContent=S;e('kWv').textContent=W;
+plot('kc',[0,8],[-2.5,2.5],[{f:t=>Math.exp(-S*t),c:'mut',dash:'5 4',w:1.5},{f:t=>-Math.exp(-S*t),c:'mut',dash:'5 4',w:1.5},{f:t=>Math.exp(-S*t)*Math.cos(W*t),n:700}]);
+e('ko').innerHTML=String.raw`\(s=${g4(S)}+j${g4(W)}\): `+(S>0?'decays':S<0?'grows':'keeps constant size')+String.raw`, oscillating with period \(2\pi/\omega=${W>0?g4(2*pi/W):'\\infty'}\).`;tx(e('ko'))}
+e('kS').oninput=e('kW').oninput=vk;
+/* 2 ROC */
+fill('bf',LV);function vb(){const f=LV[+e('bf').value],s=+e('bs').value;e('bsv').textContent=s;
+const g=t=>Math.exp(-s*t)*f.f(t);let ym=0;for(let i=0;i<=200;i++)ym=Math.max(ym,Math.min(g(i*0.04),50));ym=Math.max(1,Math.min(ym*1.15,6));
+plot('bc',[0,8],[0,ym],[{f:t=>f.f(t),c:'mut',dash:'5 4',w:1.5},{f:g,fill:true,n:500}],{xs:1});
+let o;if(s>f.k){const T=Math.min(200,40/(s-f.k)),v=simp(g,0,T,20000);o=String.raw`\(\displaystyle\int_0^\infty e^{-st}f(t)\,dt\approx${g4(v)}\) and \(F(s)=${f.tx('s')}=${g4(f.F(s))}\). The area is finite: \(s\gt${f.k}\) is inside the ROC.`}
+else o=String.raw`\(s=${g4(s)}\le${f.k}\): the integrand does not decay, the area is infinite, and the integral diverges. The ROC needs \(\operatorname{Re}(s)\gt${f.k}\).`;
+e('bo').innerHTML=o;tx(e('bo'))}
+e('bf').onchange=e('bs').oninput=vb;
+/* 3 s-shift */
+const CF=[LV[6],LV[7],LV[1],LV[0],LV[2]];e('cf1').innerHTML=CF.map((x,i)=>`<option value="${i}">${x.n}</option>`).join('');
+function vc(){const f=CF[+e('cf1').value],a=+e('ca').value;e('cav').textContent=a;
+plot('cc1',[0,8],[-3,3],[{f:f.f,c:'mut',dash:'5 4',w:1.5},{f:t=>Math.exp(a*t)*f.f(t),n:500}]);
+const S=a===0?'s':'(s'+(a<0?'+':'-')+g4(Math.abs(a))+')';
+e('co1').innerHTML=String.raw`\(\Lp{e^{${g4(a)}t}f(t)}=F(s-a)=${f.tx(S)}\), obtained from \(F(s)=${f.tx('s')}\) by replacing \(s\) with \(s-a\).`;tx(e('co1'))}
+e('cf1').onchange=e('ca').oninput=vc;
+/* 4 t-shift */
+function vd(){const a=+e('da').value;e('dav').textContent=a;const f=t=>5*Math.sin(t),pts=[[0,0],[a,0]];
+for(let i=0;i<=400;i++){const t=a+(12-a)*i/400;pts.push([t,f(t-a)])}
+plot('dc',[0,12],[-6,6],[{f:t=>f(t),c:'ac2',w:1.3,dash:'2 3'},{f:t=>f(t-a),c:'mut',dash:'5 4',w:1.6},{pts:pts}],{xs:2,ys:2});
+const A=g4(a);e('do').innerHTML=String.raw`\(\Lp{f(t-a)u(t-a)}=e^{-${A}s}\,\dfrac{5}{s^2+1}\). The plain shift \(f(t-a)\) (dashed) is non-zero on \([0,a)\), so it does <b>not</b> have this transform.`;tx(e('do'))}
+e('da').oninput=vd;
+/* 5 delta */
+function vg(){const a=+e('ga').value,k=+e('gk').value;e('gav').textContent=a;e('gkv').textContent=k;const h=1/k;
+plot('gc',[0,4],[0,Math.max(1.2,h*1.1)],[{pts:[[0,0],[a,0],[a,h],[a+k,h],[a+k,0],[4,0]],fill:true,n:1}],{xs:0.5});
+const v=Math.exp(-a)*(1-Math.exp(-k))/k;e('go').innerHTML=String.raw`height \(1/k=${g4(h)}\), width \(k=${g4(k)}\), area \(=${g4(h*k)}\). At \(s=1\): \(\Lp{f_k}=e^{-a}\dfrac{1-e^{-k}}{k}=${g4(v)}\), approaching \(e^{-a}=${g4(Math.exp(-a))}\).`;tx(e('go'))}
+e('ga').oninput=e('gk').oninput=vg;
+/* 6 convolution */
+const LC=[{n:'1',f:t=>1,F:String.raw`\frac1s`},{n:'t',f:t=>t,F:String.raw`\frac1{s^2}`},{n:'t²',f:t=>t*t,F:String.raw`\frac2{s^3}`},{n:'e^(−t)',f:t=>Math.exp(-t),F:String.raw`\frac1{s+1}`},{n:'sin t',f:Math.sin,F:String.raw`\frac1{s^2+1}`},{n:'cos t',f:Math.cos,F:String.raw`\frac s{s^2+1}`}];
+fill('vf',LC);fill('vg',LC);e('vg').value=3;
+const cv=(f,g,t)=>t<=0?0:simp(u=>f(u)*g(t-u),0,t,240);
+function vv(){const f=LC[+e('vf').value],g=LC[+e('vg').value],t=+e('vt').value;e('vtv').textContent=t;
+const prod=u=>f.f(u)*g.f(t-u);let ym=0.5;for(let i=0;i<=80;i++){const u=8*i/80;ym=Math.max(ym,Math.abs(f.f(u)),Math.abs(g.f(u)),Math.abs(prod(Math.min(u,t))))}ym=Math.min(ym*1.15,6);
+const ptsP=[],ptsG=[];for(let i=0;i<=200;i++){const u=t*i/200;ptsP.push([u,prod(u)]);ptsG.push([u,g.f(t-u)])}
+plot('vc1',[0,8],[-ym,ym],[{f:f.f,c:'mut',w:1.8},{pts:ptsG,c:'ac2',dash:'6 4',w:2},{pts:[[0,0],...ptsP,[t,0]],fill:true,n:1}],{xs:1});
+let m=1e-9;const cp=[];for(let i=0;i<=80;i++){const x=8*i/80,y=cv(f.f,g.f,x);cp.push([x,y]);m=Math.max(m,Math.abs(y))}m=Math.min(m*1.15,40);
+plot('vc2',[0,8],[-m,m],[{pts:cp,w:2.4}],{xs:1,extra:[(X,Y)=>`<circle cx="${X(t)}" cy="${Y(Math.max(-m,Math.min(m,cv(f.f,g.f,t))))}" r="5" style="fill:var(--ac)"/>`]});
+e('vo').innerHTML=String.raw`\((f*g)(${g4(t)})=\displaystyle\int_0^{t}f(\tau)g(t-\tau)\,d\tau\approx${g4(cv(f.f,g.f,t))}\). By the theorem its transform is \(F(s)G(s)=${f.F}\cdot${g.F}\).`;tx(e('vo'))}
+e('vf').onchange=e('vg').onchange=e('vt').oninput=vv;
+/* 7 slope of F */
+const WL=[LV[0],LV[1],LV[5],LV[6],LV[7]];e('wf').innerHTML=WL.map((x,i)=>`<option value="${i}">${x.n}</option>`).join('');
+function vw(){const f=WL[+e('wf').value],s0=+e('ws').value;e('wsv').textContent=s0;let ym=0;for(let i=0;i<=40;i++)ym=Math.max(ym,Math.abs(f.F(0.6+4.4*i/40)));ym=ym*1.15;
+const sl=f.F1(s0),F0=f.F(s0);
+plot('wc',[0.6,5],[-ym*0.3,ym],[{f:f.F,n:300},{f:x=>F0+sl*(x-s0),c:'mut',dash:'6 4',w:1.8}],{ys:nice(ym/4),extra:[(X,Y)=>`<circle cx="${X(s0)}" cy="${Y(F0)}" r="5" style="fill:var(--ac)"/>`]});
+const nv=simp(t=>t*f.f(t)*Math.exp(-s0*t),0,Math.min(120,60/Math.max(s0+(f.k<0?f.k:0)*0,0.6)),24000);
+e('wo').innerHTML=String.raw`slope of \(F\) at \(s=${g4(s0)}\): \(F'(s)=${g4(sl)}\), so \(-F'(s)=${g4(-sl)}\). Direct integral: \(\Lp{t\,f(t)}=\displaystyle\int_0^\infty t\,f(t)e^{-st}dt\approx${g4(nv)}\). They agree.`;tx(e('wo'))}
+e('wf').onchange=e('ws').oninput=vw;
+vk();vb();vc();vd();vg();vv();vw();
+/* give each formula box the height it needs, so no box shows an up/down scrollbar */
+function fitF(){document.querySelectorAll('.f').forEach(f=>{f.style.paddingBottom='';for(let i=0;i<4;i++){const d=f.scrollHeight-f.clientHeight;if(d<=0)break;f.style.paddingBottom=(parseFloat(getComputedStyle(f).paddingBottom)+d)+'px'}})}
+(function(){let tm;const run=()=>{clearTimeout(tm);tm=setTimeout(fitF,60)};
+const poll=setInterval(()=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise){clearInterval(poll);MathJax.startup.promise.then(run)}},100);
+addEventListener('load',run);addEventListener('resize',run);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(run)})();
+
+</script></body></html>
