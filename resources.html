@@ -43,19 +43,16 @@ a{color:inherit}
 .tab:disabled{opacity:.4;cursor:not-allowed}
 .years{max-width:760px;margin-top:22px}
 .year-section{display:none}
-.year-section.active{display:block}
+.year-section.active{display:grid;grid-template-columns:1fr;gap:12px}
 .pick{color:var(--soft);margin:22px 0 0}
-.course-card{background:var(--card);border:1px solid var(--rule);border-radius:6px;margin-bottom:8px}
-.course-header{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:7px 14px;background:none;border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.course-card{background:var(--card);border:1px solid var(--rule);border-radius:6px}
+.course-header{padding:12px 16px 10px}
 .course-title-group{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
-.course-code{color:var(--soft);font-size:.9rem;font-variant-numeric:tabular-nums}
-.course-name{font-family:Radley,serif;font-size:1.08rem}
-.toggle-icon{transition:transform .2s}
-.course-header[aria-expanded="true"] .toggle-icon{transform:rotate(180deg)}
-.course-body{display:none;padding:8px 14px 12px;border-top:1px dotted var(--rule)}
-.course-header[aria-expanded="true"]+.course-body{display:block}
+.course-code{color:var(--soft);font-size:1rem;font-variant-numeric:tabular-nums}
+.course-name{font-family:Radley,serif;font-size:1.3rem}
+.course-body{padding:8px 16px 14px;border-top:1px dotted var(--rule)}
 .course-body ul{list-style:none;padding:0;margin:0}
-.course-body li{padding:4px 0 4px 1.2rem;position:relative;font-size:.98rem}
+.course-body li{padding:4px 0 4px 1.2rem;position:relative;font-size:1.12rem}
 .course-body li::before{content:"";position:absolute;left:0;top:.9em;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.5}
 .course-body li a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--rule)}
 .course-body li a:hover{color:var(--acc);text-decoration-color:var(--acc)}
@@ -79,7 +76,7 @@ a{color:inherit}
 @media (min-width:1160px){.side{display:block}}
 @media (prefers-reduced-motion:reduce){.side .ic{animation:none}}
 footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid var(--rule);color:var(--soft);font-size:.95rem}
-@media (prefers-reduced-motion:reduce){#theme .thumb,.toggle-icon{transition:none}}
+@media (prefers-reduced-motion:reduce){#theme .thumb{transition:none}}
 </style>
 </head>
 <body>
@@ -111,89 +108,53 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
         <svg class="ic" style="left:150px;top:91.667%" viewBox="0 0 100 100" focusable="false"><path class="plus" d="M30 24v28M16 38h28"/><path class="star" d="M70 56l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/></svg>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST201</span><span class="course-name">Sampling Distributions</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST201</span><span class="course-name">Sampling Distributions</span></div></div>
         <div class="course-body"><ul><li><a href="resources/201_probability_distributions.html" target="_blank" rel="noopener">Probability Distributions</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST202</span><span class="course-name">Actuarial Statistics</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST202</span><span class="course-name">Actuarial Statistics</span></div></div>
         <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST203</span><span class="course-name">Statistical Inference I</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST203</span><span class="course-name">Statistical Inference I</span></div></div>
         <div class="course-body"><ul><li><a href="resources/203_estimation.html" target="_blank" rel="noopener">Point Estimation</a></li>
                                      <li><a href="resources/203_interval_estimation.html" target="_blank" rel="noopener">Interval Estimation</a></li>
                                      <li><a href="resources/203_bayesian_statistics.html" target="_blank" rel="noopener">Bayesian Statistics</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST204</span><span class="course-name">Design and Analysis of Experiments I</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST204</span><span class="course-name">Design and Analysis of Experiments I</span></div></div>
         <div class="course-body"><ul><li><a href="resources/204_one_way_anova_and_single_factor_experiments.html" target="_blank" rel="noopener">One Way ANOVA and Single Factor Experiments</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST205</span><span class="course-name">Demography</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST205</span><span class="course-name">Demography</span></div></div>
         <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST206</span><span class="course-name">Sampling Methods I</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST206</span><span class="course-name">Sampling Methods I</span></div></div>
         <div class="course-body"><ul><li><a href="resources/206_srs_estimation.html" target="_blank" rel="noopener">SRS Estimation</a></li><li><a href="resources/206_stratified_sampling.html" target="_blank" rel="noopener">Stratified Sampling</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">MATH207</span><span class="course-name">Mathematical Methods</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">MATH207</span><span class="course-name">Mathematical Methods</span></div></div>
         <div class="course-body"><ul><li><a href="resources/207_laplace_transformation.html" target="_blank" rel="noopener">Laplace Transformation</a></li><li><a href="resources/207_fourier_transformation.html" target="_blank" rel="noopener">Fourier Transformation</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">MATH208</span><span class="course-name">Mathematical Analysis</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">MATH208</span><span class="course-name">Mathematical Analysis</span></div></div>
         <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST230</span><span class="course-name">R for Data Science</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST230</span><span class="course-name">R for Data Science</span></div></div>
         <div class="course-body"><ul><li><a href="https://github.com/its-maimuna-rahman/practice-codes/tree/main/R/R-Basics-230" target="_blank" rel="noopener">R-Basics-230</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST231</span><span class="course-name">Statistical Simulation</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST231</span><span class="course-name">Statistical Simulation</span></div></div>
         <div class="course-body"><ul><li><a href="https://github.com/its-maimuna-rahman/practice-codes/tree/main/R/R-Statistical-Simulation-231" target="_blank" rel="noopener">R-Statistical-Simulation-231</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST232</span><span class="course-name">Statistical Computing I</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST232</span><span class="course-name">Statistical Computing I</span></div></div>
         <div class="course-body"><ul><li><a href="https://github.com/its-maimuna-rahman/practice-codes/tree/main/R/R-Statistical-Computing-232" target="_blank" rel="noopener">R-Statistical-Computing-232</a></li></ul></div>
       </div>
       <div class="course-card">
-        <button class="course-header" type="button" aria-expanded="false">
-          <div class="course-title-group"><span class="course-code">AST240</span><span class="course-name">Oral II</span></div>
-          <span class="toggle-icon">⌄</span>
-        </button>
+        <div class="course-header"><div class="course-title-group"><span class="course-code">AST240</span><span class="course-name">Oral II</span></div></div>
         <div class="course-body"><ul><li class="none">No resources yet</li></ul></div>
       </div>
     </section>
@@ -213,12 +174,11 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
   mq.addEventListener('change',sync);sync();
 })();
 
-/* year switch + course dropdowns */
+/* year switch */
 (function(){
   var tabs=[].slice.call(document.querySelectorAll('.year-tab')),sec=document.getElementById('year-2'),pick=document.getElementById('pick');
   tabs[1].onclick=function(){tabs[1].setAttribute('aria-selected','true');sec.classList.add('active');pick.style.display='none'};
   tabs[1].onclick();
-  [].forEach.call(document.querySelectorAll('.course-header'),function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')!=='true')}});
 })();
 </script>
 </body>
