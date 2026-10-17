@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Bayesian Statistics – AST 203</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 50px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.2}h1{font-size:clamp(2.2rem,7vw,3.6rem);margin:0 0 .3rem}h2{font-size:1.9rem;margin:0 0 .8rem;color:var(--ac)}h3{font-size:1.25rem;margin:1.3rem 0 .4rem}
+main{max-width:860px;margin:0 auto;padding:0 16px 60px}section{padding:30px 0;border-top:1px solid var(--line)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:6px 12px;z-index:5}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:5px 11px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:12px 16px;margin:14px 0}.ex{border-left-color:var(--ok)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:10px 6px;margin:12px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:620px){.two{grid-template-columns:1fr}}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 7px;border-radius:3px;max-width:100%}input[type=number]{width:90px}input[type=range]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:8px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}.wv{width:100%;height:auto;display:block}
+ol,ul{padding-left:1.3rem}li{margin:.4em 0}td,th{border:1px solid var(--line);padding:4px 9px;text-align:left}table{border-collapse:collapse;font-size:.95rem}
+mjx-container{color:inherit}.f mjx-container,.f mjx-container[display=true]{margin:0!important}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 4px;position:relative}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:16px 20px;cursor:pointer}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--mut);font-size:1.15rem}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.25rem}.dv .ch{margin-left:auto;align-self:center;transition:transform .2s}.dv[open] .ch{transform:rotate(180deg)}
+.dv .bd{padding:8px 22px 18px;border-top:1px solid var(--line);line-height:1.75}.dv .bd li{margin:.9em 0}.dv .bd mjx-container[display=true]{margin:1.1em 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{th:'\\theta',pt:'\\pi(\\theta)',po:'\\pi(\\theta|x)',fx:'f(x|\\theta)',B:['\\mathbf{#1}',1]}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head><body>
+<nav><a href="#phil">Philosophy</a><a href="#frame">Framework</a><a href="#conj">Conjugate priors</a><a href="#bb">Binomial–Beta</a><a href="#nn">Normal–Normal</a><a href="#pg">Poisson–Gamma</a><a href="#prop">Properties</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a><a href="#calc">Calculator</a><label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:30px 0 10px"><h1>Bayesian Statistics: An Introduction</h1><p class="mut">AST 203: Statistical Inference I. Philosophy, Bayes' rule, conjugate priors, and the three conjugate pairs.</p>
+<div class="box"><b>Try it: Beta–Binomial updating.</b> Prior \(\text{Beta}(\alpha,\beta)\), data \(y\) successes in \(n\) trials, posterior \(\text{Beta}(y+\alpha,\,n-y+\beta)\).
+<div class="row"><label>\(\alpha\) <input type="range" id="a" min="0.5" max="20" step="0.5" value="2"> <b id="av"></b></label><label>\(\beta\) <input type="range" id="b" min="0.5" max="20" step="0.5" value="2"> <b id="bv"></b></label><label>\(n\) <input type="range" id="n" min="1" max="100" value="10"> <b id="nv"></b></label><label>\(y\) <input type="range" id="y" min="0" max="10" value="7"> <b id="yv"></b></label></div>
+<svg id="pl" class="wv" viewBox="0 0 600 230" role="img" aria-label="Prior, likelihood and posterior"></svg><div class="mut" style="text-align:center">dashed = prior, dotted = likelihood (scaled), solid = posterior</div><div class="out" id="po"></div></div></header>
+
+<section id="phil"><h2>Classical vs. Bayesian philosophy</h2>
+<div class="two"><div class="box"><h3>Classical (Frequentist)</h3><ul><li>Parameter \(\theta\) is <b>unknown but fixed</b>.</li><li>Data are random: \(X_1,\dots,X_n\sim f(x|\theta)\).</li><li>Inference is based solely on data.</li><li>Long-run frequency interpretations.</li></ul></div>
+<div class="box"><h3>Bayesian</h3><ul><li>Parameter \(\theta\) is <b>random</b>.</li><li>Data are fixed (after observation).</li><li>Prior beliefs \(\pi(\theta)\) quantify uncertainty.</li><li>Beliefs are updated after seeing data.</li><li>Probability represents <b>degree of belief</b>.</li></ul></div></div>
+<p class="mut">The key difference: what is random and what is fixed?</p></section>
+
+<section id="frame"><h2>The Bayesian framework</h2>
+<h3>Thought process</h3><ol><li><b>Prior beliefs.</b> Before data, express uncertainty about \(\theta\) by a <b>prior distribution</b> \(\pi(\theta)\): <i>subjective</i> (expert knowledge), <i>objective</i> (non-informative priors) or <i>conjugate</i> (mathematical convenience).</li><li><b>Observe data.</b> Collect \(x=(x_1,\dots,x_n)\) from \(f(x|\theta)\).</li><li><b>Update to posterior.</b> Combine prior and data by Bayes' rule to get the <b>posterior distribution</b> \(\pi(\theta|x)\).</li><li><b>Make decisions.</b> Use the posterior for inference, prediction and decision-making.</li></ol>
+<h3>Bayes' rule: the engine</h3><p>Three components: the <b>prior</b> \(\pi(\theta)\) (beliefs before data), the <b>likelihood</b> \(f(x|\theta)\) (probability of data given parameter) and the <b>marginal distribution</b> \(m(x)=\int f(x|\theta)\pi(\theta)\,d\theta\) (normalizing constant).</p>
+<div class="f">\[\pi(\theta|x)=\frac{f(x|\theta)\,\pi(\theta)}{m(x)}\qquad\Longrightarrow\qquad\pi(\theta|x)\propto f(x|\theta)\,\pi(\theta)\]</div><p class="mut">The posterior is proportional to likelihood \(\times\) prior. \(m(x)\) only ensures the posterior integrates to 1.</p>
+<h3>Understanding the posterior</h3><p>The posterior \(\pi(\theta|x)\) is the <b>updated belief</b> about \(\theta\) after the data. It is a conditional distribution given the observed sample and holds all information about \(\theta\) from prior and data. It gives: point estimates (posterior mean, median, mode), interval estimates (<b>credible intervals</b>) and hypothesis tests (posterior probabilities).</p>
+<div class="f">\[\hat\theta_B=E[\theta|x]=\int\theta\,\pi(\theta|x)\,d\theta\]</div><p class="mut">The posterior mean is a common <b>Bayes estimator</b>.</p></section>
+
+<section id="conj"><h2>Conjugate priors</h2>
+<div class="box">A prior \(\pi(\theta)\) is <b>conjugate</b> to a likelihood \(f(x|\theta)\) if the posterior \(\pi(\theta|x)\) belongs to the same family of distributions as the prior.</div>
+<ul><li><b>Analytical tractability:</b> closed-form expressions.</li><li><b>Sequential updating:</b> the posterior can be the prior for new data.</li><li><b>Interpretability:</b> prior parameters have intuitive meanings.</li><li><b>Computational simplicity:</b> no numerical integration.</li></ul>
+<p class="mut">Conjugate priors are to Bayesian statistics what analytical solutions are to differential equations.</p>
+<div style="overflow-x:auto"><table><tr><th>Likelihood</th><th>Conjugate prior</th><th>Posterior</th></tr><tr><td>Binomial</td><td>\(\text{Beta}(\alpha,\beta)\)</td><td>\(\text{Beta}(y+\alpha,\,n-y+\beta)\)</td></tr><tr><td>Poisson</td><td>\(\text{Gamma}(\alpha,\beta)\)</td><td>\(\text{Gamma}(\sum x_i+\alpha,\,n+\beta)\)</td></tr><tr><td>Normal (known \(\sigma^2\))</td><td>\(\text{Normal}(\mu,\tau^2)\)</td><td>\(\text{Normal}(\mu_p,\tau_p^2)\)</td></tr><tr><td>Normal (known \(\mu\))</td><td>Inverse Gamma\((\alpha,\beta)\)</td><td>Inverse Gamma\(\left(\alpha+\frac n2,\ \beta+\frac{\sum(x_i-\mu)^2}{2}\right)\)</td></tr><tr><td>Multinomial</td><td>Dirichlet\((\alpha_1,\dots,\alpha_k)\)</td><td>Dirichlet\((\alpha_1+y_1,\dots,\alpha_k+y_k)\)</td></tr></table></div>
+<p class="mut">Posterior parameters combine prior and data information.</p></section>
+
+<section id="bb"><h2>Binomial–Beta pair</h2>
+<p>Estimating a proportion: \(x_1,\dots,x_n\overset{iid}{\sim}\text{Bernoulli}(p)\). Sufficient statistic \(Y=\sum x_i\sim\text{Binomial}(n,p)\).</p>
+<div class="f">\[f(y|p)=\binom ny p^y(1-p)^{n-y},\ y=0,\dots,n\qquad\pi(p)=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1},\ 0\le p\le1\]</div>
+<p class="mut">Why Beta? Domain \([0,1]\), flexible shapes, conjugate with the binomial.</p>
+<h3>Joint, marginal and posterior</h3>
+<div class="f">\[f(y,p)=\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}\]</div><p class="mut">Key observation: the joint factors into a constant (in \(p\)) times a Beta kernel.</p>
+<div class="f">\[f(y)=\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\cdot\frac{\Gamma(y+\alpha)\Gamma(n-y+\beta)}{\Gamma(n+\alpha+\beta)}\quad(\text{Beta-Binomial})\]</div>
+<div class="f">\[\pi(p|y)=\frac{f(y,p)}{f(y)}=\frac{\Gamma(n+\alpha+\beta)}{\Gamma(y+\alpha)\Gamma(n-y+\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}\ \Rightarrow\ \text{Beta}(y+\alpha,\,n-y+\beta)\]</div><p class="mut">\(p\) is the variable, \(y\) is treated as fixed.</p>
+<h3>Bayes estimator and weights</h3>
+<div class="f">\[\hat p_B=\frac{y+\alpha}{n+\alpha+\beta}=\underbrace{\frac{n}{n+\alpha+\beta}}_{\text{weight on MLE}}\frac yn+\underbrace{\frac{\alpha+\beta}{n+\alpha+\beta}}_{\text{weight on prior}}\frac{\alpha}{\alpha+\beta}\]</div>
+<ul><li>\(y/n\) is the sample mean (MLE); \(\alpha/(\alpha+\beta)\) is the prior mean.</li><li>The sample weight increases with \(n\); as \(n\to\infty\) it tends to 1 (data dominates).</li><li>The prior weight increases with \(\alpha+\beta\); as \(\alpha+\beta\to\infty\) it tends to 1 (prior dominates).</li><li><b>Shrinkage:</b> the Bayes estimator shrinks the MLE toward the prior mean.</li><li><b>Effective prior sample size:</b> \(\alpha+\beta\) is the prior information in number of observations.</li></ul></section>
+
+<section id="nn"><h2>Normal–Normal pair</h2>
+<p>Estimating a normal mean: \(X\sim N(\theta,\sigma^2)\) with \(\sigma^2\) known; prior \(\theta\sim N(\mu,\tau^2)\) with \(\mu,\tau^2\) known (data variance \(\sigma^2\), prior variance \(\tau^2\)).</p>
+<div class="f">\[f(x|\theta)=\frac1{\sqrt{2\pi}\sigma}e^{-\frac{(x-\theta)^2}{2\sigma^2}}\qquad\pi(\theta)=\frac1{\sqrt{2\pi}\tau}e^{-\frac{(\theta-\mu)^2}{2\tau^2}}\]</div>
+<div class="f">\[E(\theta|x)=\frac{\frac x{\sigma^2}+\frac\mu{\tau^2}}{\frac1{\sigma^2}+\frac1{\tau^2}}=\frac{\tau^2}{\tau^2+\sigma^2}x+\frac{\sigma^2}{\tau^2+\sigma^2}\mu\qquad\text{Var}(\theta|x)=\frac1{\frac1{\sigma^2}+\frac1{\tau^2}}=\frac{\tau^2\sigma^2}{\tau^2+\sigma^2}\]</div>
+<h3>Interpretation</h3><p><b>Precision</b> \(=1/\text{variance}\). Data precision \(1/\sigma^2\), prior precision \(1/\tau^2\), posterior precision \(1/\sigma^2+1/\tau^2\) (<b>sum of precisions</b>). The posterior mean is a precision-weighted average:</p>
+<div class="f">\[E(\theta|x)=\frac{\text{data precision}}{\text{total precision}}\,x+\frac{\text{prior precision}}{\text{total precision}}\,\mu\]</div>
+<ul><li>\(\tau^2\to\infty\) (vague prior): \(E(\theta|x)\to x\), \(\text{Var}(\theta|x)\to\sigma^2\).</li><li>\(\sigma^2\to\infty\) (very noisy data): \(E(\theta|x)\to\mu\), \(\text{Var}(\theta|x)\to\tau^2\).</li></ul></section>
+
+<section id="pg"><h2>Poisson–Gamma pair</h2>
+<p>Estimating a Poisson rate: \(X_1,\dots,X_n\overset{iid}{\sim}\text{Poisson}(\lambda)\), prior \(\lambda\sim\text{Gamma}(\alpha,\beta)\) (shape \(\alpha\), rate \(\beta\)).</p>
+<div class="f">\[f(\mathbf x|\lambda)=\prod_{i=1}^n\frac{e^{-\lambda}\lambda^{x_i}}{x_i!}=\frac{e^{-n\lambda}\lambda^{\sum x_i}}{\prod x_i!}\qquad\pi(\lambda)=\frac{\beta^\alpha}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda},\ \lambda,\alpha,\beta>0\]</div><p class="mut">Why Gamma? Support \((0,\infty)\), flexible shapes, conjugate with Poisson.</p>
+<div class="f">\[\pi(\lambda|\mathbf x)\propto\lambda^{\sum x_i+\alpha-1}e^{-(n+\beta)\lambda}\ \Rightarrow\ \lambda|\mathbf x\sim\text{Gamma}\Big(\sum x_i+\alpha,\ n+\beta\Big)\]</div>
+<div class="f">\[\hat\lambda_B=\frac{\sum x_i+\alpha}{n+\beta}=\frac n{n+\beta}\cdot\frac{\sum x_i}n+\frac\beta{n+\beta}\cdot\frac\alpha\beta\]</div><p class="mut">\(\sum x_i/n\) = sample mean (MLE), \(\alpha/\beta\) = prior mean, \(\beta\) acts as the prior "sample size".</p>
+<div class="box ex"><b>Example.</b> \(\alpha=2,\beta=1\) (prior mean 2); \(n=5\), \(x=(3,5,2,4,6)\), \(\sum x_i=20\), \(\bar x=4\) = MLE. \(\hat\lambda_B=\frac{20+2}{5+1}=\frac{22}6=3.67\). Weighted: \(\frac56(4)+\frac16(2)=0.833\times4+0.167\times2=3.67\). It lies between \(4\) and \(2\): shrinkage.</div></section>
+
+<section id="prop"><h2>Key properties of Bayes estimators</h2>
+<ol><li><b>Weighted average:</b> \(\hat\theta_B=w\cdot(\text{sample estimate})+(1-w)\cdot(\text{prior mean})\).</li><li><b>Shrinkage:</b> pulls extreme sample estimates toward the prior mean; reduces variance at the cost of some bias; most useful for small samples.</li><li><b>Consistency:</b> as \(n\to\infty\), \(\hat\theta_B\to\) MLE; the prior's influence fades with more data.</li></ol>
+<h3>Bayesian workflow</h3><ol><li>Specify the model: likelihood \(f(x|\theta)\) and prior \(\pi(\theta)\).</li><li>Compute the posterior \(\pi(\theta|x)\propto f(x|\theta)\pi(\theta)\).</li><li>Check conjugacy: if conjugate, the posterior has a closed form.</li><li>Summarize: point estimates (mean, median, mode), credible intervals, probabilities of hypotheses.</li><li>Make decisions: prediction and decision-making.</li></ol>
+<p class="mut">Pairs studied: Binomial + Beta \(\to\) Beta; Normal + Normal \(\to\) Normal; Poisson + Gamma \(\to\) Gamma. Further: non-conjugate priors and MCMC, hierarchical models, model selection, empirical Bayes (AST501). Reading: Casella and Berger (2002); Gelman et al. (2013); Carlin and Louis (2008).</p></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open the full derivation.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula sheet</h2><p class="mut">Every formula with the meaning of its symbols.</p><div id="fl"></div></section>
+
+<section id="calc"><h2>Conjugate posterior calculator</h2>
+<div class="box"><div class="row"><label>Pair <select id="cm"></select></label><label>Credible % <input type="number" id="cf" value="95" min="1" max="99.9" step="0.5"></label></div><div class="row" id="cfl"></div><div class="out" id="co"></div></div></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),R=String.raw;
+const T=el=>window.MathJax&&MathJax.typesetPromise&&MathJax.typesetPromise([el]);
+$('#th').onchange=e=>{const y=scrollY;document.documentElement.dataset.theme=e.target.checked?'dark':'light';scrollTo(0,y)};
+const lg=x=>{let y=x,t=x+5.5,q=1.000000000190015;t-=(x+.5)*Math.log(t);for(const k of [76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,.1208650973866179e-2,-.5395239384953e-5])q+=k/++y;return-t+Math.log(2.5066282746310005*q/x)};
+const bp=(x,a,b)=>x<=0||x>=1?0:Math.exp(lg(a+b)-lg(a)-lg(b)+(a-1)*Math.log(x)+(b-1)*Math.log(1-x));
+const gp=(x,a,b)=>x<=0?0:Math.exp(a*Math.log(b)-lg(a)+(a-1)*Math.log(x)-b*x);
+const np=(x,m,s)=>Math.exp(-((x-m)**2)/(2*s*s))/(Math.sqrt(2*Math.PI)*s);
+function qs(pdf,lo,hi,ps){const N=6000,h=(hi-lo)/N;let c=0,k=0,o=[];for(let i=0;i<N&&k<ps.length;i++){const x=lo+(i+.5)*h;c+=pdf(x)*h;while(k<ps.length&&c>=ps[k]){o.push(x);k++}}return o}
+/* hero widget */
+function hero(){const a=+$('#a').value,b=+$('#b').value,n=+$('#n').value;$('#y').max=n;const y=Math.min(+$('#y').value,n);$('#y').value=y;
+$('#av').textContent=a;$('#bv').textContent=b;$('#nv').textContent=n;$('#yv').textContent=y;
+const A=y+a,B=n-y+b,pr=x=>bp(x,a,b),po=x=>bp(x,A,B),lk=x=>Math.exp(y*Math.log(Math.max(x,1e-12))+(n-y)*Math.log(Math.max(1-x,1e-12)));
+let xs=[],mx=1e-9,lm=1e-9;for(let i=1;i<200;i++){const x=i/200;xs.push(x);mx=Math.max(mx,pr(x),po(x));lm=Math.max(lm,lk(x))}mx=Math.min(mx,40);
+const P=f=>'M'+xs.map(x=>`${20+x*560} ${(200-Math.min(f(x),mx)/mx*180).toFixed(1)}`).join('L');
+$('#pl').innerHTML=`<path d="${P(pr)}" fill="none" stroke="var(--mut)" stroke-width="2" stroke-dasharray="6 4"/><path d="${P(x=>lk(x)/lm*mx)}" fill="none" stroke="var(--ok)" stroke-width="2" stroke-dasharray="2 3"/><path d="${P(po)}" fill="none" stroke="var(--ac)" stroke-width="3"/><line x1="20" x2="580" y1="200" y2="200" stroke="var(--ink)"/><text x="20" y="220" font-size="12" fill="var(--ink)">0</text><text x="575" y="220" font-size="12" fill="var(--ink)">1</text><text x="300" y="220" font-size="12" text-anchor="middle" fill="var(--ink)">p</text>`;
+$('#po').innerHTML=`Posterior \\(\\text{Beta}(${A},\\,${B})\\); \\(\\hat p_B=${(A/(A+B)).toFixed(4)}\\); MLE \\(y/n=${(y/n).toFixed(4)}\\); prior mean \\(${(a/(a+b)).toFixed(4)}\\)`;T($('#po'))}
+['#a','#b','#n','#y'].forEach(i=>$(i).oninput=hero);hero();
+/* derivations */
+const sv='<svg class="ch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 4l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+const D=[
+['D1',R`Bayes' theorem and the marginal \(m(x)\)`,R`\(\pi(\theta|x)=\frac{f(x|\theta)\pi(\theta)}{m(x)}\)`,[R`Joint density of data and parameter: \[f(x,\theta)=f(x|\theta)\,\pi(\theta)=\pi(\theta|x)\,m(x).\]`,R`Marginal (integrate \(\theta\) out): \[m(x)=\int f(x,\theta)\,d\theta=\int f(x|\theta)\pi(\theta)\,d\theta.\]`,R`Divide by \(m(x)\): \[\pi(\theta|x)=\frac{f(x|\theta)\pi(\theta)}{m(x)}.\]`,R`\(m(x)\) does not depend on \(\theta\), and it makes \(\int\pi(\theta|x)d\theta=1\). So \[\pi(\theta|x)\propto f(x|\theta)\,\pi(\theta)\quad\text{(likelihood}\times\text{prior)}.\]`]],
+['D2',R`Binomial–Beta joint distribution`,R`\(f(y,p)=f(y|p)\pi(p)\)`,[R`Multiply likelihood and prior: \[f(y,p)=\binom ny p^y(1-p)^{n-y}\cdot\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}.\]`,R`Combine powers of \(p\) and \(1-p\): \[f(y,p)=\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\,p^{y+\alpha-1}(1-p)^{n-y+\beta-1}.\]`,R`This is a constant (in \(p\)) times a Beta kernel.`]],
+['D3',R`Beta-Binomial marginal \(f(y)\)`,R`\(f(y)=\int_0^1f(y,p)\,dp\)`,[R`Integrate out \(p\): \[f(y)=\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\int_0^1p^{y+\alpha-1}(1-p)^{n-y+\beta-1}dp.\]`,R`Use the Beta function \(B(m,n)=\frac{\Gamma(m)\Gamma(n)}{\Gamma(m+n)}=\int_0^1u^{m-1}(1-u)^{n-1}du\) with \(m=y+\alpha\), \(n\to n-y+\beta\): the integral is \(\frac{\Gamma(y+\alpha)\Gamma(n-y+\beta)}{\Gamma(n+\alpha+\beta)}\).`,R`Hence \[f(y)=\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\cdot\frac{\Gamma(y+\alpha)\Gamma(n-y+\beta)}{\Gamma(n+\alpha+\beta)}\quad(\text{Beta-Binomial}).\]`]],
+['D4',R`Binomial–Beta posterior`,R`\(p|y\sim\text{Beta}(y+\alpha,\,n-y+\beta)\)`,[R`\(\pi(p|y)=f(y,p)/f(y)\): \[\pi(p|y)=\frac{\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}}{\binom ny\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\cdot\frac{\Gamma(y+\alpha)\Gamma(n-y+\beta)}{\Gamma(n+\alpha+\beta)}}.\]`,R`Cancel \(\binom ny\) and \(\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\): \[\pi(p|y)=\frac{\Gamma(n+\alpha+\beta)}{\Gamma(y+\alpha)\Gamma(n-y+\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}.\]`,R`This is \(\text{Beta}(y+\alpha,\,n-y+\beta)\). Here \(p\) is the variable and \(y\) is fixed.`]],
+['D5',R`Binomial–Beta Bayes estimator as a weighted average`,R`\(\hat p_B=\frac{y+\alpha}{n+\alpha+\beta}\)`,[R`A \(\text{Beta}(\alpha',\beta')\) has mean \(\frac{\alpha'}{\alpha'+\beta'}\). Here \(\alpha'=y+\alpha\), \(\beta'=n-y+\beta\).`,R`\[\hat p_B=\frac{y+\alpha}{(y+\alpha)+(n-y+\beta)}=\frac{y+\alpha}{n+\alpha+\beta}.\]`,R`Split the numerator: \[\hat p_B=\frac{n}{n+\alpha+\beta}\cdot\frac yn+\frac{\alpha+\beta}{n+\alpha+\beta}\cdot\frac\alpha{\alpha+\beta}.\]`,R`The weights sum to 1. As \(n\to\infty\) the first weight \(\to1\); as \(\alpha+\beta\to\infty\) the second \(\to1\).`]],
+['D6',R`Normal–Normal posterior (completing the square)`,R`\(\theta|x\sim N(\mu_p,\tau_p^2)\)`,[R`\(\pi(\theta|x)\propto\exp\!\left[-\frac{(x-\theta)^2}{2\sigma^2}\right]\exp\!\left[-\frac{(\theta-\mu)^2}{2\tau^2}\right]\).`,R`Combine exponents, keeping only \(\theta\) terms: \[-\frac{1}{2\sigma^2}(x^2-2x\theta+\theta^2)-\frac1{2\tau^2}(\theta^2-2\mu\theta+\mu^2).\]`,R`Collect \(\theta^2\) and \(\theta\): \[-\frac12\left[\left(\frac1{\sigma^2}+\frac1{\tau^2}\right)\theta^2-2\left(\frac x{\sigma^2}+\frac\mu{\tau^2}\right)\theta\right].\]`,R`Complete the square. With \(\frac1{\tau_p^2}=\frac1{\sigma^2}+\frac1{\tau^2}\) and \(\mu_p=\tau_p^2\left(\frac x{\sigma^2}+\frac\mu{\tau^2}\right)\) the exponent is \(-\frac{(\theta-\mu_p)^2}{2\tau_p^2}\) plus terms free of \(\theta\).`,R`A Normal kernel: \[E(\theta|x)=\frac{\frac x{\sigma^2}+\frac\mu{\tau^2}}{\frac1{\sigma^2}+\frac1{\tau^2}}=\frac{\tau^2}{\tau^2+\sigma^2}x+\frac{\sigma^2}{\tau^2+\sigma^2}\mu,\qquad\text{Var}(\theta|x)=\frac{\tau^2\sigma^2}{\tau^2+\sigma^2}.\]`]],
+['D7',R`Normal–Normal: precision weights and extreme cases`,R`\(\frac1{\tau_p^2}=\frac1{\sigma^2}+\frac1{\tau^2}\)`,[R`Multiply numerator and denominator of the mean by \(\sigma^2\tau^2\): \[E(\theta|x)=\frac{\tau^2x+\sigma^2\mu}{\tau^2+\sigma^2}\ \text{and}\ \text{Var}=\frac{\sigma^2\tau^2}{\sigma^2+\tau^2}=\left(\frac1{\sigma^2}+\frac1{\tau^2}\right)^{-1}.\]`,R`Weights \(\frac{1/\sigma^2}{1/\sigma^2+1/\tau^2}=\frac{\tau^2}{\tau^2+\sigma^2}\) (data) and \(\frac{1/\tau^2}{1/\sigma^2+1/\tau^2}=\frac{\sigma^2}{\tau^2+\sigma^2}\) (prior).`,R`\(\tau^2\to\infty\): data weight \(\to1\), so \(E(\theta|x)\to x\), \(\text{Var}\to\sigma^2\).`,R`\(\sigma^2\to\infty\): prior weight \(\to1\), so \(E(\theta|x)\to\mu\), \(\text{Var}\to\tau^2\).`]],
+['D8',R`Poisson–Gamma posterior`,R`\(\lambda|\mathbf x\sim\text{Gamma}(\sum x_i+\alpha,\,n+\beta)\)`,[R`\(\pi(\lambda|\mathbf x)\propto\left(e^{-n\lambda}\lambda^{\sum x_i}\right)\left(\lambda^{\alpha-1}e^{-\beta\lambda}\right)\).`,R`Combine: \[\pi(\lambda|\mathbf x)\propto\lambda^{(\sum x_i)+\alpha-1}e^{-(n+\beta)\lambda}.\]`,R`This is the kernel of a Gamma: shape \(=\sum x_i+\alpha\), rate \(=n+\beta\).`]],
+['D9',R`Poisson–Gamma Bayes estimator and numerical example`,R`\(\hat\lambda_B=\frac{\sum x_i+\alpha}{n+\beta}\)`,[R`\(\text{Gamma}(\alpha',\beta')\) has mean \(\alpha'/\beta'\), so \[\hat\lambda_B=\frac{\sum x_i+\alpha}{n+\beta}=\frac n{n+\beta}\cdot\frac{\sum x_i}n+\frac\beta{n+\beta}\cdot\frac\alpha\beta.\]`,R`Example: \(\alpha=2,\beta=1,n=5,\sum x_i=20\): \[\hat\lambda_B=\frac{20+2}{5+1}=\frac{22}6=3.67.\]`,R`Check: \(\frac56(4)+\frac16(2)=0.833\times4+0.167\times2=3.67\), between \(\bar x=4\) and the prior mean \(2\).`]],
+['D10',R`Shrinkage and consistency of Bayes estimators`,R`\(\hat\theta_B=w\,\hat\theta+(1-w)\,\text{prior mean}\)`,[R`In all three pairs \(\hat\theta_B=w\cdot(\text{sample estimate})+(1-w)\cdot(\text{prior mean})\) with \(0<w<1\), so \(\hat\theta_B\) lies between them: the sample estimate is pulled (shrunk) toward the prior mean.`,R`The weight \(w\) on the data (\(\frac n{n+\alpha+\beta}\), \(\frac n{n+\beta}\), or the data precision share) \(\to1\) as \(n\to\infty\). So \(\hat\theta_B\to\) MLE: the prior fades.`]]];
+$('#dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><span class="cr mut">${d[2]}</span>${sv}</summary><div class="bd"><ol>${d[3].map(s=>`<li>${s}</li>`).join('')}</ol></div></details>`).join('');
+/* formula sheet */
+const F=[
+['Bayes theorem',R`\pi(\theta|x)=\frac{f(x|\theta)\pi(\theta)}{m(x)}\propto f(x|\theta)\pi(\theta)`,R`\(\theta\) parameter; \(x\) data; \(\pi(\theta)\) prior; \(f(x|\theta)\) likelihood; \(\pi(\theta|x)\) posterior`],
+['Marginal',R`m(x)=\int f(x|\theta)\pi(\theta)d\theta`,R`normalizing constant of the posterior`],
+['Bayes estimator',R`\hat\theta_B=E[\theta|x]=\int\theta\,\pi(\theta|x)d\theta`,R`posterior mean`],
+['Beta–Binomial posterior',R`p|y\sim\text{Beta}(y+\alpha,\ n-y+\beta)`,R`\(y\) successes in \(n\) trials; \(\alpha,\beta\) prior shape parameters`],
+['Beta prior pdf',R`\pi(p)=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}`,R`\(0\le p\le1\); \(\Gamma\) gamma function`],
+['Beta-Binomial marginal',R`f(y)=\binom ny\frac{\Gamma(\alpha+\beta)\Gamma(y+\alpha)\Gamma(n-y+\beta)}{\Gamma(\alpha)\Gamma(\beta)\Gamma(n+\alpha+\beta)}`,R`marginal distribution of \(Y\)`],
+['Beta function',R`B(m,n)=\frac{\Gamma(m)\Gamma(n)}{\Gamma(m+n)}=\int_0^1u^{m-1}(1-u)^{n-1}du`,R`used to integrate Beta kernels`],
+['Beta–Binomial estimator',R`\hat p_B=\frac{y+\alpha}{n+\alpha+\beta}=\frac n{n+\alpha+\beta}\frac yn+\frac{\alpha+\beta}{n+\alpha+\beta}\frac\alpha{\alpha+\beta}`,R`\(y/n\) MLE; \(\alpha/(\alpha+\beta)\) prior mean; \(\alpha+\beta\) effective prior sample size`],
+['Normal–Normal posterior mean',R`E(\theta|x)=\frac{x/\sigma^2+\mu/\tau^2}{1/\sigma^2+1/\tau^2}=\frac{\tau^2x+\sigma^2\mu}{\tau^2+\sigma^2}`,R`\(\sigma^2\) known data variance; \(\mu,\tau^2\) prior mean and variance`],
+['Normal–Normal posterior variance',R`\text{Var}(\theta|x)=\frac1{1/\sigma^2+1/\tau^2}=\frac{\tau^2\sigma^2}{\tau^2+\sigma^2}`,R`posterior precision \(=\) data precision \(+\) prior precision`],
+['Precision',R`\text{precision}=1/\text{variance}`,R`data \(1/\sigma^2\); prior \(1/\tau^2\); posterior \(1/\sigma^2+1/\tau^2\)`],
+['Poisson likelihood',R`f(\mathbf x|\lambda)=\frac{e^{-n\lambda}\lambda^{\sum x_i}}{\prod x_i!}`,R`\(\lambda\) Poisson rate; \(n\) sample size`],
+['Gamma prior pdf',R`\pi(\lambda)=\frac{\beta^\alpha}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda}`,R`\(\alpha\) shape; \(\beta\) rate; \(\lambda>0\)`],
+['Poisson–Gamma posterior',R`\lambda|\mathbf x\sim\text{Gamma}\Big(\sum x_i+\alpha,\ n+\beta\Big)`,R`shape \(=\sum x_i+\alpha\); rate \(=n+\beta\)`],
+['Poisson–Gamma estimator',R`\hat\lambda_B=\frac{\sum x_i+\alpha}{n+\beta}=\frac n{n+\beta}\frac{\sum x_i}n+\frac\beta{n+\beta}\frac\alpha\beta`,R`\(\alpha/\beta\) prior mean; \(\beta\) prior "sample size"`],
+['Gamma mean / Beta mean',R`E[\text{Gamma}(\alpha',\beta')]=\frac{\alpha'}{\beta'},\quad E[\text{Beta}(\alpha',\beta')]=\frac{\alpha'}{\alpha'+\beta'}`,R`\(\alpha',\beta'\) posterior parameters`],
+['Normal (known \(\mu\)) – Inv. Gamma',R`\sigma^2|x\sim\text{IG}\Big(\alpha+\frac n2,\ \beta+\frac{\sum(x_i-\mu)^2}2\Big)`,R`\(\mu\) known mean; \(\alpha,\beta\) prior parameters`],
+['Multinomial–Dirichlet',R`\text{Dir}(\alpha_1+y_1,\dots,\alpha_k+y_k)`,R`\(y_j\) category counts`],
+['General weighted average',R`\hat\theta_B=w\,(\text{sample estimate})+(1-w)\,(\text{prior mean})`,R`\(w\to1\) as \(n\to\infty\) (consistency)`]];
+$('#fl').innerHTML=F.map(f=>`<div class="box"><b>${f[0]}</b><div class="f">\\[${f[1]}\\]</div><div class="mut">${f[2]}</div></div>`).join('');
+/* calculator */
+const C={bb:['Binomial–Beta',['\\alpha','\\beta','y','n'],[2,2,7,10]],nn:['Normal–Normal',['x','\\sigma^2','\\mu','\\tau^2'],[12,4,10,2]],pg:['Poisson–Gamma',['\\alpha','\\beta','\\textstyle\\sum x_i','n'],[2,1,20,5]]};
+$('#cm').innerHTML=Object.keys(C).map(k=>`<option value="${k}">${C[k][0]}</option>`).join('');
+function fl(){const c=C[$('#cm').value];$('#cfl').innerHTML=c[1].map((l,i)=>`<label>\\(${l}\\) <input type="number" step="any" class="ci" value="${c[2][i]}"></label>`).join('');T($('#cfl'));calc()}
+function calc(){const k=$('#cm').value,a=[...document.querySelectorAll('.ci')].map(e=>+e.value),p=+$('#cf').value/100,ps=[(1-p)/2,1-(1-p)/2];let s,m,v,q,mle,pm,w;
+if(k=='bb'){const A=a[2]+a[0],B=a[3]-a[2]+a[1];m=A/(A+B);v=A*B/((A+B)**2*(A+B+1));q=qs(x=>bp(x,A,B),0,1,ps);mle=a[2]/a[3];pm=a[0]/(a[0]+a[1]);w=a[3]/(a[3]+a[0]+a[1]);s=`\\text{Beta}(${A},\\,${B})`}
+else if(k=='nn'){const P=1/a[1]+1/a[3];v=1/P;m=(a[0]/a[1]+a[2]/a[3])/P;const sd=Math.sqrt(v),z=qs(x=>np(x,0,1),-8,8,ps);q=[m+z[0]*sd,m+z[1]*sd];mle=a[0];pm=a[2];w=(1/a[1])/P;s=`N(${m.toFixed(4)},\\,${v.toFixed(4)})`}
+else{const A=a[2]+a[0],B=a[3]+a[1];m=A/B;v=A/(B*B);q=qs(x=>gp(x,A,B),0,m+12*Math.sqrt(v),ps);mle=a[2]/a[3];pm=a[0]/a[1];w=a[3]/(a[3]+a[1]);s=`\\text{Gamma}(${A},\\,${B})`}
+const r=x=>(+x).toFixed(4);$('#co').innerHTML=`Posterior \\(${s}\\)<br>Bayes estimator (mean) \\(\\hat\\theta_B=${r(m)}\\), variance \\(${r(v)}\\)<br>MLE \\(=${r(mle)}\\), prior mean \\(=${r(pm)}\\), weight on data \\(w=${r(w)}\\)<br>${(p*100).toFixed(1)}\\% equal-tail credible interval \\(\\mathbf{[${r(q[0])},\\ ${r(q[1])}]}\\)`;T($('#co'))}
+$('#cm').onchange=fl;$('#cf').oninput=calc;$('#cfl').oninput=calc;fl();
+</script></body></html>
