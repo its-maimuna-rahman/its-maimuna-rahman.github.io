@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&family=Radley:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--soft:#7D5A55;--rule:#E0C4B6;--acc:#1F5D63;--bead:#AD3C30;--grid:rgba(37,5,11,.07);
+:root{--paper:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--soft:#7D5A55;--rule:#E0C4B6;--acc:#1F5D63;--bead:#AD3C30;--tc:#AD3C30;--grid:rgba(37,5,11,.07);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1B1410;--card:#241A14;--ink:#F8EBDB;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05)}}
-:root[data-theme="dark"]{--paper:#1B1410;--card:#241A14;--ink:#F8EBDB;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1B1410;--card:#241A14;--ink:#F8EBDB;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05);--tc:#7CBDC2}}
+:root[data-theme="dark"]{--paper:#1B1410;--card:#241A14;--ink:#F8EBDB;--soft:#A18D76;--rule:#40322A;--acc:#7CBDC2;--bead:#DDA65E;--grid:rgba(234,223,200,.05);--tc:#7CBDC2}
 html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:19px/1.6 Carlito,Calibri,sans-serif;
@@ -25,7 +25,7 @@ a{color:inherit}
 .top nav a{text-decoration:none;color:var(--soft)}
 .top nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
 .top nav a[aria-current="page"]{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
-#theme{position:relative;display:block;width:68px;height:36px;padding:0;border:2px solid var(--rule);border-radius:999px;background:var(--card);cursor:pointer}
+#theme{position:relative;display:block;width:68px;height:36px;padding:0;border:2px solid var(--tc);border-radius:999px;background:color-mix(in srgb,var(--tc) 28%,var(--card));cursor:pointer}
 #theme svg{position:absolute;top:50%;margin-top:-8px;width:16px;height:16px;z-index:1;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #theme svg.sun{left:8px}
 #theme svg.moon{left:40px}
@@ -48,13 +48,13 @@ a{color:inherit}
 .course-card{background:var(--card);border:1px solid var(--rule);border-radius:6px}
 .course-header{padding:12px 16px 10px}
 .course-title-group{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
-.course-code{color:var(--soft);font-size:1rem;font-variant-numeric:tabular-nums}
-.course-name{font-family:Radley,serif;font-size:1.3rem}
+.course-code{color:var(--soft);font-size:.9rem;font-variant-numeric:tabular-nums}
+.course-name{font-family:Radley,serif;font-size:1.08rem}
 .course-body{padding:8px 16px 14px;border-top:1px dotted var(--rule)}
 .course-body ul{list-style:none;padding:0;margin:0}
-.course-body li{padding:4px 0 4px 1.2rem;position:relative;font-size:1.12rem}
+.course-body li{padding:4px 0 4px 1.2rem;position:relative;font-size:.98rem}
 .course-body li::before{content:"";position:absolute;left:0;top:.9em;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.5}
-.course-body li a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--rule)}
+.course-body li a{color:var(--tc);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--rule)}
 .course-body li a:hover{color:var(--acc);text-decoration-color:var(--acc)}
 .course-body li.none{color:var(--soft);font-style:italic}
 .year-section{position:relative}
