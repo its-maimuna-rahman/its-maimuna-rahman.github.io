@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design of Experiments: Foundations &amp; Statistical Tools – AST204</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}input[type=range],input[type=checkbox]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+.dv .bd{font-size:1.08em}.dv .bd p{margin:1.1em 0 .4em}.dv .bd mjx-container[display]{font-size:125%;margin:.7em 0!important;padding:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.tw{overflow-x:auto}.tw table{min-width:560px}
+textarea{font:inherit}
+.leg{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 10px;font-size:.92rem;color:var(--mut)}
+.pic{width:100%;height:auto;display:block}
+.box mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">Overview</a><a href="#exp">What Is an Experiment</a><a href="#term">Terminology</a><a href="#prin">Principles</a><a href="#plan">Planning</a><a href="#samp">Sampling Distributions</a><a href="#csq">Chi-square, t, F</a><a href="#test">Hypothesis Testing</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:48px 0 8px"><h1>Design of Experiments: Foundations &amp; Statistical Tools</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 1, 2, 5 &amp; 6 &middot; Basic terminology, principles of DOE, planning an experiment, sampling distributions, chi-square, t and F distributions, hypothesis testing. Corrections to the slides are marked in red boxes.</p></header>
+
+<section id="viz"><h2>Big Picture</h2>
+<p>A designed experiment has two sides. The <b>design side</b> (Lectures 1&ndash;2) tells us how to collect data fairly: what to change, what to measure, how to assign units, and how to plan. The <b>statistics side</b> (Lectures 5&ndash;6) gives the tools (sampling distributions, \(\chi^2\), \(t\), \(F\), hypothesis tests) that we use later in ANOVA.</p>
+<div class="flow"><div class="pop">Experiment</div>&darr;<div class="st"><div>Factors &amp; levels</div><div>Experimental units</div><div>Response</div></div>&darr;<div class="st"><div>Replication</div><div>Blocking</div><div>Randomization</div></div>&darr;<div class="st"><div>Sampling distribution</div><div>\(\chi^2,\ t,\ F\)</div><div>Test of hypothesis</div></div></div>
+<h3>Interactive: why randomize?</h3>
+<p class="mut">Suppose the four treatments have <b>no real effect</b> (every true mean is 600). The machine slowly warms up, so each later run reads a little lower. Compare running the treatments one block after another (non-random order) with a random order.</p>
+<div class="row"><label>Warm-up drop per run <input type="range" id="rd" min="0" max="10" value="4"></label><button id="rr">Re-randomize</button></div>
+<svg id="rsv" class="sg" viewBox="0 0 700 250"></svg><div class="out" id="ro"></div></section>
+
+<section id="exp"><h2>What Is an Experiment?</h2>
+<p>An <b>experiment</b> is a test or series of tests in which we make <b>purposeful changes</b> to the <b>input variables</b> of a process or system, so that we can observe and identify the reasons for changes in the <b>output response</b>. Experiments are commonly done to study the effect of one or more variables (<b>factors</b>) on another variable (the <b>response</b>).</p>
+<h3>Why run an experiment?</h3>
+<ul><li>To find the <b>principal causes of variation</b> in a measured response.</li><li>To find the conditions that give a <b>maximum or minimum</b> response.</li><li>To <b>compare</b> the responses at different settings of controllable variables.</li><li>To get a <b>mathematical model</b> that predicts future responses.</li></ul>
+<h3>Design of experiments (DOE)</h3>
+<p><b>DOE</b> is a structured and organised way to <b>conduct and analyse controlled tests</b> for evaluating the factors that affect response variables. It was pioneered by <b>Ronald A. Fisher</b> in the 1920s and early 1930s at Rothamsted Experimental Station, an agricultural research station 25 miles north of London. DOE has a long tradition in statistics, engineering and life sciences.</p>
+<p>In most practical problems many variables influence the outcome, and they usually <b>interact</b> in complex ways. A good design lets us <b>estimate and interpret these interactions</b>.</p>
+<h3>Objectives of DOE</h3>
+<ul><li>Identify the factors that (i) affect the <b>average response</b>, (ii) affect the <b>variability</b>, (iii) <b>do not contribute</b> significantly.</li><li>Identify the <b>mathematical model</b> relating the response to the factors.</li><li>Identify the <b>"optimum" settings</b> for the factors.</li></ul></section>
+
+<section id="term"><h2>Basic Terminology</h2>
+<div class="tw"><table><tr><th>Term</th><th>Meaning</th><th>Example</th></tr>
+<tr><td><b>Response</b> (yield)</td><td>The quantity measured from an experimental unit after a treatment is applied. It is a <b>numerical</b> variable, usually <b>continuous</b>.</td><td>weight, GPA, yield of a crop</td></tr>
+<tr><td><b>Factor</b></td><td>An independent variable whose influence on the response is to be studied. The factors we consider are <b>categorical</b> variables.</td><td>gender, college, type of fertilizer</td></tr>
+<tr><td><b>Levels</b> of the factor (treatment)</td><td>The possible values of the factor.</td><td>F, M for gender</td></tr>
+<tr><td><b>Experimental unit</b></td><td>A piece of experimental material or an object to which a treatment is applied in a single trial of the experiment.</td><td>a plot of land, a patient in a hospital</td></tr></table></div>
+<div class="box ex"><b>Cake example (a designed experiment).</b> Factors (inputs): oven temperature, sugar, flour, eggs. Levels (settings): the temperature setting, cups of sugar, cups of flour, number of eggs. Responses (outcomes): taste, colour, consistency.</div></section>
+
+<section id="prin"><h2>Three Basic Principles of DOE</h2>
+<div class="flow"><div class="st"><div>Replication</div><div>Blocking</div><div>Randomization</div></div></div>
+<h3>Replication</h3>
+<p><b>Replication</b> means repetition of the treatments under investigation.</p>
+<div class="two"><div><h3>Replication</h3><p>Four subjects are each assigned to a drug and one measurement is taken on each subject. The result is <b>four independent observations</b> on the drug.</p></div><div><h3>Repeated measurements</h3><p>One subject is assigned to the drug and measured four times. The measurements are <b>not independent</b>, so we call them repeated measurements, not replicates.</p></div></div>
+<h3>Blocking</h3>
+<p>A <b>block</b> is a group of experimental units that are <b>internally homogeneous</b> with respect to the characteristic affecting the response and <b>externally heterogeneous</b>. To block an experiment we partition the observations into groups (blocks) so that the observations in each block are collected under relatively similar conditions. If blocking is done well, comparisons of two or more treatments are made <b>more precisely</b> than in an unblocked design.</p>
+<p class="mut">Example: soil type (sandy or clay) is a block in a fertilizer experiment.</p>
+<h3>Randomization</h3>
+<p><b>Randomization</b> means distributing the treatments to the experimental units purely by a chance mechanism, so that <b>any unit is equally likely to receive any treatment</b>. Its purpose is to <b>prevent systematic and personal biases</b> from being introduced into the experiment by the experimenter. (See the interactive at the top.)</p></section>
+
+<section id="plan"><h2>Planning an Experiment</h2>
+<p>The checklist below summarises a very large number of decisions. The steps are <b>not independent</b>: at any stage we may need to go back and revise an earlier decision.</p>
+<ol type="a"><li><b>Objectives:</b> define the objectives of the experiment.</li><li><b>Sources of variation:</b> identify them all, including (i) treatment factors and their levels, (ii) experimental units, (iii) blocking factors, noise factors and covariates.</li><li><b>Assignment rule:</b> choose a rule for assigning the experimental units to the treatments.</li><li><b>Measurements and procedure:</b> specify the measurements, the experimental procedure and the anticipated difficulties.</li><li><b>Pilot:</b> run a pilot experiment.</li><li><b>Model:</b> specify the model.</li><li><b>Analysis:</b> outline the analysis.</li><li><b>Sample size:</b> calculate the number of observations that need to be taken.</li><li><b>Review:</b> review the above decisions and revise if necessary.</li></ol>
+<div class="box"><b>Three kinds of extra variables.</b> A <b>blocking factor</b> is a known source of variation that we group the units by (soil type). A <b>noise factor</b> is a variable that affects the response but is not controlled (temperature, humidity). A <b>covariate</b> is a measured numerical variable (such as initial height) that can be used to adjust the comparison.</div>
+<h3>Two worked examples</h3>
+<div class="tw"><table><tr><th></th><th>Does Fertilizer B give a higher mean tomato yield than Fertilizer A?</th><th>Does a new antihypertensive drug lower systolic blood pressure more than the standard drug?</th></tr>
+<tr><td><b>(a) Objective</b></td><td>Decide whether Fertilizer B increases the average tomato yield compared with Fertilizer A.</td><td>Decide whether the new drug is more effective than the standard drug in lowering systolic blood pressure.</td></tr>
+<tr><td><b>(b) Sources of variation</b></td><td>Treatment factor: type of fertilizer (A or B). Units: individual tomato plants. Blocking factor: soil type (sandy or clay). Noise: temperature, watering, pests, humidity. Covariate: initial height of each plant.</td><td>Treatment factor: drug (new or standard). Units: patients with hypertension. Blocking factor: hospital (or age group). Noise: diet, physical activity, medication adherence, stress. Covariate: baseline systolic blood pressure.</td></tr>
+<tr><td><b>(c) Assign treatments</b></td><td>Randomly assign half of the plants to A and the other half to B within each greenhouse section.</td><td>Randomly assign eligible patients to the new drug or the standard drug.</td></tr>
+<tr><td><b>(d) Measurements and procedure</b></td><td>Apply the fertilizer at regular intervals for 8 weeks; record the cumulative yield (kg) of each plant.</td><td>Measure systolic blood pressure at baseline and again after some weeks of treatment, with the same protocol.</td></tr>
+<tr><td><b>(e) Pilot</b></td><td>A small pilot with 10 plants to check that the procedure and measurements are practical.</td><td>A small pilot with 20 patients to check recruitment, treatment administration and measurement.</td></tr>
+<tr><td><b>(f) Model</b></td><td>One-way ANOVA (or a two-sample t-test) comparing the mean yields of the two fertilizers.</td><td>Two-sample t-test (or ANOVA) comparing the mean reduction in blood pressure of the two groups.</td></tr>
+<tr><td><b>(g) Analysis</b></td><td>Estimate the mean yield of each fertilizer, build a confidence interval for the difference, test whether B gives a significantly higher yield.</td><td>Estimate the mean reduction in each group, build a confidence interval for the difference, test whether the new drug is superior.</td></tr>
+<tr><td><b>(h) Sample size</b></td><td>Power analysis to find the number of plants needed to detect a meaningful difference in yield.</td><td>Power analysis to find the number of patients needed to detect a clinically meaningful reduction.</td></tr>
+<tr><td><b>(i) Review</b></td><td>Evaluate the pilot results and revise the procedure if practical problems appear.</td><td>Review the pilot results and revise the protocol before the full clinical trial.</td></tr></table></div>
+<div class="box nt"><b>Note:</b> in the fertilizer example the slide uses <b>soil type</b> as the blocking factor in (b) but randomises <b>within each greenhouse section</b> in (c). The block used in (b) and (c) should be the same (randomise within each soil type). Also, once blocks are used, the full analysis includes a block term; the one-way ANOVA or two-sample t-test on the slide is the simplified version.</div></section>
+
+<section id="samp"><h2>Population &amp; Sampling Distributions</h2>
+<p>The <b>population distribution</b> is the probability distribution of the population data. A <b>sampling distribution</b> is the probability distribution of a <b>statistic</b> (such as \(\bar x\), \(\hat p\) or \(S^2\)) over all possible samples.</p>
+<div class="box ex"><b>Five midterm scores:</b> 70, 78, 80, 80, 95. Let \(x\) be the score of a student.
+<table><tr><th>\(x\)</th><td>70</td><td>78</td><td>80</td><td>95</td></tr><tr><th>frequency</th><td>1</td><td>1</td><td>2</td><td>1</td></tr><tr><th>\(P(x)\)</th><td>0.20</td><td>0.20</td><td>0.40</td><td>0.20</td></tr></table></div>
+<p>Call the scores A = 70, B = 78, C = 80, D = 80, E = 95. All samples of size 3 chosen without replacement: \(\binom53=\dfrac{5!}{3!\,2!}=10\) samples.</p>
+<div class="tw"><table><tr><th>Sample</th><th>ABC</th><th>ABD</th><th>ABE</th><th>ACD</th><th>ACE</th><th>ADE</th><th>BCD</th><th>BCE</th><th>BDE</th><th>CDE</th></tr>
+<tr><th>\(\bar x\)</th><td>76.00</td><td>76.00</td><td>81.00</td><td>76.67</td><td>81.67</td><td>81.67</td><td>79.33</td><td>84.33</td><td>84.33</td><td>85.00</td></tr></table></div>
+<p><b>Sampling distribution of \(\bar x\) when \(n=3\):</b></p>
+<table><tr><th>\(\bar x\)</th><td>76.00</td><td>76.67</td><td>79.33</td><td>81.00</td><td>81.67</td><td>84.33</td><td>85.00</td></tr><tr><th>\(P(\bar x)\)</th><td>0.20</td><td>0.10</td><td>0.10</td><td>0.10</td><td>0.20</td><td>0.20</td><td>0.10</td></tr></table>
+<div class="box ex"><b>Sampling distribution of \(\bar x\) for \(n=3\)</b>
+<p>Scores: A = 70, B = 78, C = 80, D = 80, E = 95. The mean of each of the 10 samples:</p>
+\[\text{ABC, ABD: }\ \frac{70+78+80}{3}=76.00\]
+\[\text{ABE: }\ \frac{70+78+95}{3}=81.00\]
+\[\text{ACD: }\ \frac{70+80+80}{3}=76.67\]
+\[\text{ACE, ADE: }\ \frac{70+80+95}{3}=81.67\]
+\[\text{BCD: }\ \frac{78+80+80}{3}=79.33\]
+\[\text{BCE, BDE: }\ \frac{78+80+95}{3}=84.33\]
+\[\text{CDE: }\ \frac{80+80+95}{3}=85.00\]
+<p>Relative frequency = count / 10:</p>
+\[P(\bar x=76.00)=\frac{2}{10}=0.20,\qquad P(\bar x=76.67)=\frac{1}{10}=0.10\]
+\[P(\bar x=79.33)=0.10,\qquad P(\bar x=81.00)=0.10\]
+\[P(\bar x=81.67)=0.20,\qquad P(\bar x=84.33)=0.20\]
+\[P(\bar x=85.00)=0.10\]
+<p>The probabilities add to 1:</p>
+\[0.20+0.10+0.10+0.10+0.20+0.20+0.10=1.00\]</div>
+<h3>Interactive: sampling distribution of the mean</h3>
+<p class="mut">All samples (without replacement) from the five scores. Change \(n\) and watch the distribution of \(\bar x\).</p>
+<div class="row"><label>Sample size \(n\) <input type="range" id="sn" min="1" max="5" value="3"></label><b id="snv">3</b></div>
+<svg id="ssv" class="sg" viewBox="0 0 700 230"></svg><div class="out" id="so"></div>
+<p>Can we find the sampling distribution of the sample variance in the same way? Only by computing it for <b>every possible sample</b>, which is usually impossible. So we use known theoretical distributions.</p>
+<ul><li><b>Normal population:</b> \(\bar x\) is exactly normal for every \(n\), and it gets narrower as \(n\) grows.</li><li><b>Non-normal population:</b> \(\bar x\) is only <b>approximately</b> normal, and the approximation gets better for large \(n\) (central limit theorem).</li></ul>
+<p>Under certain assumptions the sampling distributions of common statistics are known theoretically. They form the basis of confidence intervals and hypothesis tests. The three most used are the <b>chi-square</b>, <b>Student's t</b> and <b>F</b> distributions.</p></section>
+
+<section id="csq"><h2>Chi-square, t and F</h2>
+<div class="two"><div><h3>Chi-square \((\chi^2)\)</h3><p>\(Z_1,\dots,Z_n\) independent standard normal \(\Rightarrow\)</p><div class="f" style="margin:10px 0">\[ \chi^2=\sum_{i=1}^{n}Z_i^2 \]</div><p>has \(n\) degrees of freedom. For a normal sample,</p><div class="f" style="margin:10px 0">\[ \frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1} \]</div></div>
+<div><h3>Student's \(t\)</h3><p>\(Z\sim N(0,1)\), \(U\sim\chi^2_n\), independent \(\Rightarrow\)</p><div class="f" style="margin:10px 0">\[ T=\frac{Z}{\sqrt{U/n}}\sim t_n \]</div><p>Putting \(Z=\dfrac{\bar X-\mu}{\sigma/\sqrt n}\) and \(U=\dfrac{(n-1)S^2}{\sigma^2}\) gives</p><div class="f" style="margin:10px 0">\[ t=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1} \]</div></div></div>
+<h3>F distribution</h3>
+<p>\(U_1\sim\chi^2_{n_1}\) and \(U_2\sim\chi^2_{n_2}\) independent \(\Rightarrow\) \(F=\dfrac{U_1/n_1}{U_2/n_2}\sim F_{n_1,n_2}\) (numerator df \(n_1\), denominator df \(n_2\)). For independent samples from two normal populations,</p>
+<div class="f">\[ F=\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,\,n_2-1} \]</div>
+<p>If \(\sigma_1^2=\sigma_2^2\), then \(F=S_1^2/S_2^2\), the familiar F-test for comparing two variances. Because it is a ratio of two independent estimates of the same variance, it is called the <b>variance ratio</b>.</p>
+<div class="box ex"><b>Why these matter in DOE:</b> they describe the distribution of sample statistics, so they give confidence intervals and tests (t-tests, \(\chi^2\) tests, F-tests). In particular, <b>F is the foundation of ANOVA</b>, the main method for comparing treatment means.</div>
+<h3>Interactive: shape and critical value</h3>
+<p class="mut">Pick a distribution, set the degrees of freedom and \(\alpha\). The shaded tail has area \(\alpha\) (for \(t\) it is split between both tails).</p>
+<div class="row"><label>Distribution <select id="dd"><option value="c">chi-square</option><option value="t">t (two-tailed)</option><option value="f">F</option></select></label><label>df<sub>1</sub> <input type="number" id="d1" value="3" min="1" max="100"></label><label id="d2l">df<sub>2</sub> <input type="number" id="d2" value="16" min="1" max="200"></label><label>&alpha; <input type="number" id="da" value="0.05" step="0.01" min="0.001" max="0.5"></label></div>
+<svg id="dsv" class="sg" viewBox="0 0 700 240"></svg><div class="out" id="do"></div></section>
+
+<section id="test"><h2>Hypothesis Testing</h2>
+<p>A <b>hypothesis</b> is a statement about one or more populations. The <b>research hypothesis</b> is the conjecture that motivates the research. In a test we check a statement about the population using a <b>sample</b> from that population.</p>
+<ul><li>The <b>null hypothesis \(H_0\)</b> is a claim about a population parameter that is <b>assumed true until it is declared false</b>.</li><li>The <b>alternative hypothesis \(H_1\)</b> is the claim that will be true if \(H_0\) is false.</li></ul>
+<p>Like a court case, a test has four possible outcomes. The court assumes the person is not guilty (\(H_0\)) until the evidence says otherwise.</p>
+<div class="tw"><table><tr><th></th><th>\(H_0\) is true</th><th>\(H_0\) is false</th></tr><tr><td>Reject \(H_0\)</td><td>Type I error, probability \(\alpha\) (level of significance)</td><td>Correct decision (power \(=1-\beta\))</td></tr><tr><td>Do not reject \(H_0\)</td><td>Correct decision</td><td>Type II error, probability \(\beta\)</td></tr></table></div>
+<h3>Tails of a test</h3>
+<p>A <b>two-tailed</b> test has rejection regions in both tails, a <b>left-tailed</b> test in the left tail, a <b>right-tailed</b> test in the right tail. The key phrase in the question tells us which one to use.</p>
+<div class="tw"><table><tr><th>Type</th><th>Key phrase</th><th>Example (population assumed normal)</th><th>Hypotheses</th></tr>
+<tr><td>Two-tailed</td><td><i>changed</i></td><td>The mean weight of sixth-graders' backpacks in New York was 18.4 pounds in 2008. Has it changed?</td><td>\(H_0:\mu=18.4\)<br>\(H_1:\mu\neq18.4\)</td></tr>
+<tr><td>Left-tailed</td><td><i>less than</i></td><td>A company claims its cans hold 12 ounces of soda on average. Is the mean less than 12 ounces?</td><td>\(H_0:\mu=12\)<br>\(H_1:\mu\lt12\)</td></tr>
+<tr><td>Right-tailed</td><td><i>higher than</i></td><td>The mean home price in a town was $461,216 in 2007. Is it now higher?</td><td>\(H_0:\mu=461{,}216\)<br>\(H_1:\mu\gt461{,}216\)</td></tr></table></div>
+<p class="mut">For the left-tailed test we may also write \(H_0:\mu\ge12\). It does not change the result as long as \(H_1\) has the "less than" sign.</p>
+<h3>Testing \(\mu\) when \(\sigma\) is known</h3>
+<p>Two cases: <b>Case I</b>, the population is normal; <b>Case II</b>, the population is not normal but \(n\) is large. In both cases \(\bar x\sim N(\mu,\sigma^2/n)\), so the test statistic is</p>
+<div class="f">\[ Z=\frac{\bar x-\mu_0}{\sigma/\sqrt n} \]</div>
+<p><b>Steps:</b> (1) state \(H_0\) and \(H_1\); (2) compute \(Z\); (3) get the critical value(s) from the Z-table using \(\alpha\); (4) compare; (5) state the conclusion in words. Critical values at \(\alpha=0.05\):</p>
+<table><tr><th>Two-tailed</th><th>Right-tailed</th><th>Left-tailed</th></tr><tr><td>\(\pm1.96\) (\(\alpha/2=0.025\) in each tail)</td><td>\(+1.65\)</td><td>\(-1.65\)</td></tr></table>
+<div class="box ex"><b>Customer spending.</b> A retailer claims the mean monthly spending of loyalty-card customers is $500. A random sample of \(n=10\) customers has \(\bar x=470\). Spending is approximately normal and the population variance is known, \(\sigma^2=4000\). This is <b>Case I</b> (normal population, \(\sigma\) known).<br>\(Z=\dfrac{470-500}{63.25/\sqrt{10}}=-1.50\).<br><b>Two-tailed</b> (\(H_1:\mu\ne500\)): \(-1.50\) lies between \(-1.96\) and \(1.96\), so do not reject \(H_0\); no evidence that the mean differs from $500.<br><b>Right-tailed</b> (\(H_1:\mu\gt500\)): \(-1.50\lt1.65\), do not reject \(H_0\).<br><b>Left-tailed</b> (\(H_1:\mu\lt500\)): \(-1.50\gt-1.65\), do not reject \(H_0\).</div>
+<div class="box ex"><b>Customer spending example, step by step</b>
+<p>Given \(\bar x=470\), \(\mu_0=500\), \(n=10\), \(\sigma^2=4000\). First the standard deviation:</p>
+\[\sigma=\sqrt{4000}=63.25\]
+<p>Standard error of the mean:</p>
+\[\frac{\sigma}{\sqrt n}=\frac{63.25}{\sqrt{10}}=\frac{63.25}{3.162}=20.00\]
+<p>Test statistic:</p>
+\[Z=\frac{470-500}{20.00}=-1.50\]
+<p>Compare with the critical values at \(\alpha=0.05\):</p>
+\[\text{two-tailed: }\ -1.96\le-1.50\le1.96\ \Rightarrow\ \text{do not reject }H_0\]
+\[\text{right-tailed: }\ -1.50\le1.65\ \Rightarrow\ \text{do not reject }H_0\]
+\[\text{left-tailed: }\ -1.50\ge-1.65\ \Rightarrow\ \text{do not reject }H_0\]</div>
+<p class="mut">"Do not reject \(H_0\)" means there is not enough evidence against it; it does not prove \(H_0\) true.</p></section>
+
+<section id="calc"><h2>Calculator</h2>
+<h3>Z test for a mean (\(\sigma\) known)</h3>
+<div class="row"><label>\(\bar x\) <input type="number" id="zx" value="470"></label><label>\(\mu_0\) <input type="number" id="zm" value="500"></label><label>\(\sigma\) <input type="number" id="zs" value="63.25"></label><label>n <input type="number" id="zn" value="10"></label><label>&alpha; <input type="number" id="za" value="0.05" step="0.01" min="0.001" max="0.5"></label><select id="zt"><option value="2">two-tailed</option><option value="r">right-tailed</option><option value="l">left-tailed</option></select></div>
+<svg id="zsv" class="sg" viewBox="0 0 700 220"></svg><div class="out" id="zo"></div>
+<h3>Number of possible samples</h3>
+<div class="row"><label>N <input type="number" id="cN" value="5" min="1" max="60"></label><label>n <input type="number" id="cn" value="3" min="0" max="60"></label></div><div class="out" id="co"></div></section>
+
+<section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order. Each formula is followed by its notation.</p><div id="fl"></div>
+<h3>Notation</h3><table class="ft"><tr><td>\(x,\ \bar x\)</td><td>a value, sample mean</td><td>\(\mu,\ \sigma^2\)</td><td>population mean, variance</td></tr><tr><td>\(n,\ N\)</td><td>sample size, population size</td><td>\(S^2\)</td><td>sample variance</td></tr><tr><td>\(H_0,\ H_1\)</td><td>null, alternative hypothesis</td><td>\(\alpha,\ \beta\)</td><td>Type I, Type II error probabilities</td></tr><tr><td>\(Z\)</td><td>standard normal variable / test statistic</td><td>\(\nu\) or df</td><td>degrees of freedom</td></tr></table></section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const ts=el=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise&&MathJax.typesetPromise)MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise(el?[el]:undefined)).catch(()=>{})};
+function renderD(D){$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)))}
+function renderF(F){$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('')}
+// theme: keep scroll position
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// ---------- derivations ----------
+const D=[
+["D1","Number of samples \\(\\binom{N}{n}\\)",String.raw`<p>We choose \(n\) scores out of \(N\), and the order does not matter. First count the ordered choices:</p>
+\[N(N-1)\cdots(N-n+1)=\frac{N!}{(N-n)!}\]
+<p>Each set of \(n\) scores can be arranged in \(n!\) orders, so divide by \(n!\):</p>
+\[\binom{N}{n}=\frac{N!}{n!\,(N-n)!}\]
+<p>For \(N=5\) and \(n=3\):</p>
+\[\binom{5}{3}=\frac{5!}{3!\,2!}\]
+\[=\frac{5\cdot4\cdot3\cdot2\cdot1}{(3\cdot2\cdot1)(2\cdot1)}=10\]`],
+["D2","Mean and variance of \\(\\bar x\\), and the \\(Z\\) statistic",String.raw`<p>For independent observations with mean \(\mu\) and variance \(\sigma^2\), the mean of \(\bar x\) is</p>
+\[E(\bar x)=E\Big(\frac1n\sum_{i=1}^{n}x_i\Big)\]
+\[=\frac1n\sum_{i=1}^{n}E(x_i)=\frac{n\mu}{n}=\mu\]
+<p>and its variance is</p>
+\[\operatorname{Var}(\bar x)=\frac1{n^2}\sum_{i=1}^{n}\operatorname{Var}(x_i)\]
+\[=\frac{n\sigma^2}{n^2}=\frac{\sigma^2}{n}\]
+<p>\(\bar x\) is normal (exactly for a normal population, approximately by the central limit theorem otherwise):</p>
+\[\bar x\sim N\Big(\mu,\ \frac{\sigma^2}{n}\Big)\]
+<p>Standardise under \(H_0:\mu=\mu_0\):</p>
+\[Z=\frac{\bar x-\mu_0}{\sigma/\sqrt n}\sim N(0,1)\]`],
+["D3","The one-sample \\(t\\) statistic from the definition of \\(T\\)",String.raw`<p>Take the two ingredients:</p>
+\[Z=\frac{\bar X-\mu}{\sigma/\sqrt n},\qquad U=\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\]
+<p>Substitute into \(T=Z/\sqrt{U/(n-1)}\):</p>
+\[T=\frac{(\bar X-\mu)/(\sigma/\sqrt n)}{\sqrt{\dfrac{(n-1)S^2/\sigma^2}{n-1}}}\]
+\[=\frac{(\bar X-\mu)/(\sigma/\sqrt n)}{\sqrt{S^2/\sigma^2}}\]
+<p>\(\sigma\) cancels:</p>
+\[T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\]`],
+["D4","The \\(F\\) statistic for two variances",String.raw`<p>For two independent normal samples:</p>
+\[U_k=\frac{(n_k-1)S_k^2}{\sigma_k^2}\sim\chi^2_{n_k-1},\qquad k=1,2\]
+<p>Divide each by its df and take the ratio:</p>
+\[F=\frac{U_1/(n_1-1)}{U_2/(n_2-1)}\]
+\[=\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,\,n_2-1}\]
+<p>If \(\sigma_1^2=\sigma_2^2\), the variances cancel:</p>
+\[F=\frac{S_1^2}{S_2^2}\]`],
+["D5","Critical values from \\(\\alpha\\)",String.raw`<p>\(\alpha\) is the probability of rejecting a true \(H_0\). We place this probability in the rejection region.</p>
+<p>Right-tailed: the area to the right of the critical value is \(\alpha\):</p>
+\[P(Z\gt z_{\alpha})=\alpha\ \Rightarrow\ \Phi(z_{\alpha})=1-\alpha\]
+<p>For \(\alpha=0.05\), \(\Phi(z)=0.95\) gives \(z\approx1.65\). By symmetry the left-tailed critical value is \(-1.65\).</p>
+<p>Two-tailed: split \(\alpha\) equally between the two tails:</p>
+\[P(Z\lt-z_{\alpha/2})=P(Z\gt z_{\alpha/2})=\frac{\alpha}{2}=0.025\]
+<p>\(\Phi(z)=0.975\) gives \(z=1.96\), so the critical values are \(\pm1.96\).</p>`]];
+renderD(D);
+const F=[["1. Sampling distributions",[
+["\\(\\binom Nn=\\dfrac{N!}{n!\\,(N-n)!}\\)","number of samples without replacement"],
+["\\(E(\\bar x)=\\mu,\\ \\operatorname{Var}(\\bar x)=\\sigma^2/n,\\ \\bar x\\sim N(\\mu,\\sigma^2/n)\\)","exact for a normal population; approximate for large \\(n\\)"],
+["\\(\\chi^2=\\sum Z_i^2;\\ (n-1)S^2/\\sigma^2\\sim\\chi^2_{n-1}\\)","\\(Z_i\\) independent standard normal"],
+["\\(T=Z/\\sqrt{U/n};\\ t=(\\bar X-\\mu)/(S/\\sqrt n)\\sim t_{n-1}\\)","\\(U\\sim\\chi^2_n\\)"],
+["\\(F=(U_1/n_1)/(U_2/n_2);\\ F=S_1^2/S_2^2\\)","equal variances; variance ratio"]]],
+["2. Hypothesis tests",[
+["\\(H_0:\\mu=\\mu_0\\) vs \\(H_1:\\mu\\neq\\mu_0,\\ \\mu\\lt\\mu_0,\\ \\mu\\gt\\mu_0\\)","two-, left-, right-tailed"],
+["\\(\\alpha=P(\\text{reject }H_0\\mid H_0\\text{ true})\\)","Type I error; \\(\\beta\\) = Type II; power \\(=1-\\beta\\)"],
+["\\(Z=(\\bar x-\\mu_0)/(\\sigma/\\sqrt n)\\)","known \\(\\sigma\\)"],
+["Reject if \\(|Z|\\gt z_{\\alpha/2}\\), \\(Z\\gt z_\\alpha\\), \\(Z\\lt-z_\\alpha\\)","two-, right-, left-tailed; at \\(\\alpha=0.05\\): \\(1.96,\\ 1.65,\\ -1.65\\)"]]]];
+renderF(F);
+
+// ---------- why randomize ----------
+let rseed=11;
+function shuf(seed){let s=seed,a=[...Array(20).keys()];const r=()=>(s=(s*9301+49297)%233280)/233280;for(let i=19;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function rviz(){const d=+$('rd').value,ord=shuf(rseed),pw=['160 W','180 W','200 W','220 W'],K=[0,1,2,3,4];
+const A=[0,1,2,3].map(t=>K.reduce((s,k)=>s+600-d*(5*t+k),0)/5),B=[0,1,2,3].map(t=>K.reduce((s,k)=>s+600-d*ord[5*t+k],0)/5);
+const lo=Math.min(...A,...B)-8,hi=602,Y=v=>200-(v-lo)/(hi-lo)*150;let s='';
+[[A,'Non-random order (by power level)',20],[B,'Random order',380]].forEach(([M,tt,x0])=>{
+s+=`<text x="${x0+155}" y="22" text-anchor="middle" fill="var(--ink)" font-size="14">${tt}</text><line x1="${x0}" x2="${x0+310}" y1="200" y2="200" stroke="var(--line)"/>`;
+M.forEach((m,i)=>{const x=x0+14+i*76;s+=`<rect x="${x}" y="${Y(m)}" width="52" height="${200-Y(m)}" fill="var(--ac)" opacity=".85"/><text x="${x+26}" y="${Y(m)-5}" text-anchor="middle" fill="var(--ink)" font-size="13">${g(m,1)}</text><text x="${x+26}" y="220" text-anchor="middle" fill="var(--mut)" font-size="13">${pw[i]}</text>`})});
+$('rsv').innerHTML=s;
+$('ro').innerHTML=`True difference between treatments: <b>0</b>. Apparent gap between 160 W and 220 W: non-random <b>${g(A[0]-A[3],1)}</b>, random <b>${g(B[0]-B[3],1)}</b>.`+(d>0?'<br>Running the treatments in blocks lets the drift look like a treatment effect; randomizing spreads it over all treatments.':'')}
+$('rd').oninput=rviz;$('rr').onclick=()=>{rseed=(rseed*7+13)%9973;rviz()};rviz();
+
+// ---------- sampling distribution of the mean ----------
+const POP=[70,78,80,80,95];
+function combos(a,k){const r=[];(function f(s,c){if(c.length==k){r.push(c.slice());return}for(let i=s;i<a.length;i++){c.push(a[i]);f(i+1,c);c.pop()}})(0,[]);return r}
+function sviz(){const n=+$('sn').value;$('snv').textContent=n;const cs=combos(POP,n),m={};
+cs.forEach(c=>{const x=(c.reduce((p,v)=>p+v)/n).toFixed(2);m[x]=(m[x]||0)+1});
+const ks=Object.keys(m).sort((a,b)=>a-b),N=cs.length,mx=Math.max(...ks.map(k=>m[k]/N)),w=620,bw=Math.min(60,w/ks.length-14);
+let s=`<line x1="40" x2="660" y1="180" y2="180" stroke="var(--line)"/>`;
+ks.forEach((k,i)=>{const cx=40+(i+.5)*w/ks.length,p=m[k]/N,h=p/mx*130;s+=`<rect x="${cx-bw/2}" y="${180-h}" width="${bw}" height="${h}" fill="var(--ac)" opacity=".85"/><text x="${cx}" y="${174-h}" text-anchor="middle" fill="var(--ink)" font-size="13">${g(p,2)}</text><text x="${cx}" y="202" text-anchor="middle" fill="var(--mut)" font-size="13">${k}</text>`});
+$('ssv').innerHTML=s;const mean=cs.reduce((p,c)=>p+c.reduce((a,b)=>a+b)/n,0)/N;
+$('so').innerHTML=`\\(\\binom{5}{${n}}=${N}\\) samples, ${ks.length} different values of \\(\\bar x\\). The mean of all \\(\\bar x\\) is ${g(mean,2)}, the same as the population mean ${g(POP.reduce((a,b)=>a+b)/5,2)}.`;ts($('so'))}
+$('sn').oninput=sviz;sviz();
+
+// ---------- chi-square / t / F viewer ----------
+function dviz(){const k=$('dd').value,d1=Math.max(1,Math.round(+$('d1').value)),d2=Math.max(1,Math.round(+$('d2').value)),al=+$('da').value;$('d2l').style.display=k=='f'?'':'none';
+let pdf,crit,xmin=0,xmax,lab,rule;
+if(k=='c'){pdf=x=>jStat.chisquare.pdf(x,d1);crit=jStat.chisquare.inv(1-al,d1);xmax=Math.max(crit*1.5,jStat.chisquare.inv(.995,d1));lab=`\\(\\chi^2_{${al},${d1}}=${g(crit,3)}\\)`;rule='Reject when the statistic is larger than this value.'}
+else if(k=='t'){pdf=x=>jStat.studentt.pdf(x,d1);crit=jStat.studentt.inv(1-al/2,d1);xmax=Math.max(4.5,crit*1.4);xmin=-xmax;lab=`\\(t_{${al/2},${d1}}=${g(crit,3)}\\)`;rule='Reject when \\(|t|\\) is larger than this value.'}
+else{pdf=x=>jStat.centralF.pdf(x,d1,d2);crit=jStat.centralF.inv(1-al,d1,d2);xmax=Math.max(crit*1.6,jStat.centralF.inv(.99,d1,d2));lab=`\\(F_{${al},${d1},${d2}}=${g(crit,3)}\\)`;rule='Reject when the statistic is larger than this value.'}
+const X=x=>40+(x-xmin)/(xmax-xmin)*620,n=240,xs=[],ys=[];for(let i=0;i<=n;i++){const x=xmin+(i+.0001)*(xmax-xmin)/n;xs.push(x);let y=pdf(x);ys.push(isFinite(y)?y:0)}
+const ym=Math.max(...ys.slice(Math.round(n*.04)))*1.08,Y=y=>200-Math.min(y,ym)/ym*170;
+const pts=a=>a.map(i=>`${X(xs[i]).toFixed(1)},${Y(ys[i]).toFixed(1)}`).join(' '),idx=(f)=>xs.map((x,i)=>i).filter(i=>f(xs[i]));
+let s=`<clipPath id="dcp"><rect x="30" y="10" width="640" height="195"/></clipPath><line x1="40" x2="660" y1="200" y2="200" stroke="var(--line)"/>`;
+const shade=a=>{if(a.length)s+=`<polygon clip-path="url(#dcp)" points="${X(xs[a[0]])},200 ${pts(a)} ${X(xs[a[a.length-1]])},200" fill="var(--bad)" opacity=".5"/>`};
+if(k=='t'){shade(idx(x=>x>=crit));shade(idx(x=>x<=-crit))}else shade(idx(x=>x>=crit));
+s+=`<polyline clip-path="url(#dcp)" points="${pts(xs.map((x,i)=>i))}" fill="none" stroke="var(--ac)" stroke-width="2.5"/>`;
+const cr=k=='t'?[-crit,crit]:[crit];cr.forEach(c=>{s+=`<line x1="${X(c)}" x2="${X(c)}" y1="30" y2="200" stroke="var(--bad)" stroke-dasharray="4 3"/><text x="${X(c)}" y="24" text-anchor="middle" fill="var(--ink)" font-size="13">${g(c,2)}</text>`});
+for(let i=0;i<=5;i++){const v=xmin+i*(xmax-xmin)/5;s+=`<text x="${X(v)}" y="220" text-anchor="middle" fill="var(--mut)" font-size="12">${g(v,1)}</text>`}
+$('dsv').innerHTML=s;$('do').innerHTML=`Critical value ${lab}. ${rule}`;ts($('do'))}
+document.querySelectorAll('#dd,#d1,#d2,#da').forEach(e=>e.oninput=dviz);
+$('dd').onchange=()=>{const k=$('dd').value;if(k=='t')$('d1').value=16;if(k=='c')$('d1').value=3;if(k=='f'){$('d1').value=3;$('d2').value=16}dviz()};dviz();
+
+// ---------- Z test ----------
+function zviz(){const x=+$('zx').value,m=+$('zm').value,sg=+$('zs').value,n=+$('zn').value,al=+$('za').value,t=$('zt').value,N=jStat.normal;
+const z=(x-m)/(sg/Math.sqrt(n)),c=t=='2'?N.inv(1-al/2,0,1):N.inv(1-al,0,1),rej=t=='2'?Math.abs(z)>c:t=='r'?z>c:z<-c,p=t=='2'?2*(1-N.cdf(Math.abs(z),0,1)):t=='r'?1-N.cdf(z,0,1):N.cdf(z,0,1);
+const X=v=>40+(v+4)/8*620,Y=y=>200-y/0.4*170,xs=[];for(let v=-4;v<=4.0001;v+=.05)xs.push(+v.toFixed(2));
+const P=a=>a.map(v=>`${X(v).toFixed(1)},${Y(N.pdf(v,0,1)).toFixed(1)}`).join(' '),sh=a=>`<polygon points="${X(a[0])},200 ${P(a)} ${X(a[a.length-1])},200" fill="var(--bad)" opacity=".5"/>`;
+let s=`<line x1="40" x2="660" y1="200" y2="200" stroke="var(--line)"/>`;
+if(t=='2'||t=='r')s+=sh(xs.filter(v=>v>=c));if(t=='2'||t=='l')s+=sh(xs.filter(v=>v<=(t=='2'?-c:-c)));
+s+=`<polyline points="${P(xs)}" fill="none" stroke="var(--ac)" stroke-width="2.5"/>`;
+const zc=Math.max(-3.95,Math.min(3.95,z));s+=`<line x1="${X(zc)}" x2="${X(zc)}" y1="40" y2="200" stroke="var(--ink)" stroke-width="2"/><text x="${X(zc)}" y="32" text-anchor="middle" fill="var(--ink)" font-size="14">Z = ${g(z,2)}</text>`;
+for(let v=-4;v<=4;v++)s+=`<text x="${X(v)}" y="218" text-anchor="middle" fill="var(--mut)" font-size="12">${v}</text>`;
+$('zsv').innerHTML=s;$('zo').innerHTML=`Z = ${g(z,3)}; critical value ${t=='l'?'&minus;':t=='2'?'&plusmn;':''}${g(c,3)}; p-value = ${p<1e-4?p.toExponential(2):g(p,4)} &rarr; <b>${rej?'Reject H0':'Fail to reject H0'}</b>`}
+document.querySelectorAll('#zx,#zm,#zs,#zn,#za,#zt').forEach(e=>e.oninput=zviz);zviz();
+
+// ---------- combinations ----------
+function comb(N,k){if(k<0||k>N)return 0;let r=1;for(let i=1;i<=k;i++)r=r*(N-k+i)/i;return Math.round(r)}
+function cviz(){const N=Math.round(+$('cN').value),k=Math.round(+$('cn').value);
+$('co').innerHTML=k>N||k<0||N<1?'Choose \\(0\\le n\\le N\\).':`\\(\\binom{${N}}{${k}}=\\dfrac{${N}!}{${k}!\\,${N-k}!}=${comb(N,k).toLocaleString('en-US')}\\)`;ts($('co'))}
+$('cN').oninput=$('cn').oninput=cviz;cviz();
+
+</script></body></html>

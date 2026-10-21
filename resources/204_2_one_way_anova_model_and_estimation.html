@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>One-Way ANOVA &amp; Single-Factor Experiments – AST204</title>
+<title>One-Way ANOVA: Model, F Test &amp; Estimation – AST204</title>
 <link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F5EDE0;--card:#FCF7EE;--ink:#3A2A1E;--mut:#7A6552;--ac:#8A5A36;--ac2:#D9C3A0;--line:#DDCBB0;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 :root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
 body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
@@ -22,7 +22,7 @@ nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);co
 .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
 .two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
 .row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
-input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}input[type=range],input[type=checkbox]{accent-color:var(--ac)}
 .out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
 table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
 ul,ol{padding-left:1.4rem}li{margin:.55em 0}
@@ -46,20 +46,23 @@ main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
 .hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
 .sg{width:100%;height:auto;display:block}
 .dv .bd{font-size:1.08em}.dv .bd p{margin:1.1em 0 .4em}.dv .bd mjx-container[display]{font-size:125%;margin:.7em 0!important;padding:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.tw{overflow-x:auto}.tw table{min-width:560px}
+textarea{font:inherit}
+.leg{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 10px;font-size:.92rem;color:var(--mut)}
+.pic{width:100%;height:auto;display:block}
 </style>
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
 <body>
-<nav><a href="#viz">Overview</a><a href="#crd">Design &amp; Model</a><a href="#fr">Fixed vs Random</a><a href="#anova">ANOVA</a><a href="#est">Estimation</a><a href="#ci">Confidence Intervals</a><a href="#samp">Sampling Distributions</a><a href="#test">Hypothesis Testing</a><a href="#chk">Model Adequacy</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<nav><a href="#viz">Overview</a><a href="#crd">Design &amp; Model</a><a href="#fr">Fixed vs Random</a><a href="#anova">ANOVA</a><a href="#est">Estimation</a><a href="#ci">Confidence Intervals</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
 <label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
 <main>
-<header style="padding:48px 0 8px"><h1>Single-Factor Experiments &amp; One-Way ANOVA</h1>
-<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 3&ndash;11 &middot; Completely Randomized Design, ANOVA, estimation, confidence intervals, sampling distributions, hypothesis tests, residual diagnostics, Bartlett's test.</p>
-<div class="box nt"><b>Note:</b> the uploaded slides are on <b>Design of Experiments / ANOVA</b>, not stratified sampling (the HTML you attached was only used as the layout template). Corrections to the slides are marked in red boxes.</div></header>
+<header style="padding:48px 0 8px"><h1>One-Way ANOVA: Model, F Test &amp; Estimation</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 3, 4, 7, 8 &amp; 9 &middot; Single-factor experiment, Completely Randomized Design, fixed vs random effects, ANOVA and the F test, parameter estimation, confidence intervals, simultaneous (Bonferroni) intervals, unbalanced data. Corrections to the slides are marked in red boxes.</p></header>
 
 <section id="viz"><h2>Big Picture</h2>
 <p>We compare the mean response of <b>a</b> treatments using random data. We split the total variation into <i>between-treatment</i> and <i>within-treatment</i> parts and compare them with an F ratio. Then we estimate effects, build intervals, and check the model assumptions.</p>
-<div class="flow"><div class="pop">Completely Randomized Design <b>(CRD)</b></div>&darr;<div class="st"><div>Model<br>\(y_{ij}=\mu+\tau_i+\varepsilon_{ij}\)</div><div>Partition<br>\(SS_T=SS_{Tr}+SS_E\)</div><div>F test<br>\(F_0=MS_{Tr}/MS_E\)</div></div>&darr;<div class="st"><div>Estimates &amp; CIs</div><div>Bonferroni <b>(simultaneous)</b></div><div>Residual checks &amp; Bartlett</div></div></div>
+<div class="flow"><div class="pop">Completely Randomized Design <b>(CRD)</b></div>&darr;<div class="st"><div>Model<br>\(y_{ij}=\mu+\tau_i+\varepsilon_{ij}\)</div><div>Partition<br>\(SS_T=SS_{Tr}+SS_E\)</div><div>F test<br>\(F_0=MS_{Tr}/MS_E\)</div></div>&darr;<div class="st"><div>Estimates &amp; CIs</div><div>Bonferroni <b>(simultaneous)</b></div></div></div>
 <h3>Interactive: when does the F test detect a difference?</h3>
 <p class="mut">4 treatments, 5 observations each. Move the sliders and watch the variation split.</p>
 <div class="row"><label>Spread of treatment means \(d\) <input type="range" id="vd" min="0" max="40" value="20"></label><label>Within-treatment noise \(s\) <input type="range" id="vs" min="2" max="40" value="12"></label></div>
@@ -124,64 +127,34 @@ main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
 <table><tr><th>r</th><th>1</th><th>5</th><th>10</th></tr><tr><td>Simultaneous level \(\ge\) (\(\alpha=0.05\))</td><td>0.95</td><td>0.75</td><td>0.50</td></tr></table>
 <p>To keep overall confidence \(\ge1-\alpha\), build each interval at level \(\alpha/r\).</p></section>
 
-<section id="samp"><h2>Sampling Distributions</h2>
-<p>The <b>population distribution</b> is the probability distribution of population values. A <b>sampling distribution</b> is the distribution of a statistic (\(\bar x,\hat p,S^2\)) over all possible samples.</p>
-<div class="box ex"><b>Five midterm scores:</b> 70, 78, 80, 80, 95 (A..E). Distribution: \(P(70)=P(78)=P(95)=0.2,\ P(80)=0.4\). Samples of size 3 without replacement: \(\binom53=\frac{5!}{3!\,2!}=10\). Sampling distribution of \(\bar x\):
-<table><tr><th>\(\bar x\)</th><td>76.00</td><td>76.67</td><td>79.33</td><td>81.00</td><td>81.67</td><td>84.33</td><td>85.00</td></tr><tr><th>\(P\)</th><td>.20</td><td>.10</td><td>.10</td><td>.10</td><td>.20</td><td>.20</td><td>.10</td></tr></table></div>
-<p>Enumerating all samples is usually impossible, so we use known theoretical distributions. Sample mean from a normal population: \(\bar x\sim N(\mu,\sigma^2/n)\) exactly; from a non-normal population it is approximately so for large \(n\) (central limit theorem).</p>
-<h3>Chi-square, t and F</h3>
-<p><b>Chi-square \((\chi^2)\):</b> \(Z_1..Z_n\) independent standard normal \(\Rightarrow\chi^2=\sum Z_i^2\) has \(n\) df. For a normal sample, \(\dfrac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\).</p>
-<p><b>Student's t:</b> \(Z\sim N(0,1)\), \(U\sim\chi^2_n\) independent \(\Rightarrow T=Z/\sqrt{U/n}\sim t_n\). Substituting gives \(t=\dfrac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\).</p>
-<p><b>F:</b> \(U_1\sim\chi^2_{n_1},U_2\sim\chi^2_{n_2}\) independent \(\Rightarrow F=\dfrac{U_1/n_1}{U_2/n_2}\sim F_{n_1,n_2}\). For two normal samples \(F=\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,n_2-1}\); if \(\sigma_1^2=\sigma_2^2\), \(F=S_1^2/S_2^2\) (the <b>variance ratio</b>).</p>
-<p><b>Why in DOE:</b> they give CIs and tests (t, \(\chi^2\), F); F is the foundation of ANOVA.</p></section>
-
-<section id="test"><h2>Hypothesis Testing</h2>
-<p>A <b>hypothesis</b> is a statement about one or more populations. The <b>null hypothesis \(H_0\)</b> is assumed true until declared false; the <b>alternative \(H_1\)</b> is true if \(H_0\) is false. Like a court case, there are four outcomes:</p>
-<table><tr><th></th><th>\(H_0\) true</th><th>\(H_0\) false</th></tr><tr><td>Reject \(H_0\)</td><td>Type I error, prob. \(\alpha\) (significance level)</td><td>Correct (power \(=1-\beta\))</td></tr><tr><td>Do not reject</td><td>Correct</td><td>Type II error, prob. \(\beta\)</td></tr></table>
-<p><b>Tails:</b> two-tailed (\(H_1:\mu\ne\mu_0\), key word <i>changed</i>), left-tailed (\(H_1:\mu<\mu_0\), <i>less than</i>), right-tailed (\(H_1:\mu>\mu_0\), <i>higher than</i>). For a left-tailed test \(H_0\) may be written \(\mu\ge\mu_0\).</p>
-<h3>Test of \(\mu\) when \(\sigma\) is known</h3>
-<div class="f">\[ \bar x\sim N\!\left(\mu,\frac{\sigma^2}{n}\right)\ \Rightarrow\ Z=\frac{\bar x-\mu_0}{\sigma/\sqrt n} \]</div>
-<p>(Case I: normal population; Case II: non-normal with large \(n\).) Critical values at \(\alpha=0.05\): \(\pm1.96\) (two-tailed), \(+1.65\) (right), \(-1.65\) (left).</p>
-<div class="box ex"><b>Spending:</b> \(H_0:\mu=500\), \(\bar x=470\), \(n=10\), \(\sigma^2=4000\ (\sigma=63.25)\): \(Z=\dfrac{470-500}{63.25/\sqrt{10}}=-1.50\). Two-tailed: inside \(\pm1.96\); right-tailed: below \(1.65\); left-tailed: \(-1.50>-1.65\). In all three, <b>fail to reject</b> \(H_0\).</div></section>
-
-<section id="chk"><h2>Model Adequacy Checking</h2>
-<p>ANOVA is exact if errors are NID\((0,\sigma^2)\). We check this using <b>residuals</b>: \(e_{ij}=y_{ij}-\hat y_{ij}\), where \(\hat y_{ij}=\hat\mu+\hat\tau_i=\bar y_{i\cdot}\). So \(e_{ij}=y_{ij}-\bar y_{i\cdot}\): deviation from its treatment mean.</p>
-<h3>Normality: histogram and normal probability plot</h3>
-<p>Residuals should look like a normal sample centred at 0; on a normal probability plot the points follow a straight line. Steps: (1) compute residuals; (2) sort \(e_{(1)}\le\dots\le e_{(n)}\); (3) \(p_i=\dfrac{i-0.5}{n}\) (e.g. \(p_1=2.5\%,\ p_{20}=97.5\%\)); (4) plot \(e_{(i)}\) against \(z_i=\Phi^{-1}(p_i)\) (e.g. \(p=0.05\Rightarrow z\approx-1.64\)).</p>
-<p>Etch data: approximately normal; slight curvature at both ends means somewhat <b>thinner tails</b>, not substantial. The calculator draws this plot and a residual table for any data.</p>
-<h3>Residuals vs run order (independence)</h3>
-<ul><li><b>Random scatter</b>: independence and constant spread reasonable (etch data: no violation).</li><li><b>Long runs</b>: positive autocorrelation. <b>Alternating</b>: negative autocorrelation. Both violate independence.</li><li><b>Trend</b>: time drift (tool wear, temperature). <b>Cyclic</b>: periodic source (shifts, batches).</li><li><b>Changing spread</b>: non-constant variance.</li></ul>
-<h3>Residuals vs fitted values</h3>
-<p>Checks constant variance and model adequacy; residuals should be structureless and unrelated to \(\hat y\) (etch: no unusual structure).</p>
-<ul><li><b>Fan / reverse fan</b>: heteroscedasticity. <b>Curvature</b>: missing quadratic term or transformation. <b>Systematic trend</b>: wrong functional form. <b>Clusters</b>: missing factor.</li></ul>
-<h3>Bartlett's test for equal variances</h3>
-<p>\(H_0:\sigma_1^2=\dots=\sigma_a^2\) vs \(H_1\): not all equal. For independent samples from <b>normal</b> populations:</p>
-<div class="f">\[ \chi_0^2=2.3026\,\frac qc\ \sim\ \chi^2_{a-1}\ (\text{approx.}),\quad q=(N-a)\log_{10}S_p^2-\sum_i(n_i-1)\log_{10}S_i^2 \]
-\[ c=1+\frac{1}{3(a-1)}\left[\sum_i\frac1{n_i-1}-\frac1{N-a}\right],\qquad S_p^2=\frac{\sum_i(n_i-1)S_i^2}{N-a} \]</div>
-<p>Reject \(H_0\) if \(\chi_0^2>\chi^2_{\alpha,a-1}\). (\(2.3026=\ln 10\) converts \(\log_{10}\) to natural log.)</p>
-<div class="box ex"><b>Etch:</b> \(S^2=400.7,280.3,421.3,232.5\); \(S_p^2=333.7\); \(q=0.21\); \(c=1.10\); \(\chi_0^2=2.3026(0.21/1.10)=0.43<\chi^2_{0.05,3}=7.81\). Do not reject: <b>no evidence that the variances differ</b>, agreeing with the residual-vs-fitted plot.</div>
-<div class="box nt"><b>Note:</b> Bartlett's test is sensitive to non-normality; the slide's "no evidence that all four variances are not the same" is a double negative, meaning no evidence of unequal variances.</div></section>
-
 <section id="calc"><h2>Calculator</h2>
 <p class="mut">One group per line, values separated by commas or spaces (unequal sizes allowed). Default = plasma etch data.</p>
+<div class="row"><label>Load example <select id="ex"><option value="e">Plasma etch (L3)</option><option value="t">Tumor drugs (L7 homework)</option><option value="u">Unequal replicates A&ndash;D (L9 homework)</option></select></label></div>
 <textarea id="cd" rows="5" style="width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line)">575 542 530 539 570
 565 593 590 579 610
 600 651 610 637 629
 725 700 715 685 710</textarea>
 <div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><label><input type="checkbox" id="bf"> Bonferroni-adjust pairwise CIs</label><button class="p" id="go">Compute</button></div>
-<div class="out" id="co"></div><svg id="npp" class="sg" viewBox="0 0 700 280"></svg><svg id="rvf" class="sg" viewBox="0 0 700 280"></svg>
-<h3>Quick tools</h3>
-<div class="row"><b>Z test:</b><label>\(\bar x\)<input type="number" id="zx" value="470"></label><label>\(\mu_0\)<input type="number" id="zm" value="500"></label><label>\(\sigma\)<input type="number" id="zs" value="63.25"></label><label>n<input type="number" id="zn" value="10"></label><select id="zt"><option value="2">two-tailed</option><option value="r">right</option><option value="l">left</option></select></div>
-<div class="out" id="zo"></div>
+<div class="out" id="co"></div>
+<h3>Quick tool</h3>
 <div class="row"><b>Bonferroni:</b><label>r intervals<input type="number" id="br" value="5"></label><label>&alpha;<input type="number" id="ba" value="0.05" step="0.01"></label></div><div class="out" id="bo"></div></section>
 
 <section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
 <section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order. Each formula is followed by its notation.</p><div id="fl"></div>
-<h3>Notation</h3><table class="ft"><tr><td>\(a\)</td><td>number of treatments</td><td>\(n,\ n_i\)</td><td>replicates per treatment (balanced / unbalanced)</td></tr><tr><td>\(N\)</td><td>total observations</td><td>\(y_{ij}\)</td><td>\(j\)th observation of treatment \(i\)</td></tr><tr><td>\(\mu,\ \tau_i\)</td><td>overall mean, effect of treatment \(i\)</td><td>\(\varepsilon_{ij}\)</td><td>random error</td></tr><tr><td>\(\alpha,\ \beta\)</td><td>Type I, Type II error probabilities</td><td>\(e_{ij}\)</td><td>residual</td></tr></table></section></main>
+<h3>Notation</h3><table class="ft"><tr><td>\(a\)</td><td>number of treatments</td><td>\(n,\ n_i\)</td><td>replicates per treatment (balanced / unbalanced)</td></tr><tr><td>\(N\)</td><td>total observations</td><td>\(y_{ij}\)</td><td>\(j\)th observation of treatment \(i\)</td></tr><tr><td>\(\mu,\ \tau_i\)</td><td>overall mean, effect of treatment \(i\)</td><td>\(\varepsilon_{ij}\)</td><td>random error</td></tr><tr><td>\(SS_T,\ SS_{Tr},\ SS_E\)</td><td>total, treatment, error sums of squares</td><td>\(MS_{Tr},\ MS_E\)</td><td>mean squares</td></tr></table></section>
+
+</main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
 <script>
 const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const ts=el=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise&&MathJax.typesetPromise)MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise(el?[el]:undefined)).catch(()=>{})};
+function renderD(D){$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)))}
+function renderF(F){$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('')}
+// theme: keep scroll position
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
 const D=[
 ["D1","Partition \\(SS_T=SS_{Tr}+SS_E\\)",String.raw`<p>Add and subtract \(\bar y_{i\cdot}\) inside each square.</p>
 \[\sum_{i}\sum_{j}(y_{ij}-\bar y_{\cdot\cdot})^2\]
@@ -308,45 +281,13 @@ const D=[
 <p>All deviations are unchanged, because \(c\) cancels:</p>
 \[y'_{ij}-\bar y'_{i\cdot}=y_{ij}-\bar y_{i\cdot}\]
 \[\bar y'_{i\cdot}-\bar y'_{\cdot\cdot}=\bar y_{i\cdot}-\bar y_{\cdot\cdot}\]
-<p>Hence \(SS_T\), \(SS_{Tr}\) and \(SS_E\) are all unchanged.</p>`],
-["D13","The one-sample \\(t\\) statistic from the definition of \\(T\\)",String.raw`<p>Take the two ingredients:</p>
-\[Z=\frac{\bar X-\mu}{\sigma/\sqrt n},\qquad U=\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\]
-<p>Substitute into \(T=Z/\sqrt{U/(n-1)}\):</p>
-\[T=\frac{(\bar X-\mu)/(\sigma/\sqrt n)}{\sqrt{S^2/\sigma^2}}\]
-<p>\(\sigma\) cancels:</p>
-\[T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\]`],
-["D14","The \\(F\\) statistic for two variances",String.raw`<p>For two independent normal samples:</p>
-\[U_k=\frac{(n_k-1)S_k^2}{\sigma_k^2}\sim\chi^2_{n_k-1},\qquad k=1,2\]
-<p>Divide each by its df and take the ratio:</p>
-\[F=\frac{U_1/(n_1-1)}{U_2/(n_2-1)}=\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,\,n_2-1}\]
-<p>If \(\sigma_1^2=\sigma_2^2\):</p>
-\[F=\frac{S_1^2}{S_2^2}\]`],
-["D15","The \\(Z\\) statistic for a mean with known \\(\\sigma\\)",String.raw`<p>For independent observations:</p>
-\[E(\bar x)=\mu,\qquad \mathrm{Var}(\bar x)=\frac{\sigma^2}{n}\]
-<p>\(\bar x\) is normal (exactly for a normal population, approximately by the CLT otherwise):</p>
-\[\bar x\sim N\Big(\mu,\ \frac{\sigma^2}{n}\Big)\]
-<p>Standardise under \(H_0:\mu=\mu_0\):</p>
-\[Z=\frac{\bar x-\mu_0}{\sigma/\sqrt n}\sim N(0,1)\]`],
-["D16","Fitted value, residual and normal score",String.raw`<p>The fitted value is</p>
-\[\hat y_{ij}=\hat\mu+\hat\tau_i\]
-\[=\bar y_{\cdot\cdot}+(\bar y_{i\cdot}-\bar y_{\cdot\cdot})=\bar y_{i\cdot}\]
-<p>so the residual is the deviation from the treatment mean:</p>
-\[e_{ij}=y_{ij}-\bar y_{i\cdot}\]
-<p>Residuals within a treatment sum to zero. For the normal probability plot, the plotting position of the \(i\)th ordered residual is</p>
-\[p_i=\frac{i-0.5}{n}=P(Z\le z_i)=\Phi(z_i)\]
-\[z_i=\Phi^{-1}\!\Big(\frac{i-0.5}{n}\Big)\]
-<p>If errors are normal, the points \((e_{(i)},z_i)\) lie close to a straight line.</p>`]];
-$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
-document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)));
+<p>Hence \(SS_T\), \(SS_{Tr}\) and \(SS_E\) are all unchanged.</p>`]];
+renderD(D);
 const F=[["1. Totals &amp; means",[["\\(y_{i\\cdot}=\\sum_j y_{ij},\\ \\bar y_{i\\cdot}=y_{i\\cdot}/n,\\ \\bar y_{\\cdot\\cdot}=y_{\\cdot\\cdot}/N,\\ N=an\\)","\\(y_{i\\cdot}\\) treatment total; \\(y_{\\cdot\\cdot}\\) grand total"],["\\(\\mu_i=\\mu+\\tau_i,\\ \\sum\\tau_i=0\\)","\\(\\mu_i\\) treatment mean"]]],
 ["2. ANOVA",[["\\(SS_T=\\sum y_{ij}^2-y_{\\cdot\\cdot}^2/N\\)","total corrected SS, df \\(N-1\\)"],["\\(SS_{Tr}=\\frac1n\\sum y_{i\\cdot}^2-y_{\\cdot\\cdot}^2/N=n\\sum(\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot})^2\\)","df \\(a-1\\); unbalanced: \\(\\sum y_{i\\cdot}^2/n_i-y_{\\cdot\\cdot}^2/N\\)"],["\\(SS_E=SS_T-SS_{Tr}\\)","df \\(N-a\\)"],["\\(MS_{Tr}=SS_{Tr}/(a-1),\\ MS_E=SS_E/(N-a)\\)","mean squares"],["\\(F_0=MS_{Tr}/MS_E;\\ \\text{reject if }F_0>F_{\\alpha,a-1,N-a}\\)","\\(\\alpha\\) significance level"],["\\(E(MS_E)=\\sigma^2,\\ E(MS_{Tr})=\\sigma^2+n\\sum\\tau_i^2/(a-1)\\)","\\(\\sigma^2\\) error variance"]]],
-["3. Estimation &amp; CIs",[["\\(\\hat\\mu=\\bar y_{\\cdot\\cdot},\\ \\hat\\tau_i=\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot},\\ \\hat\\mu_i=\\bar y_{i\\cdot}\\)","least squares with \\(\\sum\\hat\\tau_i=0\\)"],["\\(\\bar y_{i\\cdot}\\pm t_{\\alpha/2,N-a}\\sqrt{MS_E/n}\\)","CI for \\(\\mu_i\\)"],["\\((\\bar y_{i\\cdot}-\\bar y_{j\\cdot})\\pm t_{\\alpha/2,N-a}\\sqrt{2MS_E/n}\\)","CI for \\(\\mu_i-\\mu_j\\)"],["\\(P(\\text{all }r\\text{ correct})\\ge1-r\\alpha\\)","Bonferroni; use \\(\\alpha/r\\) each"]]],
-["4. Sampling distributions &amp; tests",[["\\(\\chi^2=\\sum Z_i^2;\\ (n-1)S^2/\\sigma^2\\sim\\chi^2_{n-1}\\)","\\(S^2\\) sample variance"],["\\(T=Z/\\sqrt{U/n};\\ t=(\\bar X-\\mu)/(S/\\sqrt n)\\)","\\(U\\sim\\chi^2_n\\)"],["\\(F=(U_1/n_1)/(U_2/n_2);\\ F=S_1^2/S_2^2\\)","equal variances"],["\\(\\binom Nn=\\frac{N!}{n!(N-n)!}\\)","number of samples without replacement"],["\\(Z=(\\bar x-\\mu_0)/(\\sigma/\\sqrt n)\\)","known \\(\\sigma\\); crit. \\(\\pm1.96,\\pm1.65\\)"]]],
-["5. Diagnostics",[["\\(e_{ij}=y_{ij}-\\hat y_{ij}=y_{ij}-\\bar y_{i\\cdot}\\)","residual"],["\\(p_i=(i-0.5)/n,\\ z_i=\\Phi^{-1}(p_i)\\)","normal probability plot"],["\\(S_p^2=\\sum(n_i-1)S_i^2/(N-a)\\)","pooled variance"],["\\(q=(N-a)\\log_{10}S_p^2-\\sum(n_i-1)\\log_{10}S_i^2\\)","Bartlett \\(q\\)"],["\\(c=1+\\frac{1}{3(a-1)}[\\sum\\frac1{n_i-1}-\\frac1{N-a}]\\)","correction factor"],["\\(\\chi_0^2=2.3026\\,q/c;\\ \\text{reject if}>\\chi^2_{\\alpha,a-1}\\)","Bartlett statistic"]]]];
-$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('');
-// theme: keep scroll position
-const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
-th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+["3. Estimation &amp; CIs",[["\\(\\hat\\mu=\\bar y_{\\cdot\\cdot},\\ \\hat\\tau_i=\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot},\\ \\hat\\mu_i=\\bar y_{i\\cdot}\\)","least squares with \\(\\sum\\hat\\tau_i=0\\)"],["\\(\\bar y_{i\\cdot}\\pm t_{\\alpha/2,N-a}\\sqrt{MS_E/n}\\)","CI for \\(\\mu_i\\)"],["\\((\\bar y_{i\\cdot}-\\bar y_{j\\cdot})\\pm t_{\\alpha/2,N-a}\\sqrt{2MS_E/n}\\)","CI for \\(\\mu_i-\\mu_j\\)"],["\\(P(\\text{all }r\\text{ correct})\\ge1-r\\alpha\\)","Bonferroni; use \\(\\alpha/r\\) each"]]]]
+;
+renderF(F);
 // overview widget
 function viz(){const d=+$('vd').value,s=+$('vs').value;let seed=7,rnd=()=>(seed=(seed*9301+49297)%233280)/233280-.5,Y=[],svg='';
 for(let i=0;i<4;i++){Y.push([]);for(let j=0;j<5;j++)Y[i].push(100+d*(i-1.5)+s*rnd()*2)}
@@ -356,24 +297,29 @@ const gm=Y.flat().reduce((a,b)=>a+b)/20,tr=5*Y.reduce((a,r)=>a+(r.reduce((x,y)=>
 $('vsv').innerHTML=svg;$('b1').style.width=100*tr/(tr+er)+'%';$('b2').style.width=100*er/(tr+er)+'%';$('b1').textContent='SSTr';$('b2').textContent='SSE';
 $('vo').innerHTML=`SSTr = ${g(tr,1)}, SSE = ${g(er,1)}, F<sub>0</sub> = ${g(f,2)} vs F<sub>0.05,3,16</sub> = ${g(fc,2)} &rarr; <b>${f>fc?'reject H0 (means differ)':'do not reject H0'}</b>`}
 $('vd').oninput=$('vs').oninput=viz;viz();
-// scatter helper
-function sc(id,pts,xl,yl,line){const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),X=x=>80+(x-x0)/((x1-x0)||1)*560,Y=y=>220-(y-y0)/((y1-y0)||1)*170;
-let s=`<clipPath id="cp${id}"><rect x="60" y="30" width="600" height="210"/></clipPath><rect x="60" y="30" width="600" height="210" fill="none" stroke="var(--line)"/>`;if(line)s+=`<line clip-path="url(#cp${id})" x1="${X(x0)}" y1="${Y(line[0]+line[1]*x0)}" x2="${X(x1)}" y2="${Y(line[0]+line[1]*x1)}" stroke="var(--bad)"/>`;
-pts.forEach(p=>s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4" fill="var(--ac)"/>`);s+=`<text x="360" y="268" text-anchor="middle" fill="var(--ink)" font-size="14">${xl}</text><text x="360" y="20" text-anchor="middle" fill="var(--ink)" font-size="14">${yl}</text>`;$(id).innerHTML=s}
 // ANOVA calculator
+const EX={e:`575 542 530 539 570
+565 593 590 579 610
+600 651 610 637 629
+725 700 715 685 710`,t:`4.5 6.0 4.6 5.3
+6.2 5.8 5.0 5.3
+9.1 8.1 9.2 8.4
+9.7 8.4 8.8 9.9`,u:`2.0 2.2 1.8 2.3 1.7
+1.7 1.9 1.5
+2.0 2.4 2.7 2.5 2.4
+2.1 2.2 2.2 1.9`};
+$('ex').onchange=()=>{$('cd').value=EX[$('ex').value];calc()};
 function calc(){const G=$('cd').value.trim().split(/\n+/).map(l=>l.trim().split(/[\s,]+/).map(Number).filter(v=>!isNaN(v))).filter(a=>a.length),a=G.length,al=+$('al').value;if(a<2){$('co').textContent='Enter at least 2 groups.';return}
 const ni=G.map(x=>x.length),N=ni.reduce((p,c)=>p+c),yi=G.map(x=>x.reduce((p,c)=>p+c)),mi=yi.map((v,i)=>v/ni[i]),yy=yi.reduce((p,c)=>p+c),gm=yy/N,sy2=G.flat().reduce((p,c)=>p+c*c,0),sst=sy2-yy*yy/N,sstr=yi.reduce((p,v,i)=>p+v*v/ni[i],0)-yy*yy/N,sse=sst-sstr,mtr=sstr/(a-1),mse=sse/(N-a),f=mtr/mse,fc=jStat.centralF.inv(1-al,a-1,N-a),p=1-jStat.centralF.cdf(f,a-1,N-a),tq=jStat.studentt.inv(1-al/2,N-a);
+if(N-a<1){$('co').textContent='Need more observations than groups.';return}
 let h=`<table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F0</th></tr><tr><td>Treatments</td><td>${g(sstr,2)}</td><td>${a-1}</td><td>${g(mtr,2)}</td><td>${g(f,2)}</td></tr><tr><td>Error</td><td>${g(sse,2)}</td><td>${N-a}</td><td>${g(mse,2)}</td><td></td></tr><tr><td>Total</td><td>${g(sst,2)}</td><td>${N-1}</td><td></td><td></td></tr></table>F crit (${al}, ${a-1}, ${N-a}) = ${g(fc,3)}; p-value = ${p<1e-4?p.toExponential(2):g(p,4)} &rarr; <b>${f>fc?'Reject H0: treatment means differ':'Fail to reject H0'}</b><br>Grand mean = ${g(gm,3)}`;
-h+=`<table><tr><th>Group</th><th>n</th><th>Total</th><th>Mean</th><th>Effect &tau;&#770;</th><th>${100*(1-al)}% CI for &mu;</th></tr>${mi.map((m,i)=>{const w=tq*Math.sqrt(mse/ni[i]);return`<tr><td>${i+1}</td><td>${ni[i]}</td><td>${g(yi[i],2)}</td><td>${g(m,3)}</td><td>${g(m-gm,3)}</td><td>${g(m-w,2)} to ${g(m+w,2)}</td></tr>`}).join('')}</table>`;
+h+=`<table><tr><th>Group</th><th>n</th><th>Total</th><th>Mean</th><th>Effect &tau;&#770;</th><th>${g(100*(1-al),1)}% CI for &mu;</th></tr>${mi.map((m,i)=>{const w=tq*Math.sqrt(mse/ni[i]);return`<tr><td>${i+1}</td><td>${ni[i]}</td><td>${g(yi[i],2)}</td><td>${g(m,3)}</td><td>${g(m-gm,3)}</td><td>${g(m-w,2)} to ${g(m+w,2)}</td></tr>`}).join('')}</table>`;
 const r=a*(a-1)/2,aa=$('bf').checked?al/r:al,t2=jStat.studentt.inv(1-aa/2,N-a);h+=`<b>Pairwise CIs</b> (each at level ${g(100*(1-aa),2)}%, t = ${g(t2,3)}${$('bf').checked?', Bonferroni, simultaneous &ge; '+g(100*(1-al),1)+'%':''})<table><tr><th>Pair</th><th>Diff</th><th>CI</th><th>Excludes 0?</th></tr>`;
 for(let i=0;i<a;i++)for(let j=i+1;j<a;j++){const d=mi[i]-mi[j],w=t2*Math.sqrt(mse*(1/ni[i]+1/ni[j]));h+=`<tr><td>${i+1}&minus;${j+1}</td><td>${g(d,2)}</td><td>${g(d-w,2)} to ${g(d+w,2)}</td><td>${Math.abs(d)>w?'yes':'no'}</td></tr>`}h+='</table>';
-if(ni.every(n=>n>1)){const s2=G.map((x,i)=>x.reduce((p,c)=>p+(c-mi[i])**2,0)/(ni[i]-1)),sp=s2.reduce((p,v,i)=>p+(ni[i]-1)*v,0)/(N-a),q=(N-a)*Math.log10(sp)-s2.reduce((p,v,i)=>p+(ni[i]-1)*Math.log10(v),0),c=1+(ni.reduce((p,n)=>p+1/(n-1),0)-1/(N-a))/(3*(a-1)),x2=2.3026*q/c,xc=jStat.chisquare.inv(1-al,a-1);h+=`<b>Bartlett:</b> S&sup2; = ${s2.map(v=>g(v,1)).join(', ')}; S<sub>p</sub>&sup2; = ${g(sp,2)}; q = ${g(q,3)}; c = ${g(c,3)}; &chi;&sup2;<sub>0</sub> = ${g(x2,3)} vs &chi;&sup2;<sub>${al},${a-1}</sub> = ${g(xc,2)} &rarr; <b>${x2>xc?'variances differ':'no evidence of unequal variances'}</b>`}
-$('co').innerHTML=h;
-const res=[];G.forEach((x,i)=>x.forEach(y=>res.push([y-mi[i],mi[i]])));const so=res.map(r=>r[0]).sort((u,v)=>u-v),n=so.length,zs=so.map((_,i)=>jStat.normal.inv((i+.5)/n,0,1)),mx=so.reduce((p,c)=>p+c)/n,sl=zs.reduce((p,z,i)=>p+(so[i]-mx)*z,0)/so.reduce((p,e)=>p+(e-mx)**2,0);
-sc('npp',so.map((e,i)=>[e,zs[i]]),'Ordered residual e(i)  (normal probability plot: should be roughly linear)','z_i',[0,sl]);sc('rvf',res.map(r=>[r[1],r[0]]),'Fitted value (should show no pattern)','Residual');
-if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([$('co')])}
-$('go').onclick=calc;$('bf').onchange=calc;
-// quick tools
-function qt(){const z=(+$('zx').value-+$('zm').value)/(+$('zs').value/Math.sqrt(+$('zn').value)),t=$('zt').value,al=.05,c=t=='2'?jStat.normal.inv(1-al/2,0,1):jStat.normal.inv(1-al,0,1),rej=t=='2'?Math.abs(z)>c:t=='r'?z>c:z<-c;$('zo').innerHTML=`Z = ${g(z,3)}; critical value at 5%: ${t=='l'?'-':t=='2'?'&plusmn;':''}${g(c,3)} &rarr; <b>${rej?'Reject H0':'Fail to reject H0'}</b>`;const r=+$('br').value,a=+$('ba').value;$('bo').innerHTML=`Simultaneous confidence &ge; ${g(1-r*a,3)}; per-interval level for overall ${g(1-a,2)}: ${g(100*(1-a/r),3)}%`}
-document.querySelectorAll('#zx,#zm,#zs,#zn,#zt,#br,#ba').forEach(e=>e.oninput=qt);qt();calc();
+$('co').innerHTML=h}
+$('go').onclick=calc;$('bf').onchange=calc;$('al').oninput=calc;
+// Bonferroni quick tool
+function qt(){const r=+$('br').value,a=+$('ba').value;$('bo').innerHTML=`Simultaneous confidence &ge; ${g(1-r*a,3)}; per-interval level for an overall ${g(1-a,2)}: ${g(100*(1-a/r),3)}%`}
+document.querySelectorAll('#br,#ba').forEach(e=>e.oninput=qt);qt();calc();
+
 </script></body></html>

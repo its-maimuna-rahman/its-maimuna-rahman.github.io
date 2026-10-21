@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Model Adequacy Checking &amp; Residual Analysis – AST204</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+.dv .bd{font-size:1.08em}.dv .bd p{margin:1.1em 0 .4em}.dv .bd mjx-container[display]{font-size:125%;margin:.7em 0!important;padding:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.tw{overflow-x:auto}.tw table{min-width:560px}
+textarea{font:inherit}
+.leg{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 10px;font-size:.92rem;color:var(--mut)}
+.pic{width:100%;height:auto;display:block}
+.box mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">Overview</a><a href="#res">Residuals</a><a href="#norm">Normality</a><a href="#indep">Independence</a><a href="#var">Constant Variance</a><a href="#bart">Bartlett's Test</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:48px 0 8px"><h1>Model Adequacy Checking &amp; Residual Analysis</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 10 &amp; 11 &middot; Assumptions of ANOVA, residuals, normal probability plot, residuals vs run order, residuals vs fitted values, Bartlett's test for equal variances. Corrections to the slides are marked in red boxes.</p></header>
+
+<section id="viz"><h2>Big Picture</h2>
+<p>The F test of ANOVA needs certain assumptions. The errors \(\varepsilon_{ij}\) must be <b>normally and independently distributed</b> with <b>mean zero</b> and <b>constant (but unknown) variance</b> \(\sigma^2\), written \(\varepsilon_{ij}\sim NID(0,\sigma^2)\). If they hold, ANOVA gives an <b>exact</b> test of "no difference in treatment means". We cannot see the errors, but we can see the <b>residuals</b>, so we study the residuals.</p>
+<div class="tw"><table><tr><th>Assumption</th><th>How to check</th><th>What we hope to see</th></tr>
+<tr><td>Normality</td><td>Histogram and normal probability plot of residuals</td><td>Bell shape centred at 0; points near a straight line</td></tr>
+<tr><td>Independence</td><td>Residuals vs run order (time)</td><td>Random scatter, no runs, no trend</td></tr>
+<tr><td>Constant variance, model fits</td><td>Residuals vs fitted values; Bartlett's test</td><td>No pattern; equal spread</td></tr></table></div>
+<div class="flow"><div class="pop">Fit model</div>&darr;<div class="st"><div>Residuals \(e_{ij}=y_{ij}-\bar y_{i\cdot}\)</div></div>&darr;<div class="st"><div>Normal probability plot</div><div>Run-order plot</div><div>Fitted-value plot</div><div>Bartlett's test</div></div></div>
+<h3>Interactive: pattern explorer</h3>
+<p class="mut">Pick a residual plot and a pattern to see what it looks like and what it means.</p>
+<div class="row"><label>Pattern <select id="pt"><optgroup label="Residuals vs run order"><option value="o1">1. Random scatter</option><option value="o2">2. Long runs</option><option value="o3">3. Alternating</option><option value="o4">4. Upward trend (drift)</option><option value="o5">5. Cyclic</option><option value="o6">6. Changing spread</option></optgroup><optgroup label="Residuals vs fitted values"><option value="f1">1. Random scatter</option><option value="f2">2. Increasing spread</option><option value="f3">3. Decreasing spread</option><option value="f4">4. Curvature</option><option value="f5">5. Systematic trend</option><option value="f6">6. Groups or clusters</option></optgroup></select></label><button id="pn">New random draw</button></div>
+<svg id="psv" class="sg" viewBox="0 0 700 270"></svg><div class="out" id="po"></div></section>
+
+<section id="res"><h2>Residuals</h2>
+<p>The <b>residual</b> of observation \(j\) in treatment \(i\) is the observed value minus the fitted value:</p>
+<div class="f">\[ e_{ij}=y_{ij}-\hat y_{ij} \]</div>
+<p>The fitted value is \(\hat y_{ij}=\hat\mu+\hat\tau_i=\bar y_{\cdot\cdot}+(\bar y_{i\cdot}-\bar y_{\cdot\cdot})=\bar y_{i\cdot}\). So for one-way ANOVA</p>
+<div class="f">\[ e_{ij}=y_{ij}-\bar y_{i\cdot} \]</div>
+<p>that is, each residual is the deviation of an observation from <b>its own treatment mean</b>.</p>
+<h3>Etch rate data and residuals (Example 3.1, Table 3.6)</h3>
+<p class="mut">Each cell: observation (run number in brackets) and the residual \(e\). The run number is the order in which that run was made.</p>
+<div class="tw"><table><tr><th>Power (W)</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>\(\hat y_{ij}=\bar y_{i\cdot}\)</th></tr>
+<tr><td>160</td><td>575 (13)<br>\(e=23.8\)</td><td>542 (14)<br>\(e=-9.2\)</td><td>530 (8)<br>\(e=-21.2\)</td><td>539 (5)<br>\(e=-12.2\)</td><td>570 (4)<br>\(e=18.8\)</td><td>551.2</td></tr>
+<tr><td>180</td><td>565 (18)<br>\(e=-22.4\)</td><td>593 (9)<br>\(e=5.6\)</td><td>590 (6)<br>\(e=2.6\)</td><td>579 (16)<br>\(e=-8.4\)</td><td>610 (17)<br>\(e=22.6\)</td><td>587.4</td></tr>
+<tr><td>200</td><td>600 (7)<br>\(e=-25.4\)</td><td>651 (19)<br>\(e=25.6\)</td><td>610 (10)<br>\(e=-15.4\)</td><td>637 (20)<br>\(e=11.6\)</td><td>629 (1)<br>\(e=3.6\)</td><td>625.4</td></tr>
+<tr><td>220</td><td>725 (2)<br>\(e=18.0\)</td><td>700 (3)<br>\(e=-7.0\)</td><td>715 (15)<br>\(e=8.0\)</td><td>685 (11)<br>\(e=-22.0\)</td><td>710 (12)<br>\(e=3.0\)</td><td>707.0</td></tr></table></div>
+<div class="box ex"><b>Residual, variance and SSE for the etch data</b>
+<p>Treatment means: \(551.2,\ 587.4,\ 625.4,\ 707.0\). Residual squares and sample variances (\(n_i-1=4\)):</p>
+\[160\text{ W: }\ 23.8^2+(-9.2)^2+(-21.2)^2+(-12.2)^2+18.8^2=1602.8\]
+\[S_1^2=\frac{1602.8}{4}=400.7\]
+\[180\text{ W: }\ (-22.4)^2+5.6^2+2.6^2+(-8.4)^2+22.6^2=1121.2\]
+\[S_2^2=\frac{1121.2}{4}=280.3\]
+\[200\text{ W: }\ (-25.4)^2+25.6^2+(-15.4)^2+11.6^2+3.6^2=1685.2\]
+\[S_3^2=\frac{1685.2}{4}=421.3\]
+\[220\text{ W: }\ 18^2+(-7)^2+8^2+(-22)^2+3^2=930\]
+\[S_4^2=\frac{930}{4}=232.5\]
+<p>The sum of all squared residuals is \(SS_E\), and the pooled variance is \(MS_E\):</p>
+\[SS_E=1602.8+1121.2+1685.2+930=5339.2\]
+\[S_p^2=\frac{5339.2}{16}=333.7=MS_E\]</div></section>
+
+<section id="norm"><h2>Checking Normality</h2>
+<p>Plot a <b>histogram of the residuals</b>. If \(NID(0,\sigma^2)\) holds, the residuals should look like a sample from a normal distribution <b>centred at zero</b>. A <b>normal probability plot</b> is also useful: if the errors are normal, the points fall approximately on a <b>straight line</b>.</p>
+<h3>Constructing a normal probability plot</h3>
+<ol><li>Calculate the residuals.</li><li>Arrange them from smallest to largest, \(e_{(1)}\le\dots\le e_{(n)}\).</li><li>Give each ordered residual a probability \(p_i=\dfrac{i-0.5}{n}\), \(i=1,\dots,n\). For \(n=20\): \(p_1=\dfrac{0.5}{20}=2.5\%\), \(p_{20}=\dfrac{19.5}{20}=97.5\%\).</li><li>Plot each ordered residual against its normal probability.</li></ol>
+<p>Equivalently, plot the standardised normal score \(z_i\) against \(e_{(i)}\), where</p>
+<div class="f">\[ \frac{i-0.5}{n}=P(Z\le z_i)=\Phi(z_i)\quad\Longleftrightarrow\quad z_i=\Phi^{-1}\!\Big(\frac{i-0.5}{n}\Big) \]</div>
+<p>For example, if \(\dfrac{i-0.5}{n}=0.05\) then \(\Phi(z_i)=0.05\), so \(z_i\approx-1.64\).</p>
+<div class="two"><div><table><tr><th>\(i\)</th><th>\(e_{(i)}\)</th><th>\(p_i\)</th><th>\(z_i\)</th></tr><tr><td>1</td><td>-25.4</td><td>0.025</td><td>-1.960</td></tr><tr><td>2</td><td>-22.4</td><td>0.075</td><td>-1.440</td></tr><tr><td>3</td><td>-22.0</td><td>0.125</td><td>-1.150</td></tr><tr><td>4</td><td>-21.2</td><td>0.175</td><td>-0.935</td></tr><tr><td>5</td><td>-15.4</td><td>0.225</td><td>-0.755</td></tr><tr><td>6</td><td>-12.2</td><td>0.275</td><td>-0.598</td></tr><tr><td>7</td><td>-9.2</td><td>0.325</td><td>-0.454</td></tr><tr><td>8</td><td>-8.4</td><td>0.375</td><td>-0.319</td></tr><tr><td>9</td><td>-7.0</td><td>0.425</td><td>-0.189</td></tr><tr><td>10</td><td>2.6</td><td>0.475</td><td>-0.063</td></tr></table></div>
+<div><table><tr><th>\(i\)</th><th>\(e_{(i)}\)</th><th>\(p_i\)</th><th>\(z_i\)</th></tr><tr><td>11</td><td>3.0</td><td>0.525</td><td>0.063</td></tr><tr><td>12</td><td>3.6</td><td>0.575</td><td>0.189</td></tr><tr><td>13</td><td>5.6</td><td>0.625</td><td>0.319</td></tr><tr><td>14</td><td>8.0</td><td>0.675</td><td>0.454</td></tr><tr><td>15</td><td>11.6</td><td>0.725</td><td>0.598</td></tr><tr><td>16</td><td>18.0</td><td>0.775</td><td>0.755</td></tr><tr><td>17</td><td>18.8</td><td>0.825</td><td>0.935</td></tr><tr><td>18</td><td>22.6</td><td>0.875</td><td>1.150</td></tr><tr><td>19</td><td>23.8</td><td>0.925</td><td>1.440</td></tr><tr><td>20</td><td>25.6</td><td>0.975</td><td>1.960</td></tr></table></div></div>
+<div class="box ex"><b>Plotting positions \(p_i\) and normal scores \(z_i\)</b>
+<p>The \(i\)th smallest of \(n\) residuals is given the probability</p>
+\[p_i=\frac{i-0.5}{n}\]
+<p>(the 0.5 keeps \(p_i\) strictly between 0 and 1). For \(n=20\):</p>
+\[p_1=\frac{1-0.5}{20}=0.025,\qquad p_{20}=\frac{20-0.5}{20}=0.975\]
+<p>The normal score \(z_i\) is the standard normal value that has area \(p_i\) to its left:</p>
+\[\Phi(z_i)=P(Z\le z_i)=p_i\ \Rightarrow\ z_i=\Phi^{-1}(p_i)\]
+<p>Example: \(p_i=0.05\) gives \(\Phi(z_i)=0.05\), so \(z_i\approx-1.64\). For the smallest etch residual \(p_1=0.025\), so</p>
+\[z_1=\Phi^{-1}(0.025)=-1.960\]
+<p>If the residuals are normal, \(e_{(i)}\) is roughly a linear function of \(z_i\): the points lie near a straight line.</p></div>
+<div class="box ex"><b>Etch rate example.</b> The plot (drawn by the calculator below) suggests the error distribution is <b>approximately normal</b>. Slight curvature at both ends indicates somewhat thinner tails than a normal distribution, but the departure from normality is not substantial.</div></section>
+
+<section id="indep"><h2>Checking Independence: Residuals vs Run Order</h2>
+<p>Plot the residuals in the <b>time order of data collection</b>. This detects correlation between residuals. A tendency to see <b>runs of positive and negative residuals</b> indicates positive correlation, which means the <b>independence assumption</b> may be violated.</p>
+<div class="tw"><table><tr><th>Pattern</th><th>What it looks like</th><th>Meaning</th></tr>
+<tr><td>1. Random scatter (desirable)</td><td>Residuals fluctuate randomly around zero with roughly constant spread</td><td>Independence looks reasonable; no obvious change in variance</td></tr>
+<tr><td>2. Long runs</td><td>Several positive residuals, then several negative ones</td><td>Positive autocorrelation (independence violated)</td></tr>
+<tr><td>3. Alternating</td><td>Residuals alternate between positive and negative</td><td>Negative autocorrelation (independence violated)</td></tr>
+<tr><td>4. Upward or downward trend</td><td>Residuals increase (or decrease) systematically with run order</td><td>Time-related effect, e.g. machine drift, temperature, tool wear</td></tr>
+<tr><td>5. Cyclic</td><td>A repeating pattern</td><td>Periodic source of variation, e.g. shifts, batch effects, machine cycles</td></tr>
+<tr><td>6. Changing spread</td><td>Small spread early and larger spread later (or the reverse)</td><td>Non-constant variance over time</td></tr></table></div>
+<div class="box ex"><b>Etch rate example.</b> The plot of residuals vs run order (drawn by the calculator) shows no reason to suspect a violation of the independence or constant variance assumptions.</div>
+<div class="box nt"><b>Note:</b> the slides say "tensile strength data" here, but Table 3.6 and Figure 3.5 are the <b>etch rate</b> data of Example 3.1.</div></section>
+
+<section id="var"><h2>Checking Constant Variance: Residuals vs Fitted Values</h2>
+<p>This plot checks whether the behaviour of the errors changes with the predicted level of the response. We look for <b>constant variance</b> and <b>model inadequacy</b>. If the model is correct and the variance is constant, the residuals are <b>structureless</b>: unrelated to the fitted values, with no obvious pattern.</p>
+<div class="tw"><table><tr><th>Pattern</th><th>What it looks like</th><th>Meaning</th></tr>
+<tr><td>1. Random scatter</td><td>Randomly scattered around zero, roughly constant spread</td><td>Model and constant variance assumption are reasonable</td></tr>
+<tr><td>2. Increasing spread (fan)</td><td>Spread grows as fitted values grow</td><td>Non-constant variance (heteroscedasticity)</td></tr>
+<tr><td>3. Decreasing spread (reverse fan)</td><td>Spread shrinks as fitted values grow</td><td>Non-constant variance (heteroscedasticity)</td></tr>
+<tr><td>4. Curvature</td><td>Residuals form a curve</td><td>Model is inadequate: missing important terms (e.g. a quadratic term or a transformation)</td></tr>
+<tr><td>5. Systematic trend</td><td>Residuals show a steady trend</td><td>Model not appropriate (missing terms or wrong functional form)</td></tr>
+<tr><td>6. Groups or clusters</td><td>Residuals form distinct groups</td><td>A missing factor or an important categorical variable not in the model</td></tr></table></div>
+<div class="box ex"><b>Etch rate example.</b> The plot of residuals against the fitted values (four fitted values: 551.2, 587.4, 625.4, 707.0) shows no unusual structure.</div>
+<div class="box nt"><b>Note:</b> (1) the slides say "tensile strength data" again; they are the etch rate data. (2) On the Figure 3.6 axis the second tick is printed as 500.15; the ticks are equally spaced from 551.20 to 707.00, so it should read 590.15.</div></section>
+
+<section id="bart"><h2>Bartlett's Test for Equal Variances</h2>
+<p>Residual plots are the usual way to diagnose unequal variances, but formal tests also exist. They test whether all treatment populations have the same variance:</p>
+<div class="f">\[ H_0:\sigma_1^2=\sigma_2^2=\cdots=\sigma_a^2\qquad H_1:\text{the variances are not all equal} \]</div>
+<p><b>Bartlett's test</b> is widely used. For <b>independent random samples from normal populations</b>, the statistic is approximately chi-square with \(a-1\) degrees of freedom (\(a\) = number of treatments):</p>
+<div class="f">\[ \chi_0^2=2.3026\,\frac{q}{c} \]</div>
+<div class="f">\[ q=(N-a)\log_{10}S_p^2-\sum_{i=1}^{a}(n_i-1)\log_{10}S_i^2 \]</div>
+<div class="f">\[ c=1+\frac{1}{3(a-1)}\left[\sum_{i=1}^{a}\frac{1}{n_i-1}-\frac{1}{N-a}\right] \]</div>
+<div class="f">\[ S_p^2=\frac{\sum_{i=1}^{a}(n_i-1)S_i^2}{N-a} \]</div>
+<p>\(S_i^2\) is the sample variance of treatment \(i\), \(n_i\) its size and \(N=\sum n_i\). <b>Reject \(H_0\)</b> if \(\chi_0^2\gt\chi^2_{\alpha,a-1}\).</p>
+<div class="box ex"><b>Etch rate example.</b> Normality is not in question, so we may use Bartlett's test. \(S_1^2=400.7,\ S_2^2=280.3,\ S_3^2=421.3,\ S_4^2=232.5\).<br>\(S_p^2=\dfrac{4(400.7)+4(280.3)+4(421.3)+4(232.5)}{16}=333.7\)<br>\(q=16\log_{10}(333.7)-4[\log_{10}400.7+\log_{10}280.3+\log_{10}421.3+\log_{10}232.5]=0.21\)<br>\(c=1+\dfrac{1}{3(3)}\Big(\dfrac44-\dfrac1{16}\Big)=1.10\)<br>\(\chi_0^2=2.3026\times\dfrac{0.21}{1.10}=0.43\)<br>\(\chi^2_{0.05,3}=7.81\). Since \(0.43\lt7.81\), we <b>cannot reject</b> \(H_0\). This agrees with the residuals vs fitted values plot.</div>
+<div class="box nt"><b>Note:</b> the slide says "no evidence to conclude that all four variances are <i>not</i> the same". Say it directly: there is <b>no evidence that the variances differ</b>. Not rejecting \(H_0\) does not prove the variances are equal. Also, Bartlett's test is sensitive to non-normality, so check normality first.</div></section>
+
+<section id="calc"><h2>Calculator</h2>
+<p class="mut">One group per line (values separated by commas or spaces). The run-order box is optional: give the run number of each observation in the same layout, otherwise runs are numbered in the order entered. Default = etch rate data.</p>
+<textarea id="cd" rows="5" style="width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line)">575 542 530 539 570
+565 593 590 579 610
+600 651 610 637 629
+725 700 715 685 710</textarea>
+<textarea id="cr" rows="5" style="width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);margin-top:8px">13 14 8 5 4
+18 9 6 16 17
+7 19 10 20 1
+2 3 15 11 12</textarea>
+<div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><button class="p" id="go">Compute</button></div>
+<div class="out" id="co"></div>
+<h3>Histogram of residuals</h3><svg id="hist" class="sg" viewBox="0 0 700 270"></svg>
+<h3>Normal probability plot</h3><svg id="npp" class="sg" viewBox="0 0 700 280"></svg>
+<h3>Residuals vs run order</h3><svg id="rvo" class="sg" viewBox="0 0 700 280"></svg>
+<h3>Residuals vs fitted values</h3><svg id="rvf" class="sg" viewBox="0 0 700 280"></svg></section>
+
+<section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order. Each formula is followed by its notation.</p><div id="fl"></div>
+<h3>Notation</h3><table class="ft"><tr><td>\(e_{ij}\)</td><td>residual of observation \(j\) in treatment \(i\)</td><td>\(\hat y_{ij}\)</td><td>fitted value</td></tr><tr><td>\(e_{(i)}\)</td><td>\(i\)th smallest residual</td><td>\(p_i,\ z_i\)</td><td>plotting probability, normal score</td></tr><tr><td>\(\Phi\)</td><td>standard normal cdf</td><td>\(S_i^2,\ S_p^2\)</td><td>sample variance, pooled variance</td></tr><tr><td>\(q,\ c\)</td><td>parts of Bartlett's statistic</td><td>\(\chi_0^2\)</td><td>Bartlett test statistic</td></tr></table></section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const ts=el=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise&&MathJax.typesetPromise)MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise(el?[el]:undefined)).catch(()=>{})};
+function renderD(D){$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)))}
+function renderF(F){$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('')}
+// theme: keep scroll position
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// ---------- derivations ----------
+const D=[
+["D1","Fitted value and residual in one-way ANOVA",String.raw`<p>The model is \(y_{ij}=\mu+\tau_i+\varepsilon_{ij}\). With the least squares estimates \(\hat\mu=\bar y_{\cdot\cdot}\) and \(\hat\tau_i=\bar y_{i\cdot}-\bar y_{\cdot\cdot}\), the fitted value is</p>
+\[\hat y_{ij}=\hat\mu+\hat\tau_i\]
+\[=\bar y_{\cdot\cdot}+(\bar y_{i\cdot}-\bar y_{\cdot\cdot})=\bar y_{i\cdot}\]
+<p>The residual is the observation minus the fitted value:</p>
+\[e_{ij}=y_{ij}-\hat y_{ij}=y_{ij}-\bar y_{i\cdot}\]
+<p>It estimates the unseen error \(\varepsilon_{ij}\), so we study the residuals to check the assumptions on the errors.</p>`],
+["D2","Residuals of each treatment add to zero",String.raw`<p>Add the residuals of treatment \(i\):</p>
+\[\sum_{j=1}^{n}e_{ij}=\sum_{j=1}^{n}(y_{ij}-\bar y_{i\cdot})=y_{i\cdot}-n\bar y_{i\cdot}\]
+<p>Since \(\bar y_{i\cdot}=y_{i\cdot}/n\), we have \(n\bar y_{i\cdot}=y_{i\cdot}\), so</p>
+\[\sum_{j=1}^{n}e_{ij}=0\]
+<p>Hence the residuals have mean zero overall, which is why a good histogram is centred at zero. Check for 160 W in the etch data:</p>
+\[23.8-9.2-21.2-12.2+18.8=0\]`],
+["D3","Why Bartlett uses \\(2.3026\\)",String.raw`<p>Bartlett's statistic is naturally written with natural logs:</p>
+\[\chi_0^2=\frac{(N-a)\ln S_p^2-\sum_{i=1}^{a}(n_i-1)\ln S_i^2}{c}\]
+<p>Tables and calculators usually give \(\log_{10}\), and \(\ln x=2.3026\,\log_{10}x\) (because \(\ln10=2.3026\)). Replacing each \(\ln\) by \(2.3026\log_{10}\) and factoring it out:</p>
+\[\chi_0^2=2.3026\,\frac{(N-a)\log_{10}S_p^2-\sum(n_i-1)\log_{10}S_i^2}{c}\]
+\[=2.3026\,\frac{q}{c}\]
+<p>If all \(S_i^2\) are equal, then \(S_p^2=S_i^2\) and \(q=0\): the statistic is smallest. Large differences between the \(S_i^2\) make \(q\), and hence \(\chi_0^2\), large.</p>`],
+["D4","Bartlett's test for the etch data, step by step",String.raw`<p>Here \(a=4\), \(n_i=5\), \(N=20\), \(N-a=16\). Logs:</p>
+\[\log_{10}333.7=2.5234\]
+\[\log_{10}400.7=2.6028,\ \ \log_{10}280.3=2.4476\]
+\[\log_{10}421.3=2.6246,\ \ \log_{10}232.5=2.3664\]
+<p>Compute \(q\):</p>
+\[q=16(2.5234)-4(2.6028+2.4476+2.6246+2.3664)\]
+\[=40.3737-4(10.0414)=40.3737-40.1658=0.21\]
+<p>Compute \(c\):</p>
+\[c=1+\frac{1}{3(4-1)}\Big[\frac44-\frac1{16}\Big]\]
+\[=1+\frac19(1-0.0625)=1+0.1042=1.10\]
+<p>The test statistic:</p>
+\[\chi_0^2=2.3026\times\frac{0.21}{1.10}=0.43\]
+<p>The critical value is \(\chi^2_{0.05,3}=7.81\). Since \(0.43\lt7.81\), do not reject \(H_0\): no evidence that the variances differ.</p>`]];
+renderD(D);
+const F=[["1. Residuals",[
+["\\(e_{ij}=y_{ij}-\\hat y_{ij}\\)","residual = observed &minus; fitted"],
+["\\(\\hat y_{ij}=\\hat\\mu+\\hat\\tau_i=\\bar y_{i\\cdot}\\)","fitted value is the treatment mean"],
+["\\(e_{ij}=y_{ij}-\\bar y_{i\\cdot}\\)","one-way ANOVA residual"],
+["\\(\\varepsilon_{ij}\\sim NID(0,\\sigma^2)\\)","assumption: normal, independent, constant variance"]]],
+["2. Normal probability plot",[
+["\\(p_i=\\dfrac{i-0.5}{n}\\)","probability for the \\(i\\)th ordered residual"],
+["\\(z_i=\\Phi^{-1}\\!\\Big(\\dfrac{i-0.5}{n}\\Big)\\)","plot \\(z_i\\) against \\(e_{(i)}\\); roughly a straight line if normal"]]],
+["3. Bartlett's test",[
+["\\(H_0:\\sigma_1^2=\\dots=\\sigma_a^2\\)","equal variances"],
+["\\(S_p^2=\\dfrac{\\sum(n_i-1)S_i^2}{N-a}\\)","pooled variance"],
+["\\(q=(N-a)\\log_{10}S_p^2-\\sum(n_i-1)\\log_{10}S_i^2\\)",""],
+["\\(c=1+\\dfrac{1}{3(a-1)}\\Big[\\sum\\dfrac1{n_i-1}-\\dfrac1{N-a}\\Big]\\)",""],
+["\\(\\chi_0^2=2.3026\\,q/c\\)","reject if \\(\\chi_0^2\\gt\\chi^2_{\\alpha,a-1}\\)"]]]];
+renderF(F);
+
+// ---------- pattern explorer ----------
+let pseed=5;
+const prng=s=>()=>(s=(s*9301+49297)%233280)/233280,gs=r=>Math.sqrt(-2*Math.log(r()+1e-9))*Math.cos(2*Math.PI*r());
+const PT={
+o1:{t:'Random scatter (desirable)',m:'Residuals fluctuate randomly around zero with roughly constant spread. Independence appears reasonable and there is no obvious change in variance.',run:1,f:(x,r)=>.9*gs(r)},
+o2:{t:'Long runs',m:'Several consecutive residuals are positive, followed by several consecutive negative ones. Suggests positive autocorrelation (violation of independence).',run:1,f:(x,r)=>2.2*Math.cos(2*Math.PI*(x-2)/17)+.3*gs(r)},
+o3:{t:'Alternating pattern',m:'Residuals tend to alternate between positive and negative. Suggests negative autocorrelation (violation of independence).',run:1,f:(x,r)=>(x%2?1:-1)*.9+.3*gs(r)},
+o4:{t:'Upward trend (time drift)',m:'Residuals increase (or decrease) systematically with run order. Suggests a time-related effect such as machine drift, temperature or tool wear.',run:1,f:(x,r)=>-2.1+4.2*(x-1)/19+.4*gs(r)},
+o5:{t:'Cyclic pattern',m:'Residuals show a repeating pattern. Suggests a periodic source of variation such as shifts, batch effects or machine cycles.',run:1,f:(x,r)=>1.7*Math.sin(2*Math.PI*x/10)+.3*gs(r)},
+o6:{t:'Changing spread',m:'Residuals have a small spread early and a larger spread later (or the reverse). Suggests non-constant variance over time (violation of the constant variance assumption).',run:1,f:(x,r)=>gs(r)*(.25+2.4*(x-1)/19)},
+f1:{t:'Random scatter',m:'Residuals are randomly scattered around zero with roughly constant spread. This supports the model and the constant variance assumption.',f:(x,r)=>3*gs(r)},
+f2:{t:'Increasing spread (fan shape)',m:'The spread of the residuals increases as the fitted values increase. Indicates non-constant variance (heteroscedasticity).',f:(x,r)=>(.5+x*.1)*gs(r)},
+f3:{t:'Decreasing spread (reverse fan)',m:'The spread of the residuals decreases as the fitted values increase. Indicates non-constant variance (heteroscedasticity).',f:(x,r)=>(10.3-.1*x)*gs(r)},
+f4:{t:'Curvature',m:'Residuals show a curved pattern. The model is missing important terms (e.g. a quadratic term or a transformation).',f:(x,r)=>.0055*(x-50)**2-7+1.8*gs(r)},
+f5:{t:'Systematic trend',m:'Residuals show a systematic trend. The model is not appropriate (missing terms or an incorrect functional form).',f:(x,r)=>.2*(x-50)+2*gs(r)},
+f6:{t:'Groups or clusters',m:'Residuals form distinct groups. Suggests a missing factor or an important categorical variable that is not in the model.',f:(x,r)=>(x<35||x>=75?9:-9)+2.5*gs(r)}};
+function pviz(){const k=$('pt').value,P=PT[k],r=prng(pseed),run=!!P.run,n=run?20:50,pts=[];
+for(let i=0;i<n;i++){const x=run?i+1:2+i*2+r()*1.5;pts.push([x,P.f(x,r)])}
+const xs=pts.map(p=>p[0]),x0=Math.min(...xs),x1=Math.max(...xs),ym=Math.max(...pts.map(p=>Math.abs(p[1])))*1.15,X=x=>70+(x-x0)/(x1-x0)*570,Y=y=>120-y/ym*90;
+let s=`<rect x="70" y="20" width="570" height="200" fill="none" stroke="var(--line)"/><line x1="70" x2="640" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--bad)" stroke-dasharray="4 3"/>`;
+pts.forEach(p=>s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4" fill="var(--ac)"/>`);
+s+=`<text x="355" y="260" text-anchor="middle" fill="var(--ink)" font-size="14">${run?'Run order':'Fitted values'}</text><text x="40" y="120" text-anchor="middle" fill="var(--ink)" font-size="14" transform="rotate(-90 40 120)">Residual</text>`;
+for(let i=0;i<=4;i++){const v=x0+i*(x1-x0)/4;s+=`<text x="${X(v)}" y="238" text-anchor="middle" fill="var(--mut)" font-size="12">${g(v,0)}</text>`}
+$('psv').innerHTML=s;$('po').innerHTML=`<b>${P.t}.</b> ${P.m}`}
+$('pt').onchange=pviz;$('pn').onclick=()=>{pseed=(pseed*13+7)%9973;pviz()};pviz();
+
+// ---------- calculator ----------
+function sc(id,pts,xl,yl,o={}){const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys,o.zero?0:1e99),y1=Math.max(...ys,o.zero?0:-1e99);
+const px=(x1-x0||1)*.06,py=(y1-y0||1)*.08;x0-=px;x1+=px;y0-=py;y1+=py;const X=x=>70+(x-x0)/(x1-x0)*580,Y=y=>235-(y-y0)/(y1-y0)*200;
+let s=`<clipPath id="cp${id}"><rect x="70" y="35" width="580" height="200"/></clipPath><rect x="70" y="35" width="580" height="200" fill="none" stroke="var(--line)"/>`;
+if(o.zero&&y0<0&&y1>0)s+=`<line x1="70" x2="650" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--bad)" stroke-dasharray="4 3"/>`;
+if(o.line)s+=`<line clip-path="url(#cp${id})" x1="${X(x0)}" y1="${Y(o.line[0]+o.line[1]*x0)}" x2="${X(x1)}" y2="${Y(o.line[0]+o.line[1]*x1)}" stroke="var(--bad)"/>`;
+pts.forEach(p=>s+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4" fill="var(--ac)"/>`);
+for(let i=0;i<=4;i++){const v=x0+i*(x1-x0)/4,w=y0+i*(y1-y0)/4;s+=`<text x="${X(v)}" y="252" text-anchor="middle" fill="var(--mut)" font-size="12">${g(v,Math.abs(x1-x0)<10?1:0)}</text><text x="64" y="${Y(w)+4}" text-anchor="end" fill="var(--mut)" font-size="12">${g(w,Math.abs(y1-y0)<10?1:0)}</text>`}
+s+=`<text x="360" y="274" text-anchor="middle" fill="var(--ink)" font-size="14">${xl}</text><text x="360" y="22" text-anchor="middle" fill="var(--ink)" font-size="14">${yl}</text>`;$(id).innerHTML=s}
+function hg(res){const n=res.length,k=Math.max(5,Math.ceil(Math.log2(n))+1),lo=Math.min(...res),hi=Math.max(...res),w=(hi-lo)/k||1,c=Array(k).fill(0);res.forEach(v=>c[Math.min(k-1,Math.floor((v-lo)/w))]++);
+const mx=Math.max(...c),X=v=>70+(v-lo)/(hi-lo||1)*580,bw=580/k;let s=`<line x1="70" x2="650" y1="230" y2="230" stroke="var(--line)"/>`;
+c.forEach((v,i)=>{s+=`<rect x="${70+i*bw+2}" y="${230-v/mx*170}" width="${bw-4}" height="${v/mx*170}" fill="var(--ac)" opacity=".85"/><text x="${70+i*bw+bw/2}" y="${224-v/mx*170}" text-anchor="middle" fill="var(--ink)" font-size="13">${v}</text><text x="${70+i*bw}" y="248" text-anchor="middle" fill="var(--mut)" font-size="12">${g(lo+i*w,1)}</text>`});
+s+=`<text x="650" y="248" text-anchor="middle" fill="var(--mut)" font-size="12">${g(hi,1)}</text>`;if(lo<0&&hi>0)s+=`<line x1="${X(0)}" x2="${X(0)}" y1="40" y2="230" stroke="var(--bad)" stroke-dasharray="4 3"/>`;
+s+=`<text x="360" y="268" text-anchor="middle" fill="var(--ink)" font-size="14">Residual (dashed line = 0)</text><text x="360" y="22" text-anchor="middle" fill="var(--ink)" font-size="14">Histogram of residuals</text>`;$('hist').innerHTML=s}
+const parse=t=>t.trim().split(/\n+/).map(l=>l.trim().split(/[\s,]+/).map(Number).filter(v=>!isNaN(v))).filter(a=>a.length);
+function calc(){const G=parse($('cd').value),a=G.length,al=+$('al').value;if(a<2){$('co').textContent='Enter at least 2 groups.';return}
+const ni=G.map(x=>x.length),N=ni.reduce((p,c)=>p+c);if(N-a<1){$('co').textContent='Need more observations than groups.';return}
+const mi=G.map((x,i)=>x.reduce((p,c)=>p+c)/ni[i]),R=parse($('cr').value).flat(),order=R.length==N?R:G.flat().map((_,i)=>i+1);
+const res=[];let k=0;G.forEach((x,i)=>x.forEach(y=>{res.push({e:y-mi[i],f:mi[i],o:order[k++]})}));
+const sse=res.reduce((p,r)=>p+r.e*r.e,0);
+let h=`<b>Residuals</b> e<sub>ij</sub> = y<sub>ij</sub> &minus; group mean<table><tr><th>Group</th><th>n</th><th>Fitted (mean)</th><th>Residuals</th><th>S<sub>i</sub>&sup2;</th></tr>`;
+let p=0;G.forEach((x,i)=>{const rs=res.slice(p,p+ni[i]).map(r=>r.e);p+=ni[i];h+=`<tr><td>${i+1}</td><td>${ni[i]}</td><td>${g(mi[i],2)}</td><td>${rs.map(v=>g(v,2)).join(', ')}</td><td>${ni[i]>1?g(rs.reduce((u,v)=>u+v*v,0)/(ni[i]-1),2):'-'}</td></tr>`});
+h+=`</table>SSE = &Sigma;e&sup2; = ${g(sse,2)}; MSE = ${g(sse/(N-a),2)}<br>`;
+if(ni.every(n=>n>1)){const s2=G.map((x,i)=>x.reduce((u,c)=>u+(c-mi[i])**2,0)/(ni[i]-1)),sp=s2.reduce((u,v,i)=>u+(ni[i]-1)*v,0)/(N-a),q=(N-a)*Math.log10(sp)-s2.reduce((u,v,i)=>u+(ni[i]-1)*Math.log10(v),0),c=1+(ni.reduce((u,n)=>u+1/(n-1),0)-1/(N-a))/(3*(a-1)),x2=2.3026*q/c,xc=jStat.chisquare.inv(1-al,a-1),pv=1-jStat.chisquare.cdf(x2,a-1);
+h+=`<b>Bartlett:</b> S<sub>p</sub>&sup2; = ${g(sp,2)}; q = ${g(q,3)}; c = ${g(c,3)}; &chi;&sup2;<sub>0</sub> = ${g(x2,3)} vs &chi;&sup2;<sub>${al},${a-1}</sub> = ${g(xc,2)} (p = ${g(pv,3)}) &rarr; <b>${x2>xc?'variances differ':'no evidence that the variances differ'}</b>`}
+else h+='Bartlett needs at least 2 observations in every group.';
+$('co').innerHTML=h;
+const so=res.map(r=>r.e).sort((u,v)=>u-v),n=so.length,zs=so.map((_,i)=>jStat.normal.inv((i+.5)/n,0,1)),mx=so.reduce((u,v)=>u+v)/n,den=so.reduce((u,e)=>u+(e-mx)**2,0),sl=den?zs.reduce((u,z,i)=>u+(so[i]-mx)*z,0)/den:0;
+hg(so);sc('npp',so.map((e,i)=>[e,zs[i]]),'Ordered residual e(i)  (roughly a straight line if normal)','Normal score z_i',{line:[0,sl]});
+sc('rvo',res.map(r=>[r.o,r.e]),'Run order (look for runs, trends, cycles)','Residual',{zero:true});
+sc('rvf',res.map(r=>[r.f,r.e]),'Fitted value (should show no pattern)','Residual',{zero:true})}
+$('go').onclick=calc;$('al').oninput=calc;calc();
+
+</script></body></html>

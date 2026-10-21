@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contrasts &amp; Multiple Comparisons – AST204</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}input[type=range],input[type=checkbox]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+.dv .bd{font-size:1.08em}.dv .bd p{margin:1.1em 0 .4em}.dv .bd mjx-container[display]{font-size:125%;margin:.7em 0!important;padding:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.tw{overflow-x:auto}.tw table{min-width:560px}
+textarea{font:inherit}
+.leg{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 10px;font-size:.92rem;color:var(--mut)}
+.pic{width:100%;height:auto;display:block}
+.box mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">Overview</a><a href="#con">Contrasts</a><a href="#tst">Testing a Contrast</a><a href="#orth">Orthogonal Contrasts</a><a href="#sch">Scheff&eacute;</a><a href="#pair">Tukey &amp; LSD</a><a href="#ctrl">Dunnett</a><a href="#one">One-Tailed Tests</a><a href="#which">Which Method?</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:48px 0 8px"><h1>Contrasts &amp; Multiple Comparisons</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 12&ndash;15 &middot; Contrasts (t test, F test, confidence interval), orthogonal contrasts, Scheff&eacute;'s method, Tukey's test, Fisher's LSD, Dunnett's test, one-tailed versions. Corrections to the slides are marked in red boxes.</p></header>
+
+<section id="viz"><h2>Big Picture</h2>
+<p>Suppose the ANOVA F test rejects \(H_0\). We now know that <b>some</b> treatment means differ, but not <b>which</b>. Further comparisons among treatment means are called <b>multiple comparison methods</b>. They are made using treatment totals or averages, and many of them use the idea of a <b>contrast</b>. The right method depends on the question.</p>
+<div class="tw"><table><tr><th>What do you want to compare?</th><th>Method</th></tr>
+<tr><td>One or a few comparisons planned <b>before</b> the experiment (e.g. \(\mu_3=\mu_4\))</td><td>Contrast t-test or F-test; a set of \(a-1\) orthogonal contrasts</td></tr>
+<tr><td><b>Any and all</b> contrasts, even ones chosen after looking at the data</td><td>Scheff&eacute;</td></tr>
+<tr><td><b>All pairs</b> of means</td><td>Tukey (preferred) or Fisher's LSD</td></tr>
+<tr><td>Each treatment against a <b>control</b></td><td>Dunnett</td></tr></table></div>
+<h3>Interactive: the price of protection</h3>
+<p class="mut">Plasma etch data (\(a=4\), \(n=5\), \(MS_E=333.70\), 16 df). Each bar is the <b>critical difference</b>: two means must differ by more than this to be called significantly different. The marks are the six observed differences between means. A stricter method needs a bigger difference. (The page uses exact critical values, e.g. 33.05 for Tukey and 29.95 for Dunnett; the slides use rounded table values, giving 33.09 and 29.92.)</p>
+<div class="row"><label>&alpha; <input type="range" id="pa" min="0" max="4" value="1"></label><b id="pav">0.05</b></div>
+<svg id="psv" class="sg" viewBox="0 0 700 250"></svg><div class="out" id="po"></div></section>
+
+<section id="con"><h2>Contrasts</h2>
+<p>A <b>contrast</b> is a linear combination of treatment means</p>
+<div class="f">\[ \Gamma=\sum_{i=1}^{a}c_i\mu_i,\qquad \sum_{i=1}^{a}c_i=0 \]</div>
+<p>The contrast coefficients \(c_1,\dots,c_a\) <b>must sum to zero</b>. Hypotheses about contrasts have the form \(H_0:\sum c_i\mu_i=0\) versus \(H_1:\sum c_i\mu_i\neq0\).</p>
+<div class="box ex"><b>Plasma etching.</b> The ANOVA rejected \(H_0\), so some power settings give different mean etch rates. Which ones?<br>We may suspect from the start that 200 W and 220 W give the same etch rate: \(H_0:\mu_3=\mu_4\), or \(H_0:\mu_3-\mu_4=0\). The coefficients are \(c_1=c_2=0,\ c_3=+1,\ c_4=-1\).<br>We may also suspect that the average of the lowest two powers equals the average of the highest two: \(H_0:\mu_1+\mu_2=\mu_3+\mu_4\), or \(H_0:\mu_1+\mu_2-\mu_3-\mu_4=0\). The coefficients are \(c_1=c_2=+1,\ c_3=c_4=-1\).</div>
+<p>To compare treatment 1 with the average of treatments 2 and 3, use \(\Gamma=-\mu_1+0.5\mu_2+0.5\mu_3\), coefficients \((-1,\,0.5,\,0.5)\). The coefficients \((1,-0.5,-0.5)\) or \((-6,3,3)\) give the same information, only rescaled.</p></section>
+
+<section id="tst"><h2>Testing and Estimating a Contrast</h2>
+<p>Write the contrast in terms of the treatment averages:</p>
+<div class="f">\[ C=\sum_{i=1}^{a}c_i\bar y_{i\cdot},\qquad V(C)=\frac{\sigma^2}{n}\sum_{i=1}^{a}c_i^2 \]</div>
+<p>(equal sample sizes). If \(H_0\) is true, \(C\big/\sqrt{\tfrac{\sigma^2}{n}\sum c_i^2}\) has the \(N(0,1)\) distribution. Replacing \(\sigma^2\) by \(MS_E\) gives the <b>t-test</b>:</p>
+<div class="f">\[ t_0=\frac{\sum c_i\bar y_{i\cdot}}{\sqrt{\dfrac{MS_E}{n}\sum c_i^2}},\qquad\text{reject }H_0\text{ if }|t_0|\gt t_{\alpha/2,\,N-a} \]</div>
+<p>The square of a \(t\) variable with \(\nu\) df is an \(F\) variable with 1 and \(\nu\) df, so the <b>F-test</b> is</p>
+<div class="f">\[ F_0=t_0^2=\frac{\Big(\sum c_i\bar y_{i\cdot}\Big)^2}{\dfrac{MS_E}{n}\sum c_i^2},\qquad\text{reject }H_0\text{ if }F_0\gt F_{\alpha,1,N-a} \]</div>
+<p>This can also be written \(F_0=\dfrac{MS_C}{MS_E}=\dfrac{SS_C/1}{MS_E}\), where the single-degree-of-freedom <b>contrast sum of squares</b> is</p>
+<div class="f">\[ SS_C=\frac{\Big(\sum c_i\bar y_{i\cdot}\Big)^2}{\dfrac1n\sum c_i^2} \]</div>
+<h3>Confidence interval for a contrast</h3>
+<p>Since \(E(C)=\sum c_i\mu_i\) and \(V(C)=\frac{\sigma^2}{n}\sum c_i^2\), the \(100(1-\alpha)\%\) confidence interval for \(\Gamma\) is</p>
+<div class="f">\[ C\pm t_{\alpha/2,\,N-a}\sqrt{\frac{MS_E}{n}\sum_{i=1}^{a}c_i^2} \]</div>
+<p>If the interval includes zero, we cannot reject \(H_0:\sum c_i\mu_i=0\). <span class="mut">(For unequal sample sizes replace \(\frac1n\sum c_i^2\) by \(\sum c_i^2/n_i\).)</span></p>
+<div class="box ex"><b>Worked with the formulas: \(H_0:\mu_3=\mu_4\) in the etch data</b> (\(c=(0,0,1,-1)\), \(\bar y_{3\cdot}=625.4\), \(\bar y_{4\cdot}=707.0\), \(MS_E=333.70\), \(n=5\)).<br>\(C=625.4-707.0=-81.6\); standard error \(\sqrt{\dfrac{333.70\,(2)}{5}}=11.55\).<br>\(t_0=\dfrac{-81.6}{11.55}=-7.06\), and \(|t_0|\gt t_{0.025,16}=2.120\), so reject \(H_0\). Also \(F_0=t_0^2=49.88\).<br>95% CI: \(-81.6\pm2.120(11.55)=-81.6\pm24.49\), that is \((-106.09,\,-57.11)\). It does not include 0.</div></section>
+
+<section id="orth"><h2>Orthogonal Contrasts</h2>
+<p>Two contrasts with coefficients \(\{c_i\}\) and \(\{d_i\}\) are <b>orthogonal</b> if</p>
+<div class="f">\[ \sum_{i=1}^{a}c_id_i=0 \]</div>
+<p>For \(a\) treatments, a set of \(a-1\) mutually orthogonal contrasts <b>partitions the treatment sum of squares</b> into \(a-1\) independent, single-degree-of-freedom pieces, so the tests on them are independent:</p>
+<div class="f">\[ SS_{Treatments}=SS_{C_1}+SS_{C_2}+\cdots+SS_{C_{a-1}} \]</div>
+<ul><li>There are many possible contrasts, but at most \(a-1\) can form a complete mutually orthogonal set. After that, no further contrast is orthogonal to all of them.</li><li>The set is <b>not unique</b>. The nature of the experiment should decide which comparisons are of interest, and they should answer scientifically meaningful questions.</li></ul>
+<div class="box ex"><b>Control example.</b> \(a=3\): treatment 1 is the control, treatments 2 and 3 are two levels of the factor.
+<table><tr><th>Treatment</th><th>Contrast 1 \((c_i)\)</th><th>Contrast 2 \((d_i)\)</th></tr><tr><td>1 (control)</td><td>-2</td><td>0</td></tr><tr><td>2 (level 1)</td><td>1</td><td>-1</td></tr><tr><td>3 (level 2)</td><td>1</td><td>1</td></tr></table>
+Check: \((-2)(0)+(1)(-1)+(1)(1)=0\). Contrast 1 compares the average effect of the factor with the control; Contrast 2 compares the two levels.</div>
+<h3>Example 3.6: plasma etching</h3>
+<p>Before the experiment, three comparisons were specified (\(a-1=3\) df between treatments):</p>
+<div class="tw"><table><tr><th>Hypothesis</th><th>Contrast</th><th>Coefficients</th><th>Value</th><th>\(SS_C\)</th></tr>
+<tr><td>\(H_0:\mu_1=\mu_2\)</td><td>\(C_1=\bar y_{1\cdot}-\bar y_{2\cdot}\)</td><td>(1, -1, 0, 0)</td><td>\(-36.2\)</td><td>3,276.10</td></tr>
+<tr><td>\(H_0:\mu_1+\mu_2=\mu_3+\mu_4\)</td><td>\(C_2=\bar y_{1\cdot}+\bar y_{2\cdot}-\bar y_{3\cdot}-\bar y_{4\cdot}\)</td><td>(1, 1, -1, -1)</td><td>\(-193.8\)</td><td>46,948.05</td></tr>
+<tr><td>\(H_0:\mu_3=\mu_4\)</td><td>\(C_3=\bar y_{3\cdot}-\bar y_{4\cdot}\)</td><td>(0, 0, 1, -1)</td><td>\(-81.6\)</td><td>16,646.40</td></tr></table></div>
+<p>The three contrast sums of squares add up to the treatment sum of squares: \(3276.10+46948.05+16646.40=66870.55\). They are usually shown inside the ANOVA table (Table 3.11):</p>
+<div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>\(F_0\)</th><th>P-value</th></tr>
+<tr><td>Power setting</td><td>66,870.55</td><td>3</td><td>22,290.18</td><td>66.80</td><td>&lt; 0.001</td></tr>
+<tr><td>&nbsp;&nbsp;\(C_1:\mu_1=\mu_2\)</td><td>(3,276.10)</td><td>1</td><td>3,276.10</td><td>9.82</td><td>&lt; 0.01</td></tr>
+<tr><td>&nbsp;&nbsp;\(C_2:\mu_1+\mu_2=\mu_3+\mu_4\)</td><td>(46,948.05)</td><td>1</td><td>46,948.05</td><td>140.69</td><td>&lt; 0.001</td></tr>
+<tr><td>&nbsp;&nbsp;\(C_3:\mu_3=\mu_4\)</td><td>(16,646.40)</td><td>1</td><td>16,646.40</td><td>49.88</td><td>&lt; 0.001</td></tr>
+<tr><td>Error</td><td>5,339.20</td><td>16</td><td>333.70</td><td></td><td></td></tr>
+<tr><td>Total</td><td>72,209.75</td><td>19</td><td></td><td></td><td></td></tr></table></div>
+<p>Conclusion: power setting has a significant effect on mean etch rate (\(P\lt0.001\)). Levels 1 and 2 differ significantly, levels 3 and 4 differ significantly, and the average of levels 1 and 2 differs significantly from the average of levels 3 and 4, at \(\alpha=0.05\).</p>
+<div class="box ex"><b>Etch contrasts: values and sums of squares</b>
+<p>Means: \(\bar y_{1\cdot}=551.2,\ \bar y_{2\cdot}=587.4,\ \bar y_{3\cdot}=625.4,\ \bar y_{4\cdot}=707.0\); \(n=5\); \(MS_E=333.70\).</p>
+<p>\(C_1=\bar y_{1\cdot}-\bar y_{2\cdot}\), coefficients \((1,-1,0,0)\), \(\sum c_i^2=2\):</p>
+\[C_1=551.2-587.4=-36.2\]
+\[SS_{C_1}=\frac{(-36.2)^2}{\frac15(2)}=\frac{1310.44}{0.4}=3276.10\]
+<p>\(C_2\), coefficients \((1,1,-1,-1)\), \(\sum c_i^2=4\):</p>
+\[C_2=551.2+587.4-625.4-707.0=-193.8\]
+\[SS_{C_2}=\frac{(-193.8)^2}{\frac15(4)}=\frac{37558.44}{0.8}=46948.05\]
+<p>\(C_3=\bar y_{3\cdot}-\bar y_{4\cdot}\), coefficients \((0,0,1,-1)\), \(\sum c_i^2=2\):</p>
+\[C_3=625.4-707.0=-81.6\]
+\[SS_{C_3}=\frac{(-81.6)^2}{\frac15(2)}=\frac{6658.56}{0.4}=16646.40\]
+<p>They partition the treatment sum of squares:</p>
+\[3276.10+46948.05+16646.40=66870.55=SS_{Treatments}\]
+<p>Each \(F_0=SS_C/MS_E\):</p>
+\[F_0(C_1)=\frac{3276.10}{333.70}=9.82,\quad F_0(C_2)=\frac{46948.05}{333.70}=140.69\]
+\[F_0(C_3)=\frac{16646.40}{333.70}=49.88\]</div>
+<div class="box ex"><b>Checking that the etch contrasts are orthogonal</b>
+<p>Coefficients: \(C_1:(1,-1,0,0)\), \(C_2:(1,1,-1,-1)\), \(C_3:(0,0,1,-1)\). Orthogonal means the sum of products is zero for every pair:</p>
+\[C_1\cdot C_2=(1)(1)+(-1)(1)+(0)(-1)+(0)(-1)=0\]
+\[C_1\cdot C_3=(1)(0)+(-1)(0)+(0)(1)+(0)(-1)=0\]
+\[C_2\cdot C_3=(1)(0)+(1)(0)+(-1)(1)+(-1)(-1)=0\]
+<p>Three mutually orthogonal contrasts with \(a-1=3\): a complete set, which is why their sums of squares add up exactly to \(SS_{Treatments}\).</p></div>
+<p class="mut">Practice (from the slides): the tumor-drug data (calculator, "Tumor drugs" example). (a) Drugs 1, 2 are one chemical compound and drugs 3, 4 another. Compare the two compounds and the drugs within each compound with orthogonal contrasts (\(\alpha=0.05\)). (b) Build a 95% confidence interval for the mean difference in tumor size between the two compounds.</p></section>
+
+<section id="sch"><h2>Scheff&eacute;'s Method for All Contrasts</h2>
+<p>Often we do not know in advance which contrasts we want, or we want more than \(a-1\) of them, which orthogonal contrasts cannot handle. <b>Scheff&eacute;</b> (1953) proposed a method for comparing <b>any and all</b> contrasts, including ones chosen after looking at the data.</p>
+<p>For contrasts \(\Gamma_u=c_{1u}\mu_1+\cdots+c_{au}\mu_a\), estimated by \(C_u=c_{1u}\bar y_{1\cdot}+\cdots+c_{au}\bar y_{a\cdot}\), \(u=1,\dots,m\):</p>
+<div class="f">\[ S_{C_u}=\sqrt{MS_E\sum_{i=1}^{a}\frac{c_{iu}^2}{n_i}} \]</div>
+<div class="f">\[ S_{\alpha,u}=S_{C_u}\sqrt{(a-1)F_{\alpha,\,a-1,\,N-a}} \]</div>
+<p>To test \(H_0:\Gamma_u=0\), <b>reject if \(|C_u|\gt S_{\alpha,u}\)</b>. The simultaneous confidence intervals are</p>
+<div class="f">\[ C_u-S_{\alpha,u}\le\Gamma_u\le C_u+S_{\alpha,u} \]</div>
+<p>They are simultaneous because \(P(\text{all intervals contain their true contrasts})\ge1-\alpha\). The \(1-\alpha\) is already the family-wise level, so you do <b>not</b> multiply \(\alpha\) by the number of contrasts.</p>
+<div class="box"><b>The price of freedom.</b> When many contrasts are looked at, some look large just by chance. Scheff&eacute; therefore uses the larger critical value \(\sqrt{(a-1)F_{\alpha,a-1,N-a}}\), which comes from the overall ANOVA F distribution and covers the most extreme contrast that could arise. This is the "price" for being free to examine any contrast while keeping the family-wise Type I error rate at \(\alpha\).</div>
+<div class="box ex"><b>Example (etch data, \(\alpha=0.01\)).</b> \(\Gamma_1=\mu_1+\mu_2-\mu_3-\mu_4\) and \(\Gamma_2=\mu_1-\mu_4\).<br>\(C_1=551.2+587.4-625.4-707.0=-193.80\), \(C_2=551.2-707.0=-155.8\).<br>\(S_{C_1}=\sqrt{\dfrac{333.70(1+1+1+1)}{5}}=16.34\), \(S_{C_2}=\sqrt{\dfrac{333.70(1+1)}{5}}=11.55\), and \(F_{0.01,3,16}=5.29\).<br>\(S_{0.01,1}=16.34\sqrt{3(5.29)}=65.09\), \(S_{0.01,2}=11.55\sqrt{3(5.29)}\approx46.0\).<br>\(|C_1|=193.80\gt65.09\): reject \(H_0:\Gamma_1=0\); settings 1 and 2 as a group differ from settings 3 and 4 as a group.<br>\(|C_2|=155.8\gt46.0\): reject \(H_0:\Gamma_2=0\); settings 1 and 4 differ.</div>
+<div class="box nt"><b>Note:</b> the slide prints \(S_{0.01,2}=45.97\). Computing \(11.55\times\sqrt{3(5.29)}=11.55\times3.984\) gives about \(46.0\). The decision does not change.</div>
+<div class="box ex"><b>Scheff&eacute; example, step by step</b>
+<p>Etch data, \(\alpha=0.01\), \(a=4\), \(N-a=16\), \(F_{0.01,3,16}=5.29\).</p>
+\[\sqrt{(a-1)F}=\sqrt{3(5.29)}=\sqrt{15.87}=3.984\]
+<p>Contrast \(\Gamma_1=\mu_1+\mu_2-\mu_3-\mu_4\), \(\sum c_i^2/n_i=4/5\):</p>
+\[S_{C_1}=\sqrt{\frac{333.70(1+1+1+1)}{5}}=\sqrt{266.96}=16.34\]
+\[S_{0.01,1}=16.34\times3.984=65.09\]
+<p>Contrast \(\Gamma_2=\mu_1-\mu_4\), \(\sum c_i^2/n_i=2/5\):</p>
+\[S_{C_2}=\sqrt{\frac{333.70(1+1)}{5}}=\sqrt{133.48}=11.55\]
+\[S_{0.01,2}=11.55\times3.984\approx46.0\]
+<p>Decisions: \(|C_1|=193.80\gt65.09\) reject; \(|C_2|=155.8\gt46.0\) reject.</p></div>
+<h3>Why Scheff&eacute; instead of the usual t or F test?</h3>
+<p>For a <b>single preplanned contrast</b>, the usual t or F test is appropriate. But if many contrasts are considered, especially after examining the data, testing each one separately increases the chance of a Type I error. Scheff&eacute; controls the family-wise error rate over all possible contrasts, though this protection makes it more <b>conservative</b>.</p></section>
+
+<section id="pair"><h2>All Pairwise Comparisons: Tukey and Fisher's LSD</h2>
+<h3>Why Tukey instead of Scheff&eacute; for pairs?</h3>
+<p>Scheff&eacute; can compare all pairs of means, but it protects <b>all possible contrasts</b>, so it is conservative. Tukey's test looks <b>only at pairwise comparisons</b>, so it uses a smaller critical difference and has more power to detect differences between individual means, while still controlling the family-wise Type I error rate. When we only want every pair of means, Tukey is generally preferable.</p>
+<h3>Tukey's test</h3>
+<p>Tukey (1953) gave a procedure whose overall significance level is <b>exactly \(\alpha\)</b> when the sample sizes are equal. It can also give confidence intervals for all pairs of means with simultaneous level \(100(1-\alpha)\%\). It controls the experimentwise ("family") error rate. After an ANOVA that rejects \(H_0\), test \(H_0:\mu_i=\mu_j\) versus \(H_1:\mu_i\neq\mu_j\) for all \(i\neq j\), using the <b>studentized range</b> statistic</p>
+<div class="f">\[ q=\frac{\bar y_{\max}-\bar y_{\min}}{\sqrt{MS_E/n}} \]</div>
+<p>where \(\bar y_{\max}\) and \(\bar y_{\min}\) are the largest and smallest of the \(p\) sample means. Appendix Table VII gives \(q_\alpha(p,f)\), the upper \(\alpha\) points of \(q\) (\(f\) = error df). Two means differ significantly if their difference exceeds</p>
+<div class="f">\[ T_\alpha=q_\alpha(a,f)\sqrt{\frac{MS_E}{n}} \]</div>
+<p>Equivalent simultaneous intervals: \(\bar y_{i\cdot}-\bar y_{j\cdot}\pm q_\alpha(a,f)\sqrt{MS_E/n}\) for all \(i\neq j\). For <b>unequal sample sizes</b> (the <b>Tukey&ndash;Kramer</b> procedure):</p>
+<div class="f">\[ T_\alpha=\frac{q_\alpha(a,f)}{\sqrt2}\sqrt{MS_E\Big(\frac1{n_i}+\frac1{n_j}\Big)} \]</div>
+<div class="box ex"><b>Example (etch data, \(\alpha=0.05\)).</b> \(f=16\), \(q_{0.05}(4,16)=4.05\), so \(T_{0.05}=4.05\sqrt{\dfrac{333.70}{5}}=33.09\). Any two means differing by more than 33.09 are significantly different.<br>\(\bar y_{1\cdot}-\bar y_{2\cdot}=-36.20^*\), \(\bar y_{1\cdot}-\bar y_{3\cdot}=-74.20^*\), \(\bar y_{1\cdot}-\bar y_{4\cdot}=-155.8^*\), \(\bar y_{2\cdot}-\bar y_{3\cdot}=-38.0^*\), \(\bar y_{2\cdot}-\bar y_{4\cdot}=-119.6^*\), \(\bar y_{3\cdot}-\bar y_{4\cdot}=-81.60^*\) (\(^*\) = significant).<br>All differences exceed 33.09, so every power setting has a mean etch rate that differs from every other.</div>
+<div class="box ex"><b>Tukey's critical difference</b>
+<p>Etch data: \(a=4\), \(f=N-a=16\), \(q_{0.05}(4,16)=4.05\), \(MS_E=333.70\), \(n=5\):</p>
+\[\sqrt{\frac{MS_E}{n}}=\sqrt{\frac{333.70}{5}}=\sqrt{66.74}=8.169\]
+\[T_{0.05}=q_{0.05}(4,16)\sqrt{\frac{MS_E}{n}}=4.05\times8.169=33.09\]
+<p>Tukey&ndash;Kramer for unequal sizes. When \(n_i=n_j=n\) it reduces to the equal-size formula:</p>
+\[\frac{q}{\sqrt2}\sqrt{MS_E\Big(\frac1n+\frac1n\Big)}=\frac{q}{\sqrt2}\sqrt{\frac{2MS_E}{n}}=q\sqrt{\frac{MS_E}{n}}\]
+<p>The studentized range is largest when the two means are the largest and smallest, so using \(q_\alpha(a,f)\) protects all pairs at once.</p></div>
+<h3>Fisher's Least Significant Difference (LSD)</h3>
+<p>Fisher's method controls the error rate \(\alpha\) for <b>each individual</b> comparison, but <b>not</b> the experimentwise (family) error rate. It uses the t statistic for \(H_0:\mu_i=\mu_j\):</p>
+<div class="f">\[ t_0=\frac{\bar y_{i\cdot}-\bar y_{j\cdot}}{\sqrt{MS_E\Big(\dfrac1{n_i}+\dfrac1{n_j}\Big)}} \]</div>
+<p>For a two-sided alternative, \(\mu_i\) and \(\mu_j\) differ significantly if \(|\bar y_{i\cdot}-\bar y_{j\cdot}|\gt LSD\), where</p>
+<div class="f">\[ LSD=t_{\alpha/2,\,N-a}\sqrt{MS_E\Big(\frac1{n_i}+\frac1{n_j}\Big)}\quad\xrightarrow{\ \text{balanced}\ }\quad LSD=t_{\alpha/2,\,N-a}\sqrt{\frac{2MS_E}{n}} \]</div>
+<div class="box ex"><b>Example 3.8.</b> \(LSD=t_{0.025,16}\sqrt{\dfrac{2(333.70)}{5}}=2.120\sqrt{133.48}=24.49\). The six differences (36.2, 74.2, 155.8, 38.0, 119.6, 81.6) all exceed 24.49, so all pairs of means differ significantly.</div>
+<h3>Which pairwise method?</h3>
+<p>There is no clear-cut answer, and statisticians disagree. Carmer and Swanson (1973), using Monte Carlo studies, reported that Fisher's LSD is effective at detecting true differences when used <b>after a significant ANOVA F test at the 5% level</b>, but it does not generally control the family-wise error rate. Tukey's method does control it, so many statisticians prefer Tukey for all pairwise comparisons.</p></section>
+
+<section id="ctrl"><h2>Comparing Treatments with a Control: Dunnett</h2>
+<p>Sometimes one treatment is a <b>control</b> and we only compare each of the other \(a-1\) treatments with it, so only \(a-1\) comparisons are needed. <b>Dunnett</b> (1964) modified the usual t-test for this. With treatment \(a\) as the control, test \(H_0:\mu_i=\mu_a\) versus \(H_1:\mu_i\neq\mu_a\), \(i=1,\dots,a-1\). Reject \(H_0\) if</p>
+<div class="f">\[ |\bar y_{i\cdot}-\bar y_{a\cdot}|\gt d_\alpha(a-1,f)\sqrt{MS_E\Big(\frac1{n_i}+\frac1{n_a}\Big)} \]</div>
+<p>\(d_\alpha(a-1,f)\) is Dunnett's critical value (Appendix Table VIII) and \(f=N-a\). \(\alpha\) is the <b>joint</b> significance level of all \(a-1\) tests: Dunnett controls the family-wise error rate for the comparisons with the control, <b>not</b> for all pairwise comparisons.</p>
+<div class="box ex"><b>Example 3.9.</b> Etch data with treatment 4 as the control: \(a=4\), \(a-1=3\), \(f=16\), \(n=5\). At 5%, \(d_{0.05}(3,16)=2.59\), so the critical difference is \(D=2.59\sqrt{\dfrac{2(333.70)}{5}}=29.92\).<br>1 vs 4: \(551.2-707.0=-155.8\); 2 vs 4: \(587.4-707.0=-119.6\); 3 vs 4: \(625.4-707.0=-81.6\).<br>All exceed 29.92, so all three comparisons are significant: every power setting differs from the control.</div>
+<div class="box ex"><b>Dunnett's critical difference</b>
+<p>Etch data, treatment 4 is the control: \(a-1=3\), \(f=16\), \(d_{0.05}(3,16)=2.59\):</p>
+\[D=d_{0.05}(3,16)\sqrt{\frac{2MS_E}{n}}=2.59\sqrt{\frac{2(333.70)}{5}}\]
+\[=2.59\times11.553=29.92\]
+<p>Compare with the observed differences from the control:</p>
+\[|551.2-707.0|=155.8\gt29.92\]
+\[|587.4-707.0|=119.6\gt29.92\]
+\[|625.4-707.0|=81.6\gt29.92\]
+<p>All three are significant. Note \(29.92\) is larger than the LSD \(24.49\): the extra width pays for making three comparisons at once.</p></div>
+<h3>Why not Fisher's LSD here?</h3>
+<p>We could use LSD to compare treatments 1, 2, 3 with the control. The important difference is that Dunnett accounts for making <b>three comparisons at once</b>, while LSD does not generally control the family-wise error rate.</p></section>
+
+<section id="one"><h2>One-Tailed Versions</h2>
+<p>For a right-tailed test the sign is "reject if the difference is larger than the critical value"; for a left-tailed test it is "reject if smaller than minus the critical value".</p>
+<div class="tw"><table><tr><th>Method</th><th>Right-tailed (\(H_1\): greater)</th><th>Left-tailed (\(H_1\): less)</th></tr>
+<tr><td>Scheff&eacute;<br><span class="mut">\(H_0:\Gamma\le0\) vs \(H_1:\Gamma\gt0\)</span></td><td>Reject if \(C_u\gt S_{\alpha,u}\)</td><td>Reject if \(C_u\lt-S_{\alpha,u}\)</td></tr>
+<tr><td>Tukey<br><span class="mut">\(H_0:\mu_i\le\mu_j\) vs \(H_1:\mu_i\gt\mu_j\)</span></td><td>Reject if \(\bar y_{i\cdot}-\bar y_{j\cdot}\gt T_\alpha\)</td><td>Reject if \(\bar y_{i\cdot}-\bar y_{j\cdot}\lt-T_\alpha\)</td></tr>
+<tr><td>Fisher LSD</td><td>Reject if \(\bar y_{i\cdot}-\bar y_{j\cdot}\gt t_{\alpha,N-a}\sqrt{MS_E\big(\tfrac1{n_i}+\tfrac1{n_j}\big)}\)</td><td>Reject if \(\bar y_{i\cdot}-\bar y_{j\cdot}\lt-t_{\alpha,N-a}\sqrt{MS_E\big(\tfrac1{n_i}+\tfrac1{n_j}\big)}\)</td></tr>
+<tr><td>Dunnett<br><span class="mut">\(H_0:\mu_i\le\mu_a\) vs \(H_1:\mu_i\gt\mu_a\)</span></td><td>Reject if \(\bar y_{i\cdot}-\bar y_{a\cdot}\gt d_\alpha(a-1,f)\sqrt{MS_E\big(\tfrac1{n_i}+\tfrac1{n_a}\big)}\)</td><td>Reject if \(\bar y_{i\cdot}-\bar y_{a\cdot}\lt-d_\alpha(a-1,f)\sqrt{MS_E\big(\tfrac1{n_i}+\tfrac1{n_a}\big)}\)</td></tr></table></div>
+<p class="mut">For Dunnett's one-tailed test, \(d_\alpha\) is the <b>one-sided</b> Dunnett critical value (a different table value from the two-sided one). For one-tailed LSD the t value is \(t_{\alpha,N-a}\), not \(t_{\alpha/2,N-a}\).</p></section>
+
+<section id="which"><h2>Which Method?</h2>
+<div class="tw"><table><tr><th>Method</th><th>Use when</th><th>Error rate controlled</th><th>Critical value</th><th>Etch data, \(\alpha=0.05\): critical difference</th></tr>
+<tr><td>Contrast t / F test</td><td>planned contrasts, orthogonal sets</td><td>each test separately</td><td>\(t_{\alpha/2,N-a}\) or \(F_{\alpha,1,N-a}\)</td><td>pair: 24.49 (same as LSD)</td></tr>
+<tr><td>Fisher LSD</td><td>all pairs, after a significant F test</td><td>each comparison only, not the family</td><td>\(t_{\alpha/2,N-a}\)</td><td>24.49</td></tr>
+<tr><td>Dunnett</td><td>each treatment vs a control</td><td>family of \(a-1\) comparisons with the control</td><td>\(d_\alpha(a-1,f)\)</td><td>29.92</td></tr>
+<tr><td>Tukey</td><td>all pairs of means</td><td>family of all pairs (exactly \(\alpha\) if balanced)</td><td>\(q_\alpha(a,f)\)</td><td>33.09</td></tr>
+<tr><td>Scheff&eacute;</td><td>any and all contrasts, incl. after seeing data</td><td>family of all possible contrasts</td><td>\(\sqrt{(a-1)F_{\alpha,a-1,N-a}}\)</td><td>36.01 for a pair (computed here)</td></tr></table></div>
+<p class="mut">The more comparisons a method protects, the larger its critical difference: LSD &lt; Dunnett &lt; Tukey &lt; Scheff&eacute; here. Use the first slider at the top to see this.</p></section>
+
+<section id="calc"><h2>Calculator</h2>
+<p class="mut">One group per line (values separated by commas or spaces; unequal sizes allowed). Contrast coefficients: one contrast per line, one coefficient per group. Choose an example to load data and coefficients. Tukey and Dunnett use exact critical values, so they can differ in the last digits from hand work with the tables.</p>
+<div class="row"><label>Load example <select id="ex"><option value="e">Plasma etch (Example 3.6)</option><option value="t">Tumor drugs (L13 homework)</option><option value="u">Unequal replicates A&ndash;D (L9)</option></select></label></div>
+<textarea id="cd" rows="5" style="width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line)"></textarea>
+<p class="mut" style="margin:8px 0 4px">Contrast coefficients:</p>
+<textarea id="cc" rows="4" style="width:100%;box-sizing:border-box;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line)"></textarea>
+<div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><label>Control group no. <input type="number" id="ct" value="4" min="1"></label><button class="p" id="go">Compute</button></div>
+<div class="out" id="co"></div></section>
+
+<section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order. Each formula is followed by its notation.</p><div id="fl"></div>
+<h3>Notation</h3><table class="ft"><tr><td>\(\Gamma,\ C\)</td><td>contrast of means, its estimate</td><td>\(c_i,\ d_i\)</td><td>contrast coefficients</td></tr><tr><td>\(SS_C\)</td><td>contrast sum of squares (1 df)</td><td>\(S_{\alpha,u}\)</td><td>Scheff&eacute; critical value</td></tr><tr><td>\(q_\alpha(a,f)\)</td><td>studentized range point</td><td>\(T_\alpha\)</td><td>Tukey critical difference</td></tr><tr><td>\(d_\alpha(a-1,f)\)</td><td>Dunnett critical value</td><td>\(f=N-a\)</td><td>error degrees of freedom</td></tr></table></section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const ts=el=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise&&MathJax.typesetPromise)MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise(el?[el]:undefined)).catch(()=>{})};
+function renderD(D){$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)))}
+function renderF(F){$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('')}
+// theme: keep scroll position
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// ---------- derivations ----------
+const D=[
+["D1","Mean and variance of a contrast",String.raw`<p>The treatment averages \(\bar y_{i\cdot}\) are independent, each with mean \(\mu_i\) and variance \(\sigma^2/n\). For \(C=\sum c_i\bar y_{i\cdot}\) the mean is</p>
+\[E(C)=\sum_{i=1}^{a}c_iE(\bar y_{i\cdot})=\sum_{i=1}^{a}c_i\mu_i=\Gamma\]
+<p>Constants come out of a variance squared, and variances of independent terms add:</p>
+\[V(C)=\sum_{i=1}^{a}c_i^2\,V(\bar y_{i\cdot})\]
+\[=\sum_{i=1}^{a}c_i^2\,\frac{\sigma^2}{n}=\frac{\sigma^2}{n}\sum_{i=1}^{a}c_i^2\]`],
+["D2","The \\(t\\) statistic for a contrast",String.raw`<p>If \(H_0:\Gamma=0\) is true, then \(E(C)=0\), so standardising gives</p>
+\[Z=\frac{C-0}{\sqrt{V(C)}}=\frac{\sum c_i\bar y_{i\cdot}}{\sqrt{\dfrac{\sigma^2}{n}\sum c_i^2}}\sim N(0,1)\]
+<p>\(\sigma^2\) is unknown, so replace it by \(MS_E\), which has \(N-a\) degrees of freedom. A normal variable divided by an independent estimate of its standard deviation has a \(t\) distribution:</p>
+\[t_0=\frac{\sum c_i\bar y_{i\cdot}}{\sqrt{\dfrac{MS_E}{n}\sum c_i^2}}\sim t_{N-a}\]
+<p>Reject \(H_0\) if \(|t_0|\gt t_{\alpha/2,\,N-a}\).</p>`],
+["D3","\\(F_0=t_0^2\\) and the contrast sum of squares \\(SS_C\\)",String.raw`<p>A squared \(t_{\nu}\) variable is \(F_{1,\nu}\), so</p>
+\[F_0=t_0^2=\frac{C^2}{\dfrac{MS_E}{n}\sum c_i^2}\]
+<p>Pull \(MS_E\) out of the denominator:</p>
+\[F_0=\frac{C^2\Big/\Big(\dfrac1n\sum c_i^2\Big)}{MS_E}=\frac{SS_C}{MS_E}\]
+\[SS_C=\frac{\Big(\sum c_i\bar y_{i\cdot}\Big)^2}{\dfrac1n\sum c_i^2}\]
+<p>It has 1 degree of freedom, so \(MS_C=SS_C/1=SS_C\) and \(F_0=MS_C/MS_E\). In terms of treatment totals, \(C=\sum c_iy_{i\cdot}/n\), so</p>
+\[SS_C=\frac{\Big(\sum c_iy_{i\cdot}\Big)^2}{n\sum c_i^2}\]`],
+["D4","Confidence interval for a contrast",String.raw`<p>The standardised estimate has a \(t\) distribution with \(N-a\) df:</p>
+\[\frac{C-\Gamma}{\sqrt{\dfrac{MS_E}{n}\sum c_i^2}}\sim t_{N-a}\]
+<p>Therefore</p>
+\[P\Big(-t_{\alpha/2,N-a}\le\frac{C-\Gamma}{\sqrt{\frac{MS_E}{n}\sum c_i^2}}\le t_{\alpha/2,N-a}\Big)=1-\alpha\]
+<p>Solving the inequality for \(\Gamma\):</p>
+\[C-t_{\alpha/2,N-a}\sqrt{\frac{MS_E}{n}\sum c_i^2}\le\Gamma\le C+t_{\alpha/2,N-a}\sqrt{\frac{MS_E}{n}\sum c_i^2}\]
+<p>Etch data, \(\mu_3-\mu_4\): \(C=-81.6\), standard error \(11.55\), \(t_{0.025,16}=2.120\):</p>
+\[-81.6\pm2.120(11.55)=-81.6\pm24.49\]
+\[(-106.09,\ -57.11)\]`],
+["D5","Idea behind Scheff&eacute;'s critical value \\(\\sqrt{(a-1)F_{\\alpha,a-1,N-a}}\\)",String.raw`<p>This is the idea behind the critical value; the slides only state the result. Any contrast can be one member of a full set of \(a-1\) orthogonal contrasts, and the \(SS_C\) of that set add up to \(SS_{Tr}\). So for <b>every</b> contrast \(SS_C\le SS_{Tr}\), and therefore</p>
+\[t_0^2=\frac{SS_C}{MS_E}\le\frac{SS_{Tr}}{MS_E}=\frac{(a-1)MS_{Tr}}{MS_E}=(a-1)F_0\]
+<p>where \(F_0\) is the ordinary ANOVA statistic (the largest possible \(t_0^2\) over all contrasts equals \((a-1)F_0\)). If \(F_0\le F_{\alpha,a-1,N-a}\), then <b>every</b> contrast has</p>
+\[t_0^2\le(a-1)F_{\alpha,a-1,N-a}\]
+<p>So when all contrasts are truly zero, the chance that <b>any</b> contrast exceeds \(\sqrt{(a-1)F_\alpha}\) in \(|t_0|\) is only \(\alpha\). Multiply by the standard error \(S_{C_u}\):</p>
+\[|C_u|\gt S_{C_u}\sqrt{(a-1)F_{\alpha,a-1,N-a}}=S_{\alpha,u}\]
+<p>This is why the Scheff&eacute; family-wise error rate is \(\alpha\) for all contrasts at once, and why its critical value is large.</p>`],
+["D6","Fisher's LSD from the \\(t\\) statistic",String.raw`<p>For \(H_0:\mu_i=\mu_j\) the statistic is</p>
+\[t_0=\frac{\bar y_{i\cdot}-\bar y_{j\cdot}}{\sqrt{MS_E\Big(\dfrac1{n_i}+\dfrac1{n_j}\Big)}}\]
+<p>Reject when \(|t_0|\gt t_{\alpha/2,N-a}\). Multiply both sides by the denominator:</p>
+\[|\bar y_{i\cdot}-\bar y_{j\cdot}|\gt t_{\alpha/2,N-a}\sqrt{MS_E\Big(\frac1{n_i}+\frac1{n_j}\Big)}=LSD\]
+<p>Balanced case, \(n_i=n_j=n\): \(\dfrac1n+\dfrac1n=\dfrac2n\), so \(LSD=t_{\alpha/2,N-a}\sqrt{2MS_E/n}\). Etch data, \(t_{0.025,16}=2.120\):</p>
+\[LSD=2.120\sqrt{\frac{2(333.70)}{5}}=2.120\sqrt{133.48}\]
+\[=2.120\times11.553=24.49\]`],
+["D7","Where the one-tailed rules come from",String.raw`<p>A two-sided test splits \(\alpha\) between the two tails: reject when</p>
+\[\bar y_{i\cdot}-\bar y_{j\cdot}\gt c\cdot SE\quad\text{or}\quad\bar y_{i\cdot}-\bar y_{j\cdot}\lt-c\cdot SE,\qquad c=t_{\alpha/2,N-a}\]
+<p>Right-tailed (\(H_1:\mu_i\gt\mu_j\)): only large positive differences count against \(H_0\), so all of \(\alpha\) goes in the right tail:</p>
+\[\bar y_{i\cdot}-\bar y_{j\cdot}\gt t_{\alpha,N-a}\sqrt{MS_E\Big(\frac1{n_i}+\frac1{n_j}\Big)}\]
+<p>Left-tailed (\(H_1:\mu_i\lt\mu_j\)): only large negative differences count:</p>
+\[\bar y_{i\cdot}-\bar y_{j\cdot}\lt-t_{\alpha,N-a}\sqrt{MS_E\Big(\frac1{n_i}+\frac1{n_j}\Big)}\]
+<p>The same sign logic applies to the other methods: Scheff&eacute; \(C_u\gt S_{\alpha,u}\) or \(C_u\lt-S_{\alpha,u}\); Tukey \(\gt T_\alpha\) or \(\lt-T_\alpha\); Dunnett \(\gt d_\alpha\sqrt{\cdot}\) or \(\lt-d_\alpha\sqrt{\cdot}\) with the one-sided \(d_\alpha\).</p>`]];
+renderD(D);
+const F=[["1. Contrasts",[
+["\\(\\Gamma=\\sum c_i\\mu_i,\\quad\\sum c_i=0\\)","contrast of means"],
+["\\(C=\\sum c_i\\bar y_{i\\cdot},\\quad V(C)=\\dfrac{\\sigma^2}{n}\\sum c_i^2\\)","estimate and its variance (equal \\(n\\))"],
+["\\(t_0=\\dfrac{\\sum c_i\\bar y_{i\\cdot}}{\\sqrt{\\frac{MS_E}{n}\\sum c_i^2}}\\)","reject if \\(|t_0|\\gt t_{\\alpha/2,N-a}\\)"],
+["\\(F_0=t_0^2=\\dfrac{SS_C}{MS_E}\\)","reject if \\(F_0\\gt F_{\\alpha,1,N-a}\\)"],
+["\\(SS_C=\\dfrac{(\\sum c_i\\bar y_{i\\cdot})^2}{\\frac1n\\sum c_i^2}=\\dfrac{(\\sum c_iy_{i\\cdot})^2}{n\\sum c_i^2}\\)","1 df"],
+["\\(C\\pm t_{\\alpha/2,N-a}\\sqrt{\\frac{MS_E}{n}\\sum c_i^2}\\)","CI for \\(\\Gamma\\)"]]],
+["2. Orthogonal contrasts",[
+["\\(\\sum c_id_i=0\\)","two contrasts are orthogonal"],
+["\\(SS_{Tr}=SS_{C_1}+\\dots+SS_{C_{a-1}}\\)","complete orthogonal set"]]],
+["3. Scheff&eacute;",[
+["\\(S_{C_u}=\\sqrt{MS_E\\sum c_{iu}^2/n_i}\\)","standard error"],
+["\\(S_{\\alpha,u}=S_{C_u}\\sqrt{(a-1)F_{\\alpha,a-1,N-a}}\\)","reject if \\(|C_u|\\gt S_{\\alpha,u}\\)"],
+["\\(C_u\\pm S_{\\alpha,u}\\)","simultaneous CI, level \\(\\ge1-\\alpha\\)"]]],
+["4. Pairwise comparisons",[
+["\\(T_\\alpha=q_\\alpha(a,f)\\sqrt{MS_E/n}\\)","Tukey; reject if \\(|\\bar y_{i\\cdot}-\\bar y_{j\\cdot}|\\gt T_\\alpha\\)"],
+["\\(T_\\alpha=\\dfrac{q_\\alpha(a,f)}{\\sqrt2}\\sqrt{MS_E\\big(\\frac1{n_i}+\\frac1{n_j}\\big)}\\)","Tukey&ndash;Kramer (unequal \\(n\\))"],
+["\\(LSD=t_{\\alpha/2,N-a}\\sqrt{MS_E\\big(\\frac1{n_i}+\\frac1{n_j}\\big)}\\)","Fisher; balanced: \\(t_{\\alpha/2,N-a}\\sqrt{2MS_E/n}\\)"]]],
+["5. Dunnett (control = treatment \\(a\\))",[
+["\\(|\\bar y_{i\\cdot}-\\bar y_{a\\cdot}|\\gt d_\\alpha(a-1,f)\\sqrt{MS_E\\big(\\frac1{n_i}+\\frac1{n_a}\\big)}\\)","\\(f=N-a\\); \\(\\alpha\\) is the joint level of the \\(a-1\\) tests"]]],
+["6. One-tailed (right / left)",[
+["Scheff&eacute;: \\(C_u\\gt S_{\\alpha,u}\\) / \\(C_u\\lt-S_{\\alpha,u}\\)",""],
+["Tukey: \\(\\bar y_{i\\cdot}-\\bar y_{j\\cdot}\\gt T_\\alpha\\) / \\(\\lt-T_\\alpha\\)",""],
+["LSD: replace \\(t_{\\alpha/2,N-a}\\) by \\(t_{\\alpha,N-a}\\)",""],
+["Dunnett: use the one-sided \\(d_\\alpha\\)",""]]]];
+renderF(F);
+
+// ---------- critical values ----------
+const SW=n=>{const w=[];for(let i=0;i<=n;i++)w.push(i==0||i==n?1:(i%2?4:2));return w},DW=SW(64),DM={};
+function dunCDF(d,k,f,two){const nz=64,zlo=-8,zhi=8,hz=(zhi-zlo)/nz,ns=64,slo=1e-6,shi=Math.sqrt(jStat.chisquare.inv(1-1e-10,f)/f)*1.6,hs=(shi-slo)/ns,r=Math.sqrt(.5),Ph=x=>jStat.normal.cdf(x,0,1),lc=Math.log(2)+(f/2)*Math.log(f/2)-jStat.gammaln(f/2);let tot=0;
+for(let a=0;a<=ns;a++){const s=slo+a*hs,ds=Math.exp(lc+(f-1)*Math.log(s)-f*s*s/2);let inner=0;
+for(let i=0;i<=nz;i++){const z=zlo+i*hz,pz=Math.exp(-z*z/2)/Math.sqrt(2*Math.PI),p=two?Ph((r*z+d*s)/r)-Ph((r*z-d*s)/r):Ph((r*z+d*s)/r);inner+=DW[i]*hz/3*pz*Math.pow(p,k)}
+tot+=DW[a]*hs/3*ds*inner}return tot}
+function dunnett(al,k,f,two=true){const key=[al,k,f,two].join('|');if(DM[key])return DM[key];let lo=.3,hi=12;for(let i=0;i<40;i++){const m=(lo+hi)/2;if(dunCDF(m,k,f,two)<1-al)lo=m;else hi=m}return DM[key]=(lo+hi)/2}
+const pf=p=>p<1e-4?p.toExponential(2):g(p,4);
+
+// ---------- overview widget: price of protection ----------
+const AL=[.1,.05,.025,.01,.001],OBS=[[36.2,'1-2'],[38.0,'2-3'],[74.2,'1-3'],[81.6,'3-4'],[119.6,'2-4'],[155.8,'1-4']];
+function pviz(){const al=AL[+$('pa').value];$('pav').textContent=al;const mse=333.7,n=5,a=4,f=16,se=Math.sqrt(2*mse/n);
+const M=[['Fisher LSD',jStat.studentt.inv(1-al/2,f)*se,6],['Dunnett (vs control 4)',dunnett(al,3,f)*se,3],['Tukey',jStat.tukey.inv(1-al,a,f)*Math.sqrt(mse/n),6],['Scheff\u00e9 (pairs)',Math.sqrt((a-1)*jStat.centralF.inv(1-al,a-1,f))*se,6]];
+const X=v=>170+v/170*490;let s='';
+for(let v=0;v<=150;v+=50)s+=`<line x1="${X(v)}" x2="${X(v)}" y1="40" y2="210" stroke="var(--line)"/><text x="${X(v)}" y="228" text-anchor="middle" fill="var(--mut)" font-size="12">${v}</text>`;
+M.forEach((m,i)=>{const y=48+i*40;s+=`<text x="160" y="${y+19}" text-anchor="end" fill="var(--ink)" font-size="13">${m[0]}</text><rect x="170" y="${y}" width="${X(m[1])-170}" height="26" fill="var(--ac)" opacity=".85"/><text x="${X(m[1])+6}" y="${y+18}" fill="var(--ink)" font-size="13">${g(m[1],2)}</text>`});
+OBS.forEach((o,i)=>{s+=`<line x1="${X(o[0])}" x2="${X(o[0])}" y1="40" y2="210" stroke="var(--bad)" stroke-dasharray="3 3"/><text x="${X(o[0])}" y="${i%2?14:30}" text-anchor="middle" fill="var(--bad)" font-size="12">${o[1]}</text>`});
+$('psv').innerHTML=s;
+$('po').innerHTML='Dashed red lines = observed differences between pairs of means (36.2, 38.0, 74.2, 81.6, 119.6, 155.8). Significant pairs:<table><tr><th>Method</th><th>Critical difference</th><th>Pairs flagged</th></tr>'+M.map((m,i)=>{const L=OBS.filter(o=>o[0]>m[1]&&(i!=1||o[1].endsWith('4'))).map(o=>o[1]);return`<tr><td>${m[0]}</td><td>${g(m[1],2)}</td><td>${L.length?L.join(', '):'none'}${i==1?' (of 3 comparisons with the control)':' (of 6)'}</td></tr>`}).join('')+'</table>'}
+$('pa').oninput=pviz;pviz();
+
+// ---------- calculator ----------
+const EX={e:{d:`575 542 530 539 570
+565 593 590 579 610
+600 651 610 637 629
+725 700 715 685 710`,c:`1 -1 0 0
+1 1 -1 -1
+0 0 1 -1`,k:4},t:{d:`4.5 6.0 4.6 5.3
+6.2 5.8 5.0 5.3
+9.1 8.1 9.2 8.4
+9.7 8.4 8.8 9.9`,c:`1 1 -1 -1
+1 -1 0 0
+0 0 1 -1`,k:1},u:{d:`2.0 2.2 1.8 2.3 1.7
+1.7 1.9 1.5
+2.0 2.4 2.7 2.5 2.4
+2.1 2.2 2.2 1.9`,c:`1 1 -1 -1
+1 -1 0 0
+0 0 1 -1`,k:1}};
+const load=k=>{$('cd').value=EX[k].d;$('cc').value=EX[k].c;$('ct').value=EX[k].k};
+$('ex').onchange=()=>{load($('ex').value);calc()};load('e');
+const parse=t=>t.trim().split(/\n+/).map(l=>l.trim().split(/[\s,]+/).map(Number).filter(v=>!isNaN(v))).filter(a=>a.length);
+const tb=(h,rows)=>`<div class="tw"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</table></div>`;
+const sig=(d,c)=>`${g(c,2)} ${Math.abs(d)>c?'<b>sig.</b>':'n.s.'}`;
+function calc(){const G=parse($('cd').value),a=G.length,al=+$('al').value;if(a<2){$('co').textContent='Enter at least 2 groups.';return}
+const ni=G.map(x=>x.length),N=ni.reduce((p,c)=>p+c),f=N-a;if(f<1){$('co').textContent='Need more observations than groups.';return}
+const yi=G.map(x=>x.reduce((p,c)=>p+c)),mi=yi.map((v,i)=>v/ni[i]),yy=yi.reduce((p,c)=>p+c),sst=G.flat().reduce((p,c)=>p+c*c,0)-yy*yy/N,sstr=yi.reduce((p,v,i)=>p+v*v/ni[i],0)-yy*yy/N,sse=sst-sstr,mse=sse/f,F0=sstr/(a-1)/mse,pF=1-jStat.centralF.cdf(F0,a-1,f);
+const fS=jStat.centralF.inv(1-al,a-1,f),tq=jStat.studentt.inv(1-al/2,f),bal=ni.every(n=>n==ni[0]);
+let h=`<b>ANOVA:</b> SS<sub>Tr</sub> = ${g(sstr,2)}, SS<sub>E</sub> = ${g(sse,2)}, MS<sub>E</sub> = ${g(mse,2)} (${f} df), F<sub>0</sub> = ${g(F0,2)}, p = ${pf(pF)}${pF<al?'':' (not significant: multiple comparisons are usually not needed)'}<br>Means: ${mi.map((m,i)=>`${i+1}: ${g(m,3)} (n=${ni[i]})`).join('; ')}`;
+// contrasts
+const all=parse($('cc').value),C=all.filter(r=>r.length==a);
+if(all.length&&!C.length)h+=`<br><i>Contrast rows need exactly ${a} coefficients each.</i>`;
+if(C.length){const cr=C.map(c=>{const sc=c.reduce((p,v)=>p+v,0),Cv=c.reduce((p,v,i)=>p+v*mi[i],0),w=c.reduce((p,v,i)=>p+v*v/ni[i],0),se=Math.sqrt(mse*w),t0=Cv/se;return{c,sc,Cv,se,t0,p:2*(1-jStat.studentt.cdf(Math.abs(t0),f)),ssc:Cv*Cv/w,S:se*Math.sqrt((a-1)*fS)}});
+h+=`<h3>Contrasts</h3>`+tb(['#','Coefficients','&Sigma;c','C','SE','t<sub>0</sub>','p','F<sub>0</sub>=t<sub>0</sub>&sup2;','SS<sub>C</sub>',g(100*(1-al),1)+'% CI (t)','Scheff&eacute; S','t-test','Scheff&eacute;'],cr.map((r,u)=>[u+1,r.c.join(', '),Math.abs(r.sc)>1e-9?`<b style="color:var(--bad)">${g(r.sc,2)}</b>`:'0',g(r.Cv,3),g(r.se,3),g(r.t0,2),pf(r.p),g(r.t0*r.t0,2),g(r.ssc,2),`${g(r.Cv-tq*r.se,2)} to ${g(r.Cv+tq*r.se,2)}`,g(r.S,2),Math.abs(r.t0)>tq?'<b>reject</b>':'n.s.',Math.abs(r.Cv)>r.S?'<b>reject</b>':'n.s.']));
+if(cr.some(r=>Math.abs(r.sc)>1e-9))h+=`<span class="mut">A red &Sigma;c means that row is not a contrast (coefficients must sum to 0).</span><br>`;
+let orth=[],allO=true;for(let u=0;u<cr.length;u++)for(let v=u+1;v<cr.length;v++){const d=cr[u].c.reduce((p,x,i)=>p+x*cr[v].c[i]/(bal?1:ni[i]),0);if(Math.abs(d)>1e-9)allO=false;orth.push(`C${u+1}&middot;C${v+1} = ${g(d,3)}`)}
+const sum=cr.reduce((p,r)=>p+r.ssc,0);
+if(cr.length>1)h+=`<b>Orthogonality</b> (${bal?'&Sigma;c<sub>i</sub>d<sub>i</sub>':'&Sigma;c<sub>i</sub>d<sub>i</sub>/n<sub>i</sub>, since n<sub>i</sub> differ'}): ${orth.join('; ')} &rarr; ${allO?'<b>mutually orthogonal</b>':'not all orthogonal'}<br>`;
+h+=`&Sigma;SS<sub>C</sub> = ${g(sum,2)} vs SS<sub>Tr</sub> = ${g(sstr,2)}${allO&&cr.length==a-1?' &rarr; a complete orthogonal set partitions SS<sub>Tr</sub>':''}`;}
+// pairwise
+const qT=jStat.tukey.inv(1-al,a,f),sch=Math.sqrt((a-1)*fS),rows=[];
+for(let i=0;i<a;i++)for(let j=i+1;j<a;j++){const d=mi[i]-mi[j],se=Math.sqrt(mse*(1/ni[i]+1/ni[j]));rows.push([`${i+1}&minus;${j+1}`,g(d,3),sig(d,tq*se),sig(d,qT/Math.SQRT2*se),sig(d,sch*se)])}
+h+=`<h3>All pairwise comparisons</h3><span class="mut">Each cell: critical difference, then significant (sig.) or not (n.s.). Tukey${bal?'':'&ndash;Kramer'}: q = ${g(qT,3)}.</span>`+tb(['Pair','Difference','Fisher LSD','Tukey','Scheff&eacute; (pairs)'],rows);
+// Dunnett
+const k=Math.round(+$('ct').value)-1;
+if(k>=0&&k<a){const dd=dunnett(al,a-1,f,true);h+=`<h3>Comparisons with control (group ${k+1})</h3><span class="mut">Dunnett d<sub>${al}</sub>(${a-1}, ${f}) = ${g(dd,3)}${bal?'':' (tabulated for equal n; approximate here)'}.</span>`+tb(['Comparison','Difference','Dunnett'],G.map((_,i)=>i).filter(i=>i!=k).map(i=>{const d=mi[i]-mi[k];return[`${i+1} vs ${k+1}`,g(d,3),sig(d,dd*Math.sqrt(mse*(1/ni[i]+1/ni[k])))]}))}
+$('co').innerHTML=h}
+$('go').onclick=calc;$('al').oninput=calc;$('ct').oninput=calc;calc();
+
+</script></body></html>
