@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stratified Random Sampling – Part 4: Kish Allocation &amp; Post-stratification</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:30px 0}.fc h3{margin:.9rem 0 .3rem;color:var(--ac)}
+.lbl{color:var(--mut);font-size:.9rem;margin:1.2rem 0 0}.fc .f{background:var(--bg)}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}.three h3{margin-top:.9rem;color:var(--ac)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700}
+input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;border:0;padding:0;height:18px;accent-color:var(--ac)}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--ac2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;border-radius:50%;border:0;background:var(--ac)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--ac2)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--ac)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:var(--ac)}
+.qa{margin:22px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.qa .q{background:var(--card);border-left:4px solid var(--ac);padding:14px 20px}.qa .s{background:var(--card);border-left:4px solid var(--ok);border-top:1px dashed var(--line);padding:14px 20px}.qa .f{margin:14px 0}.box .f{margin:14px 0}section{padding:56px 0}main p,main li{line-height:2.1}
+.fc .qa .f{background:var(--card)}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">See it</a><a href="#why">Why</a><a href="#rule">The rule</a><a href="#cases">Special cases</a><a href="#alpha">Choosing α</a><a href="#when">When</a><a href="#ney">vs Neyman</a><a href="#ps">Post-strat</a><a href="#psest">PS mean</a><a href="#psw">PS weights</a><a href="#sum">Recap</a><a href="#prac">Practice</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Stratified Sampling: Kish Allocation and Post-stratification</h1><h2>StRS Part 4</h2> <p class = "mut"> a sample-size rule that works without stratum standard deviations, and a way to fix a sample whose composition does not match the population. Every formula comes with a worked example, and the two ideas are kept separate on purpose.</p></header>
+
+<section id="viz"><h2>See it first</h2>
+<p>Three strata, one sample of \(n\) units, one dial. The dial is \(\alpha\), the power in the Kish rule. At \(0\) every stratum gets the same number of units. At \(1\) the sample follows the population shares. In between, big strata get more sample, but not in full proportion.</p>
+<div class="box">
+<div class="row">
+<label>\(N_h\) <input type="text" id="kN" value="10000,5000,1000" style="width:180px"></label>
+<label>\(S_h\) <input type="text" id="kS" value="10,15,20" style="width:140px"></label>
+<label>\(n\) <input type="number" id="kn" value="300"></label>
+</div>
+<div class="row">
+<label>\(\alpha\) <input type="range" id="ka" min="0" max="1" step="0.05" value="0.5"> <b id="kav">0.50</b></label>
+</div>
+<div id="kout"></div>
+<p class="mut">The variance is the FPC-free formula from Part 3, \(\sum_h w_h^2S_h^2/n_h\). Drag the dial and watch where the sample goes and what it costs in variance.</p>
+</div></section>
+
+<section id="why"><h2>Why a power rule?</h2>
+<p>Neyman allocation from Part 2 is the best rule, but it asks for something you often do not have: a number \(S_h\) for every stratum. A pilot survey may give you those numbers, but a first survey cannot.</p>
+<div class="three">
+<div><h3>What you usually know</h3><p>The size of every stratum, \(N_h\), is normally on the sampling frame, the census, or an administrative list. That part is cheap and reliable.</p></div>
+<div><h3>What you often do not know</h3><p>The spread \(S_h\) inside each stratum. With no pilot and no earlier survey, guessing \(S_h\) badly is worse than admitting you do not know it.</p></div>
+<div><h3>What Kish does</h3><p>It uses only \(N_h\), and adds one dial \(\alpha\) that decides how strongly the sample follows stratum size. You do not have to claim knowledge of variability.</p></div>
+</div>
+<div class="box"><b>The compromise in one line.</b> Equal allocation ignores stratum size and can starve a big stratum. Proportional allocation follows size exactly and can starve a small but important stratum. Kish allocation sits on a dial between the two, so neither extreme wins by default.</div></section>
+
+<section id="rule"><h2>The Kish rule</h2>
+<p>The population is cut into \(H\) strata indexed by \(h\). Population and sample sizes add up over strata.</p>
+<div class="f">\[N=\sum_{h=1}^{H}N_h\]</div>
+<div class="f">\[n=\sum_{h=1}^{H}n_h\]</div>
+<div class="fc"><h3>Allocation formula</h3>
+<p>Give each stratum a share proportional to \(N_h^{\alpha}\). The power \(\alpha\) sits between \(0\) and \(1\).</p>
+<div class="f">\[n_h=n\,\frac{N_h^{\alpha}}{\sum_{g=1}^{H}N_g^{\alpha}},\qquad 0\le\alpha\le1\]</div>
+<p>The denominator is just a normalising constant. It forces the pieces to add up to the total sample \(n\), nothing more.</p>
+<div class="qa"><div class="q"><b>Question.</b> Three strata with \(N=(10000,\ 5000,\ 1000)\) and a total sample of \(n=300\). Use \(\alpha=0.5\). Find the sample sizes.</div><div class="s"><b>Solution.</b>
+<p>First take square roots.</p>
+<div class="f">\[N_1^{0.5}=100\]</div>
+<div class="f">\[N_2^{0.5}=70.7107\]</div>
+<div class="f">\[N_3^{0.5}=31.6228\]</div>
+<p>Add them to get the normalising constant.</p>
+<div class="f">\[\sum_{g}N_g^{0.5}=100+70.7107+31.6228=202.3334\]</div>
+<p>Now each stratum's share of the sample.</p>
+<div class="f">\[\frac{n_1}{n}=\frac{100}{202.3334}=0.4942\]</div>
+<div class="f">\[\frac{n_2}{n}=\frac{70.7107}{202.3334}=0.3495\]</div>
+<div class="f">\[\frac{n_3}{n}=\frac{31.6228}{202.3334}=0.1563\]</div>
+<p>Multiply by \(n=300\).</p>
+<div class="f">\[(n_1,n_2,n_3)=(148.27,\ 104.85,\ 46.88)\]</div>
+<p>Round to whole units and keep the total at 300.</p>
+<div class="f">\[(n_1,n_2,n_3)=(148,\ 105,\ 47)\]</div>
+<p>Check the total.</p>
+<div class="f">\[148+105+47=300\]</div>
+<p class="mut">Notice what happened to stratum 3. It holds only 6.25% of the population, and proportional allocation would give it about 19 units. Kish gives it 47. That is the whole point of the dial.</p>
+</div></div>
+</div></section>
+
+<section id="cases"><h2>The three special cases</h2>
+<p>The dial does not just sit between two rules. At its two ends it <em>becomes</em> the rules you already know.</p>
+<div class="fc"><h3>Case 1: \(\alpha=0\) gives equal allocation</h3>
+<p>Any number to the power zero is one, so every stratum contributes the same amount to the denominator.</p>
+<div class="f">\[N_h^{0}=1\]</div>
+<div class="f">\[\sum_{g=1}^{H}N_g^{0}=H\]</div>
+<div class="f">\[n_h=n\frac{1}{H}=\frac{n}{H}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Same three strata, \(n=300\), but now \(\alpha=0\). Find the sample sizes.</div><div class="s"><b>Solution.</b>
+<div class="f">\[n_1=n_2=n_3=\frac{300}{3}=100\]</div>
+<p class="mut">Stratum sizes are ignored completely. The 10000-unit stratum and the 1000-unit stratum get the same 100 interviews.</p>
+</div></div>
+</div>
+<div class="fc"><h3>Case 2: \(\alpha=1\) gives proportional allocation</h3>
+<p>To the power one, a number is itself, so the denominator becomes \(N\).</p>
+<div class="f">\[N_h^{1}=N_h\]</div>
+<div class="f">\[\sum_{g=1}^{H}N_g^{1}=N\]</div>
+<div class="f">\[n_h=n\frac{N_h}{N}=nw_h\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Same data, \(\alpha=1\). Find the sample sizes.</div><div class="s"><b>Solution.</b>
+<div class="f">\[w=\Big(\frac{10000}{16000},\ \frac{5000}{16000},\ \frac{1000}{16000}\Big)=(0.625,\ 0.3125,\ 0.0625)\]</div>
+<div class="f">\[(n_1,n_2,n_3)=300(0.625,\ 0.3125,\ 0.0625)=(187.5,\ 93.75,\ 18.75)\]</div>
+<p>After rounding: \((188,\ 94,\ 18)\), which adds to 300.</p>
+<p class="mut">Now stratum 3 gets only 18 or 19 units. If that stratum is small but highly variable or politically important, this is too few.</p>
+</div></div>
+</div>
+<div class="fc"><h3>Case 3: \(0\lt\alpha\lt1\) gives intermediate allocation</h3>
+<p>Inside the interval, the sample share is a fractional power of the population share.</p>
+<div class="f">\[\frac{n_h}{n}\propto N_h^{\alpha}\]</div>
+<p>The ratio between two strata is easy to read.</p>
+<div class="f">\[\frac{n_h}{n_g}=\Big(\frac{N_h}{N_g}\Big)^{\alpha}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Stratum A is four times larger than stratum B. How many times more sample does A get at \(\alpha=0.5\) and at \(\alpha=1\)?</div><div class="s"><b>Solution.</b>
+<p>At \(\alpha=0.5\):</p>
+<div class="f">\[\frac{n_A}{n_B}=4^{0.5}=2\]</div>
+<p>At \(\alpha=1\):</p>
+<div class="f">\[\frac{n_A}{n_B}=4^{1}=4\]</div>
+<p class="mut">Being four times bigger buys twice the sample at the square-root setting, not four times. That is the whole design: large strata get more, but less than their full share.</p>
+</div></div>
+</div>
+<div style="overflow-x:auto"><table>
+<tr><th>\(\alpha\)</th><th>Rule</th><th>Sample size \(n_h\)</th><th>Behaviour</th></tr>
+<tr><td>0</td><td>Equal</td><td>\(n/H\)</td><td>size ignored</td></tr>
+<tr><td>0.5</td><td>Square-root</td><td>\(\propto\sqrt{N_h}\)</td><td>mild tilt toward large strata</td></tr>
+<tr><td>1</td><td>Proportional</td><td>\(nN_h/N\)</td><td>follows size exactly</td></tr>
+</table></div></section>
+
+<section id="alpha"><h2>Choosing the power \(\alpha\)</h2>
+<p>There is no formula that hands you the right \(\alpha\). It is a judgement call about what the survey is for.</p>
+<div class="two">
+<div><h3>Things to weigh</h3>
+<ul class="pts"><li>How reliable must the estimate be for the <b>small</b> strata?</li><li>What do pilot data or an earlier survey say about how variable the strata are?</li><li>What does each extra interview in a small stratum cost in field time?</li><li>Is there a minimum sample size you must respect in every stratum?</li></ul></div>
+<div><h3>Things to do</h3>
+<ul class="pts"><li>Try a short list of values, for example \(0,\ 0.25,\ 0.5,\ 0.75,\ 1\).</li><li>Compare them on precision and on cost, not on intuition alone.</li><li>Check that no important stratum falls below its minimum.</li><li>Write down the reason for the value you pick, so the next survey can revisit it.</li></ul></div>
+</div>
+<div class="box nt"><b>Key message.</b> There is no universally best \(\alpha\). The value \(0.5\) is a useful illustration, not a default that suits every survey. Choose \(\alpha\) from the objectives, the information available and the precision required.</div>
+<div class="box"><b>Dial table.</b> See what each candidate \(\alpha\) does to the same three strata.
+<div class="row"><label>\(N_h\) <input type="text" id="aN" value="10000,5000,1000" style="width:180px"></label><label>\(n\) <input type="number" id="an" value="300"></label></div>
+<div id="aout"></div></div></section>
+
+<section id="when"><h2>When Kish allocation earns its place</h2>
+<div class="two">
+<div><h3>Good situations</h3>
+<ul class="pts"><li>Stratum sizes \(N_h\) are known from the frame.</li><li>Reliable \(S_h\) values are missing.</li><li>Proportional allocation leaves small strata with a handful of units.</li><li>Equal allocation feels too blunt.</li><li>You want a defensible middle ground, not a fight between two extremes.</li></ul></div>
+<div><h3>What to keep in mind</h3>
+<ul class="pts"><li>It is a <b>practical</b> rule, not an optimal one.</li><li>It cannot beat Neyman when good \(S_h\) values exist.</li><li>Rounding and minimum sizes still have to be handled by hand.</li><li>With several study variables, one \(\alpha\) cannot suit all of them.</li></ul></div>
+</div>
+<div class="flow"><div class="st"><div>Equal allocation<br>\(\alpha=0\)</div><div>&#8592; Kish &#8594;</div><div>Proportional allocation<br>\(\alpha=1\)</div></div></div>
+<div class="box"><b>One-line summary.</b> Use Kish when size is all you know, and use Neyman when you also know the spread.</div></section>
+
+<section id="ney"><h2>Kish against Neyman</h2>
+<p>Plug the Kish sizes into the Part 3 variance and simplify. The answer has a tidy shape.</p>
+<div class="fc"><h3>Variance under Kish allocation</h3>
+<div class="f">\[V_K=\frac{\sum_{g=1}^{H}N_g^{\alpha}}{n}\sum_{h=1}^{H}\frac{w_h^2S_h^2}{N_h^{\alpha}}\]</div>
+<p>It looks heavier than it is. The first factor is a constant for the whole design, and the second is a per-stratum sum, exactly like the Part 3 formula but with \(N_h^{\alpha}\) standing in for the sample size. The algebra is in derivation D3.</p>
+<div class="qa"><div class="q"><b>Question.</b> Three strata with \(N=(10000,5000,1000)\) and spreads \(S=(10,15,20)\). Total sample \(n=300\). Find the variance under equal, proportional, Kish (\(\alpha=0.5\)) and Neyman allocation.</div><div class="s"><b>Solution.</b>
+<p>Weights first.</p>
+<div class="f">\[w=(0.625,\ 0.3125,\ 0.0625)\]</div>
+<p>The per-stratum numerators \(w_h^2S_h^2\):</p>
+<div class="f">\[w_1^2S_1^2=0.390625(100)=39.0625\]</div>
+<div class="f">\[w_2^2S_2^2=0.0976563(225)=21.9727\]</div>
+<div class="f">\[w_3^2S_3^2=0.0039063(400)=1.5625\]</div>
+<p>Equal allocation, \(n_h=100\):</p>
+<div class="f">\[V_{\mathrm{eq}}=\frac{39.0625+21.9727+1.5625}{100}=0.6260\]</div>
+<p>Proportional allocation, \(n_h=(187.5,\ 93.75,\ 18.75)\):</p>
+<div class="f">\[V_{\mathrm{prop}}=\frac{39.0625}{187.5}+\frac{21.9727}{93.75}+\frac{1.5625}{18.75}=0.5260\]</div>
+<p>Kish allocation, \(n_h=(148.27,\ 104.85,\ 46.88)\):</p>
+<div class="f">\[V_K=\frac{39.0625}{148.27}+\frac{21.9727}{104.85}+\frac{1.5625}{46.88}=0.5064\]</div>
+<p>Neyman allocation. First the constant:</p>
+<div class="f">\[A=\sum_hw_hS_h=0.625(10)+0.3125(15)+0.0625(20)=12.1875\]</div>
+<div class="f">\[V_{\mathrm{opt}}=\frac{A^2}{n}=\frac{148.5352}{300}=0.4951\]</div>
+<p>Putting them in order:</p>
+<div class="f">\[V_{\mathrm{opt}}=0.4951\ \lt\ V_K=0.5064\ \lt\ V_{\mathrm{prop}}=0.5260\ \lt\ V_{\mathrm{eq}}=0.6260\]</div>
+<p class="mut">Two lessons. Neyman is still the smallest, as Part 3 promised. But Kish beats proportional comfortably here, because proportional gave the small, highly variable third stratum only 19 units while Kish gave it 47.</p>
+</div></div>
+</div>
+<div class="box nt"><b>Do not over-read the example.</b> Kish is not guaranteed to beat proportional. In the practice exercises there is a data set where equal allocation beats both. The only guaranteed chain is \(V_{\mathrm{opt}}\le V_K\), because Neyman is the minimum over all allocations and Kish is one allocation. The derivation is D4.</div></section>
+
+<section id="ps"><h2>Post-stratification: what it is</h2>
+<p>Sometimes the sample is already in the field before you learn how the population is composed. Post-stratification is the repair job: split the finished sample into groups, and reweight so the groups match the known population shares.</p>
+<div class="fc"><h3>The idea in three steps</h3>
+<ol><li>Draw the sample and collect the data.</li><li>Sort the sampled units into groups called <b>post-strata</b>. These are mutually exclusive and cover everyone.</li><li>Weight each post-stratum by its <b>known</b> population share \(N_h/N\), taken from a census or an administrative register.</li></ol>
+<p>The post-stratification weight is</p>
+<div class="f">\[W_h=\frac{N_h}{N}\]</div>
+<p>where \(N_h\) is the known population size of post-stratum \(h\), and \(n_h\) is how many sampled units happened to land in it.</p>
+</div>
+<div style="overflow-x:auto"><table>
+<tr><th>Feature</th><th>Stratified sampling</th><th>Post-stratification</th></tr>
+<tr><td>Groups known before sampling</td><td>Yes</td><td>Not necessarily</td></tr>
+<tr><td>When the sample is drawn</td><td>Inside each stratum</td><td>Before groups exist</td></tr>
+<tr><td>Where \(N_h\) is used</td><td>In the design</td><td>In the estimation</td></tr>
+<tr><td>Sample sizes \(n_h\)</td><td>Planned in advance</td><td>Whatever happened to appear</td></tr>
+<tr><td>Main purpose</td><td>Precision by design</td><td>Adjustment, then precision</td></tr>
+</table></div>
+<div class="box"><b>Why bother?</b> A simple random sample can land with the wrong mix of men and women, young and old, urban and rural. If the true mix is known from the census, reweighting to that mix removes a bias that would otherwise sit in the estimate. It does not change who was interviewed. It changes how much each interviewed unit counts.</div></section>
+
+<section id="psest"><h2>The post-stratified estimator</h2>
+<div class="fc"><h3>Formula</h3>
+<p>Let \(s_h\) be the sampled units that fall in post-stratum \(h\), and let \(n_h\) be how many there are. The sample mean inside the post-stratum is</p>
+<div class="f">\[\bar y_h=\frac{1}{n_h}\sum_{i\in s_h}y_i\]</div>
+<p>The post-stratified estimator replaces the sample share by the known population share.</p>
+<div class="f">\[\bar y_{PS}=\sum_{h=1}^{H}W_h\bar y_h=\sum_{h=1}^{H}\frac{N_h}{N}\bar y_h\]</div>
+<p>Compare it with the ordinary sample mean, which uses whatever shares the sample happened to produce.</p>
+<div class="f">\[\bar y=\sum_{h=1}^{H}\frac{n_h}{n}\bar y_h\]</div>
+<p>The only difference is the weight: \(n_h/n\) becomes \(N_h/N\).</p>
+<div class="qa"><div class="q"><b>Question.</b> A health survey splits into urban and rural post-strata. Urban: \(N_U=6000\), \(n_U=80\), \(\bar y_U=24\). Rural: \(N_R=4000\), \(n_R=120\), \(\bar y_R=30\). Total population \(N=10000\). Find the post-stratified mean and the ordinary mean.</div><div class="s"><b>Solution.</b>
+<p>Population weights:</p>
+<div class="f">\[W_U=\frac{6000}{10000}=0.60\]</div>
+<div class="f">\[W_R=\frac{4000}{10000}=0.40\]</div>
+<p>Post-stratified mean:</p>
+<div class="f">\[\bar y_{PS}=0.60(24)+0.40(30)\]</div>
+<div class="f">\[\bar y_{PS}=14.4+12=26.4\]</div>
+<p>Ordinary mean. The sample is 40% urban and 60% rural, the reverse of the population:</p>
+<div class="f">\[\bar y=\frac{80}{200}(24)+\frac{120}{200}(30)\]</div>
+<div class="f">\[\bar y=0.4(24)+0.6(30)=9.6+18=27.6\]</div>
+<p>Rural units are over-represented and they score higher, so the ordinary mean is pulled up by 1.2.</p>
+<div class="f">\[\bar y_{PS}-\bar y=26.4-27.6=-1.2\]</div>
+</div></div>
+</div>
+<div class="fc"><h3>A three-stratum example</h3>
+<div class="qa"><div class="q"><b>Question.</b> Post-strata with \(N=(6000,\ 3000,\ 1000)\), sample counts \(n=(70,\ 50,\ 80)\), and sample means \(\bar y=(24,\ 30,\ 45)\). Total sample \(n=200\). Find both estimates.</div><div class="s"><b>Solution.</b>
+<p>Population weights:</p>
+<div class="f">\[W=(0.6,\ 0.3,\ 0.1)\]</div>
+<p>Post-stratified mean:</p>
+<div class="f">\[\bar y_{PS}=0.6(24)+0.3(30)+0.1(45)\]</div>
+<div class="f">\[\bar y_{PS}=14.4+9+4.5=27.9\]</div>
+<p>Sample shares:</p>
+<div class="f">\[\frac{n_h}{n}=(0.35,\ 0.25,\ 0.40)\]</div>
+<p>Ordinary mean:</p>
+<div class="f">\[\bar y=0.35(24)+0.25(30)+0.40(45)\]</div>
+<div class="f">\[\bar y=8.4+7.5+18=33.9\]</div>
+<p>The gap is large because the third post-stratum, which has the highest mean, is 40% of the sample but only 10% of the population.</p>
+<div class="f">\[\bar y_{PS}-\bar y=27.9-33.9=-6.0\]</div>
+</div></div>
+</div>
+<div class="box"><b>Check the gap by hand.</b> The difference is a weighted sum of the weight mismatches.
+<div class="f">\[\bar y_{PS}-\bar y=\sum_h\Big(\frac{N_h}{N}-\frac{n_h}{n}\Big)\bar y_h\]</div>
+<p>For the three-stratum example:</p>
+<div class="f">\[(0.6-0.35)(24)+(0.3-0.25)(30)+(0.1-0.40)(45)\]</div>
+<div class="f">\[=6+1.5-13.5=-6.0\]</div>
+<p>It matches. The formula is derived in D5.</p>
+</div></section>
+
+<section id="psw"><h2>Post-stratification as a weight adjustment</h2>
+<p>In practice post-stratification is applied by changing the weight of every sampled unit. Start with the design weight \(d_i\) that each unit already carries.</p>
+<div class="fc"><h3>Formulas</h3>
+<p>First add up the design weights inside each post-stratum. That is the population size the sample claims to represent there.</p>
+<div class="f">\[\hat N_h=\sum_{i\in s_h}d_i\]</div>
+<p>Compare that with the true size from the register, and stretch or shrink every weight by the ratio.</p>
+<div class="f">\[w_i^{*}=d_i\,\frac{N_h}{\hat N_h},\qquad i\in s_h\]</div>
+<p>The adjustment factor is the ratio on its own.</p>
+<div class="f">\[A_h=\frac{N_h}{\hat N_h}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Two post-strata, urban and rural. \(N_U=6000\), \(N_R=4000\), total \(N=10000\), total sample \(n=200\), with \(n_U=80\) and \(n_R=120\). Every unit starts with the same design weight \(d=N/n=50\). Find \(\hat N_h\), the adjustment factors and the new weights.</div><div class="s"><b>Solution.</b>
+<p>What the sample represents before adjustment:</p>
+<div class="f">\[\hat N_U=80(50)=4000\]</div>
+<div class="f">\[\hat N_R=120(50)=6000\]</div>
+<p>Adjustment factors:</p>
+<div class="f">\[A_U=\frac{6000}{4000}=1.5\]</div>
+<div class="f">\[A_R=\frac{4000}{6000}=0.6667\]</div>
+<p>Urban is under-represented, so its factor is above 1. Rural is over-represented, so its factor is below 1.</p>
+<p>New weights:</p>
+<div class="f">\[w_U^{*}=50(1.5)=75\]</div>
+<div class="f">\[w_R^{*}=50(0.6667)=33.3333\]</div>
+<p>Calibration check, the weights must now add up to the known sizes:</p>
+<div class="f">\[80(75)=6000=N_U\]</div>
+<div class="f">\[120(33.3333)=4000=N_R\]</div>
+<p>And the grand total:</p>
+<div class="f">\[6000+4000=10000=N\]</div>
+<p class="mut">The adjusted weighted mean now reproduces the post-stratified estimate of 26.4 exactly. The algebra is in D7.</p>
+</div></div>
+</div>
+<div class="box"><b>Weight adjuster.</b> Give the true sizes, the sample counts and the observed means. The panel shows the post-stratified mean, the ordinary mean, and the adjusted weights.
+<div class="row"><label>\(N_h\) <input type="text" id="wN" value="6000,4000" style="width:170px"></label><label>\(n_h\) <input type="text" id="wn" value="80,120" style="width:170px"></label><label>\(\bar y_h\) <input type="text" id="wM" value="24,30" style="width:170px"></label></div>
+<div id="wout"></div></div></section>
+
+<section id="sum"><h2>Quick recap</h2>
+<div style="overflow-x:auto"><table class="ft">
+<tr><th>Idea</th><th>Formula</th><th>In one line</th></tr>
+<tr><td>Kish allocation</td><td>\(n_h=n\,N_h^{\alpha}/\sum_gN_g^{\alpha}\)</td><td>share grows like a power of stratum size</td></tr>
+<tr><td>\(\alpha=0\)</td><td>\(n_h=n/H\)</td><td>equal allocation</td></tr>
+<tr><td>\(\alpha=1\)</td><td>\(n_h=nN_h/N\)</td><td>proportional allocation</td></tr>
+<tr><td>Variance under Kish</td><td>\(V_K=\dfrac{\sum_gN_g^{\alpha}}{n}\sum_h\dfrac{w_h^2S_h^2}{N_h^{\alpha}}\)</td><td>Part 3 variance with \(N_h^{\alpha}\) in place of \(n_h\)</td></tr>
+<tr><td>Post-stratified mean</td><td>\(\bar y_{PS}=\sum_h\dfrac{N_h}{N}\bar y_h\)</td><td>use known population shares, not sample shares</td></tr>
+<tr><td>Adjustment factor</td><td>\(A_h=N_h/\hat N_h\)</td><td>stretch under-represented groups</td></tr>
+<tr><td>Adjusted weight</td><td>\(w_i^{*}=d_iN_h/\hat N_h\)</td><td>calibrates weights to known totals</td></tr>
+</table></div>
+<div class="box"><b>Two ideas, one sentence each.</b> Kish fixes the <em>design</em> when variability is unknown. Post-stratification fixes the <em>estimation</em> when the composition turns out wrong.</div></section>
+
+<section id="prac"><h2>Practice</h2>
+<div class="fc"><h3>Exercise 1: Kish allocation</h3>
+<p>Strata \(N=(20000,\ 10000,\ 5000)\), total sample \(n=350\), power \(\alpha=0.5\). Find the sample sizes.</p>
+<details class="ans"><summary>Show answer</summary>
+<div class="f">\[N^{0.5}=(141.4214,\ 100,\ 70.7107)\]</div>
+<div class="f">\[\sum_gN_g^{0.5}=312.1321\]</div>
+<div class="f">\[(n_1,n_2,n_3)=350\frac{(141.4214,\ 100,\ 70.7107)}{312.1321}\]</div>
+<div class="f">\[(n_1,n_2,n_3)=(158.57,\ 112.13,\ 79.30)\]</div>
+<p>After rounding: \((159,\ 112,\ 79)\), which adds to 350.</p>
+</details></div>
+
+<div class="fc"><h3>Exercise 2: Kish variance against the alternatives</h3>
+<p>Strata \(N=(4000,\ 4000,\ 2000)\), spreads \(S=(5,\ 10,\ 20)\), total sample \(n=200\), \(\alpha=0.5\). Find the variance under equal, proportional, Kish and Neyman allocation, and put them in order.</p>
+<details class="ans"><summary>Show answer</summary>
+<p>Weights and numerators:</p>
+<div class="f">\[w=(0.4,\ 0.4,\ 0.2)\]</div>
+<div class="f">\[w_h^2S_h^2=(4,\ 16,\ 16)\]</div>
+<p>Kish sizes:</p>
+<div class="f">\[N^{0.5}=(63.2456,\ 63.2456,\ 44.7214)\]</div>
+<div class="f">\[\sum_gN_g^{0.5}=171.2125\]</div>
+<div class="f">\[(n_1,n_2,n_3)=(73.88,\ 73.88,\ 52.24)\]</div>
+<div class="f">\[V_K=\frac{4}{73.88}+\frac{16}{73.88}+\frac{16}{52.24}=0.5770\]</div>
+<p>Equal, \(n_h=66.67\):</p>
+<div class="f">\[V_{\mathrm{eq}}=\frac{4+16+16}{66.67}=0.5400\]</div>
+<p>Proportional, \(n_h=(80,\ 80,\ 40)\):</p>
+<div class="f">\[V_{\mathrm{prop}}=\frac{4}{80}+\frac{16}{80}+\frac{16}{40}=0.6500\]</div>
+<p>Neyman:</p>
+<div class="f">\[A=0.4(5)+0.4(10)+0.2(20)=10\]</div>
+<div class="f">\[V_{\mathrm{opt}}=\frac{100}{200}=0.5000\]</div>
+<p>Order:</p>
+<div class="f">\[0.5000\ \lt\ 0.5400\ \lt\ 0.5770\ \lt\ 0.6500\]</div>
+<p class="mut">Here equal allocation beats both Kish and proportional. The third stratum is tiny but far more variable, so giving it a fixed 100 units through equal allocation pays off. This is exactly why Kish is called a practical rule, not an optimal one.</p>
+</details></div>
+
+<div class="fc"><h3>Exercise 3: post-stratified mean and weights</h3>
+<p>Post-strata \(N=(5000,\ 3000,\ 2000)\), sample counts \(n=(60,\ 90,\ 50)\), sample means \(\bar y=(30,\ 40,\ 50)\). Find \(\bar y_{PS}\), \(\bar y\), and the adjusted weights when every unit starts with \(d=N/n\).</p>
+<details class="ans"><summary>Show answer</summary>
+<p>Weights and shares:</p>
+<div class="f">\[W=(0.5,\ 0.3,\ 0.2)\]</div>
+<div class="f">\[\frac{n_h}{n}=(0.3,\ 0.45,\ 0.25)\]</div>
+<p>Post-stratified mean:</p>
+<div class="f">\[\bar y_{PS}=0.5(30)+0.3(40)+0.2(50)=15+12+10=37\]</div>
+<p>Ordinary mean:</p>
+<div class="f">\[\bar y=0.3(30)+0.45(40)+0.25(50)=9+18+12.5=39.5\]</div>
+<p>Gap:</p>
+<div class="f">\[\bar y_{PS}-\bar y=-2.5\]</div>
+<p>Design weight:</p>
+<div class="f">\[d=\frac{10000}{200}=50\]</div>
+<p>Represented sizes and factors:</p>
+<div class="f">\[\hat N=(3000,\ 4500,\ 2500)\]</div>
+<div class="f">\[A=(1.6667,\ 0.6667,\ 0.8000)\]</div>
+<p>Adjusted weights:</p>
+<div class="f">\[w^{*}=(83.3333,\ 33.3333,\ 40)\]</div>
+<p>Calibration check:</p>
+<div class="f">\[60(83.3333)=5000,\qquad 90(33.3333)=3000,\qquad 50(40)=2000\]</div>
+</details></div></section>
+
+<section id="calc"><h2>Calculator</h2>
+<div class="box"><div class="row"><label>Case <select id="cm"></select></label></div><div class="row" id="cf"></div><div class="out" id="co"></div><p class="mut">Enter lists separated by commas, one value per stratum. Variance cases ignore the FPC. Results update as you type.</p></div></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it. D1–D2 the Kish rule and its special cases, D3–D4 its variance and its relation to Neyman, D5–D7 the post-stratified estimator and its weights.</p>
+<div id="dl"></div></section>
+
+<section id="form"><h2>Formula sheet</h2><div id="fl"></div><h3>Meaning of symbols</h3><div id="sy"></div></section>
+</main>
+<script>
+const D=[
+["D1",String.raw`\(n_h=n\,N_h^{\alpha}/\sum_{g}N_g^{\alpha}\) adds up to \(n\)`,String.raw`<ol>
+<li><b>Short notation.</b> Put \(P_h=N_h^{\alpha}\) and \(S=\sum_{g=1}^{H}P_g\). The rule is
+\[n_h=n\frac{P_h}{S}.\]</li>
+<li><b>Add over all strata.</b>
+\[\sum_{h=1}^{H}n_h=n\frac{\sum_hP_h}{S}=n\frac{S}{S}=n.\]</li>
+<li><b>Read the sample share.</b> Each stratum takes
+\[\frac{n_h}{n}=\frac{N_h^{\alpha}}{\sum_gN_g^{\alpha}}.\]</li>
+<li><b>Read the sampling fraction.</b> Divide by \(N_h\):
+\[\frac{n_h}{N_h}=\frac{n}{\sum_gN_g^{\alpha}}\,N_h^{\alpha-1}.\]</li>
+<li><b>What the exponent says.</b> For \(0\le\alpha\lt1\) the exponent \(\alpha-1\) is negative, so the sampling fraction falls as \(N_h\) grows. Small strata are sampled at higher rates, which is the protective part of the rule.</li>
+<li><b>Example check.</b> \(N=(10000,5000,1000)\), \(\alpha=0.5\), \(n=300\): the shares are \(0.4942,0.3495,0.1563\) and they add to 1, so the sizes add to 300.</li>
+</ol>`],
+["D2",String.raw`Special cases: \(\alpha=0\) gives equal, \(\alpha=1\) gives proportional`,String.raw`<ol>
+<li><b>\(\alpha=0\).</b> Any positive number to the power zero is 1, so
+\[N_h^{0}=1.\]</li>
+<li><b>Denominator.</b> Adding 1 over \(H\) strata gives
+\[\sum_{g=1}^{H}N_g^{0}=H.\]</li>
+<li><b>Substitute.</b>
+\[n_h=n\frac{1}{H}=\frac{n}{H}.\]</li>
+<li><b>\(\alpha=1\).</b> To the power one, each number is itself:
+\[N_h^{1}=N_h.\]</li>
+<li><b>Denominator.</b>
+\[\sum_{g=1}^{H}N_g^{1}=N.\]</li>
+<li><b>Substitute.</b>
+\[n_h=n\frac{N_h}{N}=nw_h.\]</li>
+<li><b>Intermediate case.</b> Divide one stratum by another to see the tilt:
+\[\frac{n_h}{n_g}=\Big(\frac{N_h}{N_g}\Big)^{\alpha}.\]</li>
+<li><b>Reading.</b> A stratum four times larger gets \(4^{\alpha}\) times the sample. At \(\alpha=0.5\) that is 2, not 4.</li>
+</ol>`],
+["D3",String.raw`Variance under Kish allocation`,String.raw`<ol>
+<li><b>Start from Part 3.</b> With the FPC ignored,
+\[V=\sum_{h=1}^{H}\frac{w_h^2S_h^2}{n_h}.\]</li>
+<li><b>Substitute the Kish size.</b>
+\[n_h=n\frac{N_h^{\alpha}}{\sum_gN_g^{\alpha}}.\]</li>
+<li><b>Invert it.</b> The \(n_h\) sits in a denominator, so
+\[\frac{1}{n_h}=\frac{\sum_gN_g^{\alpha}}{n\,N_h^{\alpha}}.\]</li>
+<li><b>Insert into the variance.</b>
+\[V_K=\sum_{h=1}^{H}w_h^2S_h^2\frac{\sum_gN_g^{\alpha}}{n\,N_h^{\alpha}}.\]</li>
+<li><b>Pull the constant out.</b> The sum \(\sum_gN_g^{\alpha}\) does not depend on \(h\), so it factors out:
+\[V_K=\frac{\sum_gN_g^{\alpha}}{n}\sum_{h=1}^{H}\frac{w_h^2S_h^2}{N_h^{\alpha}}.\]</li>
+<li><b>Sanity check.</b> At \(\alpha=1\) the constant is \(N\), the inner term is \(w_h^2S_h^2/N_h\), and the whole thing reduces to \(\frac1n\sum_hw_hS_h^2\), which is the proportional variance from Part 3.</li>
+<li><b>Numbers.</b> \(N=(10000,5000,1000)\), \(S=(10,15,20)\), \(n=300\), \(\alpha=0.5\):
+\[\sum_gN_g^{0.5}=202.3334.\]</li>
+<li><b>Inner sum.</b>
+\[\frac{39.0625}{100}+\frac{21.9727}{70.7107}+\frac{1.5625}{31.6228}=0.3906+0.3107+0.0494=0.7508.\]</li>
+<li><b>Multiply.</b>
+\[V_K=\frac{202.3334}{300}(0.7508)=0.5064.\]</li>
+</ol>`],
+["D4",String.raw`\(V_{\mathrm{opt}}\le V_K\): Kish cannot beat Neyman`,String.raw`<ol>
+<li><b>Neyman is the minimum over all allocations.</b> Part 2 showed that \(n_h\propto N_hS_h\) minimises \(\sum_hw_h^2S_h^2/n_h\) subject to \(\sum_hn_h=n\).</li>
+<li><b>Kish is one allocation among many.</b> It satisfies the same constraint, so it cannot go below the minimum:
+\[V_{\mathrm{opt}}\le V_K.\]</li>
+<li><b>When can they tie?</b> Only when the two proportionality rules point the same way:
+\[N_hS_h\propto N_h^{\alpha}.\]</li>
+<li><b>Divide by \(N_h\).</b>
+\[S_h\propto N_h^{\alpha-1}.\]</li>
+<li><b>Case \(\alpha=1\).</b> Then \(S_h\propto N_h^{0}=1\), so all spreads are equal, and both rules collapse to proportional allocation.</li>
+<li><b>Case \(\alpha=0\).</b> Then \(N_hS_h\) must be constant, which is a very special shape of population, not a general fact.</li>
+<li><b>Conclusion.</b> Kish is a practical compromise. It never beats Neyman, but it never needs \(S_h\) either.</li>
+</ol>`],
+["D5",String.raw`\(\bar y_{PS}=\sum_h(N_h/N)\bar y_h\) and how it differs from \(\bar y\)`,String.raw`<ol>
+<li><b>Set up.</b> Let \(s_h\) be the sampled units that fall into post-stratum \(h\), and \(n_h\) the number of them. Then
+\[n=\sum_{h=1}^{H}n_h.\]</li>
+<li><b>Write the ordinary mean.</b> Group the sum by post-stratum:
+\[\bar y=\frac1n\sum_{h=1}^{H}\sum_{i\in s_h}y_i=\frac1n\sum_{h=1}^{H}n_h\bar y_h.\]</li>
+<li><b>Turn it into a weighted average.</b>
+\[\bar y=\sum_{h=1}^{H}\frac{n_h}{n}\bar y_h.\]</li>
+<li><b>Replace the sample share by the population share.</b>
+\[\bar y_{PS}=\sum_{h=1}^{H}\frac{N_h}{N}\bar y_h.\]</li>
+<li><b>Subtract.</b>
+\[\bar y_{PS}-\bar y=\sum_{h=1}^{H}\Big(\frac{N_h}{N}-\frac{n_h}{n}\Big)\bar y_h.\]</li>
+<li><b>When is the gap zero?</b> Only when \(n_h/n=N_h/N\) for every post-stratum, or when all \(\bar y_h\) are equal. Otherwise the ordinary mean is pulled toward whatever groups the sample over-represents.</li>
+<li><b>Check with numbers.</b> \(N=(6000,4000)\), \(n=(80,120)\), \(\bar y=(24,30)\):
+\[\Big(\frac{6000}{10000}-\frac{80}{200}\Big)24+\Big(\frac{4000}{10000}-\frac{120}{200}\Big)30\]</li>
+<li><b>Evaluate.</b>
+\[(0.6-0.4)24+(0.4-0.6)30=4.8-6=-1.2.\]</li>
+<li><b>Compare with the direct difference.</b>
+\[26.4-27.6=-1.2.\]</li>
+</ol>`],
+["D6",String.raw`Bias: post-stratification corrects it, the ordinary mean keeps it`,String.raw`<ol>
+<li><b>Condition on the realised composition.</b> Fix the counts \((n_1,\dots,n_H)\), all at least 1. Given those counts, the units inside \(s_h\) form a simple random sample of the \(N_h\) units of post-stratum \(h\).</li>
+<li><b>Unbiased inside each post-stratum.</b>
+\[\E(\bar y_h\mid n_h)=\bar Y_h.\]</li>
+<li><b>Take the expectation of the post-stratified mean.</b>
+\[\E(\bar y_{PS}\mid n_h)=\sum_{h=1}^{H}\frac{N_h}{N}\bar Y_h=\bar Y.\]</li>
+<li><b>Take the expectation of the ordinary mean.</b>
+\[\E(\bar y\mid n_h)=\sum_{h=1}^{H}\frac{n_h}{n}\bar Y_h.\]</li>
+<li><b>Subtract to get the bias.</b>
+\[\text{bias}=\sum_{h=1}^{H}\Big(\frac{n_h}{n}-\frac{N_h}{N}\Big)\bar Y_h.\]</li>
+<li><b>Read the bias.</b> It is zero only if the sample shares match the population shares, or if all post-stratum means are equal. With an unlucky sample the ordinary mean inherits a bias; the post-stratified mean does not.</li>
+<li><b>Two-stratum check.</b> Sample shares \((0.4,0.6)\), population shares \((0.6,0.4)\), true means \((24,30)\):
+\[(0.4-0.6)24+(0.6-0.4)30=-4.8+6=1.2.\]</li>
+<li><b>Match with the observed gap.</b> The ordinary mean exceeded the post-stratified mean by exactly 1.2, as it should.</li>
+</ol>`],
+["D7",String.raw`Weight adjustment \(w_i^{*}=d_iN_h/\hat N_h\) reproduces \(\bar y_{PS}\)`,String.raw`<ol>
+<li><b>Start from the design weights.</b> Let \(d_i\) be the weight unit \(i\) already carries from the sampling design.</li>
+<li><b>Add them inside a post-stratum.</b>
+\[\hat N_h=\sum_{i\in s_h}d_i.\]</li>
+<li><b>Stretch by the known size.</b> Define the adjusted weight
+\[w_i^{*}=d_i\frac{N_h}{\hat N_h},\qquad i\in s_h.\]</li>
+<li><b>Calibration.</b> Add the adjusted weights inside the post-stratum:
+\[\sum_{i\in s_h}w_i^{*}=\frac{N_h}{\hat N_h}\sum_{i\in s_h}d_i=N_h.\]</li>
+<li><b>Grand total.</b> Sum over post-strata:
+\[\sum_{i=1}^{n}w_i^{*}=\sum_{h=1}^{H}N_h=N.\]</li>
+<li><b>Weighted mean.</b> Divide the weighted total of \(y\) by \(N\):
+\[\frac1N\sum_{i=1}^{n}w_i^{*}y_i=\sum_{h=1}^{H}\frac{N_h}{N}\cdot\frac{1}{\hat N_h}\sum_{i\in s_h}d_iy_i.\]</li>
+<li><b>Equal design weights.</b> If \(d_i=d\) for all units, then \(\hat N_h=dn_h\) and the inner fraction is just \(\bar y_h\), so
+\[\frac1N\sum_iw_i^{*}y_i=\sum_{h=1}^{H}\frac{N_h}{N}\bar y_h=\bar y_{PS}.\]</li>
+<li><b>Adjustment factor.</b> \(A_h=N_h/\hat N_h\) is above 1 when the post-stratum is under-represented and below 1 when it is over-represented.</li>
+<li><b>Numbers.</b> \(N=(6000,4000)\), \(n=(80,120)\), \(d=50\): \(\hat N=(4000,6000)\), \(A=(1.5,0.6667)\), \(w^{*}=(75,33.3333)\).</li>
+<li><b>Check totals.</b>
+\[80(75)=6000,\qquad 120(33.3333)=4000.\]</li>
+</ol>`]];
+const dl=document.getElementById('dl');dl.innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+dl.querySelectorAll('.dv').forEach(d=>{const sm=d.querySelector('summary'),b=d.querySelector('.bd'),T=matchMedia('(prefers-reduced-motion:reduce)').matches?0:320;
+sm.addEventListener('click',e=>{e.preventDefault();if(d._a)d._a.cancel();
+if(!d.classList.contains('op')){d.open=true;d.classList.add('op');const h=b.scrollHeight;d._a=b.animate({height:['0px',h+'px'],opacity:[0,1]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d._a=null}}
+else{d.classList.remove('op');const h=b.offsetHeight;d._a=b.animate({height:[h+'px','0px'],opacity:[1,0]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d.open=false;d._a=null}}})});
+
+const FT=[
+["Kish allocation",["Quantity","Formula"],[
+["Allocation",String.raw`n_h=n\,\dfrac{N_h^{\alpha}}{\sum_{g=1}^{H}N_g^{\alpha}},\qquad 0\le\alpha\le1`],
+["Sample share",String.raw`\dfrac{n_h}{n}=\dfrac{N_h^{\alpha}}{\sum_gN_g^{\alpha}}`],
+["Sampling fraction",String.raw`\dfrac{n_h}{N_h}=\dfrac{n}{\sum_gN_g^{\alpha}}\,N_h^{\alpha-1}`],
+["Ratio of two strata",String.raw`\dfrac{n_h}{n_g}=\Big(\dfrac{N_h}{N_g}\Big)^{\alpha}`],
+["Equal, \(\alpha=0\)",String.raw`n_h=\dfrac{n}{H}`],
+["Proportional, \(\alpha=1\)",String.raw`n_h=n\dfrac{N_h}{N}=nw_h`],
+["Variance under Kish",String.raw`V_K=\dfrac{\sum_gN_g^{\alpha}}{n}\sum_{h=1}^{H}\dfrac{w_h^2S_h^2}{N_h^{\alpha}}`],
+["Neyman comparison",String.raw`n_h=n\dfrac{N_hS_h}{\sum_gN_gS_g},\qquad V_{\mathrm{opt}}\le V_K`]]],
+["Post-stratification",["Quantity","Formula"],[
+["Post-stratification weight",String.raw`W_h=\dfrac{N_h}{N}`],
+["Post-stratum sample mean",String.raw`\bar y_h=\dfrac{1}{n_h}\sum_{i\in s_h}y_i`],
+["Post-stratified mean",String.raw`\bar y_{PS}=\sum_{h=1}^{H}\dfrac{N_h}{N}\bar y_h`],
+["Ordinary sample mean",String.raw`\bar y=\sum_{h=1}^{H}\dfrac{n_h}{n}\bar y_h`],
+["Difference",String.raw`\bar y_{PS}-\bar y=\sum_{h=1}^{H}\Big(\dfrac{N_h}{N}-\dfrac{n_h}{n}\Big)\bar y_h`],
+["Bias of the ordinary mean",String.raw`\sum_{h=1}^{H}\Big(\dfrac{n_h}{n}-\dfrac{N_h}{N}\Big)\bar Y_h`],
+["Represented size",String.raw`\hat N_h=\sum_{i\in s_h}d_i`],
+["Adjusted weight",String.raw`w_i^{*}=d_i\,\dfrac{N_h}{\hat N_h},\qquad i\in s_h`],
+["Adjustment factor",String.raw`A_h=\dfrac{N_h}{\hat N_h}`],
+["Calibration",String.raw`\sum_{i\in s_h}w_i^{*}=N_h,\qquad \sum_{i=1}^{n}w_i^{*}=N`]]]];
+document.getElementById('fl').innerHTML=FT.map(g=>`<h3>${g[0]}</h3><div style="overflow-x:auto"><table class="ft"><tr>${g[1].map(h=>`<th>${h}</th>`).join('')}</tr>`+g[2].map(r=>`<tr><td>${r[0]}</td><td>\\(\\displaystyle ${r[1]}\\)</td></tr>`).join('')+'</table></div>').join('');
+const SY=[[String.raw`H,\ h`,"number of strata, stratum index (same roles as \(k,i\) in Parts 1–3)"],[String.raw`N,\ N_h`,"population size, size of stratum \(h\)"],[String.raw`n,\ n_h`,"total sample size, sample size in stratum \(h\)"],[String.raw`w_h`,"stratum weight \(N_h/N\)"],[String.raw`S_h`,"standard deviation inside stratum \(h\)"],[String.raw`\alpha`,"power in the Kish rule, \(0\le\alpha\le1\)"],[String.raw`V_K`,"variance under Kish allocation"],[String.raw`V_{\mathrm{opt}}`,"variance under Neyman allocation"],[String.raw`s_h`,"set of sampled units that fall in post-stratum \(h\)"],[String.raw`n_h`,"number of sampled units in post-stratum \(h\)"],[String.raw`\bar y_h`,"sample mean inside post-stratum \(h\)"],[String.raw`W_h`,"post-stratification weight \(N_h/N\)"],[String.raw`\bar y_{PS}`,"post-stratified estimator of the population mean"],[String.raw`\bar y`,"ordinary sample mean"],[String.raw`d_i`,"initial design weight of unit \(i\)"],[String.raw`w_i^{*}`,"adjusted weight after post-stratification"],[String.raw`\hat N_h`,"population size represented by the sample in post-stratum \(h\)"],[String.raw`A_h`,"adjustment factor \(N_h/\hat N_h\)"]];
+document.getElementById('sy').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr><th>Symbol</th><th>Meaning</th></tr>'+SY.map(r=>`<tr><td>\\(${r[0]}\\)</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
+// theme (scroll position preserved)
+const th=document.getElementById('th'),R=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// helpers
+const L=s=>String(s).split(/[\s,;]+/).filter(Boolean).map(Number),sum=a=>a.reduce((p,q)=>p+q,0),g=x=>isFinite(x)?String(+x.toFixed(4)):'—';
+const tab=(h,r)=>'<div style="overflow-x:auto"><table><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(a=>'<tr>'+a.map(x=>`<td>${x}</td>`).join('')+'</tr>').join('')+'</table></div>';
+const bad='Check that all lists have the same length and the numbers are valid.';
+const sk=(arr,nm)=>`<div>${nm}</div><div class="stk">${arr.map((x,i)=>`<div style="width:${sum(arr)>0?x/sum(arr)*100:0}%;opacity:${Math.max(.4,1-i*.17)}">${g(x)}</div>`).join('')}</div>`;
+
+// widget 1: Kish dial
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('kN').value),S=L(e('kS').value),n=+e('kn').value,a=+e('ka').value;
+e('kav').textContent=a.toFixed(2);
+if(!N.length||N.length!=S.length||!(n>0)){e('kout').innerHTML='<p class="mut">Enter equal-length lists and n greater than 0.</p>';return}
+const T=sum(N),w=N.map(x=>x/T),P=N.map(x=>Math.pow(x,a)),SP=sum(P),nh=P.map(x=>n*x/SP),V=sum(w.map((x,i)=>x*x*S[i]*S[i]/nh[i]));
+e('kout').innerHTML=tab(['Stratum','N_h','N_h^α','share','n_h'],N.map((x,i)=>[i+1,x,g(P[i]),g(P[i]/SP),g(nh[i])]))
++sk(nh,'Where the sample goes')
++`<p class="mut">Rounded: ${nh.map(Math.round).join(', ')}. Variance V_K = ${g(V)}. At α = 0 the bars are equal; at α = 1 they match the population shares.</p>`;
+}
+['kN','kS','kn','ka'].forEach(i=>{e(i).oninput=run;e(i).onchange=run});run();
+})();
+
+// widget 2: alpha comparison table
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('aN').value),n=+e('an').value;
+if(!N.length||!(n>0)){e('aout').innerHTML='<p class="mut">Enter N_h and n greater than 0.</p>';return}
+const al=[0,0.25,0.5,0.75,1],rows=al.map(a=>{const P=N.map(x=>Math.pow(x,a)),SP=sum(P),nh=P.map(x=>n*x/SP);return`<tr><td>${a}</td>`+nh.map(v=>`<td>${g(v)}</td>`).join('')+`<td>${g(sum(nh))}</td></tr>`});
+e('aout').innerHTML='<div style="overflow-x:auto"><table><tr><th>α</th>'+N.map((x,i)=>`<th>n<sub>${i+1}</sub></th>`).join('')+'<th>Σ n_h</th></tr>'+rows.join('')+'</table></div>'
++`<p class="mut">Total population N = ${sum(N)}. Every row adds to the same n = ${n}. Notice how the smallest stratum loses units as α rises.</p>`;
+}
+['aN','an'].forEach(i=>e(i).oninput=run);run();
+})();
+
+// widget 3: post-stratification weights
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('wN').value),n=L(e('wn').value),m=L(e('wM').value);
+if(!N.length||N.length!=n.length||N.length!=m.length||n.some(x=>x<=0)){e('wout').innerHTML='<p class="mut">Enter equal-length lists; every n_h must be positive.</p>';return}
+const T=sum(N),nt=sum(n),W=N.map(x=>x/T),sh=n.map(x=>x/nt);
+const ps=sum(W.map((x,i)=>x*m[i])),ord=sum(sh.map((x,i)=>x*m[i])),d=T/nt;
+const Nh=n.map(x=>x*d),A=N.map((x,i)=>x/Nh[i]),ws=A.map((x,i)=>x*d);
+e('wout').innerHTML=tab(['Post-stratum','N_h','n_h','W_h','n_h/n','ȳ_h'],N.map((x,i)=>[i+1,x,n[i],g(W[i]),g(sh[i]),m[i]]))
++`ȳ_PS = Σ W_h ȳ_h = ${g(ps)}<br>ȳ = Σ (n_h/n) ȳ_h = ${g(ord)}<br>Difference = ${g(ps-ord)}<br>`
++tab(['Post-stratum','N̂_h','A_h','w* = d A_h'],N.map((x,i)=>[i+1,g(Nh[i]),g(A[i]),g(ws[i])]))
++`<p class="mut">Design weight d = N/n = ${g(d)}. Calibration check: Σ n_h w*_h = ${g(sum(n.map((x,i)=>x*ws[i])))} and the true total N = ${T}.</p>`;
+}
+['wN','wn','wM'].forEach(i=>e(i).oninput=run);run();
+})();
+
+// calculator
+const CS={
+kish:{t:'Kish allocation',f:[['N_h','10000,5000,1000'],['n',300],['α',0.5]],r:a=>{const N=L(a[0]),n=+a[1],al=+a[2];
+if(!N.length||!(n>0)||!(al>=0&&al<=1))return'Enter n greater than 0 and α between 0 and 1.';
+const T=sum(N),P=N.map(x=>Math.pow(x,al)),SP=sum(P),nh=P.map(x=>n*x/SP);
+return tab(['Stratum','N_h','N_h^α','share','n_h'],N.map((x,i)=>[i+1,x,g(P[i]),g(P[i]/SP),g(nh[i])]))+`Σ N_h^α = ${g(SP)}<br>Σ n_h = ${g(sum(nh))}<br>Rounded: ${nh.map(Math.round).join(', ')}`}},
+kvar:{t:'Kish variance against the alternatives',f:[['N_h','10000,5000,1000'],['S_h','10,15,20'],['n',300],['α',0.5]],r:a=>{const N=L(a[0]),S=L(a[1]),n=+a[2],al=+a[3];
+if(!N.length||N.length!=S.length||!(n>0)||!(al>=0&&al<=1))return bad;
+const T=sum(N),w=N.map(x=>x/T),P=N.map(x=>Math.pow(x,al)),SP=sum(P),kh=P.map(x=>n*x/SP),eq=N.map(()=>n/N.length),pr=w.map(x=>n*x);
+const A=sum(w.map((x,i)=>x*S[i])),ne=w.map((x,i)=>n*x*S[i]/A);
+const V=arr=>sum(w.map((x,i)=>x*x*S[i]*S[i]/arr[i]));
+return tab(['Stratum','Equal','Proportional','Kish','Neyman'],N.map((x,i)=>[i+1,g(eq[i]),g(pr[i]),g(kh[i]),g(ne[i])]))
++`V_eq = ${g(V(eq))}<br>V_prop = ${g(V(pr))}<br>V_Kish = ${g(V(kh))}<br>V_opt = ${g(V(ne))}<br>`
++`<p class="mut">Only V_opt ≤ V_Kish is guaranteed. The other orderings depend on the numbers.</p>`}},
+psmean:{t:'Post-stratified mean',f:[['N_h','6000,4000'],['n_h','80,120'],['ȳ_h','24,30']],r:a=>{const N=L(a[0]),n=L(a[1]),m=L(a[2]);
+if(!N.length||N.length!=n.length||N.length!=m.length||n.some(x=>x<=0))return bad;
+const T=sum(N),nt=sum(n),W=N.map(x=>x/T),sh=n.map(x=>x/nt);
+const ps=sum(W.map((x,i)=>x*m[i])),ord=sum(sh.map((x,i)=>x*m[i]));
+return tab(['Post-stratum','N_h','n_h','W_h','n_h/n','ȳ_h'],N.map((x,i)=>[i+1,x,n[i],g(W[i]),g(sh[i]),m[i]]))
++`ȳ_PS = Σ W_h ȳ_h = ${g(ps)}<br>ȳ = Σ (n_h/n) ȳ_h = ${g(ord)}<br>ȳ_PS − ȳ = ${g(ps-ord)}<br>N = ${T}, n = ${nt}`}},
+psw:{t:'Post-stratification weights',f:[['N_h','6000,4000'],['n_h','80,120'],['design weight d (blank = N/n)','']],r:a=>{const N=L(a[0]),n=L(a[1]);
+if(!N.length||N.length!=n.length||n.some(x=>x<=0))return bad;
+const T=sum(N),nt=sum(n),d=a[2]===''?T/nt:+a[2];
+if(!(d>0))return'Design weight must be positive.';
+const Nh=n.map(x=>x*d),A=N.map((x,i)=>x/Nh[i]),ws=A.map(x=>x*d);
+return`d = ${g(d)}<br>`+tab(['Post-stratum','N_h','n_h','N̂_h','A_h','w*'],N.map((x,i)=>[i+1,x,n[i],g(Nh[i]),g(A[i]),g(ws[i])]))
++`Σ n_h w*_h = ${g(sum(n.map((x,i)=>x*ws[i])))}<br>True total N = ${T}<br><span class="mut">A_h above 1 means under-represented: weights go up.</span>`}}};
+const cm=document.getElementById('cm'),cf=document.getElementById('cf'),co=document.getElementById('co');
+cm.innerHTML=Object.keys(CS).map(k=>`<option value="${k}">${CS[k].t}</option>`).join('');
+function cb(){const c=CS[cm.value];cf.innerHTML=c.f.map(x=>x[2]?`<label>${x[0]} <select>${x[2].map(o=>`<option value="${o[0]}"${o[0]==x[1]?' selected':''}>${o[1]}</option>`).join('')}</select></label>`:typeof x[1]=='string'?`<label>${x[0]} <input type="text" value="${x[1]}" style="width:190px"></label>`:`<label>${x[0]} <input type="number" step="any" value="${x[1]}"></label>`).join('');cr()}
+function cr(){const c=CS[cm.value];co.innerHTML=c.r([...cf.querySelectorAll('input,select')].map(e=>e.value))}
+cm.onchange=cb;cf.oninput=cr;cf.onchange=cr;cb();
+</script></body></html>

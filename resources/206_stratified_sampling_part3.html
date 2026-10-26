@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stratified Random Sampling – Part 3: Variance Under Allocations</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:30px 0}.fc h3{margin:.9rem 0 .3rem;color:var(--ac)}
+.lbl{color:var(--mut);font-size:.9rem;margin:1.2rem 0 0}.fc .f{background:var(--bg)}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}.three h3{margin-top:.9rem;color:var(--ac)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700}
+input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;border:0;padding:0;height:18px;accent-color:var(--ac)}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--ac2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;border-radius:50%;border:0;background:var(--ac)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--ac2)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--ac)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:var(--ac)}
+.qa{margin:22px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.qa .q{background:var(--card);border-left:4px solid var(--ac);padding:14px 20px}.qa .s{background:var(--card);border-left:4px solid var(--ok);border-top:1px dashed var(--line);padding:14px 20px}.qa .f{margin:14px 0}.box .f{margin:14px 0}section{padding:56px 0}main p,main li{line-height:2.1}
+.fc .qa .f{background:var(--card)}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">See it</a><a href="#setup">Setup</a><a href="#gen">General V</a><a href="#eq">Equal</a><a href="#pr">Proportional</a><a href="#ne">Neyman</a><a href="#cmp">Compare</a><a href="#cost">Costs</a><a href="#ex">Example</a><a href="#prec">Precision</a><a href="#prop">Proportion</a><a href="#sum">Recap</a><a href="#prac">Practice</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Stratified Sampling: Variance Under Different Allocations</h1><h2>StRS Part 3</h2> <p class="mut">Part 2 decided <em>how many</em> units go to each stratum. Part 3 asks what variance each of those recipes produces, which recipe buys the most precision, and what happens when sampling costs differ. Every formula comes with a worked example.</p></header>
+
+<section id="viz"><h2>See it first</h2>
+<p>Three strata, one total sample size, three different ways to split it. Change the numbers and watch the variance move. Each stratum adds a piece <b>\(w_i^2S_i^2/n_i\)</b> to the total. A big weight or a big spread makes the piece bigger; a bigger sample in that stratum makes it smaller.</p>
+<div class="box">
+<div class="row">
+<label>\(N_i\) <input type="text" id="vN" value="5000,3000,2000" style="width:190px"></label>
+<label>\(S_i\) <input type="text" id="vS" value="10,20,15" style="width:150px"></label>
+<label>Total \(n\) <input type="number" id="vn" value="300"></label>
+<label>Allocation <select id="vA"><option value="eq">Equal</option><option value="pr" selected>Proportional</option><option value="ne">Neyman</option></select></label>
+</div>
+<div id="vout"></div>
+<p class="mut">Finite population correction ignored, as everywhere in Part 3. The second bar shows where the total variance comes from.</p>
+</div></section>
+
+<section id="setup"><h2>What Part 3 assumes</h2>
+<p>Part 2 finished the allocation rules. Part 3 does not derive them again. It plugs each finished rule into one variance formula and reads the result. So the work is: <b>one general variance, then four substitutions.</b></p>
+<div class="three">
+<div><h3>1. One switch is off</h3><p>The finite population correction is dropped:</p><div class="f">\[1-\frac{n_i}{N_i}\approx1\]</div><p>Each stratum is treated as if it were sampled with replacement. This is harmless when every \(n_i\) is a small slice of \(N_i\), and it keeps the algebra short.</p></div>
+<div><h3>2. Three moving parts</h3><p>Every variance in Part 3 is built from:</p><ul class="pts"><li>\(w_i=N_i/N\): the stratum's share of the population.</li><li>\(S_i\): the stratum's spread.</li><li>\(n_i\): the sample taken from it.</li></ul></div>
+<div><h3>3. The same estimator</h3><p>The stratified mean never changes:</p><div class="f">\[\bar y_{st}=\sum_{i=1}^{k}w_i\bar y_i\]</div><p>Only the \(n_i\)'s change from rule to rule, so only the variance changes.</p></div>
+</div>
+<div class="box"><b>Roadmap.</b> Write the general variance once. Then substitute the equal, proportional, Neyman and cost-optimum rules from Part 2. Each substitution gives one clean formula.</div></section>
+
+<section id="gen"><h2>The general variance formula</h2>
+<p>Before picking a rule, write the variance for <em>any</em> set of sample sizes. Every later result is this formula with a particular \(n_i\) dropped in.</p>
+<div class="fc"><h3>Step 1: variance of a weighted sum</h3>
+<p>The estimator is a weighted sum with fixed weights. For any weighted sum, constants come out squared, and every pair of terms adds a covariance.</p>
+<div class="f">\[\V\Big(\sum_{i=1}^{k}w_i\bar y_i\Big)=\sum_{i=1}^{k}w_i^2\V(\bar y_i)+2\sum_{i&lt;l}w_iw_l\,\mathrm{Cov}(\bar y_i,\bar y_l)\]</div>
+<p>Different strata are sampled separately, so their sample means cannot move together. Every covariance is zero.</p>
+<div class="f">\[\mathrm{Cov}(\bar y_i,\bar y_l)=0,\qquad i\neq l\]</div>
+<p>Only the squared-weight terms survive.</p>
+<div class="f">\[\V(\bar y_{st})=\sum_{i=1}^{k}w_i^2\V(\bar y_i)\]</div>
+</div>
+<div class="fc"><h3>Step 2: variance inside one stratum</h3>
+<p>Within stratum \(i\) the sample is an SRSWOR. With the correction switched off, the variance of the stratum mean is the stratum variance divided by the stratum sample size.</p>
+<div class="f">\[\V(\bar y_i)\approx\frac{S_i^2}{n_i}\]</div>
+</div>
+<div class="fc"><h3>Step 3: put the pieces together</h3>
+<div class="f">\[V\equiv\V(\bar y_{st})\approx\sum_{i=1}^{k}\frac{w_i^2S_i^2}{n_i}\]</div>
+<p>This is the master formula. It says the variance is a sum of \(k\) independent contributions, one per stratum.</p>
+<ul class="pts"><li><b>Larger \(w_i\)</b> raises the contribution, because a big stratum carries more weight in the estimate.</li><li><b>Larger \(S_i\)</b> raises the contribution, because a spread-out stratum is harder to estimate.</li><li><b>Larger \(n_i\)</b> lowers the contribution, because more observations mean less noise.</li></ul>
+<div class="qa"><div class="q"><b>Question.</b> A population has \(N=(5000,3000,2000)\) and \(S=(10,20,15)\). Someone splits a sample of \(n=300\) as \(n_i=(120,110,70)\), which is not one of the standard rules. Find the variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[w=(0.5,\ 0.3,\ 0.2)\]</div>
+<div class="f">\[\text{Stratum 1: }\frac{(0.5)^2(10)^2}{120}=0.2083\]</div>
+<div class="f">\[\text{Stratum 2: }\frac{(0.3)^2(20)^2}{110}=0.3273\]</div>
+<div class="f">\[\text{Stratum 3: }\frac{(0.2)^2(15)^2}{70}=0.1286\]</div>
+<div class="f">\[V=0.2083+0.3273+0.1286=0.6642\]</div>
+<p class="mut">Stratum 2 supplies almost half the variance: it has the largest \(S_i\) and a modest sample. Moving a few units from stratum 1 to stratum 2 would lower \(V\).</p>
+</div></div>
+</div></section>
+
+<section id="eq"><h2>Equal allocation</h2>
+<div class="fc"><h3>The rule from Part 2</h3>
+<p>Every stratum gets the same number of units, whatever its size or spread.</p>
+<div class="f">\[n_i=\frac{n}{k}\]</div>
+<p>Substitute into the general variance. Dividing by \(n/k\) is the same as multiplying by \(k/n\).</p>
+<div class="f">\[V_{\mathrm{eq}}=\sum_{i=1}^{k}\frac{w_i^2S_i^2}{n/k}\]</div>
+<div class="f">\[V_{\mathrm{eq}}=\frac{k}{n}\sum_{i=1}^{k}w_i^2S_i^2\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Same population as before: \(N=(5000,3000,2000)\), \(S=(10,20,15)\), \(n=300\). Find the equal-allocation sample sizes and variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[n_1=n_2=n_3=\frac{300}{3}=100\]</div>
+<div class="f">\[w_1^2S_1^2=0.25(100)=25\]</div>
+<div class="f">\[w_2^2S_2^2=0.09(400)=36\]</div>
+<div class="f">\[w_3^2S_3^2=0.04(225)=9\]</div>
+<div class="f">\[V_{\mathrm{eq}}=\frac{3}{300}(25+36+9)=\frac{70}{100}=0.7000\]</div>
+<p class="mut">Equal allocation ignores both size and spread. It is a sensible choice when the strata are about equally important and about equally variable, but it is not built to minimise variance.</p>
+</div></div>
+</div></section>
+
+<section id="pr"><h2>Proportional allocation</h2>
+<div class="fc"><h3>The rule from Part 2</h3>
+<p>Each stratum gets the same fraction of its population:</p>
+<div class="f">\[n_i=nw_i\]</div>
+<p>Substitute and cancel one \(w_i\).</p>
+<div class="f">\[V_{\mathrm{prop}}=\sum_{i=1}^{k}\frac{w_i^2S_i^2}{nw_i}\]</div>
+<div class="f">\[V_{\mathrm{prop}}=\frac{1}{n}\sum_{i=1}^{k}w_iS_i^2\]</div>
+<p>The sum \(\sum_iw_iS_i^2\) is the population-weighted average of the within-stratum variances. So proportional allocation gives a very readable result: variance equals that weighted average, divided by \(n\).</p>
+<div class="qa"><div class="q"><b>Question.</b> Same data, \(n=300\). Find the proportional sample sizes and the variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[(n_1,n_2,n_3)=300(0.5,\ 0.3,\ 0.2)=(150,\ 90,\ 60)\]</div>
+<div class="f">\[w_1S_1^2=0.5(100)=50\]</div>
+<div class="f">\[w_2S_2^2=0.3(400)=120\]</div>
+<div class="f">\[w_3S_3^2=0.2(225)=45\]</div>
+<div class="f">\[V_{\mathrm{prop}}=\frac{50+120+45}{300}=\frac{215}{300}=0.7167\]</div>
+<p class="mut">No knowledge of the \(S_i\)'s is needed to build this allocation. That is its practical selling point.</p>
+</div></div>
+</div></section>
+
+<section id="ne"><h2>Neyman allocation</h2>
+<div class="fc"><h3>The rule from Part 2</h3>
+<p>Larger and more variable strata get more units. Write \(A=\sum_iw_iS_i\).</p>
+<div class="f">\[n_i=n\frac{w_iS_i}{A},\qquad A=\sum_{i=1}^{k}w_iS_i\]</div>
+<p>Substitute into the general variance. Dividing by \(nw_iS_i/A\) is the same as multiplying by \(A/(nw_iS_i)\).</p>
+<div class="f">\[V_{\mathrm{N}}=\sum_{i=1}^{k}\frac{w_i^2S_i^2}{nw_iS_i/A}\]</div>
+<div class="f">\[V_{\mathrm{N}}=\frac{A}{n}\sum_{i=1}^{k}w_iS_i\]</div>
+<p>But the remaining sum is exactly \(A\), by definition.</p>
+<div class="f">\[V_{\mathrm{N}}=\frac{A}{n}\cdot A=\frac{A^2}{n}\]</div>
+<div class="f">\[V_{\mathrm{opt}}=\frac{1}{n}\Big(\sum_{i=1}^{k}w_iS_i\Big)^2\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Same data, \(n=300\). Find \(A\), the Neyman sample sizes and the minimum variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[A=0.5(10)+0.3(20)+0.2(15)=5+6+3=14\]</div>
+<div class="f">\[(n_1,n_2,n_3)=300\Big(\frac{5}{14},\ \frac{6}{14},\ \frac{3}{14}\Big)\approx(107.1,\ 128.6,\ 64.3)\]</div>
+<p>After rounding to whole units and keeping the total at 300:</p>
+<div class="f">\[(n_1,n_2,n_3)=(107,\ 129,\ 64)\]</div>
+<div class="f">\[V_{\mathrm{opt}}=\frac{14^2}{300}=\frac{196}{300}=0.6533\]</div>
+<p class="mut">This is the smallest variance any allocation of 300 units can give for these strata. Proof that no other rule beats it is in the next section and in derivation D5.</p>
+</div></div>
+</div></section>
+
+<section id="cmp"><h2>Why Neyman is never worse than proportional</h2>
+<div class="fc"><h3>The difference</h3>
+<p>Subtract the Neyman variance from the proportional variance.</p>
+<div class="f">\[V_{\mathrm{prop}}-V_{\mathrm{opt}}=\frac{1}{n}\Big[\sum_{i=1}^{k}w_iS_i^2-\Big(\sum_{i=1}^{k}w_iS_i\Big)^2\Big]\]</div>
+<p>The bracket is the weighted variance of the \(S_i\)'s around their weighted mean \(S_w=\sum_iw_iS_i\).</p>
+<div class="f">\[\sum_{i=1}^{k}w_iS_i^2-S_w^2=\sum_{i=1}^{k}w_i(S_i-S_w)^2\]</div>
+<p>Every term on the right is a square, so the total cannot be negative.</p>
+<div class="f">\[V_{\mathrm{prop}}-V_{\mathrm{opt}}\ge0\]</div>
+<div class="f">\[V_{\mathrm{opt}}\le V_{\mathrm{prop}}\]</div>
+<p>Equality happens only when all \(S_i\) are equal. Then Neyman allocation collapses into proportional allocation and the two variances coincide.</p>
+<div class="qa"><div class="q"><b>Question.</b> For the running data, check the identity and find the percentage reduction in variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[S_w=14\]</div>
+<div class="f">\[\sum_iw_i(S_i-S_w)^2=0.5(10-14)^2+0.3(20-14)^2+0.2(15-14)^2\]</div>
+<div class="f">\[=0.5(16)+0.3(36)+0.2(1)=8+10.8+0.2=19\]</div>
+<div class="f">\[V_{\mathrm{prop}}-V_{\mathrm{opt}}=\frac{19}{300}=0.0633\]</div>
+<div class="f">\[\frac{0.0633}{0.7167}\times100\%\approx8.8\%\]</div>
+<p class="mut">Neyman moves sample away from the calm stratum 1 and toward the noisy stratum 2, which is why it wins.</p>
+</div></div>
+</div></section>
+
+<section id="cost"><h2>When unit costs differ</h2>
+<p>If one unit costs \(C_i\) in stratum \(i\), the total bill is overhead plus the variable part.</p>
+<div class="f">\[C=C_0+\sum_{i=1}^{k}C_in_i\]</div>
+<p>The cost-optimum rule from Part 2 puts more sample where units are large, variable and cheap:</p>
+<div class="f">\[n_i\propto\frac{w_iS_i}{\sqrt{C_i}}\]</div>
+<p>The square root appears because the optimisation balances a variance term that falls like \(1/n_i\) against a cost term that rises like \(C_in_i\).</p>
+
+<div class="fc"><h3>Fixed budget: minimum variance</h3>
+<p>Let \(C_v=C^*-C_0\) be the money available for sampling units, and define</p>
+<div class="f">\[B=\sum_{i=1}^{k}w_iS_i\sqrt{C_i}\]</div>
+<p>Then the cost-optimum sizes and the smallest attainable variance are</p>
+<div class="f">\[n_i^*=C_v\frac{w_iS_i/\sqrt{C_i}}{B}\]</div>
+<div class="f">\[V_{\min}=\frac{B^2}{C_v}=\frac{\big(\sum_iw_iS_i\sqrt{C_i}\big)^2}{C_v}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> \(N=(5000,3000,2000)\), \(S=(10,20,15)\), costs \(C=(1,4,9)\), variable budget \(C_v=1300\). Find \(B\), the sample sizes and the minimum variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[B=0.5(10)(1)+0.3(20)(2)+0.2(15)(3)\]</div>
+<div class="f">\[B=5+12+9=26\]</div>
+<div class="f">\[\frac{w_iS_i}{\sqrt{C_i}}=(5,\ 3,\ 1)\]</div>
+<div class="f">\[n_i^*=\frac{1300}{26}(5,\ 3,\ 1)=50(5,\ 3,\ 1)=(250,\ 150,\ 50)\]</div>
+<div class="f">\[V_{\min}=\frac{26^2}{1300}=\frac{676}{1300}=0.52\]</div>
+<p>Cost check: \(1(250)+4(150)+9(50)=250+600+450=1300\), which matches the budget.</p>
+</div></div>
+</div>
+
+<div class="fc"><h3>Fixed variance: minimum cost</h3>
+<p>Now turn the problem around. Target variance is \(V_0\), and the aim is the cheapest sample that reaches it.</p>
+<div class="f">\[n_i^*=\frac{B}{V_0}\frac{w_iS_i}{\sqrt{C_i}}\]</div>
+<div class="f">\[C_v^*=\frac{B^2}{V_0}=\frac{\big(\sum_iw_iS_i\sqrt{C_i}\big)^2}{V_0}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Same strata and costs, but now the target is \(V_0=1\). Find the sample sizes and the minimum variable cost.</div><div class="s"><b>Solution.</b>
+<div class="f">\[n_i^*=\frac{26}{1}(5,\ 3,\ 1)=(130,\ 78,\ 26)\]</div>
+<div class="f">\[C_v^*=\frac{26^2}{1}=676\]</div>
+<p>Check the variance and the cost:</p>
+<div class="f">\[V=0.5^2\frac{100}{130}+0.3^2\frac{400}{78}+0.2^2\frac{225}{26}=0.1923+0.4615+0.3462=1.0000\]</div>
+<div class="f">\[C_v=1(130)+4(78)+9(26)=130+312+234=676\]</div>
+<p class="mut">The two problems share the same shape \(w_iS_i/\sqrt{C_i}\). Only the multiplier changes: \(C_v/B\) in the fixed-budget version, \(B/V_0\) in the fixed-variance version.</p>
+</div></div>
+</div>
+
+<div class="fc"><h3>Equal costs bring back Neyman</h3>
+<p>If every unit costs the same, \(C_i=C\), then \(\sqrt{C_i}=\sqrt{C}\) is a common factor and cancels from the proportionality.</p>
+<div class="f">\[n_i\propto\frac{w_iS_i}{\sqrt{C}}\propto w_iS_i\]</div>
+<p>That is exactly Neyman allocation. And if the \(S_i\)'s are also equal, it reduces further to proportional allocation.</p>
+<div class="f">\[\text{cost-optimum}\ \xrightarrow{C_i\text{ equal}}\ \text{Neyman}\ \xrightarrow{S_i\text{ equal}}\ \text{proportional}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> With \(C=(4,4,4)\) and \(n=300\), verify that the cost-optimum rule gives the Neyman sizes and the Neyman variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[B=\sum_iw_iS_i\sqrt{C_i}=2(14)=28\]</div>
+<div class="f">\[C_v=nC=300(4)=1200\]</div>
+<div class="f">\[V_{\min}=\frac{B^2}{C_v}=\frac{784}{1200}=0.6533\]</div>
+<div class="f">\[\frac{A^2}{n}=\frac{14^2}{300}=0.6533\]</div>
+<p>The two values agree, as they should.</p>
+</div></div>
+</div></section>
+
+<section id="ex"><h2>One full example, all three rules</h2>
+<p>The same three strata throughout: \(N=(5000,3000,2000)\), so \(w=(0.5,0.3,0.2)\); spreads \(S=(10,20,15)\); total sample \(n=300\).</p>
+<div style="overflow-x:auto"><table>
+<tr><th>Rule</th><th>\(n_1\)</th><th>\(n_2\)</th><th>\(n_3\)</th><th>Variance</th></tr>
+<tr><td>Equal</td><td>100</td><td>100</td><td>100</td><td>0.7000</td></tr>
+<tr><td>Proportional</td><td>150</td><td>90</td><td>60</td><td>0.7167</td></tr>
+<tr><td>Neyman</td><td>107</td><td>129</td><td>64</td><td>0.6533</td></tr>
+</table></div>
+<p>Neyman is the smallest, as guaranteed. Interestingly, <b>equal allocation beats proportional here</b>. Proportional gives the small third stratum only 60 units even though it is quite variable, while equal gives it 100. That extra 40 units in stratum 3 is worth more than the 50 units proportional takes away from the calm stratum 1.</p>
+<div class="qa"><div class="q"><b>Question.</b> How much variance does Neyman remove compared with proportional, in absolute and percentage terms?</div><div class="s">
+<div class="f">\[0.7167-0.6533=0.0634\]</div>
+<div class="f">\[\frac{0.0634}{0.7167}\times100\%\approx8.8\%\]</div>
+</div></div>
+<div class="box"><b>Reading the table.</b> Allocation is a real decision. With the same 300 interviews, moving from proportional to Neyman cuts the variance by about 9%. Moving to equal would have cut it by about 2% in this example, but that is a coincidence of these numbers, not a rule.</div></section>
+
+<section id="prec"><h2>Precision compared with simple random sampling</h2>
+<p>A stratified design should be judged against the obvious alternative: one simple random sample of the same total size \(n\). With the correction ignored, that benchmark variance is</p>
+<div class="f">\[V_{\mathrm{SRS}}\approx\frac{S^2}{n}\]</div>
+<p>where \(S^2\) is the variance of the whole population, not of a single stratum.</p>
+<div class="fc"><h3>Where the gain comes from</h3>
+<p>The population variance splits into a part inside strata and a part between strata.</p>
+<div class="f">\[S^2\approx\sum_{i=1}^{k}w_iS_i^2+\sum_{i=1}^{k}w_i(\bar Y_i-\bar Y)^2\]</div>
+<p>Stratification only pays for the first part. The second part never enters the stratified variance, because every stratum is always represented.</p>
+<div class="f">\[S^2\ge\sum_{i=1}^{k}w_iS_i^2\]</div>
+<p>Subtract the proportional variance from the SRS variance:</p>
+<div class="f">\[V_{\mathrm{SRS}}-V_{\mathrm{prop}}\approx\frac{1}{n}\Big[S^2-\sum_iw_iS_i^2\Big]\]</div>
+<div class="f">\[V_{\mathrm{SRS}}-V_{\mathrm{prop}}\approx\frac{1}{n}\sum_iw_i(\bar Y_i-\bar Y)^2\ge0\]</div>
+<p>Combining this with Neyman's advantage gives the full chain:</p>
+<div class="f">\[V_{\mathrm{opt}}\le V_{\mathrm{prop}}\le V_{\mathrm{SRS}}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Add stratum means \(\bar Y=(40,55,70)\) to the running data. Find \(S^2\), \(V_{\mathrm{SRS}}\) and compare with the stratified variances.</div><div class="s"><b>Solution.</b>
+<div class="f">\[\bar Y=0.5(40)+0.3(55)+0.2(70)=20+16.5+14=50.5\]</div>
+<div class="f">\[\text{within}=0.5(100)+0.3(400)+0.2(225)=50+120+45=215\]</div>
+<div class="f">\[\text{between}=0.5(40-50.5)^2+0.3(55-50.5)^2+0.2(70-50.5)^2\]</div>
+<div class="f">\[\text{between}=55.125+6.075+76.05=137.25\]</div>
+<div class="f">\[S^2\approx215+137.25=352.25\]</div>
+<div class="f">\[V_{\mathrm{SRS}}\approx\frac{352.25}{300}=1.1742\]</div>
+<p>So \(0.6533\le0.7167\le1.1742\), exactly as the chain predicts.</p>
+</div></div>
+</div>
+
+<div class="fc"><h3>Two different percentages</h3>
+<p>People report precision gains in two ways, and they are not the same number.</p>
+<div class="f">\[RV=\frac{V_{\mathrm{SRS}}-V_{\mathrm{st}}}{V_{\mathrm{SRS}}}\times100\%\]</div>
+<div class="f">\[G_{\mathrm{st}}=\frac{V_{\mathrm{SRS}}-V_{\mathrm{st}}}{V_{\mathrm{st}}}\times100\%\]</div>
+<p>\(RV\) is the percentage drop in variance. \(G\) is the percentage rise in precision, and precision is proportional to \(1/V\). The two are linked by</p>
+<div class="f">\[G=\frac{RV}{1-RV}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> For proportional allocation in the running example, find \(RV\) and \(G\) against SRS.</div><div class="s"><b>Solution.</b>
+<div class="f">\[RV=\frac{1.1742-0.7167}{1.1742}\times100\%\approx38.96\%\]</div>
+<div class="f">\[G=\frac{1.1742-0.7167}{0.7167}\times100\%\approx63.84\%\]</div>
+<p>Check with the link formula:</p>
+<div class="f">\[\frac{0.3896}{1-0.3896}\times100\%=63.84\%\]</div>
+<p class="mut">A 39% drop in variance is a 64% gain in precision. Never mix the two.</p>
+</div></div>
+</div>
+
+<div class="fc"><h3>Confidence interval</h3>
+<p>Estimate the variance from the sample, then build the usual normal interval.</p>
+<div class="f">\[\hat V_{\mathrm{st}}=\sum_{i=1}^{k}w_i^2\frac{s_i^2}{n_i}\]</div>
+<div class="f">\[\bar y_{st}\pm z_{\alpha/2}\sqrt{\hat V_{\mathrm{st}}}\]</div>
+<p>For 95% confidence, \(z_{0.025}=1.96\). Because the standard errors follow the same order as the variances, the optimum allocation gives the shortest interval and SRS gives the widest.</p>
+<div class="qa"><div class="q"><b>Question.</b> Take \(\bar y_{st}=50.5\) and suppose the estimated variance under Neyman allocation is \(0.6533\). Build a 95% interval.</div><div class="s"><b>Solution.</b>
+<div class="f">\[SE=\sqrt{0.6533}=0.8083\]</div>
+<div class="f">\[1.96(0.8083)=1.5843\]</div>
+<div class="f">\[50.5\pm1.5843=(48.92,\ 52.08)\]</div>
+<p class="mut">Under proportional allocation the same centre would give \(SE=\sqrt{0.7167}=0.8466\) and a wider interval. Under SRS it would be wider still.</p>
+</div></div>
+</div>
+
+<div class="two"><div><h3>Stratification gain</h3><p>\(V_{\mathrm{prop}}\) against \(V_{\mathrm{SRS}}\). It is large when stratum means are far apart and within-stratum spreads are small. It comes from <b>how the population was cut into strata</b>.</p></div>
+<div><h3>Allocation gain</h3><p>\(V_{\mathrm{opt}}\) against \(V_{\mathrm{prop}}\). It is large when the \(S_i\)'s are very different from each other. It comes from <b>how the sample is spread across the strata</b>.</p></div></div>
+<div class="box"><b>Variance ladder.</b> Enter your own strata and see the four variances side by side.
+<div class="row"><label>\(N_i\) <input type="text" id="lN" value="5000,3000,2000" style="width:170px"></label><label>\(S_i\) <input type="text" id="lS" value="10,20,15" style="width:150px"></label><label>\(\bar Y_i\) <input type="text" id="lM" value="40,55,70" style="width:150px"></label><label>\(n\) <input type="number" id="ln" value="300"></label></div>
+<div class="lad" id="lad"></div></div></section>
+
+<section id="prop"><h2>Population proportion</h2>
+<p>For a yes/no characteristic, the mean of the 0/1 variable is a proportion, so every mean formula carries over with \(S_i^2\) replaced by \(P_iQ_i\).</p>
+<div class="fc"><h3>Estimator and variance</h3>
+<div class="f">\[P_i=\frac{A_i}{N_i},\qquad p_i=\frac{a_i}{n_i},\qquad Q_i=1-P_i\]</div>
+<div class="f">\[P=\sum_{i=1}^{k}w_iP_i,\qquad \hat P_{st}=\sum_{i=1}^{k}w_ip_i\]</div>
+<div class="f">\[\V(p_i)\approx\frac{P_iQ_i}{n_i}\]</div>
+<div class="f">\[\V(\hat P_{st})\approx\sum_{i=1}^{k}\frac{w_i^2P_iQ_i}{n_i}\]</div>
+<div class="qa"><div class="q"><b>Question.</b> Three strata with \(N=(5000,3000,2000)\) and \(P=(0.2,0.5,0.8)\), sample \(n=300\) split in proportion to size. Find the variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[(n_1,n_2,n_3)=(150,\ 90,\ 60)\]</div>
+<div class="f">\[P_1Q_1=0.16,\qquad P_2Q_2=0.25,\qquad P_3Q_3=0.16\]</div>
+<div class="f">\[\V_{\mathrm{prop}}(\hat P_{st})=\frac{0.5(0.16)+0.3(0.25)+0.2(0.16)}{300}\]</div>
+<div class="f">\[=\frac{0.08+0.075+0.032}{300}=\frac{0.187}{300}=0.0006233\]</div>
+</div></div>
+</div>
+<div class="fc"><h3>Neyman allocation for a proportion</h3>
+<p>A proportion's standard deviation is \(S_i=\sqrt{P_iQ_i}\), so the Neyman rule becomes</p>
+<div class="f">\[n_i\propto w_i\sqrt{P_iQ_i}\]</div>
+<p>It uses both the size of the stratum and how uncertain the proportion is there. The product \(P_iQ_i\) is largest at \(P_i=0.5\), so a stratum near 50/50 gets extra sample.</p>
+<div class="qa"><div class="q"><b>Question.</b> Same data. Find the Neyman sizes and the resulting variance.</div><div class="s"><b>Solution.</b>
+<div class="f">\[\sqrt{P_iQ_i}=(0.4,\ 0.5,\ 0.4)\]</div>
+<div class="f">\[w_i\sqrt{P_iQ_i}=(0.2,\ 0.15,\ 0.08),\qquad \text{sum}=0.43\]</div>
+<div class="f">\[(n_1,n_2,n_3)=300\frac{(0.2,\ 0.15,\ 0.08)}{0.43}\approx(140,\ 105,\ 55)\]</div>
+<div class="f">\[\V_{\mathrm{opt}}(\hat P_{st})=\frac{0.43^2}{300}=\frac{0.1849}{300}=0.0006163\]</div>
+<p class="mut">The gain is small here because the \(P_iQ_i\) values are close together. The gain would be larger if one stratum sat near 0.5 and another near 0 or 1.</p>
+</div></div>
+</div>
+<div class="box"><b>Proportion allocation explorer.</b> Change the stratum proportions and see how Neyman shifts the sample.
+<div class="row"><label>\(N_i\) <input type="text" id="pN" value="5000,3000,2000" style="width:170px"></label><label>\(P_i\) <input type="text" id="pP" value="0.2,0.5,0.8" style="width:150px"></label><label>\(n\) <input type="number" id="pn" value="300"></label><label>Allocation <select id="pA"><option value="pr">Proportional</option><option value="ne" selected>Neyman</option></select></label></div>
+<div id="pout"></div></div></section>
+
+<section id="sum"><h2>Quick recap</h2>
+<div style="overflow-x:auto"><table class="ft">
+<tr><th>Rule</th><th>\(n_i\)</th><th>Variance (FPC ignored)</th></tr>
+<tr><td>General</td><td>any</td><td>\(\displaystyle\sum_i\frac{w_i^2S_i^2}{n_i}\)</td></tr>
+<tr><td>Equal</td><td>\(n/k\)</td><td>\(\displaystyle\frac{k}{n}\sum_iw_i^2S_i^2\)</td></tr>
+<tr><td>Proportional</td><td>\(nw_i\)</td><td>\(\displaystyle\frac{1}{n}\sum_iw_iS_i^2\)</td></tr>
+<tr><td>Neyman</td><td>\(n\dfrac{w_iS_i}{A}\)</td><td>\(\displaystyle\frac{A^2}{n}=\frac{1}{n}\Big(\sum_iw_iS_i\Big)^2\)</td></tr>
+<tr><td>Unequal cost</td><td>\(C_v\dfrac{w_iS_i/\sqrt{C_i}}{B}\)</td><td>\(\displaystyle\frac{B^2}{C_v}\)</td></tr>
+<tr><td>SRS benchmark</td><td>—</td><td>\(\displaystyle\frac{S^2}{n}\)</td></tr>
+</table></div>
+<div class="box"><b>One sentence.</b> Variance is a sum of per-stratum contributions; the allocation rule decides how big each contribution is; Neyman makes the sum as small as possible, and unequal costs bend the rule toward cheaper strata.</div></section>
+
+<section id="prac"><h2>Practice</h2>
+<div class="fc"><h3>Exercise 1: three rules, two strata</h3>
+<p>\(N=(4000,6000)\), \(S=(8,12)\), \(n=200\). Find the equal, proportional and Neyman variances.</p>
+<details class="ans"><summary>Show answer</summary>
+<div class="f">\[w=(0.4,\ 0.6)\]</div>
+<p>Equal: \(n_i=(100,100)\).</p>
+<div class="f">\[V_{\mathrm{eq}}=\frac{2}{200}\big[0.16(64)+0.36(144)\big]=\frac{10.24+51.84}{100}=0.6208\]</div>
+<p>Proportional: \(n_i=(80,120)\).</p>
+<div class="f">\[V_{\mathrm{prop}}=\frac{0.4(64)+0.6(144)}{200}=\frac{25.6+86.4}{200}=0.56\]</div>
+<p>Neyman: \(A=0.4(8)+0.6(12)=10.4\).</p>
+<div class="f">\[V_{\mathrm{opt}}=\frac{10.4^2}{200}=\frac{108.16}{200}=0.5408\]</div>
+<p class="mut">Order: \(0.5408<0.56<0.6208\).</p>
+</details></div>
+<div class="fc"><h3>Exercise 2: cost-optimum with a fixed budget</h3>
+<p>\(N=(1000,2000,3000)\), \(S=(5,10,15)\), \(C=(1,4,9)\), variable budget \(C_v=3000\). Find \(B\), the sizes and \(V_{\min}\).</p>
+<details class="ans"><summary>Show answer</summary>
+<div class="f">\[w=\Big(\frac16,\ \frac13,\ \frac12\Big)\]</div>
+<div class="f">\[B=\frac16(5)(1)+\frac13(10)(2)+\frac12(15)(3)=0.8333+6.6667+22.5=30\]</div>
+<div class="f">\[\frac{w_iS_i}{\sqrt{C_i}}=(0.8333,\ 1.6667,\ 2.5)\]</div>
+<div class="f">\[n_i^*=\frac{3000}{30}(0.8333,\ 1.6667,\ 2.5)=(83.3,\ 166.7,\ 250)\]</div>
+<div class="f">\[V_{\min}=\frac{30^2}{3000}=\frac{900}{3000}=0.3\]</div>
+<p>Cost check: \(1(83.3)+4(166.7)+9(250)\approx3000\).</p>
+</details></div>
+<div class="fc"><h3>Exercise 3: precision gain</h3>
+<p>Using the running example, \(V_{\mathrm{SRS}}=1.1742\) and \(V_{\mathrm{prop}}=0.7167\). Find \(RV\) and \(G\), and check the link formula.</p>
+<details class="ans"><summary>Show answer</summary>
+<div class="f">\[RV=\frac{1.1742-0.7167}{1.1742}\times100\%=38.96\%\]</div>
+<div class="f">\[G=\frac{1.1742-0.7167}{0.7167}\times100\%=63.84\%\]</div>
+<div class="f">\[\frac{RV}{1-RV}=\frac{0.3896}{0.6104}=0.6384\]</div>
+<p class="mut">So a 39% variance reduction is a 64% precision gain.</p>
+</details></div></section>
+
+<section id="calc"><h2>Calculator</h2>
+<div class="box"><div class="row"><label>Case <select id="cm"></select></label></div><div class="row" id="cf"></div><div class="out" id="co"></div><p class="mut">Enter lists separated by commas, one value per stratum. Everything ignores the FPC. Results update as you type.</p></div></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it. D1–D5 general variance and the three rules, D6–D8 unequal costs, D9–D10 precision, D11 proportion, D12 confidence interval.</p>
+<div id="dl"></div></section>
+
+<section id="form"><h2>Formula sheet</h2><div id="fl"></div><h3>Meaning of symbols</h3><div id="sy"></div></section>
+</main>
+<script>
+const D=[
+["D1",String.raw`\(V=\sum_{i=1}^{k}\frac{w_i^2S_i^2}{n_i}\) (general variance)`,String.raw`<ol>
+<li><b>Weighted sum.</b> The estimator is \(\bar y_{st}=\sum_iw_i\bar y_i\) with fixed weights. For any weighted sum,
+\[\V\Big(\sum_iw_i\bar y_i\Big)=\sum_iw_i^2\V(\bar y_i)+2\sum_{i&lt;l}w_iw_l\,\mathrm{Cov}(\bar y_i,\bar y_l).\]</li>
+<li><b>Independence.</b> Different strata are sampled separately, so
+\[\mathrm{Cov}(\bar y_i,\bar y_l)=0,\qquad i\ne l.\]</li>
+<li><b>Only squared weights survive.</b>
+\[\V(\bar y_{st})=\sum_{i=1}^kw_i^2\V(\bar y_i).\]</li>
+<li><b>Within-stratum SRSWOR, FPC ignored.</b>
+\[\V(\bar y_i)\approx\frac{S_i^2}{n_i}.\]</li>
+<li><b>Substitute.</b>
+\[V=\V(\bar y_{st})\approx\sum_{i=1}^k\frac{w_i^2S_i^2}{n_i}.\]</li>
+</ol>`],
+["D2",String.raw`\(V_{\mathrm{eq}}=\frac{k}{n}\sum_iw_i^2S_i^2\)`,String.raw`<ol>
+<li><b>Rule from Part 2.</b>
+\[n_i=\frac{n}{k}.\]</li>
+<li><b>Substitute</b> into D1.
+\[V_{\mathrm{eq}}=\sum_{i=1}^k\frac{w_i^2S_i^2}{n/k}\]</li>
+<li><b>Dividing by \(n/k\)</b> multiplies by \(k/n\).
+\[V_{\mathrm{eq}}=\frac{k}{n}\sum_{i=1}^kw_i^2S_i^2.\]</li>
+<li><b>Reading.</b> Every stratum contributes \(w_i^2S_i^2\) with the same factor \(k/n\), so size and spread still matter, but the sample itself is blind to them.</li>
+</ol>`],
+["D3",String.raw`\(V_{\mathrm{prop}}=\frac{1}{n}\sum_iw_iS_i^2\)`,String.raw`<ol>
+<li><b>Rule from Part 2.</b>
+\[n_i=nw_i.\]</li>
+<li><b>Substitute.</b>
+\[V_{\mathrm{prop}}=\sum_{i=1}^k\frac{w_i^2S_i^2}{nw_i}.\]</li>
+<li><b>Cancel one \(w_i\).</b>
+\[V_{\mathrm{prop}}=\frac{1}{n}\sum_{i=1}^kw_iS_i^2.\]</li>
+<li><b>Reading.</b> The sum is the weighted average of the within-stratum variances, so the variance is that average divided by \(n\).</li>
+</ol>`],
+["D4",String.raw`\(V_{\mathrm{opt}}=\frac{1}{n}\big(\sum_iw_iS_i\big)^2\)`,String.raw`<ol>
+<li><b>Rule from Part 2.</b> With \(A=\sum_iw_iS_i\),
+\[n_i=n\frac{w_iS_i}{A}.\]</li>
+<li><b>Substitute.</b>
+\[V_{\mathrm{N}}=\sum_{i=1}^k\frac{w_i^2S_i^2}{nw_iS_i/A}.\]</li>
+<li><b>Simplify one term.</b>
+\[\frac{w_i^2S_i^2}{nw_iS_i/A}=\frac{A}{n}w_iS_i.\]</li>
+<li><b>Sum.</b>
+\[V_{\mathrm{N}}=\frac{A}{n}\sum_{i=1}^kw_iS_i=\frac{A}{n}\cdot A=\frac{A^2}{n}.\]</li>
+<li><b>Write it out.</b>
+\[V_{\mathrm{opt}}=\frac{1}{n}\Big(\sum_{i=1}^kw_iS_i\Big)^2.\]</li>
+<li><b>Why it is the minimum.</b> D5 shows \(V_{\mathrm{prop}}-V_{\mathrm{opt}}\ge0\) for every data set, so no other allocation can go below this value.</li>
+</ol>`],
+["D5",String.raw`\(V_{\mathrm{opt}}\le V_{\mathrm{prop}}\)`,String.raw`<ol>
+<li><b>Subtract.</b>
+\[V_{\mathrm{prop}}-V_{\mathrm{opt}}=\frac{1}{n}\Big[\sum_iw_iS_i^2-\Big(\sum_iw_iS_i\Big)^2\Big].\]</li>
+<li><b>Name the weighted mean</b> \(S_w=\sum_iw_iS_i\). Since \(\sum_iw_i=1\),
+\[\sum_iw_i(S_i-S_w)^2=\sum_iw_iS_i^2-2S_w\sum_iw_iS_i+S_w^2\sum_iw_i.\]</li>
+<li><b>The last two terms collapse.</b>
+\[\sum_iw_i(S_i-S_w)^2=\sum_iw_iS_i^2-S_w^2.\]</li>
+<li><b>Left side is a sum of squares.</b>
+\[\sum_iw_i(S_i-S_w)^2\ge0.\]</li>
+<li><b>Therefore.</b>
+\[V_{\mathrm{prop}}-V_{\mathrm{opt}}\ge0.\]</li>
+<li><b>Equality.</b> It happens exactly when every \(S_i=S_w\), that is, when all stratum spreads are equal. Then Neyman allocation is proportional allocation.</li>
+</ol>`],
+["D6",String.raw`Fixed budget: \(n_i^*=C_v\frac{w_iS_i/\sqrt{C_i}}{B}\) and \(V_{\min}=\frac{B^2}{C_v}\)`,String.raw`<ol>
+<li><b>Problem.</b> Minimise \(V=\sum_i\frac{w_i^2S_i^2}{n_i}\) subject to \(\sum_iC_in_i=C_v\).</li>
+<li><b>Lagrangian.</b>
+\[L=\sum_i\frac{w_i^2S_i^2}{n_i}+\lambda\Big(\sum_iC_in_i-C_v\Big).\]</li>
+<li><b>Differentiate with respect to \(n_i\).</b>
+\[-\frac{w_i^2S_i^2}{n_i^2}+\lambda C_i=0.\]</li>
+<li><b>Solve for \(n_i\).</b>
+\[n_i^2=\frac{w_i^2S_i^2}{\lambda C_i}\quad\Rightarrow\quad n_i=\frac{w_iS_i}{\sqrt{C_i}\sqrt{\lambda}}.\]</li>
+<li><b>Normalise with \(B=\sum_iw_iS_i\sqrt{C_i}\).</b> Multiply \(n_i\) by \(C_i\) and sum:
+\[\sum_iC_in_i=\frac{1}{\sqrt\lambda}\sum_iw_iS_i\sqrt{C_i}=\frac{B}{\sqrt\lambda}=C_v.\]</li>
+<li><b>So \(1/\sqrt\lambda=C_v/B\),</b> and
+\[n_i^*=C_v\frac{w_iS_i/\sqrt{C_i}}{B}.\]</li>
+<li><b>Minimum variance.</b> Substitute \(n_i^*\) back:
+\[V_{\min}=\sum_i\frac{w_i^2S_i^2}{n_i^*}=\frac{B}{C_v}\sum_iw_iS_i\sqrt{C_i}=\frac{B^2}{C_v}.\]</li>
+<li><b>Cost check.</b>
+\[\sum_iC_in_i^*=\frac{C_v}{B}\sum_iw_iS_i\sqrt{C_i}=C_v.\]</li>
+</ol>`],
+["D7",String.raw`Fixed variance: \(n_i^*=\frac{B}{V_0}\frac{w_iS_i}{\sqrt{C_i}}\) and \(C_v^*=\frac{B^2}{V_0}\)`,String.raw`<ol>
+<li><b>Problem.</b> Minimise \(C_v=\sum_iC_in_i\) subject to \(\sum_i\frac{w_i^2S_i^2}{n_i}=V_0\).</li>
+<li><b>Lagrangian.</b>
+\[L=\sum_iC_in_i+\lambda\Big(\sum_i\frac{w_i^2S_i^2}{n_i}-V_0\Big).\]</li>
+<li><b>Differentiate.</b>
+\[C_i-\lambda\frac{w_i^2S_i^2}{n_i^2}=0\quad\Rightarrow\quad n_i=\sqrt\lambda\,\frac{w_iS_i}{\sqrt{C_i}}.\]</li>
+<li><b>Use the variance constraint.</b>
+\[V_0=\sum_i\frac{w_i^2S_i^2}{\sqrt\lambda\,w_iS_i/\sqrt{C_i}}=\frac{1}{\sqrt\lambda}\sum_iw_iS_i\sqrt{C_i}=\frac{B}{\sqrt\lambda}.\]</li>
+<li><b>Solve for the multiplier.</b>
+\[\sqrt\lambda=\frac{B}{V_0}.\]</li>
+<li><b>Allocation.</b>
+\[n_i^*=\frac{B}{V_0}\frac{w_iS_i}{\sqrt{C_i}}.\]</li>
+<li><b>Minimum cost.</b>
+\[C_v^*=\sum_iC_in_i^*=\frac{B}{V_0}\sum_iw_iS_i\sqrt{C_i}=\frac{B^2}{V_0}.\]</li>
+<li><b>Same shape.</b> Both cost problems give \(n_i\propto w_iS_i/\sqrt{C_i}\); only the multiplier differs.</li>
+</ol>`],
+["D8",String.raw`Equal costs reduce to Neyman, equal spreads reduce to proportional`,String.raw`<ol>
+<li><b>Equal costs.</b> If \(C_i=C\), then \(\sqrt{C_i}=\sqrt{C}\) is common, so
+\[n_i\propto\frac{w_iS_i}{\sqrt{C}}\propto w_iS_i.\]</li>
+<li><b>That is exactly Neyman allocation.</b></li>
+<li><b>Equal spreads as well.</b> If also \(S_i=S\), then
+\[n_i\propto w_iS\propto w_i.\]</li>
+<li><b>Normalise.</b>
+\[n_i=nw_i.\]</li>
+<li><b>Variance check.</b> With \(C_i=C\) and total sample \(n\), \(B=\sqrt{C}A\) and \(C_v=nC\), so
+\[V_{\min}=\frac{B^2}{C_v}=\frac{CA^2}{nC}=\frac{A^2}{n}=V_{\mathrm{opt}}.\]</li>
+</ol>`],
+["D9",String.raw`\(V_{\mathrm{opt}}\le V_{\mathrm{prop}}\le V_{\mathrm{SRS}}\)`,String.raw`<ol>
+<li><b>SRS benchmark, FPC ignored.</b>
+\[V_{\mathrm{SRS}}\approx\frac{S^2}{n}.\]</li>
+<li><b>Split the population variance.</b> Add and subtract \(\bar Y_i\) inside each squared deviation:
+\[(Y_{ij}-\bar Y)=(Y_{ij}-\bar Y_i)+(\bar Y_i-\bar Y).\]</li>
+<li><b>Square and sum.</b> The cross term vanishes because each stratum's deviations sum to zero:
+\[(N-1)S^2=\sum_i(N_i-1)S_i^2+\sum_iN_i(\bar Y_i-\bar Y)^2.\]</li>
+<li><b>Divide by \(N\)</b> and use \(N_i/N=w_i\):
+\[S^2\approx\sum_iw_iS_i^2+\sum_iw_i(\bar Y_i-\bar Y)^2.\]</li>
+<li><b>Subtract the proportional variance.</b>
+\[V_{\mathrm{SRS}}-V_{\mathrm{prop}}\approx\frac{1}{n}\Big[S^2-\sum_iw_iS_i^2\Big]=\frac{1}{n}\sum_iw_i(\bar Y_i-\bar Y)^2.\]</li>
+<li><b>The right side is a weighted sum of squares,</b> hence non-negative:
+\[V_{\mathrm{prop}}\le V_{\mathrm{SRS}}.\]</li>
+<li><b>Combine with D5.</b>
+\[V_{\mathrm{opt}}\le V_{\mathrm{prop}}\le V_{\mathrm{SRS}}.\]</li>
+</ol>`],
+["D10",String.raw`\(G=\frac{RV}{1-RV}\) (precision gain versus variance reduction)`,String.raw`<ol>
+<li><b>Definition.</b> Precision is proportional to \(1/V\), so the proportional rise in precision over SRS is
+\[G_{st}=\frac{1/V_{st}-1/V_{SRS}}{1/V_{SRS}}=\frac{V_{SRS}}{V_{st}}-1=\frac{V_{SRS}-V_{st}}{V_{st}}.\]</li>
+<li><b>Variance reduction.</b>
+\[RV=\frac{V_{SRS}-V_{st}}{V_{SRS}}.\]</li>
+<li><b>Rewrite \(V_{st}\).</b> From the definition of \(RV\),
+\[V_{st}=V_{SRS}(1-RV).\]</li>
+<li><b>Substitute.</b>
+\[G=\frac{V_{SRS}-V_{SRS}(1-RV)}{V_{SRS}(1-RV)}=\frac{RV}{1-RV}.\]</li>
+<li><b>Example.</b> \(RV=0.20\) gives \(G=0.20/0.80=25\%\).</li>
+</ol>`],
+["D11",String.raw`Proportion: variance and Neyman allocation`,String.raw`<ol>
+<li><b>Binary variable.</b> Code the trait as \(Y=1\), otherwise \(Y=0\). Then \(P_i\) is the stratum mean and \(p_i\) the sample mean.</li>
+<li><b>Stratum variance.</b> Since \(Y^2=Y\),
+\[S_i^2=\frac{N_i}{N_i-1}P_iQ_i\approx P_iQ_i.\]</li>
+<li><b>Stratum variance of the sample proportion.</b>
+\[\V(p_i)\approx\frac{P_iQ_i}{n_i}.\]</li>
+<li><b>Stratified variance.</b> The same weighted-sum argument as D1 gives
+\[\V(\hat P_{st})=\sum_iw_i^2\V(p_i)\approx\sum_i\frac{w_i^2P_iQ_i}{n_i}.\]</li>
+<li><b>Proportional allocation.</b> Put \(n_i=nw_i\):
+\[\V_{\mathrm{prop}}(\hat P_{st})\approx\frac{1}{n}\sum_iw_iP_iQ_i.\]</li>
+<li><b>Neyman allocation.</b> Here \(S_i=\sqrt{P_iQ_i}\), so
+\[n_i\propto w_i\sqrt{P_iQ_i}.\]</li>
+<li><b>Minimum variance.</b> Substituting as in D4,
+\[\V_{\mathrm{opt}}(\hat P_{st})\approx\frac{1}{n}\Big(\sum_iw_i\sqrt{P_iQ_i}\Big)^2.\]</li>
+<li><b>Estimated version.</b>
+\[\vh(\hat P_{st})=\sum_iw_i^2(1-f_i)\frac{p_iq_i}{n_i-1}.\]</li>
+</ol>`],
+["D12",String.raw`Confidence interval \(\bar y_{st}\pm z_{\alpha/2}\sqrt{\hat V_{st}}\)`,String.raw`<ol>
+<li><b>Estimated variance, FPC ignored.</b>
+\[\hat V_{st}=\sum_iw_i^2\frac{s_i^2}{n_i}.\]</li>
+<li><b>Large-sample normality.</b> Each \(\bar y_i\) is approximately normal and the strata are independent, so
+\[\bar y_{st}\approx N(\bar Y,\hat V_{st}).\]</li>
+<li><b>Standardise.</b>
+\[\frac{\bar y_{st}-\bar Y}{\sqrt{\hat V_{st}}}\approx N(0,1).\]</li>
+<li><b>Coverage probability.</b>
+\[P\Big(-z_{\alpha/2}\le\frac{\bar y_{st}-\bar Y}{\sqrt{\hat V_{st}}}\le z_{\alpha/2}\Big)=1-\alpha.\]</li>
+<li><b>Rearrange for \(\bar Y\).</b>
+\[\bar y_{st}-z_{\alpha/2}\sqrt{\hat V_{st}}\le\bar Y\le\bar y_{st}+z_{\alpha/2}\sqrt{\hat V_{st}}.\]</li>
+<li><b>Write compactly.</b>
+\[\bar y_{st}\pm z_{\alpha/2}\sqrt{\hat V_{st}}.\]</li>
+<li><b>Width order.</b> The square root is increasing, so
+\[V_{\mathrm{opt}}\le V_{\mathrm{prop}}\le V_{\mathrm{SRS}}\quad\Rightarrow\quad SE_{\mathrm{opt}}\le SE_{\mathrm{prop}}\le SE_{\mathrm{SRS}}.\]</li>
+<li><b>For 95%,</b> \(z_{0.025}=1.96\).</li>
+</ol>`]];
+const dl=document.getElementById('dl');dl.innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+dl.querySelectorAll('.dv').forEach(d=>{const sm=d.querySelector('summary'),b=d.querySelector('.bd'),T=matchMedia('(prefers-reduced-motion:reduce)').matches?0:320;
+sm.addEventListener('click',e=>{e.preventDefault();if(d._a)d._a.cancel();
+if(!d.classList.contains('op')){d.open=true;d.classList.add('op');const h=b.scrollHeight;d._a=b.animate({height:['0px',h+'px'],opacity:[0,1]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d._a=null}}
+else{d.classList.remove('op');const h=b.offsetHeight;d._a=b.animate({height:[h+'px','0px'],opacity:[1,0]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d.open=false;d._a=null}}})});
+
+const FT=[
+["General and the three rules",["Quantity","Formula"],[
+["General variance, FPC ignored",String.raw`V=\sum_{i=1}^{k}\dfrac{w_i^2S_i^2}{n_i}`],
+["Equal allocation",String.raw`n_i=\dfrac{n}{k}`],
+["Equal-allocation variance",String.raw`V_{\mathrm{eq}}=\dfrac{k}{n}\sum_{i=1}^{k}w_i^2S_i^2`],
+["Proportional allocation",String.raw`n_i=nw_i`],
+["Proportional variance",String.raw`V_{\mathrm{prop}}=\dfrac{1}{n}\sum_{i=1}^{k}w_iS_i^2`],
+["Neyman allocation",String.raw`n_i=n\dfrac{w_iS_i}{A},\qquad A=\sum_{i=1}^{k}w_iS_i`],
+["Neyman variance (minimum)",String.raw`V_{\mathrm{opt}}=\dfrac{A^2}{n}=\dfrac{1}{n}\Big(\sum_{i=1}^{k}w_iS_i\Big)^2`],
+["Neyman versus proportional",String.raw`V_{\mathrm{prop}}-V_{\mathrm{opt}}=\dfrac{1}{n}\sum_{i=1}^{k}w_i(S_i-S_w)^2\ge0`]]],
+["Unequal costs",["Quantity","Formula"],[
+["Total cost",String.raw`C=C_0+\sum_{i=1}^{k}C_in_i`],
+["Cost-optimum shape",String.raw`n_i\propto\dfrac{w_iS_i}{\sqrt{C_i}}`],
+["\(B\)",String.raw`B=\sum_{i=1}^{k}w_iS_i\sqrt{C_i}`],
+["Fixed budget \(C_v\)",String.raw`n_i^*=C_v\dfrac{w_iS_i/\sqrt{C_i}}{B}`],
+["Minimum variance, fixed budget",String.raw`V_{\min}=\dfrac{B^2}{C_v}`],
+["Fixed variance \(V_0\)",String.raw`n_i^*=\dfrac{B}{V_0}\dfrac{w_iS_i}{\sqrt{C_i}}`],
+["Minimum variable cost",String.raw`C_v^*=\dfrac{B^2}{V_0}`],
+["Equal costs",String.raw`n_i\propto w_iS_i\ \Rightarrow\ \text{Neyman}`]]],
+["Precision",["Quantity","Formula"],[
+["SRS benchmark",String.raw`V_{\mathrm{SRS}}\approx\dfrac{S^2}{n}`],
+["Within plus between",String.raw`S^2\approx\sum_iw_iS_i^2+\sum_iw_i(\bar Y_i-\bar Y)^2`],
+["Ordering",String.raw`V_{\mathrm{opt}}\le V_{\mathrm{prop}}\le V_{\mathrm{SRS}}`],
+["Variance reduction",String.raw`RV=\dfrac{V_{\mathrm{SRS}}-V_{\mathrm{st}}}{V_{\mathrm{SRS}}}\times100\%`],
+["Precision gain",String.raw`G_{st}=\dfrac{V_{\mathrm{SRS}}-V_{\mathrm{st}}}{V_{\mathrm{st}}}\times100\%`],
+["Link",String.raw`G=\dfrac{RV}{1-RV}`],
+["Gain, proportional",String.raw`G_{\mathrm{prop}}=\Big[\dfrac{S^2}{\sum_iw_iS_i^2}-1\Big]100\%`],
+["Gain, optimum",String.raw`G_{\mathrm{opt}}=\Big[\dfrac{S^2}{(\sum_iw_iS_i)^2}-1\Big]100\%`]]],
+["Proportion",["Quantity","Formula"],[
+["Parameters",String.raw`P_i=\dfrac{A_i}{N_i},\quad p_i=\dfrac{a_i}{n_i},\quad Q_i=1-P_i`],
+["Estimator",String.raw`\hat P_{st}=\sum_{i=1}^{k}w_ip_i`],
+["Variance",String.raw`\V(\hat P_{st})\approx\sum_{i=1}^{k}\dfrac{w_i^2P_iQ_i}{n_i}`],
+["Proportional allocation",String.raw`\V_{\mathrm{prop}}(\hat P_{st})\approx\dfrac{1}{n}\sum_{i=1}^{k}w_iP_iQ_i`],
+["Neyman allocation",String.raw`n_i\propto w_i\sqrt{P_iQ_i}`],
+["Minimum variance",String.raw`\V_{\mathrm{opt}}(\hat P_{st})\approx\dfrac{1}{n}\Big(\sum_{i=1}^{k}w_i\sqrt{P_iQ_i}\Big)^2`]]],
+["Confidence interval",["Quantity","Formula"],[
+["Estimated variance",String.raw`\hat V_{st}=\sum_{i=1}^{k}w_i^2\dfrac{s_i^2}{n_i}`],
+["Interval",String.raw`\bar y_{st}\pm z_{\alpha/2}\sqrt{\hat V_{st}}`],
+["95% value",String.raw`z_{0.025}=1.96`],
+["Standard error",String.raw`SE(\bar y_{st})=\sqrt{\hat V_{st}}`]]]];
+document.getElementById('fl').innerHTML=FT.map(g=>`<h3>${g[0]}</h3><div style="overflow-x:auto"><table class="ft"><tr>${g[1].map(h=>`<th>${h}</th>`).join('')}</tr>`+g[2].map(r=>`<tr><td>${r[0]}</td><td>\\(\\displaystyle ${r[1]}\\)</td></tr>`).join('')+'</table></div>').join('');
+const SY=[[String.raw`N,\ N_i,\ k`,"population size, size of stratum i, number of strata"],[String.raw`n,\ n_i`,"total sample size, sample size in stratum i"],[String.raw`w_i`,"stratum weight \(N_i/N\), with \(\sum_iw_i=1\)"],[String.raw`S_i^2,\ s_i^2`,"stratum population variance, stratum sample variance"],[String.raw`\bar y_i`,"sample mean of stratum i"],[String.raw`\bar y_{st}`,"stratified mean"],[String.raw`V`,"true variance of the stratified mean"],[String.raw`\vh`,"estimated variance"],[String.raw`A`,"\(\sum_iw_iS_i\), the Neyman normalising constant"],[String.raw`S_w`,"\(\sum_iw_iS_i\), weighted mean of the \(S_i\)"],[String.raw`C_0,\ C_i,\ C`,"overhead cost, unit cost in stratum i, total cost"],[String.raw`C_v`,"variable budget, \(\sum_iC_in_i\)"],[String.raw`B`,"\(\sum_iw_iS_i\sqrt{C_i}\)"],[String.raw`V_0`,"target variance in the fixed-variance problem"],[String.raw`S^2`,"variance of the whole population"],[String.raw`V_{\mathrm{SRS}}`,"variance of a simple random sample of the same size"],[String.raw`RV`,"percentage reduction in variance"],[String.raw`G`,"relative gain in precision"],[String.raw`P_i,\ p_i,\ Q_i`,"stratum population proportion, sample proportion, \(1-P_i\)"],[String.raw`\hat P_{st}`,"stratified estimator of a proportion"],[String.raw`z_{\alpha/2}`,"normal quantile, 1.96 for 95% confidence"],[String.raw`\alpha`,"significance level, e.g. 0.05"],[String.raw`f_i`,"sampling fraction \(n_i/N_i\)"],[String.raw`SE`,"standard error, square root of the estimated variance"]];
+document.getElementById('sy').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr><th>Symbol</th><th>Meaning</th></tr>'+SY.map(r=>`<tr><td>\\(${r[0]}\\)</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
+// theme (scroll position preserved)
+const th=document.getElementById('th'),R=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// helpers
+const L=s=>String(s).split(/[\s,;]+/).filter(Boolean).map(Number),sum=a=>a.reduce((p,q)=>p+q,0),g=x=>isFinite(x)?String(+x.toFixed(4)):'—';
+const nz=p=>{const q=p<.5?p:1-p,t=Math.sqrt(-2*Math.log(q)),z=t-(2.515517+.802853*t+.010328*t*t)/(1+1.432788*t+.189269*t*t+.001308*t*t*t);return p<.5?-z:z};
+const tab=(h,r)=>'<div style="overflow-x:auto"><table><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(a=>'<tr>'+a.map(x=>`<td>${x}</td>`).join('')+'</tr>').join('')+'</table></div>';
+const bad='Check that all lists have the same length and the numbers are valid.';
+const core=(N,S,n)=>{const T=sum(N),k=N.length,w=N.map(x=>x/T),A=sum(w.map((x,i)=>x*S[i])),eq=N.map(()=>n/k),pr=w.map(x=>n*x),ne=w.map((x,i)=>n*x*S[i]/A);
+return{T,k,w,A,eq,pr,ne}};
+// widget 1: allocation and variance lab
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('vN').value),S=L(e('vS').value),n=+e('vn').value,t=e('vA').value;
+if(!N.length||N.length!=S.length||!(n>0)){e('vout').innerHTML='<p class="mut">Enter equal-length lists and n &gt; 0.</p>';return}
+const c=core(N,S,n),all={eq:c.eq,pr:c.pr,ne:c.ne}[t],V=a=>sum(c.w.map((x,i)=>x*x*S[i]*S[i]/a[i])),Vs=[V(c.eq),V(c.pr),V(c.ne)],Vc=V(all);
+const C=c.w.map((x,i)=>x*x*S[i]*S[i]/all[i]),Tc=sum(C);
+const sk=(arr,nm)=>`<div>${nm}</div><div class="stk">${arr.map((x,i)=>`<div style="width:${sum(arr)>0?x/sum(arr)*100:0}%;opacity:${Math.max(.4,1-i*.17)}">${g(x)}</div>`).join('')}</div>`;
+e('vout').innerHTML=tab(['Stratum','w_i','S_i','n_i','w_i²S_i²/n_i'],N.map((x,i)=>[i+1,g(c.w[i]),S[i],g(all[i]),g(C[i])]))
++`V = Σ w_i²S_i²/n_i = ${g(Vc)}<br>`
++sk(all,'Share of the sample (n_i)')
++sk(C,'Share of the variance')
++`<p class="mut">V_eq = ${g(Vs[0])}, V_prop = ${g(Vs[1])}, V_opt = ${g(Vs[2])}. Neyman is the smallest of the three for these numbers.</p>`;
+}
+['vN','vS','vn','vA'].forEach(i=>{e(i).oninput=run;e(i).onchange=run});run();
+})();
+// widget 2: variance ladder
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('lN').value),S=L(e('lS').value),M=L(e('lM').value),n=+e('ln').value;
+if(!N.length||N.length!=S.length||N.length!=M.length||!(n>0)){e('lad').innerHTML='<p class="mut">Enter equal-length lists and n &gt; 0.</p>';return}
+const c=core(N,S,n),V=a=>sum(c.w.map((x,i)=>x*x*S[i]*S[i]/a[i]));
+const Y=sum(c.w.map((x,i)=>x*M[i])),S2=sum(c.w.map((x,i)=>x*S[i]*S[i]))+sum(c.w.map((x,i)=>x*(M[i]-Y)**2)),Vs=S2/n;
+const rows=[['V_opt (Neyman)',V(c.ne)],['V_prop',V(c.pr)],['V_eq',V(c.eq)],['V_SRS',Vs]],mx=Math.max(...rows.map(r=>r[1]));
+e('lad').innerHTML=rows.map(r=>`<div>${r[0]} = ${g(r[1])}</div><div class="b" style="width:${mx>0?r[1]/mx*100:0}%"></div>`).join('')
++`<p class="mut">Ȳ = ${g(Y)}, S² ≈ ${g(S2)}. The guaranteed chain is V_opt ≤ V_prop ≤ V_SRS. Equal allocation is not part of that chain, so it may land anywhere.</p>`;
+}
+['lN','lS','lM','ln'].forEach(i=>e(i).oninput=run);run();
+})();
+// widget 3: cost optimum
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('cN').value),S=L(e('cS').value),C=L(e('cC').value),Cv=+e('cB').value;
+if(!N.length||N.length!=S.length||N.length!=C.length||!(Cv>0)||C.some(x=>x<=0)){e('cout').innerHTML='<p class="mut">Enter equal-length lists, positive costs and a budget &gt; 0.</p>';return}
+const T=sum(N),w=N.map(x=>x/T),B=sum(w.map((x,i)=>x*S[i]*Math.sqrt(C[i]))),shape=w.map((x,i)=>x*S[i]/Math.sqrt(C[i])),ni=shape.map(x=>Cv*x/B),cost=C.map((c,i)=>c*ni[i]),V=B*B/Cv;
+e('cout').innerHTML=tab(['Stratum','w_i','S_i','C_i','w_iS_i/√C_i','n_i*','C_i n_i*'],N.map((x,i)=>[i+1,g(w[i]),S[i],C[i],g(shape[i]),g(ni[i]),g(cost[i])]))
++`B = Σ w_iS_i√C_i = ${g(B)}<br>Σ C_i n_i* = ${g(sum(cost))} (should equal the budget)<br>V_min = B²/C_v = ${g(V)}<br><p class="mut">Rounded sizes: ${ni.map(Math.round).join(', ')}. Cheap and variable strata get more units; expensive ones get fewer.</p>`;
+}
+['cN','cS','cC','cB'].forEach(i=>e(i).oninput=run);run();
+})();
+// widget 4: proportion allocation
+(function(){
+const e=id=>document.getElementById(id);
+function run(){
+const N=L(e('pN').value),P=L(e('pP').value),n=+e('pn').value,t=e('pA').value;
+if(!N.length||N.length!=P.length||!(n>0)||P.some(p=>!(p>0&&p<1))){e('pout').innerHTML='<p class="mut">Enter equal-length lists, 0 &lt; P_i &lt; 1 and n &gt; 0.</p>';return}
+const T=sum(N),w=N.map(x=>x/T),sq=P.map(p=>Math.sqrt(p*(1-p))),A=sum(w.map((x,i)=>x*sq[i]));
+const pr=w.map(x=>n*x),ne=w.map((x,i)=>n*x*sq[i]/A),ni=t=='ne'?ne:pr;
+const Vp=sum(w.map((x,i)=>x*P[i]*(1-P[i])))/n,Vo=A*A/n,Vc=t=='ne'?Vo:Vp;
+const contrib=w.map((x,i)=>x*x*P[i]*(1-P[i])/ni[i]);
+const sk=(arr,nm)=>`<div>${nm}</div><div class="stk">${arr.map((x,i)=>`<div style="width:${sum(arr)>0?x/sum(arr)*100:0}%;opacity:${Math.max(.4,1-i*.17)}">${g(x)}</div>`).join('')}</div>`;
+e('pout').innerHTML=tab(['Stratum','w_i','P_i','√(P_iQ_i)','n_i','w_i²P_iQ_i/n_i'],N.map((x,i)=>[i+1,g(w[i]),P[i],g(sq[i]),g(ni[i]),g(contrib[i])]))
++`V = ${g(Vc)}<br>`
++sk(ni,'Share of the sample')
++`<p class="mut">V_prop = ${g(Vp)}, V_opt = ${g(Vo)}. Neyman gives more sample to strata with \(P_i\) near 0.5, where the variance \(P_iQ_i\) is largest.</p>`;
+}
+['pN','pP','pn','pA'].forEach(i=>{e(i).oninput=run;e(i).onchange=run});run();
+})();
+// calculator
+const CS={
+gen:{t:'General variance for any allocation',f:[['N_i','5000,3000,2000'],['S_i','10,20,15'],['n_i','120,110,70']],r:a=>{const N=L(a[0]),S=L(a[1]),n=L(a[2]);if(!N.length||N.length!=S.length||N.length!=n.length||n.some(x=>x<=0))return bad;const T=sum(N),w=N.map(x=>x/T),c=w.map((x,i)=>x*x*S[i]*S[i]/n[i]),V=sum(c);return tab(['Stratum','w_i','S_i','n_i','contribution'],N.map((x,i)=>[i+1,g(w[i]),S[i],n[i],g(c[i])]))+`V = ${g(V)}<br>SE = ${g(Math.sqrt(V))}`}},
+rules:{t:'Equal / proportional / Neyman and their variances',f:[['N_i','5000,3000,2000'],['S_i','10,20,15'],['n',300]],r:a=>{const N=L(a[0]),S=L(a[1]),n=+a[2];if(!N.length||N.length!=S.length||!(n>0))return bad;const c=core(N,S,n),V=a=>sum(c.w.map((x,i)=>x*x*S[i]*S[i]/a[i]));return tab(['Stratum','w_i','Equal','Proportional','Neyman'],N.map((x,i)=>[i+1,g(c.w[i]),g(c.eq[i]),g(c.pr[i]),g(c.ne[i])]))+`A = Σ w_iS_i = ${g(c.A)}<br>V_eq = ${g(V(c.eq))}<br>V_prop = ${g(V(c.pr))}<br>V_opt = ${g(V(c.ne))}<br>V_prop − V_opt = ${g(V(c.pr)-V(c.ne))} (${g((V(c.pr)-V(c.ne))/V(c.pr)*100)}% of V_prop)`}},
+costbudget:{t:'Cost-optimum: fixed budget',f:[['N_i','5000,3000,2000'],['S_i','10,20,15'],['C_i','1,4,9'],['budget C_v',1300]],r:a=>{const N=L(a[0]),S=L(a[1]),C=L(a[2]),Cv=+a[3];if(!N.length||N.length!=S.length||N.length!=C.length||!(Cv>0))return bad;const T=sum(N),w=N.map(x=>x/T),B=sum(w.map((x,i)=>x*S[i]*Math.sqrt(C[i]))),shape=w.map((x,i)=>x*S[i]/Math.sqrt(C[i])),ni=shape.map(x=>Cv*x/B),cost=C.map((c,i)=>c*ni[i]);return tab(['Stratum','n_i*','C_i n_i*'],ni.map((x,i)=>[i+1,g(x),g(cost[i])]))+`B = ${g(B)}<br>Σ C_i n_i* = ${g(sum(cost))}<br>V_min = B²/C_v = ${g(B*B/Cv)}<br>Rounded: ${ni.map(Math.round).join(', ')}`}},
+costvar:{t:'Cost-optimum: fixed variance',f:[['N_i','5000,3000,2000'],['S_i','10,20,15'],['C_i','1,4,9'],['target V_0',1]],r:a=>{const N=L(a[0]),S=L(a[1]),C=L(a[2]),V0=+a[3];if(!N.length||N.length!=S.length||N.length!=C.length||!(V0>0))return bad;const T=sum(N),w=N.map(x=>x/T),B=sum(w.map((x,i)=>x*S[i]*Math.sqrt(C[i]))),shape=w.map((x,i)=>x*S[i]/Math.sqrt(C[i])),ni=shape.map(x=>B*x/V0),cost=C.map((c,i)=>c*ni[i]);return tab(['Stratum','n_i*','C_i n_i*'],ni.map((x,i)=>[i+1,g(x),g(cost[i])]))+`B = ${g(B)}<br>C_v* = B²/V_0 = ${g(B*B/V0)}<br>Σ C_i n_i* = ${g(sum(cost))}<br>Rounded: ${ni.map(Math.round).join(', ')}`}},
+gain:{t:'Precision gain against SRS',f:[['N_i','5000,3000,2000'],['S_i','10,20,15'],['Ȳ_i','40,55,70'],['n',300],['allocation','ne',[['eq','Equal'],['pr','Proportional'],['ne','Neyman']]]],r:a=>{const N=L(a[0]),S=L(a[1]),M=L(a[2]),n=+a[3],t=a[4];if(!N.length||N.length!=S.length||N.length!=M.length||!(n>0))return bad;const c=core(N,S,n),V=a=>sum(c.w.map((x,i)=>x*x*S[i]*S[i]/a[i])),Vst=t=='eq'?V(c.eq):t=='pr'?V(c.pr):V(c.ne),Y=sum(c.w.map((x,i)=>x*M[i])),S2=sum(c.w.map((x,i)=>x*S[i]*S[i]))+sum(c.w.map((x,i)=>x*(M[i]-Y)**2)),Vs=S2/n;return`Ȳ = ${g(Y)}<br>S² ≈ ${g(S2)}<br>V_SRS = ${g(Vs)}<br>V_st = ${g(Vst)}<br>RV = ${g((Vs-Vst)/Vs*100)}%<br>G = ${g((Vs-Vst)/Vst*100)}%<br>Check G = RV/(1−RV) = ${g((Vs-Vst)/Vst*100)}%`}},
+prop:{t:'Proportion: allocation and variance',f:[['N_i','5000,3000,2000'],['P_i','0.2,0.5,0.8'],['n',300]],r:a=>{const N=L(a[0]),P=L(a[1]),n=+a[2];if(!N.length||N.length!=P.length||!(n>0)||P.some(p=>!(p>0&&p<1)))return bad;const T=sum(N),w=N.map(x=>x/T),sq=P.map(p=>Math.sqrt(p*(1-p))),A=sum(w.map((x,i)=>x*sq[i])),pr=w.map(x=>n*x),ne=w.map((x,i)=>n*x*sq[i]/A),Vp=sum(w.map((x,i)=>x*P[i]*(1-P[i])))/n,Vo=A*A/n;return tab(['Stratum','Proportional','Neyman'],N.map((x,i)=>[i+1,g(pr[i]),g(ne[i])]))+`P = ${g(sum(w.map((x,i)=>x*P[i])))}<br>V_prop = ${g(Vp)}<br>V_opt = ${g(Vo)}<br>Reduction = ${g((1-Vo/Vp)*100)}%`}},
+ci:{t:'Confidence interval for the mean',f:[['ȳ_st',50.5],['V (or V̂)',0.6533],['confidence %',95]],r:a=>{const m=+a[0],V=+a[1],c=+a[2];if(!(V>0)||!(c>0&&c<100))return'Enter V > 0 and 0 < confidence < 100.';const z=nz(1-(1-c/100)/2),se=Math.sqrt(V);return`SE = √${g(V)} = ${g(se)}<br>z = ${g(z)}<br>Margin = ${g(z*se)}<br>${c}% CI = (${g(m-z*se)}, ${g(m+z*se)})<br>Width = ${g(2*z*se)}`}}};
+const cm=document.getElementById('cm'),cf=document.getElementById('cf'),co=document.getElementById('co');
+cm.innerHTML=Object.keys(CS).map(k=>`<option value="${k}">${CS[k].t}</option>`).join('');
+function cb(){const c=CS[cm.value];cf.innerHTML=c.f.map(x=>x[2]?`<label>${x[0]} <select>${x[2].map(o=>`<option value="${o[0]}"${o[0]==x[1]?' selected':''}>${o[1]}</option>`).join('')}</select></label>`:typeof x[1]=='string'?`<label>${x[0]} <input type="text" value="${x[1]}" style="width:190px"></label>`:`<label>${x[0]} <input type="number" step="any" value="${x[1]}"></label>`).join('');cr()}
+function cr(){const c=CS[cm.value];co.innerHTML=c.r([...cf.querySelectorAll('input,select')].map(e=>e.value))}
+cm.onchange=cb;cf.oninput=cr;cf.onchange=cr;cb();
+</script></body></html>

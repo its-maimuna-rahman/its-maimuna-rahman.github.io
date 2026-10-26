@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stratified Random Sampling – Part 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:30px 0}.fc h3{margin:.9rem 0 .3rem;color:var(--ac)}
+.lbl{color:var(--mut);font-size:.9rem;margin:1.2rem 0 0}.fc .f{background:var(--bg)}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}.three h3{margin-top:.9rem;color:var(--ac)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700}
+input[type=range]{accent-color:var(--ac)}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',E:'\\operatorname{E}',vh:'\\widehat{\\operatorname{Var}}',sw:'\\sum_{i=1}^{k}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">See it</a><a href="#idea">Idea</a><a href="#proc">Procedure</a><a href="#not">Notation</a><a href="#est">Mean</a><a href="#unb">Unbiased</a><a href="#trap">Weights</a><a href="#var">Variance</a><a href="#build">Strata</a><a href="#sum">Recap</a><a href="#prac">Practice</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>Stratified Random Sampling</h1><h2>StRS Part 1</h2> <p class="mut">the idea, the stratified mean, its variance, and how to build good strata. Every formula has a plain-words meaning and a number example.</p></header>
+
+<section id="viz"><h2>See it first</h2>
+<p>The 100 dots are one population split into 3 strata (3 colours). Choose how many units to take from each stratum, then draw. <b>Filled dots</b> are the units picked. The page combines the three stratum averages using each stratum's share of the population, and compares the answer with a plain random sample of the same size.</p>
+<p>Try "Same in every stratum" and watch the line that uses the wrong weights. Then press the 1000-samples button.</p>
+<div class="box"><div class="row"><label>Split the sample <select id="vA"><option value="pr">In proportion to stratum size</option><option value="eq">Same in every stratum</option></select></label><label>Sample size \(n\) <input type="range" id="vn" min="9" max="60" value="30"> <b id="vnv">30</b></label><button class="p" id="vd">Draw a new sample</button><button id="vs">Re-run 1000 samples</button></div>
+<div id="vdots"></div><div class="out" id="vo" style="font-size:1rem"></div>
+<h3 style="margin-top:1.4rem">1000 repeated samples</h3><div id="vh"></div></div></section>
+
+<section id="idea"><h2>The idea</h2>
+<p>Some populations are made of groups that behave very differently. Stratified sampling takes those groups seriously instead of hoping a random draw will cover them all.</p>
+<div class="three"><div><h3>1. Split</h3><p>Cut the \(N\) units into \(k\) groups with no overlap. Each unit sits in exactly one group. The groups are called <b>strata</b>.</p></div>
+<div><h3>2. Sample inside</h3><p>In every stratum, draw its own simple random sample without replacement (<b>SRSWOR</b>). The draws in different strata are independent.</p></div>
+<div><h3>3. Combine</h3><p>Join the stratum samples into one sample, and join the stratum results with weights (see "Mean").</p></div></div>
+<div class="flow"><div class="pop">Population (\(N\))</div><div>&#8595; split into strata</div><div class="st"><div>Stratum 1<br>\(N_1\)</div><div>Stratum 2<br>\(N_2\)</div><div>&#8943;</div><div>Stratum \(k\)<br>\(N_k\)</div></div><div>&#8595; independent SRSWOR in each</div><div class="st"><div>sample \(n_1\)</div><div>sample \(n_2\)</div><div>&#8943;</div><div>sample \(n_k\)</div></div><div>&#8595; together: sample of size \(n\)</div></div>
+
+<div class="fc"><h3>Population size is the sum of stratum sizes</h3>
+<p>Every unit belongs to one stratum, so counting stratum by stratum and adding gives the whole population.</p>
+<div class="f">\[N=\sum_{i=1}^{k}N_i\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> A population is divided into three strata with 500, 300 and 200 units. How many units are in the whole population?</p><p class="lbl">Solution</p>
+<div class="f">\[N=500+300+200\]</div><div class="f">\[N=1000\]</div></div>
+<div class="fc"><h3>Sample size is the sum of stratum sample sizes</h3>
+<p>The final sample is just the stratum samples put together.</p>
+<div class="f">\[n=\sum_{i=1}^{k}n_i\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> From the three strata we draw 50, 30 and 20 units. What is the total sample size?</p><p class="lbl">Solution</p>
+<div class="f">\[n=50+30+20\]</div><div class="f">\[n=100\]</div></div>
+
+<div class="box ex"><b>Example: heights of school students (classes 1 to 12).</b>
+<ul class="pts"><li>Height grows with age, so class matters a lot.</li><li>A single random draw could, by bad luck, pick mostly young children and miss older ones.</li><li>Make 4 strata: classes 1&#8211;3, 4&#8211;6, 7&#8211;9, 10&#8211;12. Draw a random sample in each, so every age band is guaranteed to appear.</li><li>Inside one band the heights are close to each other, which makes the final estimate steadier.</li></ul></div></section>
+
+<section id="proc"><h2>Procedure and advantages</h2>
+<div class="fc"><h3>Steps</h3><ol><li>Say exactly which population you want to describe.</li><li>Split it into non-overlapping strata that cover everyone.</li><li>Find the size \(N_i\) of every stratum.</li><li>Decide how many units \(n_i\) to take from each stratum.</li><li>Draw an SRSWOR of \(n_i\) units in stratum \(i\).</li><li>Do this for every stratum.</li><li>Put all chosen units together. That is your sample.</li></ol>
+<p class="mut">Step 4 is a real decision. Equal sizes and size-proportional sizes are two simple choices (try both in the first widget).</p></div>
+<h3>Why people use it</h3>
+<div class="three"><div><h3>More precise</h3><ul class="pts"><li>Similar units sit together, so the estimate varies less.</li><li>Very large or unusual units can be given their own stratum instead of disturbing the whole sample.</li></ul></div>
+<div><h3>Results for groups</h3><ul class="pts"><li>You get estimates for each stratum and for the whole population.</li><li>Important strata can be studied more closely.</li></ul></div>
+<div><h3>Easier fieldwork</h3><ul class="pts"><li>Districts or offices can act as strata.</li><li>Each stratum may have its own list of units, which is often easier to get.</li><li>Different parts can be handled in different ways.</li></ul></div>
+<div><h3>Fair coverage</h3><ul class="pts"><li>Every segment of the population is in the sample on purpose, not by luck.</li></ul></div></div></section>
+
+<section id="not"><h2>Notation with one running example</h2>
+<p>Everything below uses one tiny population, so you can check each number by hand.</p>
+<div class="box ex"><b>Running population: \(N=10\) units, \(k=2\) strata.</b>
+<ul class="pts"><li>Stratum 1 has \(N_1=4\) units: 4, 8, 12, 16.</li><li>Stratum 2 has \(N_2=6\) units: 10, 20, 30, 40, 50, 60.</li><li>One sample we will reuse: from stratum 1 take \(n_1=2\) units: {4, 12}. From stratum 2 take \(n_2=3\) units: {10, 30, 50}.</li></ul></div>
+<p class="mut">Capital letters (\(Y,\bar Y,S^2\)) describe a whole stratum. Small letters (\(y,\bar y,s^2\)) describe the sample. The value of unit \(j\) in stratum \(i\) is \(Y_{ij}\) in the population and \(y_{ij}\) in the sample.</p>
+
+<div class="fc"><h3>Stratum weight \(W_i\)</h3><p>The share of the population that lives in stratum \(i\). Bigger strata get bigger weights, and the weights always add to 1.</p>
+<div class="f">\[W_i=\frac{N_i}{N}\]</div><div class="f">\[\sum_{i=1}^{k}W_i=1\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> In the running population, \(N_1=4\) and \(N_2=6\). Find the weights \(W_1\) and \(W_2\) and check that they add to 1.</p><p class="lbl">Solution</p><div class="f">\[W_1=\frac{4}{10}=0.4\]</div><div class="f">\[W_2=\frac{6}{10}=0.6\]</div><div class="f">\[W_1+W_2=1\]</div></div>
+
+<div class="fc"><h3>Stratum population mean \(\bar Y_i\)</h3><p>The true average of all units in stratum \(i\). We usually do not know it; this is what we want to learn about.</p>
+<div class="f">\[\bar Y_i=\frac{1}{N_i}\sum_{j=1}^{N_i}Y_{ij}\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> Stratum 1 has the units 4, 8, 12, 16 and stratum 2 has the units 10, 20, 30, 40, 50, 60. Find the population mean of each stratum.</p><p class="lbl">Solution</p><div class="f">\[\bar Y_1=\frac{4+8+12+16}{4}=10\]</div><div class="f">\[\bar Y_2=\frac{10+20+30+40+50+60}{6}=35\]</div></div>
+
+<div class="fc"><h3>Stratum sample mean \(\bar y_i\)</h3><p>The average of the units we actually picked in stratum \(i\). It is our estimate of \(\bar Y_i\). Under SRSWOR it is right on average: \(\E(\bar y_i)=\bar Y_i\).</p>
+<div class="f">\[\bar y_i=\frac{1}{n_i}\sum_{j=1}^{n_i}y_{ij}\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> From stratum 1 the sample {4, 12} is drawn, and from stratum 2 the sample {10, 30, 50}. Find the sample mean of each stratum.</p><p class="lbl">Solution</p><div class="f">\[\bar y_1=\frac{4+12}{2}=8\]</div><div class="f">\[\bar y_2=\frac{10+30+50}{3}=30\]</div>
+<p class="mut">The sample means (8 and 30) are close to, but not equal to, the true means (10 and 35). That gap is sampling error.</p></div>
+
+<div class="fc"><h3>Stratum population variance \(S_i^2\)</h3><p>How spread out the units are inside stratum \(i\). It is the average squared distance from the stratum mean (dividing by \(N_i-1\)). Variance formulas later are built from it.</p>
+<div class="f">\[S_i^2=\frac{1}{N_i-1}\sum_{j=1}^{N_i}(Y_{ij}-\bar Y_i)^2\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> Find the population variance \(S_1^2\) of stratum 1 and \(S_2^2\) of stratum 2 of the running population.</p><p class="lbl">Solution</p><div class="f">\[S_1^2=\frac{(4-10)^2+(8-10)^2+(12-10)^2+(16-10)^2}{3}\]</div><div class="f">\[S_1^2=\frac{80}{3}\approx 26.67\]</div><div class="f">\[S_2^2=\frac{625+225+25+25+225+625}{5}=350\]</div></div>
+
+<div class="fc"><h3>Stratum sample variance \(s_i^2\)</h3><p>The same idea computed from the sample only. It is what we can really calculate, and it stands in for \(S_i^2\).</p>
+<div class="f">\[s_i^2=\frac{1}{n_i-1}\sum_{j=1}^{n_i}(y_{ij}-\bar y_i)^2\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> For the samples {4, 12} and {10, 30, 50}, find the sample variances \(s_1^2\) and \(s_2^2\).</p><p class="lbl">Solution</p><div class="f">\[s_1^2=\frac{(4-8)^2+(12-8)^2}{2-1}=32\]</div><div class="f">\[s_2^2=\frac{(10-30)^2+(30-30)^2+(50-30)^2}{3-1}=400\]</div></div></section>
+
+<section id="est"><h2>Estimating the population mean</h2>
+<div class="fc"><h3>The true mean is a weighted average</h3>
+<p>The population mean is not the plain average of the stratum means. A stratum with more people must count for more. The weights \(W_i\) do exactly that.</p>
+<div class="f">\[\bar Y=\sum_{i=1}^{k}W_i\bar Y_i\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> (a) Find the population mean \(\bar Y\) of the running population using the weights \(W_i\). (b) Check it by averaging all 10 values directly. (c) Show that the plain average of the two stratum means gives a different, wrong answer.</p><p class="lbl">Solution</p><p class="lbl">(a)</p><div class="f">\[\bar Y=0.4(10)+0.6(35)\]</div><div class="f">\[\bar Y=4+21=25\]</div>
+<p class="lbl">(b) The 10 values add to 40 + 210</p><div class="f">\[\bar Y=\frac{250}{10}=25\]</div>
+<p class="lbl">(c) Plain average of the two stratum means</p><div class="f">\[\frac{10+35}{2}=22.5\neq 25\]</div></div>
+
+<div class="fc"><h3>The stratified mean \(\bar y_{st}\)</h3>
+<p>We do not know \(\bar Y_i\), so we put the sample mean \(\bar y_i\) in its place and keep the weights.</p>
+<div class="f">\[\bar y_{st}=\sum_{i=1}^{k}W_i\bar y_i\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> In our sample, \(\bar y_1=8\) and \(\bar y_2=30\). With the weights 0.4 and 0.6, find \(\bar y_{st}\) and compare it with the true mean 25.</p><p class="lbl">Solution</p><div class="f">\[\bar y_{st}=0.4(8)+0.6(30)\]</div><div class="f">\[\bar y_{st}=3.2+18=21.2\]</div>
+<p class="mut">The true mean is 25, so this one sample is 3.8 too low. Another sample could be too high. "Unbiased" (next section) says these misses cancel out on average.</p>
+<p class="lbl">A bigger example</p><p><b>Question.</b> Three strata have \(N_i=500,\ 300,\ 200\) and sample means \(\bar y_i=40,\ 55,\ 70\). Find the weights and \(\bar y_{st}\).</p><p class="lbl">Solution</p><div class="f">\[W=(0.5,\ 0.3,\ 0.2)\]</div><div class="f">\[\bar y_{st}=0.5(40)+0.3(55)+0.2(70)\]</div><div class="f">\[\bar y_{st}=20+16.5+14=50.5\]</div></div></section>
+
+<section id="unb"><h2>Why the stratified mean is unbiased</h2>
+<p>Imagine repeating the whole sampling process again and again. Each time you get a slightly different \(\bar y_{st}\). <b>Unbiased</b> means the average of all those answers is exactly the true mean: no habit of landing too high or too low.</p>
+<div class="fc"><h3>Unbiasedness</h3>
+<div class="f">\[\E(\bar y_{st})=\bar Y\]</div>
+<p><b>Reason in three lines.</b> The weights are fixed numbers. Each \(\bar y_i\) is right on average. So the weighted sum is right on average. Full proof: D1.</p>
+<p class="lbl">Check by hand with a tiny population</p><p><b>Question.</b> Stratum A has the units 4, 8 and stratum B has the units 10, 20, 30, 40. One unit is drawn from each stratum. (a) Find the weights and the true mean \(\bar Y\). (b) List every possible value of \(\bar y_{st}\). (c) Show that the average of all possible \(\bar y_{st}\) equals \(\bar Y\).</p><p class="lbl">Solution</p>
+<p class="lbl">(a)</p><div class="f">\[W_A=\frac{2}{6}=\frac13,\qquad W_B=\frac{4}{6}=\frac23\]</div><div class="f">\[\bar Y=\frac13(6)+\frac23(25)\approx 18.67\]</div><p class="lbl">(b) There are \(2\times4=8\) possible samples</p>
+<div style="overflow-x:auto"><table><tr><th>\(\bar y_{st}\)</th><th>B = 10</th><th>B = 20</th><th>B = 30</th><th>B = 40</th></tr><tr><td>A = 4</td><td>8.00</td><td>14.67</td><td>21.33</td><td>28.00</td></tr><tr><td>A = 8</td><td>9.33</td><td>16.00</td><td>22.67</td><td>29.33</td></tr></table></div>
+<p class="lbl">(c)</p><div class="f">\[\text{Average of the 8 values}=\frac{149.33}{8}\approx 18.67=\bar Y\]</div>
+<p class="mut">No single sample hits 18.67, yet the average of all of them does.</p></div>
+<div class="box"><b>Count every sample yourself.</b> Type any small strata (values separated by commas, strata separated by <b>;</b>) and the sample size per stratum. The page lists every possible sample and compares the exact answers with the formulas. Try <b>3,3</b> as sample sizes to see the wrong weights fail.
+<div class="row"><label>Values <input type="text" id="xP" value="4,8,12,16;10,20,30,40,50,60" style="width:min(320px,100%)"></label><label>\(n_i\) <input type="text" id="xn" value="2,3" style="width:90px"></label></div><div class="out" id="xo"></div></div></section>
+
+<section id="trap"><h2>The weight trap: \(N_i/N\) or \(n_i/n\)?</h2>
+<div class="fc"><h3>The tempting but wrong estimator</h3>
+<p>It feels natural to weight each stratum by its share <em>of the sample</em>. That only works when the sample shares match the population shares. Otherwise a stratum that was sampled more heavily gets too much say.</p>
+<div class="f">\[\bar y_{naive}=\sum_{i=1}^{k}\frac{n_i}{n}\bar y_i\]</div>
+<div class="f">\[\E(\bar y_{naive})=\sum_{i=1}^{k}\frac{n_i}{n}\bar Y_i\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> In the running population take \(n_1=3\) and \(n_2=3\) (so \(n=6\)). Find \(\E(\bar y_{naive})\) and its bias.</p><p class="lbl">Solution</p>
+<div class="f">\[\E(\bar y_{naive})=\frac36(10)+\frac36(35)\]</div><div class="f">\[\E(\bar y_{naive})=22.5\]</div><div class="f">\[\text{bias}=22.5-25=-2.5\]</div>
+<p class="lbl">Another example</p><p><b>Question.</b> Now take \(n_1=2\) and \(n_2=3\), so that \(n_i/n=0.4,\ 0.6\). Find \(\E(\bar y_{naive})\).</p><p class="lbl">Solution</p>
+<div class="f">\[\E(\bar y_{naive})=0.4(10)+0.6(35)=25\]</div>
+<div class="box nt"><b>Rule.</b> Always weight by \(W_i=N_i/N\). The weights \(n_i/n\) are only safe when they happen to equal \(N_i/N\). Proof: D2.</div></div></section>
+
+<section id="var"><h2>How much does \(\bar y_{st}\) vary?</h2>
+<p>An estimate without a measure of its reliability is half an answer. Variance tells us how far the estimate typically wanders from the truth.</p>
+<div class="fc"><h3>Variance of one stratum mean</h3>
+<p>Inside a stratum we use SRSWOR. The variance goes down when the stratum is less spread out (small \(S_i^2\)) and when we take more units (large \(n_i\)).</p>
+<div class="f">\[\V(\bar y_i)=\Big(1-\frac{n_i}{N_i}\Big)\frac{S_i^2}{n_i}\]</div>
+<p><b>The factor \(1-n_i/N_i\)</b> is the <b>finite population correction (FPC)</b>. Sampling without replacement from a finite stratum teaches us more each time. If you sample the whole stratum the factor is 0 (no uncertainty left). If you sample a tiny fraction it is close to 1.</p>
+<p class="lbl">Example</p><p><b>Question.</b> In the running population (\(N_1=4,\ N_2=6\)) take \(n_1=2\) and \(n_2=3\). Using \(S_1^2=26.67\) and \(S_2^2=350\), find \(\V(\bar y_1)\) and \(\V(\bar y_2)\).</p><p class="lbl">Solution</p>
+<div class="f">\[\V(\bar y_1)=\Big(1-\frac24\Big)\frac{26.67}{2}=0.5\times 13.33\approx 6.67\]</div>
+<div class="f">\[\V(\bar y_2)=\Big(1-\frac36\Big)\frac{350}{3}=0.5\times 116.67\approx 58.33\]</div></div>
+
+<div class="fc"><h3>Variance of the stratified mean</h3>
+<p>Strata are sampled independently, so one stratum's luck says nothing about another's. Then the variances simply add, and each is multiplied by the <em>square</em> of its weight (because \(\bar y_i\) is multiplied by \(W_i\)). Proof: D3.</p>
+<div class="f">\[\V(\bar y_{st})=\sum_{i=1}^{k}W_i^2\,\V(\bar y_i)\]</div>
+<div class="f">\[\V(\bar y_{st})=\sum_{i=1}^{k}W_i^2\Big(1-\frac{n_i}{N_i}\Big)\frac{S_i^2}{n_i}\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> For the same design and the weights \(W=(0.4,\ 0.6)\), find \(\V(\bar y_{st})\) using the stratum variances found above.</p><p class="lbl">Solution</p>
+<div class="f">\[\V(\bar y_{st})=0.4^2(6.67)+0.6^2(58.33)\]</div><div class="f">\[\V(\bar y_{st})=1.07+21.00\]</div><div class="f">\[\V(\bar y_{st})\approx 22.07\]</div>
+<p class="mut">Stratum 2 supplies almost all of it: it has the bigger weight and the bigger spread.</p></div>
+
+<div class="fc"><h3>Estimating the variance from a sample</h3>
+<p>\(S_i^2\) is unknown in real life. Swap in the sample variance \(s_i^2\). This estimate is unbiased (proof: D4). The <b>standard error (SE)</b> is its square root, in the same units as the mean.</p>
+<div class="f">\[\vh(\bar y_{st})=\sum_{i=1}^{k}W_i^2\Big(1-\frac{n_i}{N_i}\Big)\frac{s_i^2}{n_i}\]</div>
+<div class="f">\[SE(\bar y_{st})=\sqrt{\vh(\bar y_{st})}\]</div>
+<p class="lbl">Example</p><p><b>Question.</b> From the samples {4, 12} and {10, 30, 50} we found \(s_1^2=32\) and \(s_2^2=400\). Find the estimated variance and the standard error of \(\bar y_{st}\).</p><p class="lbl">Solution</p>
+<div class="f">\[\text{Stratum 1: }0.4^2(0.5)\frac{32}{2}=1.28\]</div><div class="f">\[\text{Stratum 2: }0.6^2(0.5)\frac{400}{3}=24.00\]</div><div class="f">\[\vh(\bar y_{st})=1.28+24.00=25.28\]</div><div class="f">\[SE(\bar y_{st})=\sqrt{25.28}\approx 5.03\]</div>
+<p class="mut">Read it as: an estimate like 21.2 is typically about 5 units away from the truth.</p></div>
+
+<div class="fc"><h3>A second full example</h3>
+<p class="lbl">Example</p><p><b>Question.</b> Two strata have \(N=(600,\ 400)\), \(n=(60,\ 40)\) and sample variances \(s^2=(100,\ 64)\). Find the weights, the estimated variance of \(\bar y_{st}\) and its standard error.</p><p class="lbl">Solution</p>
+<div class="f">\[W_1=0.6,\qquad W_2=0.4\]</div>
+<div class="f">\[\text{Stratum 1: }0.6^2(1-0.1)\frac{100}{60}=0.36(0.9)(1.667)=0.5400\]</div>
+<div class="f">\[\text{Stratum 2: }0.4^2(1-0.1)\frac{64}{40}=0.16(0.9)(1.6)=0.2304\]</div>
+<div class="f">\[\vh(\bar y_{st})=0.5400+0.2304=0.7704\]</div>
+<div class="f">\[SE(\bar y_{st})=\sqrt{0.7704}\approx 0.878\]</div></div></section>
+
+<section id="build"><h2>How to build good strata</h2>
+<p>The variance formula contains only the spread <em>inside</em> each stratum (\(S_i^2\)). Differences <em>between</em> strata do not add to the variance, because every stratum is always represented. So:</p>
+<div class="box"><b>Good strata are alike inside and different from each other.</b> Smaller \(S_i^2\) gives a smaller \(\V(\bar y_{st})\).</div>
+<ul class="pts"><li>Pick a grouping variable that is linked to what you measure (age for height).</li><li>It must be known for every unit before sampling.</li><li>Groups that mix very different units give no gain over a plain random sample.</li></ul>
+<div class="box"><b>Strata builder.</b> A school has 12 classes of 10 students (\(N=120\)). Choose how to group the classes and see the variance of \(\bar y_{st}\). Each stratum gets a share of \(n\) in proportion to its size, so only the grouping changes.
+<div class="row"><label>Grouping <select id="bS"></select></label><label>Sample size \(n\) <input type="range" id="bn" min="12" max="60" value="24"> <b id="bnv">24</b></label></div>
+<div id="bo"></div></div></section>
+
+<section id="sum"><h2>Quick recap</h2>
+<div style="overflow-x:auto"><table class="ft"><tr><th>What</th><th>Formula</th><th>In one line</th></tr>
+<tr><td>Weight</td><td>\(W_i=\dfrac{N_i}{N}\)</td><td>share of the population</td></tr>
+<tr><td>Stratified mean</td><td>\(\bar y_{st}=\sum W_i\bar y_i\)</td><td>weighted average of stratum sample means</td></tr>
+<tr><td>Unbiased</td><td>\(\E(\bar y_{st})=\bar Y\)</td><td>right on average</td></tr>
+<tr><td>Variance</td><td>\(\sum W_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{S_i^2}{n_i}\)</td><td>strata independent, so squared weights add</td></tr>
+<tr><td>Estimated variance</td><td>\(\sum W_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{s_i^2}{n_i}\)</td><td>use \(s_i^2\) in place of \(S_i^2\)</td></tr>
+<tr><td>Standard error</td><td>\(SE=\sqrt{\vh(\bar y_{st})}\)</td><td>typical size of the error</td></tr></table></div></section>
+
+<section id="prac"><h2>Practice</h2>
+<div class="fc"><h3>Exercise 1: the stratified mean</h3><p>Strata: \(N_i=400,\ 350,\ 250\) with sample means \(\bar y_i=20,\ 30,\ 40\). Find \(N\), the weights, and \(\bar y_{st}\).</p>
+<details class="ans"><summary>Show answer</summary><div class="f">\[N=400+350+250=1000\]</div><div class="f">\[W=(0.40,\ 0.35,\ 0.25)\]</div><div class="f">\[\bar y_{st}=0.40(20)+0.35(30)+0.25(40)\]</div><div class="f">\[\bar y_{st}=8+10.5+10=28.5\]</div></details></div>
+<div class="fc"><h3>Exercise 2: variance and SE</h3><p>Strata: \(N=(800,\ 200)\), \(n=(80,\ 20)\), \(\bar y=(30,\ 70)\), \(s^2=(50,\ 200)\). Find \(\bar y_{st}\), \(\vh(\bar y_{st})\) and \(SE\).</p>
+<details class="ans"><summary>Show answer</summary><div class="f">\[W=(0.8,\ 0.2)\]</div><div class="f">\[\bar y_{st}=0.8(30)+0.2(70)=24+14=38\]</div><div class="f">\[\text{Stratum 1: }0.8^2(0.9)\frac{50}{80}=0.36\]</div><div class="f">\[\text{Stratum 2: }0.2^2(0.9)\frac{200}{20}=0.36\]</div><div class="f">\[\vh(\bar y_{st})=0.72\]</div><div class="f">\[SE=\sqrt{0.72}\approx 0.849\]</div></details></div></section>
+
+<section id="calc"><h2>Calculator</h2>
+<div class="box"><div class="row"><label>Case <select id="cm"></select></label></div><div class="row" id="cf"></div><div class="out" id="co"></div><p class="mut">Enter lists separated by commas, one value per stratum. Results update as you type.</p></div></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it. D1 unbiasedness, D2 wrong weights, D3 variance, D4 variance estimate.</p>
+<div id="dl"></div></section>
+
+<section id="form"><h2>Formula sheet</h2><div id="fl"></div><h3>Meaning of symbols</h3><div id="sy"></div></section>
+</main>
+<script>
+const D=[
+["D1",String.raw`\(\E(\yb_{st})=\Yb\) (unbiasedness)`,String.raw`<ol>
+<li><b>Weights are fixed numbers</b>, not random, so they come out of the expectation: \[\E(\yb_{st})=\sum_{i=1}^{k}W_i\,\E(\yb_i).\]</li>
+<li><b>SRSWOR is right on average</b> inside each stratum: \[\E(\yb_i)=\Yb_i.\]</li>
+<li><b>Substitute:</b> \[\E(\yb_{st})=\sum_{i=1}^{k}W_i\Yb_i.\]</li>
+<li><b>Write out \(W_i\) and \(\Yb_i\):</b> \[\E(\yb_{st})=\sum_{i=1}^{k}\frac{N_i}{N}\cdot\frac{1}{N_i}\sum_{j=1}^{N_i}Y_{ij}.\]</li>
+<li><b>\(N_i\) cancels:</b> \[\E(\yb_{st})=\frac1N\sum_{i=1}^{k}\sum_{j=1}^{N_i}Y_{ij}.\]</li>
+<li>This is the average of all \(N\) units: \[\E(\yb_{st})=\Yb.\]</li></ol>`],
+["D2",String.raw`\(\E(\yb_{naive})=\sum\frac{n_i}{n}\Yb_i\ne\Yb\) (wrong weights)`,String.raw`<ol>
+<li><b>The sample shares are fixed by the design</b>, so they act as constants: \[\E(\yb_{naive})=\sum_{i=1}^{k}\frac{n_i}{n}\E(\yb_i).\]</li>
+<li><b>Use \(\E(\yb_i)=\Yb_i\):</b> \[\E(\yb_{naive})=\sum_{i=1}^{k}\frac{n_i}{n}\Yb_i.\]</li>
+<li><b>Bias</b> is this minus the truth \(\Yb=\sum W_i\Yb_i\): \[\E(\yb_{naive})-\Yb=\sum_{i=1}^{k}\Big(\frac{n_i}{n}-W_i\Big)\Yb_i.\]</li>
+<li>It is zero only if \(n_i/n=N_i/N\) for every stratum, or all \(\Yb_i\) are equal. Otherwise the estimator is biased.</li>
+<li><b>Numbers:</b> \(n_i/n=(0.5,0.5)\), \(W_i=(0.4,0.6)\), \(\Yb_i=(10,35)\): \[(0.5-0.4)(10)+(0.5-0.6)(35)=1-3.5=-2.5.\]</li></ol>`],
+["D3",String.raw`\(\V(\yb_{st})=\sum W_i^2\big(1-\frac{n_i}{N_i}\big)\frac{S_i^2}{n_i}\)`,String.raw`<ol>
+<li><b>Rule for a weighted sum:</b> constants come out squared, and any two parts that move together add a covariance term: \[\V\Big(\sum_{i=1}^{k}W_i\yb_i\Big)=\sum_{i=1}^{k}W_i^2\V(\yb_i)+2\sum_{i&lt;l}W_iW_l\,\mathrm{Cov}(\yb_i,\yb_l).\]</li>
+<li><b>Independence.</b> Different strata are sampled separately, so the covariance is zero when \(i\ne l\): \[\V(\yb_{st})=\sum_{i=1}^{k}W_i^2\V(\yb_i).\]</li>
+<li><b>One stratum under SRSWOR:</b> \[\V(\yb_i)=\Big(1-\frac{n_i}{N_i}\Big)\frac{S_i^2}{n_i}.\]</li>
+<li><b>Put them together:</b> \[\V(\yb_{st})=\sum_{i=1}^{k}W_i^2\Big(1-\frac{n_i}{N_i}\Big)\frac{S_i^2}{n_i}.\]</li>
+<li><b>Meaning:</b> only the spread inside strata, \(S_i^2\), appears. Differences between stratum means do not.</li></ol>`],
+["D4",String.raw`\(\E(s_i^2)=S_i^2\), so \(\vh(\yb_{st})\) is unbiased`,String.raw`<ol>
+<li><b>Drop the stratum subscript.</b> For an SRSWOR of size \(n\) from \(N\) units, add and subtract \(\Yb\): \[\sum_{j=1}^{n}(y_j-\yb)^2=\sum_{j=1}^{n}(y_j-\Yb)^2-n(\yb-\Yb)^2.\]</li>
+<li><b>First term.</b> Each \(y_j\) is a random unit of the population, so \(\E(y_j-\Yb)^2=\frac{N-1}{N}S^2\). Hence \[\E\sum_{j=1}^{n}(y_j-\Yb)^2=\frac{n(N-1)}{N}S^2.\]</li>
+<li><b>Second term.</b> \(\E(\yb-\Yb)^2=\V(\yb)=\frac{N-n}{Nn}S^2\). Hence \[\E\big[n(\yb-\Yb)^2\big]=\frac{N-n}{N}S^2.\]</li>
+<li><b>Subtract:</b> \[\E\sum_{j=1}^{n}(y_j-\yb)^2=\frac{n(N-1)-(N-n)}{N}S^2=(n-1)S^2.\]</li>
+<li><b>Divide by \(n-1\):</b> \[\E(s^2)=S^2.\]</li>
+<li><b>Variance estimate.</b> The weights, FPC and \(n_i\) are fixed, so \[\E\big[\vh(\yb_{st})\big]=\sum_{i=1}^{k}W_i^2\Big(1-\frac{n_i}{N_i}\Big)\frac{\E(s_i^2)}{n_i}=\V(\yb_{st}).\]</li></ol>`]];
+const dl=document.getElementById('dl');dl.innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+dl.querySelectorAll('.dv').forEach(d=>{const sm=d.querySelector('summary'),b=d.querySelector('.bd'),T=matchMedia('(prefers-reduced-motion:reduce)').matches?0:320;
+sm.addEventListener('click',e=>{e.preventDefault();if(d._a)d._a.cancel();
+if(!d.classList.contains('op')){d.open=true;d.classList.add('op');const h=b.scrollHeight;d._a=b.animate({height:['0px',h+'px'],opacity:[0,1]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d._a=null}}
+else{d.classList.remove('op');const h=b.offsetHeight;d._a=b.animate({height:[h+'px','0px'],opacity:[1,0]},{duration:T,easing:'ease'});d._a.onfinish=()=>{d.open=false;d._a=null}}})});
+
+const FT=[
+["Setting up",["Quantity","Formula"],[
+["Population size",String.raw`N=\sum_{i=1}^{k}N_i`],["Sample size",String.raw`n=\sum_{i=1}^{k}n_i`],["Stratum weight",String.raw`W_i=\dfrac{N_i}{N}`],["Weights add to 1",String.raw`\sum_{i=1}^{k}W_i=1`],
+["Stratum population mean",String.raw`\bar Y_i=\dfrac1{N_i}\sum_{j=1}^{N_i}Y_{ij}`],["Stratum sample mean",String.raw`\bar y_i=\dfrac1{n_i}\sum_{j=1}^{n_i}y_{ij}`],
+["Stratum population variance",String.raw`S_i^2=\dfrac1{N_i-1}\sum_{j=1}^{N_i}(Y_{ij}-\bar Y_i)^2`],["Stratum sample variance",String.raw`s_i^2=\dfrac1{n_i-1}\sum_{j=1}^{n_i}(y_{ij}-\bar y_i)^2`],
+["Population mean",String.raw`\bar Y=\sum_{i=1}^{k}W_i\bar Y_i`]]],
+["Estimation",["Quantity","Formula"],[
+["Stratified mean",String.raw`\bar y_{st}=\sum_{i=1}^{k}W_i\bar y_i`],["Unbiasedness",String.raw`\E(\bar y_{st})=\bar Y`],["Wrong-weight estimator",String.raw`\bar y_{naive}=\sum_{i=1}^{k}\dfrac{n_i}{n}\bar y_i`],["Its expectation",String.raw`\E(\bar y_{naive})=\sum_{i=1}^{k}\dfrac{n_i}{n}\bar Y_i`],["Its bias",String.raw`\sum_{i=1}^{k}\Big(\dfrac{n_i}{n}-W_i\Big)\bar Y_i`]]],
+["Variance",["Quantity","Formula"],[
+["Variance of a stratum mean",String.raw`\V(\bar y_i)=\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{S_i^2}{n_i}`],["Independent strata",String.raw`\V(\bar y_{st})=\sum_{i=1}^{k}W_i^2\V(\bar y_i)`],["Variance of the stratified mean",String.raw`\V(\bar y_{st})=\sum_{i=1}^{k}W_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{S_i^2}{n_i}`],
+["Sample variance is unbiased",String.raw`\E(s_i^2)=S_i^2`],["Estimated variance",String.raw`\vh(\bar y_{st})=\sum_{i=1}^{k}W_i^2\Big(1-\dfrac{n_i}{N_i}\Big)\dfrac{s_i^2}{n_i}`],["Standard error",String.raw`SE(\bar y_{st})=\sqrt{\vh(\bar y_{st})}`]]]];
+document.getElementById('fl').innerHTML=FT.map(g=>`<h3>${g[0]}</h3><div style="overflow-x:auto"><table class="ft"><tr>${g[1].map(h=>`<th>${h}</th>`).join('')}</tr>`+g[2].map(r=>`<tr><td>${r[0]}</td><td>\\(\\displaystyle ${r[1]}\\)</td></tr>`).join('')+'</table></div>').join('');
+const SY=[[String.raw`N,\ N_i,\ k`,"population size, size of stratum i, number of strata"],[String.raw`n,\ n_i`,"total sample size, sample size in stratum i"],[String.raw`W_i`,String.raw`stratum weight \(N_i/N\)`],[String.raw`Y_{ij},\ y_{ij}`,"population value and sample value of unit j in stratum i"],[String.raw`\bar Y_i,\ \bar y_i`,"stratum population mean, stratum sample mean"],[String.raw`\bar Y,\ \bar y_{st}`,"population mean, stratified mean"],[String.raw`S_i^2,\ s_i^2`,"stratum population variance, stratum sample variance"],[String.raw`1-n_i/N_i`,"finite population correction (FPC)"],[String.raw`\V,\ \vh`,"true variance, estimated variance"],[String.raw`SE`,"standard error: square root of the estimated variance"],[String.raw`\bar y_{naive}`,String.raw`wrong-weight estimator using \(n_i/n\)`]];
+document.getElementById('sy').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr><th>Symbol</th><th>Meaning</th></tr>'+SY.map(r=>`<tr><td>\\(${r[0]}\\)</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
+// theme (scroll position preserved)
+const th=document.getElementById('th'),R=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+// helpers
+const L=s=>String(s).split(/[\s,;]+/).filter(Boolean).map(Number),sum=a=>a.reduce((p,q)=>p+q,0),g=x=>isFinite(x)?String(+x.toFixed(4)):'—';
+const nz=p=>{const q=p<.5?p:1-p,t=Math.sqrt(-2*Math.log(q)),z=t-(2.515517+.802853*t+.010328*t*t)/(1+1.432788*t+.189269*t*t+.001308*t*t*t);return p<.5?-z:z};
+const tab=(h,r)=>'<div style="overflow-x:auto"><table><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(a=>'<tr>'+a.map(x=>`<td>${x}</td>`).join('')+'</tr>').join('')+'</table></div>';
+const bad='Check that the lists have the same length and the numbers are valid.';
+const bar=w=>`<div class="stk">${w.map((x,i)=>`<div style="width:${x*100}%;opacity:${Math.max(.4,1-i*.17)}">${g(x)}</div>`).join('')}</div>`;
+const CS={
+wm:{t:'Stratified mean (weights and contributions)',f:[['N_i','500,300,200'],['ȳ_i','40,55,70']],r:a=>{const N=L(a[0]),y=L(a[1]);if(!N.length||N.length!=y.length)return bad;const T=sum(N),W=N.map(x=>x/T),c=W.map((x,i)=>x*y[i]);return`N = ΣN_i = ${T}<br>`+tab(['Stratum','N_i','W_i = N_i/N','ȳ_i','W_i · ȳ_i'],N.map((x,i)=>[i+1,x,g(W[i]),y[i],g(c[i])]))+`<span class="mut">Share of the population in each stratum:</span>${bar(W)}ȳ_st = Σ W_i ȳ_i = ${g(sum(c))}<br><span class="mut">Plain average of the ȳ_i = ${g(sum(y)/y.length)}. It ignores stratum sizes, so it is not the right estimate.</span>`}},
+wt:{t:'Right vs wrong weights (N_i/N vs n_i/n)',f:[['N_i','4,6'],['n_i','3,3'],['Ȳ_i (true stratum means)','10,35']],r:a=>{const N=L(a[0]),n=L(a[1]),m=L(a[2]);if(!N.length||N.length!=n.length||N.length!=m.length)return bad;const T=sum(N),nt=sum(n),Y=sum(N.map((x,i)=>x/T*m[i])),E=sum(n.map((x,i)=>x/nt*m[i]));return tab(['Stratum','N_i/N (right)','n_i/n (wrong)'],N.map((x,i)=>[i+1,g(x/T),g(n[i]/nt)]))+`True mean Ȳ = Σ (N_i/N) Ȳ_i = ${g(Y)}<br>E(ȳ_st) = ${g(Y)} (unbiased)<br>E(ȳ_naive) = Σ (n_i/n) Ȳ_i = ${g(E)}<br>Bias of the wrong weights = ${g(E-Y)}`}},
+var:{t:'Variance and SE of ȳ_st',f:[['N_i','600,400'],['n_i','60,40'],['s_i²','100,64']],r:a=>{const N=L(a[0]),n=L(a[1]),s=L(a[2]);if(!N.length||N.length!=n.length||N.length!=s.length)return bad;const T=sum(N),W=N.map(x=>x/T),f=N.map((x,i)=>1-n[i]/x),t=W.map((x,i)=>x*x*f[i]*s[i]/n[i]),V=sum(t),V0=sum(W.map((x,i)=>x*x*s[i]/n[i]));return tab(['Stratum','W_i','1 − n_i/N_i','s_i²/n_i','W_i²(1−n_i/N_i)s_i²/n_i'],N.map((x,i)=>[i+1,g(W[i]),g(f[i]),g(s[i]/n[i]),g(t[i])]))+`Estimated variance = sum of the last column = ${g(V)}<br>SE(ȳ_st) = √${g(V)} = ${g(Math.sqrt(V))}<br><span class="mut">Without the FPC it would be ${g(V0)}; the FPC lowered it by ${g((1-V/V0)*100)}%.</span>`}},
+raw:{t:'From raw sample data to ȳ_st, variance and SE',f:[['N_i','4,6'],['Sample values (strata separated by ;)','4,12;10,30,50']],r:a=>{const N=L(a[0]),D=a[1].split(';').map(L).filter(x=>x.length);if(!N.length||N.length!=D.length||D.some(x=>x.length<2))return bad+' Each stratum needs at least 2 values.';const T=sum(N),W=N.map(x=>x/T),n=D.map(x=>x.length),m=D.map(x=>sum(x)/x.length),s=D.map((x,i)=>sum(x.map(v=>(v-m[i])**2))/(x.length-1)),V=sum(W.map((x,i)=>x*x*(1-n[i]/N[i])*s[i]/n[i]));return tab(['Stratum','N_i','n_i','W_i','ȳ_i','s_i²'],N.map((x,i)=>[i+1,x,n[i],g(W[i]),g(m[i]),g(s[i])]))+`ȳ_st = Σ W_i ȳ_i = ${g(sum(W.map((x,i)=>x*m[i])))}<br>Estimated variance = ${g(V)}<br>SE = ${g(Math.sqrt(V))}`}}};
+const cm=document.getElementById('cm'),cf=document.getElementById('cf'),co=document.getElementById('co');
+cm.innerHTML=Object.keys(CS).map(k=>`<option value="${k}">${CS[k].t}</option>`).join('');
+function cb(){const c=CS[cm.value];cf.innerHTML=c.f.map(x=>x[2]?`<label>${x[0]} <select>${x[2].map(o=>`<option value="${o[0]}"${o[0]==x[1]?' selected':''}>${o[1]}</option>`).join('')}</select></label>`:typeof x[1]=='string'?`<label>${x[0]} <input type="text" value="${x[1]}" style="width:min(380px,100%)"></label>`:`<label>${x[0]} <input type="number" step="any" value="${x[1]}"></label>`).join('');cr()}
+function cr(){const c=CS[cm.value];co.innerHTML=c.r([...cf.querySelectorAll('input,select')].map(e=>e.value))}
+cm.onchange=cb;cf.oninput=cr;cf.onchange=cr;cb();
+// overview widget
+(function(){
+const rnd=(q=>()=>{q|=0;q=q+0x6D2B79F5|0;let t=Math.imul(q^q>>>15,1|q);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296})(7);
+const NN=[50,30,20],MU=[40,55,70],SD=[5,10,15],CL=['c0','c1','c2'],T=100,e=id=>document.getElementById(id);
+const P=NN.map((n,i)=>Array.from({length:n},()=>{let u=0;for(let k=0;k<6;k++)u+=rnd();return +(MU[i]+SD[i]*(u-3)*Math.SQRT2).toFixed(1)}));
+const mean=a=>sum(a)/a.length,sdv=a=>{const m=mean(a);return Math.sqrt(sum(a.map(x=>(x-m)**2))/(a.length-1))};
+const w=NN.map(x=>x/T),Sx=P.map(sdv),Mx=P.map(mean),Yb=sum(w.map((x,i)=>x*Mx[i])),all=[].concat(...P);
+function alloc(t,n){let raw;if(t=='eq')raw=NN.map(()=>n/3);else if(t=='pr')raw=w.map(x=>n*x);else{const A=sum(w.map((x,i)=>x*Sx[i]));raw=w.map((x,i)=>n*x*Sx[i]/A)}
+const f=raw.map(Math.floor),r=n-sum(f);raw.map((x,i)=>[x-f[i],i]).sort((a,b)=>b[0]-a[0]).slice(0,r).forEach(o=>f[o[1]]++);return f.map((x,i)=>Math.max(1,Math.min(NN[i],x)))}
+const pick=(N,m)=>{const a=[...Array(N).keys()];for(let i=0;i<m;i++){const j=i+Math.floor(Math.random()*(N-i));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,m)};
+const st=ni=>sum(P.map((a,i)=>w[i]*mean(pick(a.length,ni[i]).map(j=>a[j])))),srs=n=>mean(pick(T,n).map(j=>all[j]));
+let ni,sel,sm;
+function draw(){const n=+e('vn').value;e('vnv').textContent=n;ni=alloc(e('vA').value,n);sel=P.map((a,i)=>new Set(pick(a.length,ni[i])));sm=srs(n);show()}
+function show(){const yi=P.map((a,i)=>mean([...sel[i]].map(j=>a[j]))),ys=sum(w.map((x,i)=>x*yi[i]));
+e('vdots').innerHTML=P.map((a,i)=>`<div class="grp"><b>Stratum ${i+1}</b> <span class="mut">N = ${NN[i]}, true mean ${g(Mx[i])}, S = ${g(Sx[i])}, selected n = ${ni[i]}</span><div class="dots">${a.map((v,j)=>`<i class="${CL[i]}${sel[i].has(j)?' s':''}" title="${v}"></i>`).join('')}</div></div>`).join('');
+e('vo').innerHTML=tab(['Stratum','N_i','W_i','n_i','ȳ_i (sample)','Ȳ_i (true)'],P.map((a,i)=>[i+1,NN[i],g(w[i]),ni[i],g(yi[i]),g(Mx[i])]))+`ȳ_st = Σ W_i ȳ_i = ${g(ys)} (error ${g(ys-Yb)})<br>Wrong weights n_i/n instead: ȳ_naive = ${g(sum(yi.map((v,i)=>ni[i]/sum(ni)*v)))}<br>One SRS of the same size: ȳ = ${g(sm)} (error ${g(sm-Yb)})<br>True population mean Ȳ = ${g(Yb)}`;sim()}
+function sim(){const n=+e('vn').value,A=[],B=[];for(let r=0;r<1000;r++){A.push(st(ni));B.push(srs(n))}
+const lo=Math.min(...A,...B),hi=Math.max(...A,...B),K=26,bin=v=>Math.min(K-1,Math.floor((v-lo)/(hi-lo||1)*K)),cA=Array(K).fill(0),cB=Array(K).fill(0);A.forEach(v=>cA[bin(v)]++);B.forEach(v=>cB[bin(v)]++);const mx=Math.max(...cA,...cB),sdA=sdv(A),sdB=sdv(B);
+const h=(c,k)=>`<div class="hist${k}">${c.map(x=>`<div style="height:${x/mx*100}%"></div>`).join('')}</div>`;
+e('vh').innerHTML=`<div>Stratified ȳ_st: SD = ${g(sdA)}</div>${h(cA,'')}<div>Simple random sample ȳ: SD = ${g(sdB)}</div>${h(cB,' b2')}<p class="mut">Both axes run from ${g(lo)} to ${g(hi)}; true mean Ȳ = ${g(Yb)}. SD(stratified)/SD(SRS) = ${g(sdA/sdB)}: stratification removes the between-stratum variation from the sampling error.</p>`}
+e('vA').onchange=e('vn').oninput=draw;e('vd').onclick=draw;e('vs').onclick=sim;draw();
+})();
+
+// exact check
+(function(){const e=id=>document.getElementById(id);
+const comb=(a,m)=>{const r=[],c=[];(function f(s){if(c.length==m){r.push(c.slice());return}for(let i=s;i<a.length;i++){c.push(a[i]);f(i+1);c.pop()}})(0);return r};
+const bn=(a,b)=>{let r=1;for(let i=1;i<=b;i++)r=r*(a-b+i)/i;return Math.round(r)};
+function run(){const P=e('xP').value.split(';').map(L).filter(x=>x.length),n=L(e('xn').value);
+if(P.length<2||P.length!=n.length||P.some((a,i)=>a.length<2||!(n[i]>=2&&n[i]<=a.length))){e('xo').innerHTML='<p class="mut">Give at least 2 strata (separated by ;), each with 2 or more values, and 2 ≤ n_i ≤ N_i.</p>';return}
+const N=P.map(a=>a.length),T=sum(N),W=N.map(x=>x/T),nt=sum(n);let cnt=1;N.forEach((x,i)=>cnt*=bn(x,n[i]));
+if(cnt>50000){e('xo').innerHTML=`<p class="mut">${cnt} samples are too many. Use smaller strata.</p>`;return}
+const mu=P.map(a=>sum(a)/a.length),Y=sum(W.map((x,i)=>x*mu[i])),S2=P.map((a,i)=>sum(a.map(v=>(v-mu[i])**2))/(a.length-1));
+const per=P.map((a,i)=>comb(a,n[i]).map(c=>{const m=sum(c)/n[i];return[m,sum(c.map(v=>(v-m)**2))/(n[i]-1)]}));
+const R=[];(function go(i,a,b,v){if(i==P.length){R.push([a,b,v]);return}per[i].forEach(([m,s])=>go(i+1,a+W[i]*m,b+n[i]/nt*m,v+W[i]**2*(1-n[i]/N[i])*s/n[i]))})(0,0,0,0);
+const E=k=>sum(R.map(r=>r[k]))/R.length,Es=E(0),Vx=sum(R.map(r=>(r[0]-Es)**2))/R.length,Vf=sum(W.map((x,i)=>x*x*(1-n[i]/N[i])*S2[i]/n[i])),En=sum(n.map((x,i)=>x/nt*mu[i]));
+e('xo').innerHTML=tab(['Quantity','Counting all samples','Formula'],[['Number of possible samples',R.length,N.map((x,i)=>`C(${x},${n[i]})`).join(' × ')],['Average of ȳ_st',g(Es),'Ȳ = '+g(Y)],['Average of ȳ_naive (weights n_i/n)',g(E(1)),'Σ (n_i/n) Ȳ_i = '+g(En)],['Variance of ȳ_st',g(Vx),'Σ W_i²(1−n_i/N_i)S_i²/n_i = '+g(Vf)],['Average of the estimated variance',g(E(2)),'same as the true variance: '+g(Vf)]])+`<span class="mut">Row 2 equals Ȳ (unbiased). Row 4 matches the variance formula. Row 5 shows the variance estimate is unbiased. Row 3 differs from Ȳ unless n_i/n = N_i/N.</span>`}
+['xP','xn'].forEach(i=>e(i).oninput=run);run()})();
+// strata builder
+(function(){const e=id=>document.getElementById(id);let q=11;const rn=()=>{q=(q*1103515245+12345)%2147483648;return q/2147483648};
+const nr=()=>{let u=0;for(let k=0;k<6;k++)u+=rn();return(u-3)*1.41};
+const H=[];for(let c=1;c<=12;c++)for(let j=0;j<10;j++)H.push([c,100+5.5*(c-1)+4*nr()]);
+const SC=[['No strata (one big group)',c=>0],['2 strata by age: classes 1–6 | 7–12',c=>c<7?0:1],['4 strata by age: 1–3 | 4–6 | 7–9 | 10–12',c=>Math.floor((c-1)/3)],['4 mixed strata: 1,5,9 | 2,6,10 | 3,7,11 | 4,8,12',c=>(c-1)%4]];
+e('bS').innerHTML=SC.map((s,i)=>`<option value="${i}"${i==2?' selected':''}>${s[0]}</option>`).join('');
+function calc(f,n){const gr={};H.forEach(([c,h])=>{(gr[f(c)]=gr[f(c)]||{c:new Set(),v:[]}).c.add(c);gr[f(c)].v.push(h)});const T=H.length,rows=Object.keys(gr).map(k=>{const v=gr[k].v,m=sum(v)/v.length,s2=sum(v.map(x=>(x-m)**2))/(v.length-1);return{cl:[...gr[k].c].join(','),N:v.length,m,s2}});
+return{rows,V:(1-n/T)/n*sum(rows.map(r=>r.N/T*r.s2))}}
+function run(){const n=+e('bn').value,s=+e('bS').value;e('bnv').textContent=n;const cur=calc(SC[s][1],n),all=SC.map(x=>calc(x[1],n).V),mx=Math.max(...all);
+e('bo').innerHTML=tab(['Stratum (classes)','N_i','Mean height','S_i²'],cur.rows.map(r=>[r.cl,r.N,g(r.m),g(r.s2)]))+`V(ȳ_st) = Σ W_i² (1 − n_i/N_i) S_i²/n_i = ${g(cur.V)} &nbsp; (SE = ${g(Math.sqrt(cur.V))} cm)<h3 style="margin-top:1.4rem">Variance of ȳ_st for every grouping (same n)</h3><div class="lad">${SC.map((x,i)=>`<div>${i==s?'<b>':''}${x[0]} = ${g(all[i])}${i==s?'</b>':''}</div><div class="b" style="width:${all[i]/mx*100}%"></div>`).join('')}</div><p class="mut">Grouping by age keeps students inside a stratum similar in height, so S_i² is small. Mixing ages into one stratum brings the spread back.</p>`}
+e('bS').onchange=e('bn').oninput=run;run()})();
+</script></body></html>
