@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Premiums – Theory of Interest Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#types">Types</a><a href="#single">Single premium</a><a href="#annual">Annual premium</a><a href="#gross">Gross premium</a><a href="#ex">Examples</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Formulas</a><a href="#calc">Calculator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Theory of Interest · Actuarial Statistics</span>
+<h1>Premiums</h1>
+<p class="lead">The price of a promise you cannot date. This page takes one policy and prices it three different ways, then shows the single rule behind every premium in the syllabus — the <b>equivalence principle</b> — and what happens when expenses are added on top.</p>
+</header>
+
+<!-- ================= 1. SCENARIO ================= -->
+<section id="scen">
+<h2>1 · A real-life case, solved</h2>
+<div class="card">
+<p><b>Daniel, aged exactly 40,</b> wants <b>whole-life assurance</b> with a sum assured of <b>\$100,000</b>: whenever he dies, the insurer pays \$100,000 at the end of that year, and the policy then ends.</p>
+<p>The insurer prices at \(i=5\%\) with a mortality basis whose commutation functions at age 40 are</p>
+\[D_{40}=8{,}000,\qquad M_{40}=1{,}200,\qquad N_{40}=24{,}000.\]
+<p><b>Question:</b> what does the policy cost Daniel — and does the answer change if he pays once, or every year for life, or every year for only 20 years?</p>
+
+<div class="step"><b>Step 1 · What the insurer must pay (the benefit side).</b> From the assurance chapter,
+\[A_{40}=\frac{M_{40}}{D_{40}}=\frac{1{,}200}{8{,}000}=0.15.\]
+So the <b>expected present value of the benefit</b> on \$100,000 of cover is
+\[\text{EPV of benefits}=100{,}000\times0.15=\$15{,}000.\]
+That \$15,000 is what the insurer must have in hand <i>today</i>. Everything else is about how Daniel hands it over.</div>
+
+<div class="step"><b>Step 2 · Option A — pay it all now (single premium).</b>
+\[\text{NSP}=\$15{,}000.\]
+One payment, no future premium, no lapse risk. Done.</div>
+
+<div class="step"><b>Step 3 · Option B — pay every year for life.</b> Premiums are payable <b>annually in advance while Daniel is alive</b>, so they form a whole-life annuity-due. Its EPV is
+\[\ddot{a}_{40}=\frac{N_{40}}{D_{40}}=\frac{24{,}000}{8{,}000}=3.00.\]
+If \(P\) is the annual premium, the EPV of what the insurer receives is \(P\times3.00\). Set it equal to the EPV of the benefit:
+\[P\times3.00=15{,}000\quad\Longrightarrow\quad P=\$5{,}000\ \text{per year for life}.\]</div>
+
+<div class="step"><b>Step 4 · Option C — pay every year for 20 years only, cover continues for life.</b> The premium annuity is now temporary:
+\[\ddot{a}_{40:\overline{20}|}=\frac{N_{40}-N_{60}}{D_{40}},\qquad\text{with }N_{60}=1{,}500\ \text{say},\]
+\[=\frac{24{,}000-1{,}500}{8{,}000}=\frac{22{,}500}{8{,}000}=2.8125.\]
+\[P\times2.8125=15{,}000\quad\Longrightarrow\quad P=\$5{,}333.33\ \text{per year for 20 years}.\]</div>
+
+<div class="tw"><table>
+<tr><th>Way to pay</th><th>Factor</th><th>Premium</th><th>Payments</th></tr>
+<tr><td>Single premium</td><td>\(A_{40}=0.15\)</td><td>\$15,000 once</td><td>1</td></tr>
+<tr><td>Annual, whole life</td><td>\(A_{40}/\ddot{a}_{40}=0.05\)</td><td>\$5,000 / yr</td><td>while alive</td></tr>
+<tr><td>Annual, 20 years only</td><td>\(A_{40}/\ddot{a}_{40:\overline{20}|}=0.0533\)</td><td>\$5,333.33 / yr</td><td>at most 20</td></tr>
+</table></div>
+
+<div class="step"><b>Step 5 · The check that matters.</b> In every row the insurer collects the same present value today:
+\[5{,}000\times3.00=15{,}000\quad\checkmark\qquad 5{,}333.33\times2.8125=15{,}000\quad\checkmark\]
+This is the <b>equivalence principle</b>: at issue, EPV of premiums \(=\) EPV of benefits. The premiums differ only because the <i>payment streams</i> differ.</div>
+
+<div class="sol">Daniel pays <b>\$15,000 once</b>, or <b>\$5,000 a year for life</b>, or <b>\$5,333.33 a year for 20 years</b> — three prices, one promise. Paying over fewer years means a bigger annual premium, because the same \$15,000 has to be collected in less time.</div>
+
+<div class="box"><b class="t">Why the insurer is not gambling</b>
+If Daniel dies at the end of year 3 he has paid 3 premiums of \$5,000 \(=\) \$15,000 and the insurer pays \$100,000 — a nominal loss of \$85,000 on that policy. But across thousands of policies, most people pay for far longer than their share, and the \$15,000 collected at issue on <i>every</i> policy, grown at 5%, funds the claims. The premium is the price of the insurer's certainty that it will pay, not a guess about Daniel.</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · Definition</h2>
+<p>The keywords from the case were <mark>amount paid by the policyholder</mark>, <mark>in exchange for protection</mark>, <mark>once / annually / periodically</mark>, <mark>net vs gross</mark>, and <mark>expected present value of premiums = expected present value of benefits</mark>. Combined:</p>
+<div class="box"><b class="t">Premium</b>
+The amount paid by the policyholder to the insurer in exchange for insurance protection. It is calculated from <b>mortality, interest, the benefit amount and the timing of payments</b>, and set so that at the issue date the <b>expected present value of the premiums equals the expected present value of the benefits</b> — the <b>principle of equivalence</b>.</div>
+<div class="grid">
+<div class="card"><b>Net premium</b><br>Uses only mortality, interest and benefits. Excludes expenses, commission and profit. It is the pure cost of the risk.</div>
+<div class="card"><b>Gross (office) premium</b><br>The premium actually charged: net premium plus loadings for expenses, commission, taxes and profit.</div>
+<div class="card"><b>Equivalence principle</b><br>At issue: \(\text{EPV}(\text{premiums})=\text{EPV}(\text{benefits})\). With expenses: \(\text{EPV}(\text{office premiums})=\text{EPV}(\text{benefits})+\text{EPV}(\text{expenses})\).</div>
+</div>
+<div class="box key"><b class="t">The one-line idea</b>
+\[\boxed{P=\frac{\text{EPV of benefits}}{\text{EPV of the premium-payment stream}}}\]</div>
+</section>
+
+<!-- ================= 3. CONCEPT ================= -->
+<section id="concept">
+<h2>3 · The idea in plain words</h2>
+<div class="card">
+<p>An insurer does not know when Daniel dies, whether death falls inside a term, or when the benefit will have to be paid. So it cannot simply divide the sum assured by the number of premiums. Instead it does the same thing it did when pricing the benefit — it computes an <b>expected present value</b> — and then balances two such quantities:</p>
+<ul>
+<li>the <b>EPV of what it will pay out</b> (the benefit), and</li>
+<li>the <b>EPV of what it will take in</b> (the premium stream).</li>
+</ul>
+<p>Set them equal and solve for the premium. That is the whole method. Everything in this chapter is a special case of it.</p>
+</div>
+
+<h3>Three friends, three premiums</h3>
+<div class="card">
+<p>Picture three 40-year-olds buying \$100,000 of cover on the same day:</p>
+<ul>
+<li><b>Amara</b> chooses <b>whole life</b> — the insurer will certainly pay, but at an unknown, probably distant, date. Premium: <b>moderate</b>.</li>
+<li><b>Kofi</b> chooses a <b>10-year term</b> — the insurer probably pays nothing at all, because most 40-year-olds survive ten years. Premium: <b>small</b>.</li>
+<li><b>Desta</b> chooses a <b>10-year endowment</b> — the insurer is certain to pay, and likely sooner rather than later. Premium: <b>largest</b>.</li>
+</ul>
+<p>The lesson: <b>the premium is the price of the insurer's certainty that it will pay</b>. The more certain the payment, and the sooner it comes, the higher the price today.</p>
+</div>
+
+<h3>Why \(D_{x}\) vanishes</h3>
+<div class="card">
+<p>Both the benefit and the premium annuity are expressed with commutation functions over the same denominator \(D_{x}\):
+\[A_{x}=\frac{M_{x}}{D_{x}},\qquad \ddot{a}_{x}=\frac{N_{x}}{D_{x}}.\]
+Dividing one by the other,
+\[P=\frac{A_{x}}{\ddot{a}_{x}}=\frac{M_{x}/D_{x}}{N_{x}/D_{x}}=\frac{M_{x}}{N_{x}}.\]
+The \(D_{x}\) cancels because both sides of the equivalence are measured <i>per person alive at age \(x\)</i>. So the premium is just <b>discounted deaths divided by discounted premium payments</b>. Look for this cancellation in every premium formula — it is why the answers come out as clean ratios like \(1{,}200/24{,}000=0.05\).</p>
+</div>
+
+<div class="box warn"><b class="t">A sanity check to use every time</b>
+An annual premium should be a <b>small fraction</b> of the sum assured — typically a few percent. If you ever compute an annual premium that is 20%, 50% or 76% of the sum assured, you have almost certainly divided by a premium annuity that is far too small. Recheck the \(N\)-values.</div>
+</section>
+
+<!-- ================= 4. TYPES ================= -->
+<section id="types">
+<h2>4 · Classifying premiums</h2>
+<div class="tw"><table class="l">
+<tr><th>Classification</th><th>Type</th><th>Meaning</th></tr>
+<tr><td rowspan="3"><b>By frequency</b></td><td>Single premium</td><td>One payment at the start of the policy</td></tr>
+<tr><td>Annual premium</td><td>One payment each year while the policy is in force</td></tr>
+<tr><td>Periodic premium</td><td>Monthly, quarterly or semi-annual payments</td></tr>
+<tr><td rowspan="2"><b>By content</b></td><td>Net premium</td><td>Mortality + interest + benefits only</td></tr>
+<tr><td>Gross (office) premium</td><td>Net premium + expenses + commission + profit loading</td></tr>
+<tr><td rowspan="2"><b>By timing</b></td><td>In advance</td><td>Paid at the start of each period — an annuity-<b>due</b>, \(\ddot{a}_{x}\)</td></tr>
+<tr><td>In arrears</td><td>Paid at the end of each period — an annuity-<b>immediate</b>, \(a_{x}\)</td></tr>
+</table></div>
+<p>Traditional annual life insurance premiums are modelled as payable <b>in advance while the policyholder is alive</b> — which is exactly why the premium annuity is \(\ddot{a}\), not \(a\). If premiums were payable in arrears, the equivalence would read \(P\,a_{x}=A_{x}\) instead.</p>
+<div class="box key"><b class="t">Limited-payment whole life</b>
+A variant worth naming separately: the <b>benefit</b> lasts for life, but the <b>premiums</b> stop after \(n\) years. The benefit side stays \(A_{x}\); only the premium annuity shrinks to \(\ddot{a}_{x:\overline{n}|}\). Fewer payments \(\Rightarrow\) larger each. That is Option C in the scenario.</div>
+</section>
+
+<!-- ================= 5. SINGLE PREMIUM ================= -->
+<section id="single">
+<h2>5 · Single premium</h2>
+<div class="card">
+<p>A single premium is paid <b>once, at the beginning of the policy</b>. Because there are no future premiums to discount or to depend on survival, the single premium is simply the EPV of the benefit itself:</p>
+\[\boxed{\text{NSP}=S\cdot A_{x}}\]
+<p>for a whole-life assurance with sum assured \(S\). For other products, replace \(A_{x}\) by the appropriate benefit factor:</p>
+<div class="tw"><table class="l">
+<tr><th>Product</th><th>Net single premium for sum assured \(S\)</th></tr>
+<tr><td>Whole-life assurance</td><td>\(S\,A_{x}=S\,M_{x}/D_{x}\)</td></tr>
+<tr><td>\(n\)-year term assurance</td><td>\(S\,A^{1}_{x:\overline{n}|}=S\,(M_{x}-M_{x+n})/D_{x}\)</td></tr>
+<tr><td>\(n\)-year pure endowment</td><td>\(S\,{}_{n}E_{x}=S\,D_{x+n}/D_{x}\)</td></tr>
+<tr><td>\(n\)-year endowment assurance</td><td>\(S\,A_{x:\overline{n}|}=S\,(M_{x}-M_{x+n}+D_{x+n})/D_{x}\)</td></tr>
+</table></div>
+<p><b>Advantage:</b> the policyholder never has to make another payment, and there is no lapse risk for the insurer. <b>Disadvantage:</b> it is a large lump sum, and it gives up the mortality cross-subsidy that makes annual premiums attractive to the buyer.</p>
+</div>
+</section>
+
+<!-- ================= 6. ANNUAL PREMIUM ================= -->
+<section id="annual">
+<h2>6 · Annual premium and the equivalence principle</h2>
+<div class="card">
+<p>Let \(P\) be the annual net premium, payable in advance while the policyholder is alive. Then</p>
+\[\text{EPV of premiums}=P\times(\text{EPV of the premium-payment annuity}).\]
+<p>Equivalence sets this equal to the EPV of benefits, so</p>
+\[\boxed{P=\frac{\text{EPV of benefits}}{\text{EPV of the premium-payment annuity}}}\]
+<p>and in commutation form the \(D_{x}\) in numerator and denominator cancels, leaving a ratio of \(M\)'s and \(N\)'s. The table below is the whole chapter on one screen.</p>
+</div>
+
+<div class="tw"><table class="l">
+<tr><th>Product</th><th>EPV of benefit</th><th>EPV of premiums</th><th>Net annual premium</th></tr>
+<tr><td>Whole life</td><td>\(A_{x}=M_{x}/D_{x}\)</td><td>\(P\,\ddot{a}_{x}=P\,N_{x}/D_{x}\)</td><td>\(M_{x}/N_{x}\)</td></tr>
+<tr><td>\(n\)-year term</td><td>\(A^{1}_{x:\overline{n}|}=(M_{x}-M_{x+n})/D_{x}\)</td><td>\(P\,\ddot{a}_{x:\overline{n}|}=P\,(N_{x}-N_{x+n})/D_{x}\)</td><td>\(\dfrac{M_{x}-M_{x+n}}{N_{x}-N_{x+n}}\)</td></tr>
+<tr><td>\(n\)-year endowment</td><td>\(A_{x:\overline{n}|}=(M_{x}-M_{x+n}+D_{x+n})/D_{x}\)</td><td>\(P\,\ddot{a}_{x:\overline{n}|}=P\,(N_{x}-N_{x+n})/D_{x}\)</td><td>\(\dfrac{M_{x}-M_{x+n}+D_{x+n}}{N_{x}-N_{x+n}}\)</td></tr>
+<tr><td>Limited-payment whole life (\(n\) yrs)</td><td>\(A_{x}=M_{x}/D_{x}\)</td><td>\(P\,\ddot{a}_{x:\overline{n}|}=P\,(N_{x}-N_{x+n})/D_{x}\)</td><td>\(\dfrac{M_{x}}{N_{x}-N_{x+n}}\)</td></tr>
+</table></div>
+
+<div class="box"><b class="t">Reading the table</b>
+The <b>numerator</b> is always the benefit side — deaths (\(M\)) and, for the endowment, the survivors (\(D_{x+n}\)). The <b>denominator</b> is always the premium side — the \(N\)-terms covering the years in which premiums are actually collected. Change either one and the premium changes, exactly as you would expect.</div>
+</section>
+
+<!-- ================= 7. GROSS PREMIUM ================= -->
+<section id="gross">
+<h2>7 · Gross (office) premium</h2>
+<div class="card">
+<p>The net premium pays for benefits only. A real insurer also has to fund:</p>
+<div class="tw"><table class="l">
+<tr><th>Expense type</th><th>When incurred</th><th>Examples</th></tr>
+<tr><td><b>Initial</b></td><td>At policy issue</td><td>Medical examination, underwriting, policy preparation, initial commission</td></tr>
+<tr><td><b>Renewal</b></td><td>Throughout the policy</td><td>Administration, premium collection, policy servicing</td></tr>
+<tr><td><b>Claim</b></td><td>When a claim is settled</td><td>Claim investigation and settlement costs</td></tr>
+</table></div>
+<p>Adding these to the benefit gives the <b>gross</b> or <b>office</b> premium. The equivalence principle simply gains a term:</p>
+\[\boxed{\text{EPV of office premiums}=\text{EPV of benefits}+\text{EPV of expenses}}\]
+<p>It is not generally correct to say "gross \(=\) net \(+\) a fixed amount", because expenses may be <b>proportional to the premium</b>, to the sum assured, or to the number of policies.</p>
+</div>
+
+<div class="card">
+<h3>The simplest loading</h3>
+<p>If the net annual premium is \$5,000 and the insurer adds a loading of \(20\%\), then
+\[\text{loading}=0.20\times5{,}000=\$1{,}000,\qquad \text{gross premium}=\$6{,}000.\]
+This is a <i>simplification</i>: it ignores the timing of expenses and assumes they are proportional to premium.</p>
+</div>
+
+<div class="card">
+<h3>Expenses proportional to premium — the premium appears on both sides</h3>
+<p>Suppose a proportional expense of \(10\%\) of each premium is charged. If \(P^{g}\) is the office premium and \(\ddot{a}\) the EPV of one dollar of premiums, then:</p>
+<div class="step"><b>Received:</b> \(P^{g}\ddot{a}\).</div>
+<div class="step"><b>Proportional expenses:</b> \(0.10\times P^{g}\ddot{a}\).</div>
+<div class="step"><b>Equivalence:</b>
+\[P^{g}\ddot{a}=(\text{EPV benefits})+(\text{EPV fixed expenses})+0.10\,P^{g}\ddot{a}.\]</div>
+<div class="step"><b>Solve.</b> Collect the \(P^{g}\) terms:
+\[P^{g}\ddot{a}(1-0.10)=\text{EPV benefits}+\text{EPV fixed expenses}\]
+\[\boxed{P^{g}=\frac{\text{EPV benefits}+\text{EPV fixed expenses}}{\ddot{a}\,(1-c)}}\]
+where \(c\) is the proportion of each premium consumed by expenses.</div>
+<p><b>Numerical version.</b> With EPV benefits \$15,000, EPV fixed expenses \$1,000, \(\ddot{a}=3.00\) and \(c=0.10\):
+\[P^{g}=\frac{15{,}000+1{,}000}{3.00\times0.90}=\frac{16{,}000}{2.70}=\$5{,}925.93\ \text{per year}.\]
+Compare with the net premium of \$5,000: the loading is \$925.93 per year — <i>more</i> than the naive \(10\%\) of \$5,000, because the commission is charged on the larger gross premium.</p>
+</div>
+</section>
+
+<!-- ================= 8. EXAMPLES ================= -->
+<section id="ex">
+<h2>8 · Worked examples</h2>
+<p>All examples use the same age-40 basis: \(D_{40}=8{,}000\), \(M_{40}=1{,}200\), \(N_{40}=24{,}000\), \(M_{50}=720\), \(N_{50}=6{,}000\), \(D_{50}=3{,}000\), \(N_{60}=1{,}500\).</p>
+
+<h3>Example 1 · Net single premium</h3>
+<div class="card">
+<p>Whole-life assurance of \$100,000 issued at age 40. Find the net single premium.</p>
+\[\text{NSP}=100{,}000\,A_{40}=100{,}000\times\frac{1{,}200}{8{,}000}=100{,}000\times0.15=\$15{,}000.\]
+<div class="sol">\$15,000 once, and the policy is fully paid up.</div>
+</div>
+
+<h3>Example 2 · Whole-life annual premium</h3>
+<div class="card">
+\[\ddot{a}_{40}=\frac{N_{40}}{D_{40}}=\frac{24{,}000}{8{,}000}=3.00,\qquad P=\frac{A_{40}}{\ddot{a}_{40}}=\frac{0.15}{3.00}=0.05.\]
+\[\text{Annual premium}=100{,}000\times0.05=\$5{,}000.\]
+<div class="step"><b>Commutation shortcut.</b>
+\[P=\frac{M_{40}}{N_{40}}=\frac{1{,}200}{24{,}000}=0.05\quad\checkmark\]</div>
+<div class="sol">The \(D_{40}\) has vanished. Note \(5{,}000\times3.00=15{,}000\): the EPVs balance.</div>
+</div>
+
+<h3>Example 3 · Limited-payment whole life (premiums for 20 years)</h3>
+<div class="card">
+\[\ddot{a}_{40:\overline{20}|}=\frac{N_{40}-N_{60}}{D_{40}}=\frac{24{,}000-1{,}500}{8{,}000}=2.8125.\]
+\[P=\frac{A_{40}}{\ddot{a}_{40:\overline{20}|}}=\frac{0.15}{2.8125}=0.053333\quad\Longrightarrow\quad\$5{,}333.33\ \text{per year for 20 years}.\]
+<div class="step"><b>Commutation shortcut.</b> \(P=\dfrac{M_{40}}{N_{40}-N_{60}}=\dfrac{1{,}200}{22{,}500}=0.053333\). ✓</div>
+<div class="sol">Higher than \$5,000 because the same \$15,000 of EPV is collected over fewer payment years. Total nominal outlay if Daniel lives past 60: \(20\times5{,}333.33=\$106{,}666.67\) — but only \$15,000 in present-value terms.</div>
+</div>
+
+<h3>Example 4 · 10-year term assurance premium</h3>
+<div class="card">
+\[A^{1}_{40:\overline{10}|}=\frac{M_{40}-M_{50}}{D_{40}}=\frac{1{,}200-720}{8{,}000}=\frac{480}{8{,}000}=0.06.\]
+\[\ddot{a}_{40:\overline{10}|}=\frac{N_{40}-N_{50}}{D_{40}}=\frac{24{,}000-6{,}000}{8{,}000}=\frac{18{,}000}{8{,}000}=2.25.\]
+\[P=\frac{0.06}{2.25}=0.026667\quad\Longrightarrow\quad\$2{,}666.67\ \text{per year for 10 years}.\]
+<div class="step"><b>Shortcut.</b> \(P=\dfrac{M_{40}-M_{50}}{N_{40}-N_{50}}=\dfrac{480}{18{,}000}=0.026667\). ✓</div>
+<div class="sol">A 10-year term premium of \$2,667 for \$100,000 of cover is far below the whole-life figure — exactly Kofi's "cheap" policy from the story. The insurer probably never pays.</div>
+</div>
+
+<h3>Example 5 · 10-year endowment assurance premium</h3>
+<div class="card">
+\[A_{40:\overline{10}|}=\frac{M_{40}-M_{50}+D_{50}}{D_{40}}=\frac{1{,}200-720+3{,}000}{8{,}000}=\frac{3{,}480}{8{,}000}=0.435.\]
+\[P=\frac{A_{40:\overline{10}|}}{\ddot{a}_{40:\overline{10}|}}=\frac{0.435}{2.25}=0.193333\quad\Longrightarrow\quad\$19{,}333.33\ \text{per year for 10 years}.\]
+<div class="step"><b>Shortcut.</b> \(P=\dfrac{M_{40}-M_{50}+D_{50}}{N_{40}-N_{50}}=\dfrac{3{,}480}{18{,}000}=0.193333\). ✓</div>
+<div class="sol">Desta's "certain" policy is by far the dearest: \$19,333 a year against \$2,667 for the term policy. The extra \$16,667 a year is the price of the guaranteed payout at age 50.</div>
+</div>
+
+<h3>Example 6 · Gross premium with a proportional loading</h3>
+<div class="card">
+<p>The whole-life policy of Example 2 has EPV benefits \$15,000. Fixed expenses have EPV \$1,000; commission and premium-related expenses absorb \(10\%\) of every premium; \(\ddot{a}_{40}=3.00\). Find the office premium.</p>
+<div class="step"><b>Set up the equivalence.</b>
+\[3P^{g}=15{,}000+1{,}000+0.10(3P^{g})\]</div>
+<div class="step"><b>Collect terms.</b>
+\[3P^{g}-0.3P^{g}=16{,}000\quad\Longrightarrow\quad2.7P^{g}=16{,}000\]</div>
+<div class="step"><b>Solve.</b>
+\[P^{g}=\$5{,}925.93\ \text{per year}.\]</div>
+<div class="sol">Net \$5,000 → gross \$5,925.93. The implied loading is \(18.5\%\) of the net premium, not \(10\%\) — because the \(10\%\) is charged on the <i>gross</i>, which is itself being solved for.</div>
+</div>
+</section>
+
+<!-- ================= 9. PRACTICE ================= -->
+<section id="practice">
+<h2>9 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 10. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>10 · Derivations</h2>
+
+<details open><summary>D1 · The equivalence principle and the general premium formula</summary>
+<p>At the issue date the insurer's expected present outflow must equal its expected present inflow. If \(P\) is the premium per payment and \(\ddot{a}\) (or \(a\)) is the EPV of the premium-payment stream per unit of premium, then</p>
+\[\text{EPV of premiums}=P\,\ddot{a},\qquad\text{EPV of benefits}=A,\]
+<p>and equivalence gives \(P\ddot{a}=A\), i.e.</p>
+\[\boxed{P=\frac{A}{\ddot{a}}}.\]
+<p>This is an expectation on both sides: the benefit is a random variable whose expectation is \(A\), the premium stream is a random variable (it stops at death) whose expectation is \(P\ddot{a}\).</p></details>
+
+<details><summary>D2 · Whole life: \(P=M_{x}/N_{x}\) and why \(D_{x}\) cancels</summary>
+<p>Substitute the commutation forms:</p>
+\[P=\frac{A_{x}}{\ddot{a}_{x}}=\frac{M_{x}/D_{x}}{N_{x}/D_{x}}=\frac{M_{x}}{D_{x}}\cdot\frac{D_{x}}{N_{x}}=\frac{M_{x}}{N_{x}}.\]
+<p>The cancellation is not a coincidence: both quantities are "per life aged \(x\)", so the same scaling factor \(D_{x}\) sits in both. The premium is the ratio of discounted deaths to discounted premium payments.</p></details>
+
+<details><summary>D3 · Limited-payment whole life</summary>
+<p>Benefit unchanged (\(A_{x}=M_{x}/D_{x}\)); premiums stop after \(n\) years, so the premium annuity is temporary:</p>
+\[\ddot{a}_{x:\overline{n}|}=\frac{N_{x}-N_{x+n}}{D_{x}}.\]
+\[P=\frac{M_{x}/D_{x}}{(N_{x}-N_{x+n})/D_{x}}=\boxed{\frac{M_{x}}{N_{x}-N_{x+n}}}.\]
+<p>As \(n\to\infty\), \(N_{x+n}\to0\) and we recover \(M_{x}/N_{x}\). Since \(N_{x}-N_{x+n}<N_{x}\), the limited-payment premium is always <b>larger</b> than the whole-life one.</p></details>
+
+<details><summary>D4 · Term assurance</summary>
+<p>Benefit \(A^{1}_{x:\overline{n}|}=(M_{x}-M_{x+n})/D_{x}\); premiums are paid for at most \(n\) years while alive, so the premium annuity is the same temporary one:</p>
+\[\ddot{a}_{x:\overline{n}|}=\frac{N_{x}-N_{x+n}}{D_{x}}.\]
+\[P=\frac{(M_{x}-M_{x+n})/D_{x}}{(N_{x}-N_{x+n})/D_{x}}=\boxed{\frac{M_{x}-M_{x+n}}{N_{x}-N_{x+n}}}.\]
+<p>Note there is <b>no</b> \(D_{x+n}\) term: a term assurance pays nothing on survival.</p></details>
+
+<details><summary>D5 · Endowment assurance</summary>
+<p>Benefit \(A_{x:\overline{n}|}=(M_{x}-M_{x+n}+D_{x+n})/D_{x}\); premiums paid for at most \(n\) years:</p>
+\[P=\frac{(M_{x}-M_{x+n}+D_{x+n})/D_{x}}{(N_{x}-N_{x+n})/D_{x}}=\boxed{\frac{M_{x}-M_{x+n}+D_{x+n}}{N_{x}-N_{x+n}}}.\]
+<p>It exceeds the term premium by \(D_{x+n}/(N_{x}-N_{x+n})\) — the price of the guaranteed payout on survival.</p></details>
+
+<details><summary>D6 · Gross premium with expenses proportional to premium</summary>
+<p>Let \(P^{g}\) be the office premium, \(A\) the EPV of benefits, \(F\) the EPV of fixed expenses, and \(c\) the fraction of each premium consumed by premium-related expenses. Then</p>
+\[P^{g}\ddot{a}=A+F+c\,P^{g}\ddot{a}.\]
+<p>Move the \(c\)-term to the left:</p>
+\[P^{g}\ddot{a}(1-c)=A+F\quad\Longrightarrow\quad\boxed{P^{g}=\frac{A+F}{\ddot{a}(1-c)}}.\]
+<p>The premium appears on both sides whenever an expense is proportional to it — which is exactly why office premiums cannot be found by adding a fixed amount to the net premium.</p></details>
+
+<details><summary>D7 · Premiums in advance vs in arrears</summary>
+<p><b>In advance</b> (the usual convention): premiums fall at times \(0,1,2,\dots\) while the life is alive, so their EPV is \(P\,\ddot{a}_{x}=P\,N_{x}/D_{x}\). Equivalence: \(P\ddot{a}_{x}=A_{x}\Rightarrow P=M_{x}/N_{x}\).</p>
+<p><b>In arrears:</b> premiums fall at times \(1,2,\dots\) while alive, so their EPV is \(P\,a_{x}=P\,N_{x+1}/D_{x}\). Then</p>
+\[P=\frac{A_{x}}{a_{x}}=\frac{M_{x}}{N_{x+1}},\]
+<p>which is <b>larger</b> than \(M_{x}/N_{x}\), because the first premium is deferred a year while the benefit is not.</p></details>
+
+<details><summary>D8 · Why premium calculation is an expected-value problem</summary>
+<div class="tw"><table class="l">
+<tr><th>Ingredient</th><th>Random?</th><th>Handled by</th></tr>
+<tr><td>Future benefit</td><td>Yes — paid only on death (or survival)</td><td>\(A_{x}\), the EPV of the benefit</td></tr>
+<tr><td>Number of premiums paid</td><td>Yes — stops at death</td><td>\(\ddot{a}_{x}\), the EPV of the premium stream</td></tr>
+<tr><td>Time value</td><td>No — fixed \(v\)</td><td>Discount factor inside both</td></tr>
+</table></div>
+<p>Both sides of the equivalence are expectations of random variables driven by the same future lifetime \(T_{x}\). Setting them equal gives a premium that is fair <i>in expectation</i>; the law of large numbers then makes the aggregate outcome predictable even though each individual policy is not.</p></details>
+</section>
+
+<!-- ================= 11. FORMULA SHEET ================= -->
+<h2 id="formulas">11 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Symbols</th></tr>
+<tr><td>Equivalence principle</td><td>\(\text{EPV premiums}=\text{EPV benefits}\)</td><td>with expenses: \(+\) EPV expenses</td></tr>
+<tr><td>General net premium</td><td>\(P=\dfrac{\text{EPV benefits}}{\ddot{a}}\)</td><td>\(\ddot{a}\) = EPV of premium stream</td></tr>
+<tr><td>Net single premium</td><td>\(\text{NSP}=S\,A_{x}\)</td><td>\(S\) = sum assured</td></tr>
+<tr><td>Whole-life annual</td><td>\(P=\dfrac{M_{x}}{N_{x}}\)</td><td>premiums for life, in advance</td></tr>
+<tr><td>Limited-payment whole life</td><td>\(P=\dfrac{M_{x}}{N_{x}-N_{x+n}}\)</td><td>premiums for \(n\) years only</td></tr>
+<tr><td>\(n\)-year term</td><td>\(P=\dfrac{M_{x}-M_{x+n}}{N_{x}-N_{x+n}}\)</td><td>benefit only on death in term</td></tr>
+<tr><td>\(n\)-year endowment</td><td>\(P=\dfrac{M_{x}-M_{x+n}+D_{x+n}}{N_{x}-N_{x+n}}\)</td><td>benefit either way</td></tr>
+<tr><td>Premiums in arrears</td><td>\(P=\dfrac{M_{x}}{N_{x+1}}\)</td><td>replace \(\ddot{a}_{x}\) by \(a_{x}\)</td></tr>
+<tr><td>Gross premium, proportional expenses</td><td>\(P^{g}=\dfrac{A+F}{\ddot{a}(1-c)}\)</td><td>\(F\) fixed expenses, \(c\) fraction of premium</td></tr>
+<tr><td>Simple loading</td><td>\(P^{g}=P\,(1+\ell)\)</td><td>\(\ell\) = loading rate</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Input</th><th>Definition</th><th>Used for</th></tr>
+<tr><td>\(D_{x}\)</td><td>\(v^{x}\ell_{x}\)</td><td>normalising factor; cancels in \(P\)</td></tr>
+<tr><td>\(M_{x}\)</td><td>\(\sum_{k\ge x}v^{k+1}d_{k}\)</td><td>the benefit (death) side</td></tr>
+<tr><td>\(N_{x}\)</td><td>\(\sum_{k\ge x}D_{k}\)</td><td>the premium (annuity) side</td></tr>
+</table></div>
+
+<!-- ================= 12. CALCULATOR ================= -->
+<section id="calc">
+<h2>12 · Premium calculator</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter the commutation values for your basis and a sum assured. The calculator applies the equivalence principle to every product and to the gross premium.</p>
+<div class="row">
+<label>\(D_{x}\)<input id="Dx" type="number" value="8000" min="1"></label>
+<label>\(M_{x}\)<input id="Mx" type="number" value="1200" min="0"></label>
+<label>\(N_{x}\)<input id="Nx" type="number" value="24000" min="1"></label>
+<label>\(M_{x+n}\)<input id="Mxn" type="number" value="720" min="0"></label>
+<label>\(N_{x+n}\)<input id="Nxn" type="number" value="6000" min="0"></label>
+<label>\(D_{x+n}\)<input id="Dxn" type="number" value="3000" min="0"></label>
+<label>\(N_{x+k}\) (limited)<input id="Nxk" type="number" value="1500" min="0"></label>
+<label>Sum assured<input id="sa" type="number" value="100000" min="1" step="1000"></label>
+<label>Loading %<input id="ld" type="number" value="10" step="0.1"></label>
+<label>Fixed expense EPV<input id="fx" type="number" value="1000" min="0"></label>
+</div>
+<button class="b" onclick="calcP()">Compute</button>
+<button class="b alt" onclick="preset()">Reset to scenario</button>
+<div class="row" id="pout"></div>
+<div class="tw" id="ptab"></div>
+</div>
+</section>
+
+<footer>Study guide on premiums · scope follows the Theory of Interest lecture slides (premium types, net vs gross, single and annual premiums, the equivalence principle, limited-payment, term and endowment premiums, expense loadings, advance vs arrears).</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- calculator ---------- */
+function f4(x){return isFinite(x)?x.toFixed(4):'—'}
+function f2(x){return isFinite(x)?x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'—'}
+function V(id){return +document.getElementById(id).value}
+function calcP(){
+  var Dx=V('Dx'),Mx=V('Mx'),Nx=V('Nx'),Mxn=V('Mxn'),Nxn=V('Nxn'),Dxn=V('Dxn'),Nxk=V('Nxk');
+  var SA=V('sa'),ld=V('ld')/100,fx=V('fx');
+  var out=document.getElementById('pout'),tab=document.getElementById('ptab');
+  if(!(Dx>0)||!(Nx>0)||!(SA>0)){out.innerHTML='<p>Enter \\(D_x>0\\), \\(N_x>0\\) and a sum assured.</p>';tab.innerHTML='';return;}
+  var Ax=Mx/Dx, at=Nx/Dx;
+  var Aterm=(Mx-Mxn)/Dx, atTerm=(Nx-Nxn)/Dx;
+  var Aend=(Mx-Mxn+Dxn)/Dx;
+  var atLim=(Nx-Nxk)/Dx;
+  var pWhole=Mx/Nx;
+  var pTerm=(atTerm>0)?(Mx-Mxn)/(Nx-Nxn):NaN;
+  var pEnd=(atTerm>0)?(Mx-Mxn+Dxn)/(Nx-Nxn):NaN;
+  var pLim=(atLim>0)?Mx/(Nx-Nxk):NaN;
+  var pGross=(at>0&&ld<1)?(Ax*SA+fx)/(at*(1-ld)):NaN;
+  var pGrossSimple=pWhole*SA*(1+ld);
+  var K=[
+    ['Single premium (whole life)',f4(Ax),f2(SA*Ax)],
+    ['Whole-life annual \\(M_x/N_x\\)',f4(pWhole),f2(SA*pWhole)],
+    ['Limited-payment annual',f4(pLim),f2(SA*pLim)],
+    ['Term annual (n yrs)',f4(pTerm),f2(SA*pTerm)],
+    ['Endowment annual (n yrs)',f4(pEnd),f2(SA*pEnd)],
+    ['Gross premium (proportional)',f4(isFinite(pGross)?pGross/SA:NaN),f2(pGross)]
+  ];
+  out.innerHTML=K.map(function(q){return '<div class="kpi"><small>'+q[0]+'</small><b>'+q[1]+'</b><br><small>amount '+q[2]+'</small></div>'}).join('');
+  var rows='<table><tr><th>Step</th><th>EPV of benefit</th><th>Premium annuity</th><th>Net annual premium</th><th>Amount (sum assured '+f2(SA)+')</th></tr>';
+  function rw(name,A,atv,p){return '<tr><td>'+name+'</td><td>'+f4(A)+'</td><td>'+f4(atv)+'</td><td>'+f4(p)+'</td><td>'+f2(SA*p)+'</td></tr>'}
+  rows+=rw('Whole life',Ax,at,pWhole);
+  rows+=rw('Limited payment',Ax,atLim,pLim);
+  rows+=rw('Term (n yrs)',Aterm,atTerm,pTerm);
+  rows+=rw('Endowment (n yrs)',Aend,atTerm,pEnd);
+  rows+='</table><p style="font-size:13px;color:var(--muted)">Check: premium &times; premium annuity = EPV of benefit in every row above. Naive loading gives '+f2(pGrossSimple)+' per year; the proportional-expense formula gives '+f2(pGross)+'.</p>';
+  tab.innerHTML=rows;
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([out,tab]);
+}
+function preset(){
+  var d={Dx:8000,Mx:1200,Nx:24000,Mxn:720,Nxn:6000,Dxn:3000,Nxk:1500,sa:100000,ld:10,fx:1000};
+  Object.keys(d).forEach(function(k){document.getElementById(k).value=d[k]});calcP();
+}
+calcP();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'The principle of equivalence states that at issue:',
+  o:['The premium equals the sum assured','EPV of premiums = EPV of benefits','Total premiums paid = sum assured','The premium equals the net single premium'],a:1,
+  s:'The insurer sets the premium so that what it expects to receive equals what it expects to pay, in present-value terms.'},
+ {q:'A net premium is calculated using:',
+  o:['Mortality, interest and benefits only','Mortality, interest, benefits and expenses','Benefits and profit margin only','Expenses and commission only'],a:0,
+  s:'Expenses, commission and profit are excluded from the net premium; they are loaded on to get the gross premium.'},
+ {q:'For a whole-life assurance with annual premiums in advance, the net annual premium is:',
+  o:['\\(N_x/M_x\\)','\\(M_x/N_x\\)','\\(M_x/D_x\\)','\\(D_x/N_x\\)'],a:1,
+  s:'\\(P=A_x/\\ddot a_x=(M_x/D_x)/(N_x/D_x)=M_x/N_x\\) — the \\(D_x\\) cancels.'},
+ {q:'Why does \\(D_x\\) disappear from the premium formula?',
+  o:['Because it is zero','Because it appears in both the numerator and the denominator','Because it is cancelled by the interest rate','Because premiums are paid in advance'],a:1,
+  s:'Both the benefit and the premium annuity are "per life aged \\(x\\)", so the same \\(D_x\\) scaling factor sits in both and cancels.'},
+ {q:'A limited-payment whole-life premium is higher than the whole-life-for-life premium because:',
+  o:['The benefit is larger','The same EPV is collected over fewer payment years','Mortality is higher','Interest is lower'],a:1,
+  s:'The benefit \\(A_x\\) is unchanged, but the premium annuity \\(\\ddot a_{x:\\overline n|}\\) is smaller, so \\(P\\) must be larger.'},
+ {q:'For the same age, sum assured and basis, which premium is largest?',
+  o:['Term assurance','Whole-life assurance','Endowment assurance','Pure endowment'],a:2,
+  s:'An endowment pays for certain and probably soon, so its EPV of benefit is highest and its premium is largest.'},
+ {q:'The gross (office) premium differs from the net premium because it includes:',
+  o:['A larger sum assured','Expenses, commission, taxes and profit loading','A different interest rate','A different mortality table'],a:1,
+  s:'Gross = net + loadings for expenses and profit; the underlying mortality and interest basis is the same.'},
+ {q:'Premiums paid at the beginning of each period correspond to:',
+  o:['An annuity-immediate, \\(a_x\\)','An annuity-due, \\(\\ddot a_x\\)','A single premium','A deferred annuity'],a:1,
+  s:'Payment in advance is an annuity-due; it makes the premium slightly smaller than if paid in arrears.'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Q'+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'✔ Correct. ':'✘ Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

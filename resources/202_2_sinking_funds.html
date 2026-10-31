@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sinking Funds – Theory of Interest Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}svg text{fill:var(--muted);font-size:11px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#equal">Equal rates</a><a href="#two">Two rates</a><a href="#nr">Newton–Raphson</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Formulas</a><a href="#calc">Calculator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Theory of Interest · Actuarial Statistics</span>
+<h1>Sinking Funds</h1>
+<p class="lead">Repaying a loan with one lump sum at the end, while saving up for it along the way. One page: a real case, the definition, the intuition, solved problems, derivations and a live calculator.</p>
+</header>
+
+<!-- ================= 1. SCENARIO ================= -->
+<section id="scen">
+<h2>1 · A real-life case, solved</h2>
+<div class="card">
+<p><b>Harbor Café Group</b> needs <b>$100,000</b> to open a second branch. The lender agrees to a 5-year loan on these terms:</p>
+<ul>
+<li>Interest of <b>9%</b> per year is paid on the full loan at the end of every year.</li>
+<li>The principal <b>$100,000</b> is repaid in <b>one lump sum</b> at the end of year 5.</li>
+</ul>
+<p>The café must not be caught short in year 5, so it makes <b>5 equal year-end deposits</b> into a savings fund that pays <b>6%</b> per year. The fund must hold exactly $100,000 right after the 5th deposit.</p>
+<p><b>Question:</b> how large is each deposit, what does the café pay each year in total, and how does this compare with an ordinary instalment loan at 9%?</p>
+
+<div class="step"><b>Step 1 · Yearly interest to the lender.</b> The loan balance never falls (no principal is repaid yet), so
+\[I = 100{,}000 \times 0.09 = \$9{,}000 \text{ every year.}\]</div>
+<div class="step"><b>Step 2 · Deposit size.</b> The 5 deposits \(D\) form an annuity-immediate at 6% that must accumulate to \$100,000:
+\[D\, s_{\overline{5}|0.06}=100{,}000,\qquad s_{\overline{5}|0.06}=\frac{1.06^5-1}{0.06}=\frac{0.3382256}{0.06}=5.637093\]
+\[D=\frac{100{,}000}{5.637093}=\$17{,}739.64\]</div>
+<div class="step"><b>Step 3 · Total yearly outlay.</b>
+\[\text{Payment}=I+D=9{,}000+17{,}739.64=\$26{,}739.64\]</div>
+<div class="step"><b>Step 4 · Build the fund year by year.</b> Interest earned in a year is 6% of the fund balance at the <i>start</i> of that year; the deposit is made at the <i>end</i>.</div>
+<div class="tw"><table>
+<tr><th>Year</th><th>Interest paid</th><th>Deposit</th><th>Interest earned on fund</th><th>Fund balance</th><th>Net loan</th></tr>
+<tr><td>0</td><td></td><td></td><td></td><td>0.00</td><td>100,000.00</td></tr>
+<tr><td>1</td><td>9,000.00</td><td>17,739.64</td><td>0.00</td><td>17,739.64</td><td>82,260.36</td></tr>
+<tr><td>2</td><td>9,000.00</td><td>17,739.64</td><td>1,064.38</td><td>36,543.66</td><td>63,456.34</td></tr>
+<tr><td>3</td><td>9,000.00</td><td>17,739.64</td><td>2,192.62</td><td>56,475.92</td><td>43,524.08</td></tr>
+<tr><td>4</td><td>9,000.00</td><td>17,739.64</td><td>3,388.56</td><td>77,604.11</td><td>22,395.89</td></tr>
+<tr><td>5</td><td>9,000.00</td><td>17,739.64</td><td>4,656.25</td><td>100,000.00</td><td>0.00</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">Example row: year 2 earned \(0.06\times17{,}739.64=1{,}064.38\); balance \(=17{,}739.64+17{,}739.64+1{,}064.38=36{,}543.66\). Figures may differ by ±0.01 from rounding.</p>
+<div class="step"><b>Step 5 · Check.</b> Deposits total \(5\times17{,}739.64=88{,}698.20\); interest earned by the fund \(=100{,}000-88{,}698.20=11{,}301.80\). Sum of the interest column: \(0+1064.38+2192.62+3388.56+4656.25=11{,}301.81\) ✓.</div>
+<div class="step"><b>Step 6 · Compare with an instalment (amortized) loan at 9%.</b>
+\[\frac{100{,}000}{a_{\overline{5}|0.09}}=\frac{100{,}000}{3.889651}=\$25{,}709.25\]
+The sinking-fund route costs \(26{,}739.64-25{,}709.25=\$1{,}030.39\) more per year, because the café's savings earn 6% while the loan costs 9%.</div>
+<div class="sol">Deposit \$17,739.64 · yearly outlay \$26,739.64 · the lender sees a 9% loan, but the café's true cost of borrowing is higher (≈ 10.53% effective, see §6).</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · Definition</h2>
+<p>The key phrases from the case were <mark>one lump sum</mark>, <mark>interest paid periodically</mark>, <mark>equal deposits</mark>, <mark>fund accumulating to the loan</mark>, <mark>two different rates</mark> and <mark>net amount of the loan</mark>. Put together:</p>
+<div class="box"><b class="t">Sinking fund method</b>
+A way of repaying a loan in which the borrower (i) pays the lender <b>interest on the full loan</b> each period (called the <b>service</b> of the loan), so the loan amount stays constant, and (ii) makes <b>periodic deposits into a separate fund</b> that accumulates to exactly the loan amount at the end of the term, when it is used to repay the principal in <b>one lump sum</b>.</div>
+<div class="grid">
+<div class="card"><b>Loan interest rate \(i\)</b><br>Paid to the lender on the whole principal each period.</div>
+<div class="card"><b>Fund rate \(j\)</b><br>Earned by the sinking fund. In practice \(j\le i\).</div>
+<div class="card"><b>Net amount of loan</b><br>Original loan minus the accumulated value of the fund at that date.</div>
+</div>
+</section>
+
+<!-- ================= 3. CONCEPT ================= -->
+<section id="concept">
+<h2>3 · The idea in plain words</h2>
+<div class="card">
+<p>Think of it as <b>renting the money and saving to give it back</b>. Every period you do two separate things:</p>
+<ol>
+<li><b>Rent:</b> pay the lender interest on the whole loan, like rent that never shrinks.</li>
+<li><b>Save:</b> drop a fixed amount into a savings account, planned so that on the last day the account holds exactly the loan amount.</li>
+</ol>
+<p>Because the savings earn interest, later years' deposits get a "free boost" from earlier deposits. That is why the deposit \(D\) is smaller than \(L/n\).</p>
+</div>
+<h3>Sinking fund vs. amortization</h3>
+<div class="tw"><table class="l">
+<tr><th>Feature</th><th>Amortization</th><th>Sinking fund</th></tr>
+<tr><td>Who gets the payments</td><td>Lender directly, every period</td><td>Lender gets interest only; deposits go to a separate fund</td></tr>
+<tr><td>Principal repaid</td><td>Gradually, inside each payment</td><td>All at once at the end</td></tr>
+<tr><td>Loan balance</td><td>Falls every period</td><td>Constant at \(L\)</td></tr>
+<tr><td>What falls over time</td><td>Outstanding balance</td><td>Net loan \(=L-\)fund (the fund grows)</td></tr>
+</table></div>
+<div class="box key"><b class="t">Big picture</b>
+If \(i=j\), the two methods are <b>financially identical</b>: same total payment, same net interest, same net balance. If \(j<i\), the sinking fund costs more, because the money you save earns less than the money you owe costs.</div>
+<h3>Reading the schedule</h3>
+<p>Five columns carry all the information: <b>interest paid</b> \(=iL\) (constant) · <b>deposit</b> \(D\) (constant) · <b>interest earned</b> \(=j\times\)(previous fund balance) · <b>fund balance</b> \(=\) previous \(+D+\) interest earned · <b>net loan</b> \(=L-\)fund balance. The first year's interest earned is always 0 because the fund starts empty.</p>
+</section>
+
+<!-- ================= 4. EQUAL RATES ================= -->
+<section id="equal">
+<h2>4 · Worked math A: one rate (\(i=j\))</h2>
+<h3>Example 1 · Full schedule and checks</h3>
+<div class="card">
+<p>A \$10,000 loan is repaid after 3 years. The borrower pays 5% interest annually and deposits yearly into a fund that also earns 5%. Build the schedule and verify the link with amortization.</p>
+<div class="step"><b>Deposit.</b> \(s_{\overline{3}|0.05}=\dfrac{1.05^3-1}{0.05}=\dfrac{0.157625}{0.05}=3.1525\), so
+\[D=\frac{10{,}000}{3.1525}=\$3{,}172.09\qquad I=0.05\times10{,}000=\$500\qquad\text{Total}=\$3{,}672.09\]</div>
+<div class="tw"><table>
+<tr><th>Year</th><th>Interest paid</th><th>Deposit</th><th>Interest earned</th><th>Fund</th><th>Net loan</th></tr>
+<tr><td>0</td><td></td><td></td><td></td><td>0</td><td>10,000.00</td></tr>
+<tr><td>1</td><td>500.00</td><td>3,172.09</td><td>0.00</td><td>3,172.09</td><td>6,827.91</td></tr>
+<tr><td>2</td><td>500.00</td><td>3,172.09</td><td>158.60</td><td>6,502.78</td><td>3,497.22</td></tr>
+<tr><td>3</td><td>500.00</td><td>3,172.09</td><td>325.14</td><td>10,000.00</td><td>0.00</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">Year 2: \(0.05\times3172.09=158.60\); fund \(=3172.09+3172.09+158.60=6502.78\). Year 3: \(0.05\times6502.78=325.14\); fund \(=6502.78+3172.09+325.14\approx10{,}000\) (±0.01).</p>
+<div class="step"><b>Check 1 – net loan by formula.</b> After 2 deposits: \(D\,s_{\overline{2}|0.05}=3172.09\times2.05=6502.78\), so net loan \(=10{,}000-6502.78=3497.22\) ✓.</div>
+<div class="step"><b>Check 2 – match the amortization method.</b>
+\[\frac{10{,}000}{a_{\overline{3}|0.05}}=\frac{10{,}000}{2.723248}=\$3{,}672.09=D+I\ \checkmark\]
+Amortization at 5%: year 1 interest \(=500\), principal \(=3672.09-500=3172.09\), balance \(=6827.91\). Year 2 interest \(=0.05\times6827.91=341.40\), principal \(=3330.69\), balance \(=3497.22\).</div>
+<div class="step"><b>Check 3 – the four relationships (year 2).</b>
+<ul>
+<li>Total payment: \(500+3172.09=3672.09\) = amortization payment ✓</li>
+<li>Net interest: \(500-158.60=341.40\) = amortization interest ✓</li>
+<li>Fund increment: \(3172.09+158.60=3330.69\) = amortization principal ✓</li>
+<li>Net loan \(3497.22\) = amortization outstanding balance ✓</li>
+</ul></div>
+<div class="sol">D = \$3,172.09; total yearly cost \$3,672.09; every sinking-fund line matches the amortization line.</div>
+</div>
+
+<h3>Example 2 · Loan with a single time-point question</h3>
+<div class="card">
+<p>A \$20,000 loan is due in 6 years. Interest is 7%, the fund earns 7%. (a) Find the deposit. (b) After the 4th deposit, what is the fund balance and net loan?</p>
+<div class="step"><b>(a)</b> \(s_{\overline{6}|0.07}=\dfrac{1.07^6-1}{0.07}=\dfrac{0.500730}{0.07}=7.153291\)
+\[D=\frac{20{,}000}{7.153291}=\$2{,}795.92\]</div>
+<div class="step"><b>(b)</b> \(s_{\overline{4}|0.07}=\dfrac{1.07^4-1}{0.07}=\dfrac{0.310796}{0.07}=4.439943\)
+\[\text{Fund}_4=2795.92\times4.439943=\$12{,}413.71,\qquad\text{Net loan}_4=20{,}000-12{,}413.71=\$7{,}586.29\]</div>
+<div class="sol">Deposit \$2,795.92 · fund after 4 deposits \$12,413.71 · net loan \$7,586.29. The yearly interest to the lender stays \$1,400 throughout.</div>
+</div>
+</section>
+
+<!-- ================= 5. TWO RATES ================= -->
+<section id="two">
+<h2>5 · Worked math B: two rates (\(i\neq j\))</h2>
+<div class="box"><b class="t">Setup</b>The total payment splits in two: first pay interest at rate \(i\) on the loan; whatever is left goes into a fund growing at rate \(j\). Notation \(a_{\overline{n}|i\,\&\,j}\) is the present value of an annuity of 1 under this arrangement, so a loan of 1 needs a payment of \(1/a_{\overline{n}|i\&j}\) per period.</div>
+<h3>Example 3 · \$1,000, 4 years, \(i=10\%\), \(j=8\%\)</h3>
+<div class="card">
+<div class="step"><b>Payment (way 1: definition).</b> \(s_{\overline{4}|0.08}=\dfrac{1.08^4-1}{0.08}=4.506112\)
+\[\text{Payment}=\frac{1000}{s_{\overline{4}|0.08}}+1000(0.10)=221.92+100.00=\$321.92\]</div>
+<div class="step"><b>Payment (way 2: closed form).</b> \(a_{\overline{4}|0.08}=3.312127\):
+\[a_{\overline{4}|0.10\&0.08}=\frac{a_{\overline{4}|0.08}}{1+(0.10-0.08)\,a_{\overline{4}|0.08}}=\frac{3.312127}{1.066243}=3.106354,\qquad\frac{1000}{3.106354}=\$321.92\ \checkmark\]</div>
+<div class="tw"><table>
+<tr><th>Year</th><th>Interest paid</th><th>Deposit</th><th>Interest earned</th><th>Fund</th><th>Net loan</th></tr>
+<tr><td>0</td><td></td><td></td><td></td><td>0</td><td>1,000.00</td></tr>
+<tr><td>1</td><td>100.00</td><td>221.92</td><td>0.00</td><td>221.92</td><td>778.08</td></tr>
+<tr><td>2</td><td>100.00</td><td>221.92</td><td>17.75</td><td>461.59</td><td>538.41</td></tr>
+<tr><td>3</td><td>100.00</td><td>221.92</td><td>36.93</td><td>720.44</td><td>279.56</td></tr>
+<tr><td>4</td><td>100.00</td><td>221.92</td><td>57.64</td><td>1,000.00</td><td>0.00</td></tr>
+</table></div>
+<p>The fund columns are identical to the \(i=j=8\%\) case; only "interest paid" changes (\$100 instead of \$80). Year 2 earned \(0.08\times221.92=17.75\); year 3 earned \(0.08\times461.59=36.93\); year 4 earned \(0.08\times720.44=57.64\).</p>
+<div class="step"><b>What the lower fund rate costs.</b> With \(j=i=8\%\) the payment would be \(1000/3.312127=\$301.92\). The extra \$20 per year is exactly \((i-j)L=0.02\times1000\), because \(\dfrac1{a_{\overline{n}|i\&j}}=\dfrac1{a_{\overline{n}|j}}+(i-j)\).</div>
+<div class="sol">Payment \$321.92 per year, split as \$100 interest to the lender and \$221.92 into the fund. Total fund interest earned: \(0+17.75+36.93+57.64=\$112.32\).</div>
+</div>
+</section>
+
+<!-- ================= 6. NEWTON ================= -->
+<section id="nr">
+<h2>6 · Worked math C: the equivalent amortization rate</h2>
+<h3>Example 4 · Which offer is cheaper? (the "indifference rate")</h3>
+<div class="card">
+<p>A wants \$1,000 for 4 years. <b>Lender B</b>: principal at the end, 10% effective interest on the loan paid yearly, A accumulates a fund earning 8%. <b>Lender C</b>: ordinary amortized loan over 4 years. What is the largest effective rate C may charge so that A is indifferent?</p>
+<div class="step"><b>Idea.</b> Both plans have 4 equal yearly payments, so A is indifferent when the payments are equal. B's payment is \$321.92 (Example 3). For C at rate \(i\):
+\[321.92\,a_{\overline{4}|i}=1000\ \Longrightarrow\ a_{\overline{4}|i}=\frac{1000}{321.92}=3.1064\]
+This cannot be solved by algebra, so we iterate (Newton–Raphson, derived in §8).</div>
+<div class="step"><b>Starting value.</b> With \(n=4,\ k=3.1064\):
+\[i_0=\frac{2(n-k)}{k(n+1)}=\frac{2(0.8936)}{3.1064\times5}=0.1151\]</div>
+<div class="step"><b>Iteration 1.</b> \((1.1151)^{-4}=0.64682\) and \((1.1151)^{-5}=0.58007\):
+\[i_1=i_0\left[1+\frac{1-(1+i_0)^{-n}-k\,i_0}{1-(1+i_0)^{-n-1}\{1+i_0(n+1)\}}\right]=0.1151\left[1+\frac{1-0.64682-0.35745}{1-0.58007(1.5754)}\right]=0.1151\left[1+\frac{-0.00427}{0.08617}\right]=0.10935\]</div>
+<table>
+<tr><th>Iteration</th><th>\(i_s\)</th><th>\(a_{\overline{4}|i_s}\) (target 3.1064)</th></tr>
+<tr><td>0</td><td>0.11507</td><td>3.0692</td></tr>
+<tr><td>1</td><td>0.10935</td><td>3.1068</td></tr>
+<tr><td>2</td><td>0.10941</td><td>3.1064</td></tr>
+<tr><td>3</td><td>0.10941</td><td>3.1064</td></tr>
+</table>
+<div class="sol">C can charge at most <b>10.94%</b> effective. Equivalently \(a_{\overline{4}|0.10\&0.08}=a_{\overline{4}|0.1094}\): B's "10% loan with an 8% fund" really costs A about 10.94%.</div>
+<p style="font-size:13px;color:var(--muted)">Convergence is fast: the error drops from about 0.0057 to 0.00006 in one step.</p>
+</div>
+<div class="card">
+<b>Back to Harbor Café.</b> Payment \$26,739.64 on \$100,000 over 5 years gives \(k=100{,}000/26{,}739.64=3.7398\); the same iteration converges to <b>10.53%</b>, versus the 9% on the contract. The gap is the price of saving at 6% while owing at 9%.
+</div>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section id="practice">
+<h2>7 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 8. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>8 · Derivations</h2>
+
+<details open><summary>D1 · Deposit and fund balance</summary>
+<p>Deposits \(D\) at times \(1,\dots,n\) with fund rate \(j\). The deposit made at time \(k\) grows for \(n-k\) years:
+\[D\sum_{k=1}^{n}(1+j)^{n-k}=D\left[1+(1+j)+\dots+(1+j)^{n-1}\right]=D\,\frac{(1+j)^n-1}{j}=D\,s_{\overline{n}|j}.\]
+Setting this equal to the loan \(L\) gives \(\boxed{D=L/s_{\overline{n}|j}}\). The same argument stops at time \(t\): \(\ \text{Fund}_t=D\,s_{\overline{t}|j}\).</p></details>
+
+<details><summary>D2 · Net amount of loan and fund interest</summary>
+<p>The fund can be applied against the loan at any time, so \(\text{Net}_t=L-D\,s_{\overline{t}|j}\). Interest earned in year \(t\) is \(j\) times the opening balance:
+\[J_t=j\,D\,s_{\overline{t-1}|j},\qquad \text{Fund}_t=\text{Fund}_{t-1}+D+J_t.\]
+Check: \(D s_{\overline{t-1}|j}(1+j)+D=D\left[\frac{(1+j)^t-(1+j)}{j}+1\right]=D\,s_{\overline{t}|j}\).</p></details>
+
+<details><summary>D3 · Equivalence with amortization when \(i=j\)</summary>
+<p>Take a loan of \(a_{\overline{n}|i}\) with level installments of 1. Interest each period under the sinking fund method is \(i\,a_{\overline{n}|i}=1-v^n\). The rest of the payment goes into the fund:
+\[1-(1-v^n)=v^n.\]
+These deposits accumulate to
+\[v^n\,s_{\overline{n}|i}=v^n\,\frac{(1+i)^n-1}{i}=\frac{1-v^n}{i}=a_{\overline{n}|i},\]
+the original loan. So the sinking fund repays exactly the same loan with the same payment of 1: the two methods are equivalent.</p>
+<p><b>Net loan equals amortization balance.</b> After \(t\) deposits of \(v^n\):
+\[a_{\overline{n}|}-v^n s_{\overline{t}|}=\frac{1-v^n-v^n(1+i)^t+v^n}{i}=\frac{1-v^{n-t}}{i}=a_{\overline{n-t}|}.\]
+This is the amortization outstanding balance (prospective method).</p></details>
+
+<details><summary>D4 · The four relationships (\(i=j\))</summary>
+<p>Sinking-fund payment \(=iL+D\); amortization payment \(=1/a_{\overline{n}|}\) per unit loan, and D3 shows the two are equal. Subtracting the fund's interest from the loan interest, \(iL-J_t\), gives the amortization interest because the net loan equals the amortization balance: \(i\times\text{Net}_{t-1}=iL-i\,\text{Fund}_{t-1}=iL-J_t\). The fund increment \(D+J_t\) is the change in the fund, which is the change in (minus) the net loan, i.e. the principal repaid in amortization.</p></details>
+
+<details><summary>D5 · Two rates: payment and \(a_{\overline{n}|i\&j}\)</summary>
+<p>For a loan of 1 the payment is \(1/a_{\overline{n}|i\&j}\). It must pay interest \(i\) and also fund a deposit that grows at \(j\) to 1:
+\[\frac1{a_{\overline{n}|i\&j}}=\frac1{s_{\overline{n}|j}}+i.\]
+Use the identity \(\dfrac1{a_{\overline{n}|j}}=\dfrac1{s_{\overline{n}|j}}+j\):
+\[\frac1{a_{\overline{n}|i\&j}}=\frac1{a_{\overline{n}|j}}-j+i=\frac1{a_{\overline{n}|j}}+(i-j).\]
+Invert (common denominator \(a_{\overline{n}|j}\)):
+\[\boxed{a_{\overline{n}|i\&j}=\frac{a_{\overline{n}|j}}{1+(i-j)\,a_{\overline{n}|j}}}\]
+If \(i=j\) the denominator is 1, giving \(a_{\overline{n}|i\&j}=a_{\overline{n}|i}\).</p></details>
+
+<details><summary>D6 · Newton–Raphson for \(a_{\overline{n}|i}=k\)</summary>
+<p>Let \(f(i)=a_{\overline{n}|i}-k\) and \(v=(1+i)^{-1}\). Writing \(a_{\overline{n}|i}=(1-v^n)/i\) and using \(dv^n/di=-n v^{n+1}\):
+\[f'(i)=\frac{n\,i\,v^{n+1}-(1-v^n)}{i^2}.\]
+Newton's step \(i-f/f'\):
+\[i_{s+1}=i_s-\frac{(1-v^n-k i_s)/i_s}{\left[n i_s v^{n+1}-(1-v^n)\right]/i_s^2}=i_s\left[1+\frac{1-v^n-k i_s}{1-v^n-n\,i_s v^{n+1}}\right].\]
+Since \(v^{n+1}(1+i)=v^n\), we have \(1-v^n-n i v^{n+1}=1-v^{n+1}\{1+i(n+1)\}\), which gives the form used in §6:
+\[i_{s+1}=i_s\left[1+\frac{1-(1+i_s)^{-n}-k\,i_s}{1-(1+i_s)^{-n-1}\{1+i_s(n+1)\}}\right].\]
+<b>Starting value (first-order approximation).</b> The payments occur on average at time \((n+1)/2\), so \(a_{\overline{n}|i}\approx n\,v^{(n+1)/2}\approx\dfrac{n}{1+i(n+1)/2}\). Setting this equal to \(k\) and solving for \(i\):
+\[i_0=\frac{2(n-k)}{k(n+1)}.\]</p></details>
+
+<h2 id="formulas" style="margin-top:2.2em">9 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Meaning of symbols</th></tr>
+<tr><td>Annual interest to lender</td><td>\(I=iL\)</td><td>\(L\) loan, \(i\) loan rate</td></tr>
+<tr><td>Sinking fund deposit</td><td>\(D=\dfrac{L}{s_{\overline{n}|j}}\)</td><td>\(j\) fund rate, \(n\) periods</td></tr>
+<tr><td>Total periodic payment</td><td>\(\dfrac{L}{a_{\overline{n}|i\&j}}=iL+D\)</td><td>interest + deposit</td></tr>
+<tr><td>Fund balance at \(t\)</td><td>\(D\,s_{\overline{t}|j}\)</td><td>after the \(t\)-th deposit</td></tr>
+<tr><td>Interest earned in year \(t\)</td><td>\(J_t=j\,D\,s_{\overline{t-1}|j}\)</td><td>\(J_1=0\)</td></tr>
+<tr><td>Net amount of loan</td><td>\(L-D\,s_{\overline{t}|j}\)</td><td>loan minus fund</td></tr>
+<tr><td>Two-rate annuity value</td><td>\(\dfrac{1}{a_{\overline{n}|i\&j}}=\dfrac1{s_{\overline{n}|j}}+i=\dfrac1{a_{\overline{n}|j}}+(i-j)\)</td><td>reduces to \(a_{\overline{n}|i}\) if \(i=j\)</td></tr>
+<tr><td>Closed form</td><td>\(a_{\overline{n}|i\&j}=\dfrac{a_{\overline{n}|j}}{1+(i-j)a_{\overline{n}|j}}\)</td><td></td></tr>
+<tr><td>Equivalence (\(i=j\))</td><td>\(v^n s_{\overline{n}|}=a_{\overline{n}|}\)</td><td>\(v=1/(1+i)\)</td></tr>
+<tr><td>Newton step</td><td>\(i_{s+1}=i_s\!\left[1+\dfrac{1-(1+i_s)^{-n}-ki_s}{1-(1+i_s)^{-n-1}\{1+i_s(n+1)\}}\right]\)</td><td>solves \(a_{\overline{n}|i}=k\)</td></tr>
+<tr><td>Starting value</td><td>\(i_0=\dfrac{2(n-k)}{k(n+1)}\)</td><td>\(k\) target annuity value</td></tr>
+</table></div>
+</section>
+
+<!-- ================= CALCULATOR ================= -->
+<section id="calc">
+<h2>10 · Sinking fund calculator</h2>
+<div class="card calc">
+<div class="row">
+<label>Loan \(L\)<input id="L" type="number" value="100000" min="1"></label>
+<label>Years \(n\)<input id="n" type="number" value="5" min="1" max="40" step="1"></label>
+<label>Loan rate \(i\) %<input id="i" type="number" value="9" step="0.01"></label>
+<label>Fund rate \(j\) %<input id="j" type="number" value="6" step="0.01"></label>
+</div>
+<button class="b" onclick="calc()">Compute</button>
+<button class="b alt" onclick="preset(100000,5,9,6)">Harbor Café</button>
+<button class="b alt" onclick="preset(1000,4,8,8)">\$1000, 8% / 8%</button>
+<button class="b alt" onclick="preset(1000,4,10,8)">\$1000, 10% / 8%</button>
+<div class="row" id="kpis"></div>
+<div id="chart"></div>
+<div class="tw" id="sched"></div>
+</div>
+</section>
+<footer>Study guide on sinking funds · scope follows the Theory of Interest lecture slides (amortization vs sinking funds, schedules, two rates, Newton–Raphson).</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}calc()}})();
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+/* finance helpers */
+function A(n,i){return i===0?n:(1-Math.pow(1+i,-n))/i}
+function S(n,j){return j===0?n:(Math.pow(1+j,n)-1)/j}
+function f2(x){return x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function equivRate(n,k){var i=2*(n-k)/(k*(n+1));if(!(i>0))i=0.05;
+for(var q=0;q<60;q++){var v=Math.pow(1+i,-n),v1=Math.pow(1+i,-n-1),nx=i*(1+(1-v-k*i)/(1-v1*(1+i*(n+1))));if(!isFinite(nx)||nx<=0)break;if(Math.abs(nx-i)<1e-12){i=nx;break}i=nx}return i}
+function preset(L,n,i,j){L_.value=L;n_.value=n;i_.value=i;j_.value=j;calc()}
+var L_=document.getElementById('L'),n_=document.getElementById('n'),i_=document.getElementById('i'),j_=document.getElementById('j');
+function calc(){
+var L=+L_.value,n=Math.round(+n_.value),i=+i_.value/100,j=+j_.value/100;
+if(!(L>0)||!(n>=1)||!(i>0)||j<0){document.getElementById('kpis').innerHTML='<p>Enter L&gt;0, n≥1, i&gt;0, j≥0.</p>';return}
+var D=L/S(n,j),I=L*i,pay=D+I,am=L/A(n,i),k=L/pay,eq=Math.abs(i-j)<1e-12?i:equivRate(n,k);
+document.getElementById('kpis').innerHTML=[['Deposit D',f2(D)],['Interest / yr',f2(I)],['Total / yr',f2(pay)],['Amortization pmt at i',f2(am)],['Equivalent amort. rate',(eq*100).toFixed(2)+'%']].map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('');
+var bal=0,rows='<table><tr><th>Year</th><th>Interest paid</th><th>Deposit</th><th>Interest earned</th><th>Fund</th><th>Net loan</th></tr><tr><td>0</td><td></td><td></td><td></td><td>0.00</td><td>'+f2(L)+'</td></tr>',F=[0],N=[L];
+for(var t=1;t<=n;t++){var e=bal*j;bal=bal+D+e;var net=Math.abs(L-bal)<0.005?0:L-bal;F.push(bal);N.push(net);rows+='<tr><td>'+t+'</td><td>'+f2(I)+'</td><td>'+f2(D)+'</td><td>'+f2(e)+'</td><td>'+f2(bal)+'</td><td>'+f2(net)+'</td></tr>'}
+document.getElementById('sched').innerHTML=rows+'</table>';
+var W=640,H=210,p=34,bw=(W-2*p)/(n+1),sv='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Fund balance and net loan by year"><line x1="'+p+'" y1="'+(H-p)+'" x2="'+(W-p)+'" y2="'+(H-p)+'" stroke="currentColor" opacity=".3"/>';
+for(var t=0;t<=n;t++){var x=p+t*bw,hf=(H-2*p)*F[t]/L,hn=(H-2*p)*N[t]/L;
+sv+='<rect x="'+(x+bw*.1)+'" y="'+(H-p-hf)+'" width="'+bw*.38+'" height="'+hf+'" fill="#2e7d5b"/><rect x="'+(x+bw*.5)+'" y="'+(H-p-hn)+'" width="'+bw*.38+'" height="'+hn+'" fill="#8b1a1a"/><text x="'+(x+bw*.5)+'" y="'+(H-p+14)+'" text-anchor="middle">'+t+'</text>'}
+sv+='<rect x="'+p+'" y="6" width="10" height="10" fill="#2e7d5b"/><text x="'+(p+14)+'" y="15">Fund balance</text><rect x="'+(p+110)+'" y="6" width="10" height="10" fill="#8b1a1a"/><text x="'+(p+124)+'" y="15">Net loan</text></svg>';
+document.getElementById('chart').innerHTML=sv}
+['L','n','i','j'].forEach(function(id){document.getElementById(id).addEventListener('input',calc)});calc();
+/* quiz */
+var Q=[
+{q:'A borrower deposits \\(D\\) yearly into a sinking fund. In year 1 the interest earned by the fund is:',o:['\\(jD\\)','\\(0\\)','\\(iL\\)','\\(jL\\)'],a:1,s:'The fund is empty at the start of year 1, and interest is earned on the opening balance, so \\(J_1=0\\).'},
+{q:'\\$5,000 must be repaid in 4 years; the fund earns 6%. What is the yearly deposit?',o:['\\$1,142.96','\\$1,250.00','\\$1,372.96','\\$1,000.00'],a:0,s:'\\(s_{\\overline{4}|0.06}=\\frac{1.06^4-1}{0.06}=4.374616\\), so \\(D=5000/4.374616=\\$1{,}142.96\\).'},
+{q:'\\$20,000 loan, 6 years, \\(i=7\\%\\), \\(j=5\\%\\). Total yearly payment?',o:['\\$4,195.92','\\$4,340.35','\\$3,333.33','\\$4,732.00'],a:1,s:'\\(s_{\\overline{6}|0.05}=6.801913\\). Per unit: \\(1/6.801913+0.07=0.217017\\). Payment \\(=20000\\times0.217017=\\$4{,}340.35\\), which is above the amortization payment of \\$4,195.92 because \\(j<i\\).'},
+{q:'When \\(i=j\\), which statement is FALSE?',o:['Total sinking-fund payment equals the amortization payment','Net loan equals the amortization outstanding balance','Interest paid to the lender falls each year','Fund increment equals amortization principal repaid'],a:2,s:'Interest paid in the sinking fund method is \\(iL\\) every year because the loan stays at \\(L\\). It is the <i>net</i> interest (paid minus earned) that falls.'},
+{q:'In the case \\$1,000, 4 years, \\(i=10\\%\\), \\(j=8\\%\\), the payment exceeds the \\(i=j=8\\%\\) payment by:',o:['\\$20','\\$100','\\$80','\\$10'],a:0,s:'\\(\\frac1{a_{\\overline{n}|i\\&j}}-\\frac1{a_{\\overline{n}|j}}=i-j\\), so the extra is \\((0.10-0.08)\\times1000=\\$20\\): \\$321.92 vs \\$301.92.'}];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Q'+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+c.querySelector('.fb').innerHTML=(m===x.a?'✔ Correct. ':'✘ Not quite. ')+x.s;if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

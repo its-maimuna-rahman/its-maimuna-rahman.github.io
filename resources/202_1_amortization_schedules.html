@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amortization Schedules – Theory of Interest Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}.small{font-size:13px;color:var(--muted)}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#methods">Methods</a><a href="#bal">Outstanding balance</a><a href="#which">Which method?</a><a href="#e61">Ex 6.1</a><a href="#e62">Ex 6.2</a><a href="#sched">Schedule</a><a href="#e63">Ex 6.3</a><a href="#e64">Ex 6.4</a><a href="#practice">Practice</a><a href="#formulas">Formulas</a><a href="#calc">Calculator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Theory of Interest · Actuarial Statistics</span>
+<h1>Amortization Schedules</h1>
+<p class="lead">Repaying a loan by instalments: the outstanding balance (prospective and retrospective), the amortization schedule, and all worked examples (6.1–6.4) from the lecture slides, plus a quiz, formula sheet and calculator.</p>
+</header>
+
+<section id="methods">
+<h2>1 · Two ways to repay a loan</h2>
+<div class="grid">
+<div class="box"><b class="t">Amortization method</b>The borrower repays the lender by <mark>installment payments</mark> at periodic intervals. This is called “amortization of the loan”.</div>
+<div class="box key"><b class="t">Sinking fund method</b>The borrower repays by <mark>one lump sum</mark> at the end of the term, pays interest on the loan in instalments meanwhile, and also makes periodic payments into a <i>sinking fund</i> that accumulates to the amount of the loan at the end of the term.</div>
+</div>
+<p>This guide covers the <b>amortization</b> method.</p>
+</section>
+
+<section id="bal">
+<h2>2 · Finding the outstanding loan balance</h2>
+<div class="box key"><b class="t">Key fact</b>If a loan is repaid by amortization, the instalment payments form an annuity <mark>whose present value equals the original amount of the loan</mark>.</div>
+<h3>Why it matters</h3>
+<div class="card"><b>Example.</b> A family buys a home with a 30-year mortgage. After making payments for 12 years, how much must they pay in one lump sum to pay off the mortgage completely? That lump sum is the <b>outstanding loan balance</b>.</div>
+<p>There are two approaches: the <b>prospective</b> and the <b>retrospective</b> method.</p>
+<div class="grid">
+<div class="box"><b class="t">Prospective (looking into the future)</b>The balance at any time is the present value, at that date, of the remaining payments.
+\[\text{Outstanding balance}=\text{PV of future payments}\]</div>
+<div class="box"><b class="t">Retrospective (looking into the past)</b>The balance is the original loan accumulated to that date, less the accumulated value of all payments already made.
+\[\text{Outstanding balance}=\text{AV of loan}-\text{AV of past payments}\]</div>
+</div>
+<h3>Why the two methods agree</h3>
+<p>At inception: <i>PV of payments = amount of loan</i>. Accumulate both sides to the date where the balance is wanted:
+\[\text{Current value of payments}=\text{accumulated value of loan}.\]
+Split the payments into past and future ones:
+\[\text{AV of past payments}+\text{PV of future payments}=\text{AV of loan}.\]
+Rearranging:
+\[\text{PV of future payments}=\text{AV of loan}-\text{AV of past payments}\quad\Longleftrightarrow\quad\text{Prospective}=\text{Retrospective}.\]</p>
+<h3>Notation and the basic case</h3>
+<ul>
+<li>\(B_t\): outstanding loan balance at time \(t\) (computed <i>after</i> making the \(t\)-th payment)</li>
+<li>\(B_t^{p}\): prospective form; \(B_t^{r}\): retrospective form</li>
+</ul>
+<p>Consider a loan of \(a_{\overline{n}|}\) at rate \(i\) per period, repaid by payments of 1 at the end of each period for \(n\) periods, with balance wanted \(t\) periods after inception, \(0<t<n\).</p>
+\[B_t^{p}=a_{\overline{n-t}|},\qquad B_t^{r}=a_{\overline{n}|}(1+i)^t-s_{\overline{t}|}.\]
+<details open><summary>Proof that the retrospective form equals the prospective form</summary>
+\[\begin{aligned}a_{\overline{n}|}(1+i)^t-s_{\overline{t}|}&=\frac{1-v^n}{i}(1+i)^t-\frac{(1+i)^t-1}{i}\\&=\frac{(1+i)^t-v^{n-t}-(1+i)^t+1}{i}\\&=\frac{1-v^{n-t}}{i}=a_{\overline{n-t}|}.\end{aligned}\]
+<p class="small">The step uses \(v^n(1+i)^t=v^{n-t}\).</p></details>
+</section>
+
+<section id="which">
+<h2>3 · Prospective vs retrospective: which is easier?</h2>
+<p>In any given problem, either method may be more efficient.</p>
+<div class="grid">
+<div class="box"><b class="t">Prospective</b>If the <mark>size and number of the payments are known</mark>, the prospective method is usually more efficient.</div>
+<div class="box"><b class="t">Retrospective</b>If the <mark>number of payments or the size of a final irregular payment is not known</mark>, the retrospective method is usually more efficient.</div>
+</div>
+</section>
+
+<section id="e61">
+<h2>4 · Example 6.1 · Both methods</h2>
+<div class="card">
+<p>A loan is repaid with <b>10 payments of \$2000</b> followed by <b>10 payments of \$1000</b> at the end of each half-year. The nominal rate convertible semiannually is 10%. Find the outstanding balance immediately after five payments, by both methods.</p>
+<p><b>Given.</b> Per half-year \(i=\dfrac{10\%}{2}=0.05\). We are at \(t=5\), right after the 5th payment of \$2000.</p>
+<div class="step"><b>Step 1 · Prospective.</b> Remaining: payments 6–10 (five of \$2000) and payments 11–20 (ten of \$1000, i.e. at \(t=11,\dots,20\)). Discount the second block 5 periods back to time 5:
+\[B_5^{p}=2000\,a_{\overline{5}|0.05}+1000\,a_{\overline{10}|0.05}\,v^{5}\]
+\[a_{\overline{5}|0.05}=\frac{1-1.05^{-5}}{0.05}=4.329477,\quad a_{\overline{10}|0.05}=7.721735,\quad v^5=0.783526\]
+\[B_5^{p}=8{,}658.95+6{,}050.18=\$14{,}709.13\]</div>
+<div class="step"><b>Step 2 · Retrospective.</b> First the original loan, the PV of all 20 payments:
+\[L=2000\,a_{\overline{10}|0.05}+1000\,a_{\overline{10}|0.05}\,v^{10}=15{,}443.47+4{,}740.48=\$20{,}183.95\quad(v^{10}=0.613913)\]
+Accumulate 5 periods: \(L(1.05)^5=20{,}183.95\times1.276282=25{,}760.40\).</div>
+<div class="step"><b>Step 3 · Accumulate the first five payments</b> (made at \(t=1,\dots,5\)) to time 5:
+\[2000\,[1.05^4+1.05^3+1.05^2+1.05+1]=2000\,s_{\overline{5}|0.05},\quad s_{\overline{5}|0.05}=\frac{1.05^5-1}{0.05}=5.525631\]
+\[2000\times5.525631=11{,}051.26\]
+\[B_5^{r}=25{,}760.40-11{,}051.26=\$14{,}709.13\ \checkmark\]</div>
+<div class="sol">Both methods give \(B_5\approx\$14{,}709.13\).</div>
+<div class="box warn"><b class="t">Note on the slides</b>The slides show 14,708.55 (prospective) and 14,706.01 (retrospective). Small arithmetic slips in the intermediate products (6,049.6 should be 6,050.18; 4,740.8 should be 4,740.48) cause that gap. Done accurately, both methods agree exactly, as theory requires.</div>
+</div>
+</section>
+
+<section id="e62">
+<h2>5 · Example 6.2 · Extra payment, revised instalment</h2>
+<div class="card">
+<p>A loan is repaid with <b>20 annual payments of \$1000</b>. At the time of the fifth payment the borrower pays an <b>extra \$2000</b> and then repays the balance over <b>12 years</b> with a revised annual payment. The effective rate is 9%. Find the revised payment.</p>
+<div class="step"><b>Step 1 · Balance after 5 years (prospective; 15 payments remain).</b>
+\[B_5^{p}=1000\,a_{\overline{15}|0.09}=1000(8.0607)=\$8{,}060.70\]</div>
+<div class="step"><b>Step 2 · Apply the extra \$2000.</b> New balance \(=8{,}060.70-2{,}000=\$6{,}060.70\).</div>
+<div class="step"><b>Step 3 · Equation of value for the revised payment \(X\).</b>
+\[X\,a_{\overline{12}|0.09}=6{,}060.70\;\Rightarrow\;X=\frac{6{,}060.70}{7.1607}=\$846.38\]</div>
+<div class="sol">Revised annual payment ≈ \$846.38.</div>
+</div>
+</section>
+
+<section id="sched">
+<h2>6 · The amortization schedule</h2>
+<p>Each payment is partly repayment of <b>interest</b> and partly repayment of <b>principal</b>.</p>
+<div class="box key"><b class="t">Definition</b>An <mark>amortization schedule</mark> is a table showing the <mark>division of each payment into principal and interest</mark>, together with the outstanding loan balance after each payment.</div>
+<h3>The basic loan \(a_{\overline{n}|}\), payments of 1</h3>
+<p>At the end of period 1, the interest due on the opening balance is \(i\,a_{\overline{n}|}=1-v^n\). The rest of the payment, \(v^n\), is principal repaid. The balance at the end of the period is the opening balance less principal repaid:
+\[a_{\overline{n}|}-v^n=a_{\overline{n-1}|}.\]</p>
+<div class="tw"><table>
+<tr><th>Period</th><th>Payment</th><th>Interest paid</th><th>Principal repaid</th><th>Outstanding balance</th></tr>
+<tr><td>0</td><td></td><td></td><td></td><td>\(a_{\overline{n}|}\)</td></tr>
+<tr><td>1</td><td>1</td><td>\(i\,a_{\overline{n}|}=1-v^{n}\)</td><td>\(v^{n}\)</td><td>\(a_{\overline{n}|}-v^n=a_{\overline{n-1}|}\)</td></tr>
+<tr><td>2</td><td>1</td><td>\(i\,a_{\overline{n-1}|}=1-v^{n-1}\)</td><td>\(v^{n-1}\)</td><td>\(a_{\overline{n-1}|}-v^{n-1}=a_{\overline{n-2}|}\)</td></tr>
+<tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+<tr><td>\(t\)</td><td>1</td><td>\(i\,a_{\overline{n-t+1}|}=1-v^{n-t+1}\)</td><td>\(v^{n-t+1}\)</td><td>\(a_{\overline{n-t+1}|}-v^{n-t+1}=a_{\overline{n-t}|}\)</td></tr>
+<tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+<tr><td>\(n-1\)</td><td>1</td><td>\(i\,a_{\overline{2}|}=1-v^{2}\)</td><td>\(v^{2}\)</td><td>\(a_{\overline{2}|}-v^2=a_{\overline{1}|}\)</td></tr>
+<tr><td>\(n\)</td><td>1</td><td>\(i\,a_{\overline{1}|}=1-v\)</td><td>\(v\)</td><td>\(a_{\overline{1}|}-v=0\)</td></tr>
+<tr><td><b>Total</b></td><td>\(n\)</td><td>\(n-a_{\overline{n}|}\)</td><td>\(a_{\overline{n}|}\)</td><td></td></tr>
+</table></div>
+<h3>Notation and key observations</h3>
+<p>\(I_t\): interest paid in the \(t\)-th instalment; \(P_t\): principal repaid in the \(t\)-th instalment (the slide labels \(P_t\) “interest repaid”, a typo). Thus
+\[I_t=1-v^{n-t+1},\qquad P_t=v^{n-t+1}.\]</p>
+<ol>
+<li>The <mark>sum of the principal repayments equals the original amount of the loan</mark>.</li>
+<li>The <mark>sum of the interest payments</mark> equals the <mark>difference</mark> between total payments and total principal repaid: \(n-a_{\overline{n}|}\) here.</li>
+<li>The principal repayments form a <b>geometric progression with common ratio \(1+i\)</b>, so any one principal repayment can be found from any other and the rate:
+\[\frac{P_{t+1}}{P_t}=\frac{v^{n-t}}{v^{n-t+1}}=1+i,\qquad P_{t+k}=P_t(1+i)^k.\]</li>
+</ol>
+<p class="small">Check of 1: \(\sum_{t=1}^{n}v^{n-t+1}=v+v^2+\dots+v^n=a_{\overline{n}|}\).</p>
+<h3>Assumptions</h3>
+<ol><li>Constant rate of interest.</li><li>Payment period and interest conversion period are equal.</li><li>Annuity payments are level.</li></ol>
+<div class="box"><b class="t">Rounding</b>Round-off error accumulates, so standard practice is to <mark>adjust the last payment</mark> to equal the final period’s interest plus the opening balance of the final period. This brings the balance exactly to zero.</div>
+
+<h3>Example · \$1000 loan, 4 annual payments, 8% effective</h3>
+<div class="card">
+<div class="step"><b>Payment.</b> \[R=\frac{1000}{a_{\overline{4}|}}=\frac{1000}{3.3121}=\$301.92\]</div>
+<div class="step"><b>Interest in payment 1.</b> \(I_1=i\cdot B_0=0.08(1000)=\$80.00\)</div>
+<div class="step"><b>Principal in payment 1.</b> \(P_1=R-I_1=301.92-80.00=\$221.92\)</div>
+<div class="step"><b>Balance after year 1.</b> \(B_1=B_0-P_1=1000.00-221.92=\$778.08\). Each later line is built the same way: interest \(=0.08\times\)opening balance.</div>
+<div class="tw"><table>
+<tr><th>Year</th><th>Payment</th><th>Interest paid</th><th>Principal repaid</th><th>Outstanding balance</th></tr>
+<tr><td>0</td><td></td><td></td><td></td><td>1000.00</td></tr>
+<tr><td>1</td><td>301.92</td><td>80.00</td><td>221.92</td><td>778.08</td></tr>
+<tr><td>2</td><td>301.92</td><td>62.25</td><td>239.67</td><td>538.41</td></tr>
+<tr><td>3</td><td>301.92</td><td>43.07</td><td>258.85</td><td>279.56</td></tr>
+<tr><td>4</td><td>301.92</td><td>22.36</td><td>279.56</td><td>0</td></tr>
+</table></div>
+<p class="small">Principal column: \(221.92\times1.08=239.67\), \(\times1.08=258.85\), \(\times1.08=279.56\), the geometric progression with ratio \(1+i\). Principal total \(=1000.00\) ✓.</p>
+</div>
+</section>
+
+<section id="e63">
+<h2>7 · Example 6.3 · Interest and principal in a given payment</h2>
+<div class="card">
+<p>A \$1000 loan is repaid by payments of \$100 at the end of each quarter for as long as necessary, plus a smaller final payment. The nominal rate convertible quarterly is 16%. Find the principal and interest in the <b>fourth</b> payment.</p>
+<p>Here the number of payments is not known, so use the <b>retrospective</b> method. Per quarter \(i=0.04\).</p>
+<div class="step"><b>Step 1 · Balance at the end of the 3rd quarter</b> (start of the 4th):
+\[B_3^{r}=1000(1.04)^3-100\,s_{\overline{3}|0.04}=1124.86-312.16=\$812.70\]</div>
+<div class="step"><b>Step 2 · Interest.</b> \(I_4=0.04(812.70)=\$32.51\)</div>
+<div class="step"><b>Step 3 · Principal.</b> \(P_4=100.00-32.51=\$67.49\)</div>
+<div class="sol">Fourth payment: interest \$32.51, principal \$67.49. (The slide writes \(B_4^r\) for this balance; strictly it is \(B_3\), the balance after the 3rd payment.)</div>
+</div>
+</section>
+
+<section id="e64">
+<h2>8 · Example 6.4 · Selling the right to future payments</h2>
+<div class="card">
+<p>A borrows \$10,000 from B, repaying with equal quarterly instalments of principal and interest at 8% convertible quarterly over six years. At the end of two years B sells the right to the remaining payments to C at a price giving C a yield of 10% convertible quarterly. Find the total interest received (1) by C and (2) by B.</p>
+<p><b>Given.</b> Loan \$10,000; per quarter \(0.08/4=0.02\); \(n=6\times4=24\) payments (an annuity).</p>
+<div class="step"><b>Step 1 · Quarterly payment.</b>
+\[10{,}000=R\,a_{\overline{24}|0.02},\quad a_{\overline{24}|0.02}=18.9139,\quad R=\frac{10{,}000}{18.9139}=\$528.71\]</div>
+<div class="step"><b>Step 2 · Balance after 2 years (8 payments made, 16 remain)</b>, at the original rate 2%:
+\[B_8=R\,a_{\overline{16}|0.02}=528.71\times13.5777\approx\$7{,}178.68\]
+<span class="small">(The slide rounds \(a_{\overline{16}|0.02}\) to 13.58, giving 7,180.68; this balance is not needed again below.)</span></div>
+<div class="step"><b>Step 3 · Price C pays.</b> C’s yield is \(0.10/4=0.025\) per quarter. C receives the 16 remaining payments, so
+\[P_C=528.71\,a_{\overline{16}|0.025}=528.71\times13.0550=\$6{,}902.32\]
+<span class="small">(Slide: 6,901.41, using \(a_{\overline{16}|0.025}\) rounded to 13.056.) C pays less than the balance because C demands a higher yield than 2% per quarter.</span></div>
+<div class="step"><b>Step 4 · Interest received by C.</b> C collects \(16\times528.71=8{,}459.36\) and paid \$6,902.32:
+\[\text{Interest}_C=8{,}459.36-6{,}902.32=\$1{,}557.04\]</div>
+<div class="step"><b>Step 5 · Interest received by B.</b> B collects 8 payments, \(8\times528.71=4{,}229.68\), then sells for \$6,902.32, against an outlay of \$10,000:
+\[\text{Interest}_B=4{,}229.68+6{,}902.32-10{,}000=\$1{,}132.00\]</div>
+<div class="sol">C receives ≈ \$1,557 of interest; B receives ≈ \$1,132. (Slide: 1,557.95 and 1,131.09, from the rounded price 6,901.41.)</div>
+<ul><li>B collects 8 payments, then sells the rest to C.</li><li>C pays a discounted price (higher yield) and earns the difference between what is collected and what is paid.</li><li>B earns interest from the first 8 payments plus the profit or loss from the sale of the loan.</li></ul>
+</div>
+</section>
+
+<section id="practice">
+<h2>9 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<section>
+<h2 id="formulas" style="margin-top:2.2em">10 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Note</th></tr>
+<tr><td>Loan = PV of payments</td><td>\(L=R\,a_{\overline{n}|i}\)</td><td>level payment \(R\)</td></tr>
+<tr><td>Prospective balance</td><td>\(B_t^{p}=R\,a_{\overline{n-t}|}\)</td><td>PV of future payments</td></tr>
+<tr><td>Retrospective balance</td><td>\(B_t^{r}=L(1+i)^t-R\,s_{\overline{t}|}\)</td><td>AV of loan − AV of past payments</td></tr>
+<tr><td>Equivalence</td><td>\(B_t^{p}=B_t^{r}\)</td><td></td></tr>
+<tr><td>Interest in payment \(t\)</td><td>\(I_t=i\,B_{t-1}\) (unit payment: \(1-v^{n-t+1}\))</td><td></td></tr>
+<tr><td>Principal in payment \(t\)</td><td>\(P_t=R-I_t\) (unit payment: \(v^{n-t+1}\))</td><td></td></tr>
+<tr><td>Balance recursion</td><td>\(B_t=B_{t-1}-P_t\)</td><td>\(B_0=L\)</td></tr>
+<tr><td>Principal growth</td><td>\(P_{t+1}=P_t(1+i)\)</td><td>level payments</td></tr>
+<tr><td>Sum of principal</td><td>\(\sum P_t=L\)</td><td>unit: \(a_{\overline{n}|}\)</td></tr>
+<tr><td>Sum of interest</td><td>\(\sum I_t=nR-L\)</td><td>unit: \(n-a_{\overline{n}|}\)</td></tr>
+</table></div>
+</section>
+
+<section id="calc">
+<h2>11 · Amortization schedule calculator</h2>
+<div class="card calc">
+<div class="row">
+<label>Loan \(L\)<input id="L" type="number" value="1000" min="1"></label>
+<label>Periods \(n\)<input id="n" type="number" value="4" min="1" max="360" step="1"></label>
+<label>Rate per period \(i\) %<input id="i" type="number" value="8" step="0.01"></label>
+<label>Balance at \(t\)<input id="t" type="number" value="2" min="0" step="1"></label>
+</div>
+<button class="b" onclick="calc()">Compute</button>
+<button class="b alt" onclick="preset(1000,4,8,2)">\$1000, 8%, 4 yrs</button>
+<button class="b alt" onclick="preset(10000,24,2,8)">Ex 6.4</button>
+<div class="row" id="kpis"></div>
+<div class="tw" id="schedtab"></div>
+</div>
+</section>
+<footer>Study guide on amortization schedules · follows the Theory of Interest lecture slides (outstanding balance, prospective/retrospective methods, schedules, Examples 6.1–6.4).</footer>
+</main>
+
+<script>
+(function(){var r=document.documentElement;r.dataset.theme=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+document.getElementById('th').onclick=function(){r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'}})();
+var links=[].slice.call(document.querySelectorAll('nav a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+function A(n,i){return i===0?n:(1-Math.pow(1+i,-n))/i}
+function f2(x){return x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+var L_=document.getElementById('L'),n_=document.getElementById('n'),i_=document.getElementById('i'),t_=document.getElementById('t');
+function preset(L,n,i,t){L_.value=L;n_.value=n;i_.value=i;t_.value=t;calc()}
+function calc(){
+var L=+L_.value,n=Math.round(+n_.value),i=+i_.value/100,t=Math.round(+t_.value);
+if(!(L>0)||!(n>=1)||!(i>0)){document.getElementById('kpis').innerHTML='<p>Enter L&gt;0, n≥1, i&gt;0.</p>';return}
+if(t<0)t=0;if(t>n)t=n;
+var R=L/A(n,i),b=L,ti=0,rows='<table><tr><th>Period</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr><tr><td>0</td><td></td><td></td><td></td><td>'+f2(L)+'</td></tr>';
+for(var k=1;k<=n;k++){var I=b*i,P=R-I;b=k===n?0:b-P;ti+=I;rows+='<tr><td>'+k+'</td><td>'+f2(R)+'</td><td>'+f2(I)+'</td><td>'+f2(P)+'</td><td>'+f2(Math.abs(b)<0.005?0:b)+'</td></tr>'}
+var bp=R*A(n-t,i),br=L*Math.pow(1+i,t)-R*(Math.pow(1+i,t)-1)/i;
+document.getElementById('kpis').innerHTML=[['Payment R',f2(R)],['Total interest',f2(ti)],['B_t prospective',f2(bp)],['B_t retrospective',f2(br)]].map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('');
+document.getElementById('schedtab').innerHTML=rows+'</table>'}
+['L','n','i','t'].forEach(function(id){document.getElementById(id).addEventListener('input',calc)});calc();
+var Q=[
+{q:'For level payments of 1 on a loan \\(a_{\\overline{n}|}\\), the prospective balance right after payment \\(t\\) is:',o:['\\(a_{\\overline{t}|}\\)','\\(a_{\\overline{n-t}|}\\)','\\(s_{\\overline{n-t}|}\\)','\\(a_{\\overline{n}|}-t\\)'],a:1,s:'It is the PV of the \\(n-t\\) remaining payments of 1, i.e. \\(a_{\\overline{n-t}|}\\).'},
+{q:'In an amortization schedule with level payments, the principal repaid in successive instalments:',o:['is constant','falls by the factor \\(1+i\\)','grows by the factor \\(1+i\\)','equals the interest portion'],a:2,s:'\\(P_t=v^{n-t+1}\\), so \\(P_{t+1}/P_t=1+i\\): a geometric progression.'},
+{q:'In the \\$1000, 8%, 4-year example \\(P_1=221.92\\). Then \\(P_3\\) is:',o:['\\$258.85','\\$239.67','\\$279.56','\\$301.92'],a:0,s:'\\(P_3=221.92\\times1.08^2=258.85\\).'},
+{q:'When the number of payments is unknown (e.g. a smaller final payment), the easier method is usually:',o:['Prospective','Retrospective','Neither works','Sinking fund'],a:1,s:'The retrospective method only needs payments already made, so the unknown final payment is not required.'}];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Q'+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k);c.querySelectorAll('.opt').forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+c.querySelector('.fb').innerHTML=(m===x.a?'✔ Correct. ':'✘ Not quite. ')+x.s;if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

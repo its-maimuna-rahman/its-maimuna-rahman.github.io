@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Life Assurance – Theory of Interest Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#types">Types</a><a href="#whole">Whole life</a><a href="#term">Term</a><a href="#endow">Endowment</a><a href="#defer">Deferred</a><a href="#ex">Examples</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Formulas</a><a href="#calc">Calculator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Theory of Interest · Actuarial Statistics</span>
+<h1>Life Assurance</h1>
+<p class="lead">A payment that happens when someone dies — but nobody knows when. This page prices that promise: the five product types, the expected present value built term by term, the \(C\) and \(M\) commutation functions, every formula derived, and a calculator that builds them straight from a life table.</p>
+</header>
+
+<!-- ================= 1. SCENARIO ================= -->
+<section id="scen">
+<h2>1 · A real-life case, solved</h2>
+<div class="card">
+<p><b>Daniel, aged exactly 40,</b> has just taken out a <b>5-year term assurance</b> with a sum assured of <b>\$100,000</b>. The contract says: if Daniel dies within the next five years, the insurer pays \$100,000 <b>at the end of the year of death</b>; if he survives the five years, it pays nothing.</p>
+<p>The insurer prices at \(i=5\%\) per year, and the mortality basis is summarised by this slice of the life table:</p>
+<div class="tw"><table>
+<tr><th>Age \(y\)</th><th>40</th><th>41</th><th>42</th><th>43</th><th>44</th><th>45</th></tr>
+<tr><th>\(\ell_{y}\)</th><td>90,000</td><td>89,100</td><td>88,110</td><td>87,029</td><td>85,859</td><td>84,600</td></tr>
+<tr><th>\(d_{y}=\ell_{y}-\ell_{y+1}\)</th><td>900</td><td>990</td><td>1,081</td><td>1,170</td><td>1,259</td><td>—</td></tr>
+</table></div>
+<p><b>Question:</b> how much must the insurer hold today for this policy, and why is that figure so much smaller than \$100,000?</p>
+
+<div class="step"><b>Step 1 · What can happen?</b> There are only six mutually exclusive outcomes: Daniel dies in year 1, or in year 2, or in year 3, or in year 4, or in year 5, or he survives all five years and the insurer pays nothing. Each outcome has a probability and a present value. The expected present value is the probability-weighted sum.</div>
+
+<div class="step"><b>Step 2 · Probability that death happens in year \(k\).</b> For the insurer to pay in year \(k\), Daniel must first survive \(k-1\) years, <i>then</i> die in the next one. Using the life table directly:
+\[P(\text{death in year }k)=\frac{d_{40+k-1}}{\ell_{40}},\qquad
+\frac{d_{41}}{\ell_{40}}=\frac{990}{90{,}000}=0.01100,\ \ \frac{d_{42}}{\ell_{40}}=\frac{1{,}081}{90{,}000}=0.01201,\ \dots\]
+This is exactly \({}_{k-1}p_{40}\,q_{40+k-1}\) — survival times the conditional death probability — with the \(\ell\)'s cancelling.</div>
+
+<div class="step"><b>Step 3 · Present value of each payment.</b> The payment lands at the <b>end of the year of death</b>, so the discount factor is \(v^{k}\) with \(v=1/1.05=0.952381\):
+\[v^{1}=0.952381,\quad v^{2}=0.907029,\quad v^{3}=0.863838,\quad v^{4}=0.822702,\quad v^{5}=0.783526.\]</div>
+
+<div class="step"><b>Step 4 · Combine, term by term.</b> Each term is \(\text{probability}\times v^{k}\times 100{,}000\).</div>
+<div class="tw"><table>
+<tr><th>Death in year \(k\)</th><th>Probability</th><th>Discount \(v^{k}\)</th><th>EPV of \$100,000</th></tr>
+<tr><td>1</td><td>0.010000</td><td>0.952381</td><td>\$952.38</td></tr>
+<tr><td>2</td><td>0.011000</td><td>0.907029</td><td>\$997.73</td></tr>
+<tr><td>3</td><td>0.012011</td><td>0.863838</td><td>\$1,037.67</td></tr>
+<tr><td>4</td><td>0.013000</td><td>0.822702</td><td>\$1,069.51</td></tr>
+<tr><td>5</td><td>0.013989</td><td>0.783526</td><td>\$1,096.15</td></tr>
+<tr><th>Total</th><th>0.060000</th><th></th><th>\$5,153.44</th></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">Check the probabilities: \(0.010+0.011+0.012011+0.013+0.013989=0.060\) — that is exactly \({}_{5}q_{40}\), the chance Daniel dies within the term. The remaining \(0.94\) is the "no payment" outcome, which contributes nothing.</p>
+
+<div class="step"><b>Step 5 · Read the answer.</b> Per dollar of cover the factor is
+\[A^{1}_{40:\overline{5}|}=\sum_{k=1}^{5}v^{k}\frac{d_{40+k-1}}{\ell_{40}}=0.051534,\qquad
+\text{EPV}=100{,}000\times0.051534=\$5{,}153.44.\]</div>
+
+<div class="sol">The insurer needs only <b>\$5,153.44</b> today against a \$100,000 promise — because the promise is paid only with probability \(6\%\). The premium is small; the <i>exposure</i> is large.</div>
+
+<div class="step"><b>Step 6 · The insurer is not guessing.</b> Across 10,000 identical policies the insurer holds \(10{,}000\times\$5{,}153.44=\$51.5\) million. The <i>actual</i> number of claims will be close to \(600\), not exactly 600 — but the law of large numbers makes the total payout predictable even though each individual death is not.</div>
+
+<div class="box"><b class="t">What changes if the cover is whole-life instead?</b>
+Then the sum does not stop at \(k=5\): every future year contributes a term, \(\ell_{40}\) being shared by all of them. The factor rises (from about 0.052 to roughly 0.15 on a typical table) and the insurer must hold a great deal more. That is the difference between <b>term</b> and <b>whole-life</b> assurance — same mechanics, different set of payment times.</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · Definition</h2>
+<p>The keywords from the case were <mark>sum assured</mark>, <mark>specified death-related event</mark>, <mark>uncertain time of payment</mark>, <mark>probability-weighted</mark> and <mark>expected present value</mark>. Put together:</p>
+<div class="box"><b class="t">Life assurance</b>
+A contract under which the insurer pays a specified amount — the <b>sum assured</b> — when a specified <b>death-related event</b> occurs. The event may be death at any time (whole-life), death within a term (term assurance), survival to the end of a term (pure endowment), or either of the last two (endowment assurance). Because the <b>future lifetime is uncertain, the timing of the payment is uncertain</b>, so the value of the contract is the <b>expected present value</b>: the probability-weighted value of all future payments.</div>
+<div class="grid">
+<div class="card"><b>Annuity</b><br>Pays while alive — many small payments, each conditional on survival. Uses \(D\) and \(N\).</div>
+<div class="card"><b>Assurance</b><br>Pays once, on death (or on survival, for a pure endowment). Uses \(D\), \(C\) and \(M\).</div>
+<div class="card"><b>Expected present value (EPV)</b><br>\(\sum(\text{probability of the event})\times(\text{present value if it happens})\). A weighted average, not a certain amount.</div>
+</div>
+<div class="box key"><b class="t">The one-line idea</b>
+\[\text{EPV}=\sum_{\text{all possible death years}}v^{k}\times P(\text{death in year }k)\times(\text{sum assured})\]</div>
+</section>
+
+<!-- ================= 3. CONCEPT ================= -->
+<section id="concept">
+<h2>3 · The idea in plain words</h2>
+<div class="card">
+<p>A life assurance policy is a <b>bet the insurer hopes to lose</b> — it hopes Daniel lives a long life and never claims. Pricing it means answering: <i>what is a promise worth, when the promise is paid only if a particular person dies in a particular window of time?</i></p>
+<p>Three separate things have to be combined for every possible year of death:</p>
+<ol>
+<li><b>The probability</b> that death happens in that year — from the mortality table.</li>
+<li><b>The discount factor</b> \(v^{k}\) — the payment is in the future, so it is worth less today.</li>
+<li><b>The amount</b> — the sum assured, which is fixed.</li>
+</ol>
+<p>Multiply the three and add up over all possible years of death. That sum is the EPV. This is precisely the formula for the expectation of a random variable, which is why probability, statistics, interest theory and mortality tables all meet in one expression.</p>
+</div>
+
+<h3>Why the present value is random</h3>
+<div class="card">
+<p>Let \(K_{x}\) be the <b>year of death</b> of a life aged \(x\): \(K_{x}=0\) if death occurs in the first year, \(K_{x}=1\) in the second, and so on. For a whole-life assurance paying 1 at the end of the year of death, the present value is</p>
+\[Z=v^{\,K_{x}+1}.\]
+<p>\(K_{x}\) is a random variable, so \(Z\) is a random variable. Its possible values are \(v,v^{2},v^{3},\dots\) and the probability attached to \(v^{k}\) is \(P(K_{x}=k-1)\), i.e. death during year \(k\). Hence</p>
+\[E(Z)=\sum_{k=1}^{\infty}v^{k}\,P(K_{x}=k-1)=v\,q_{x}+v^{2}\,{}_{1}p_{x}q_{x+1}+v^{3}\,{}_{2}p_{x}q_{x+2}+\cdots\]
+<p>That sum <i>is</i> \(A_{x}\). The actuarial present value is not an approximation of the expectation — it is the expectation.</p>
+</div>
+
+<div class="box"><b class="t">A two-outcome illustration</b>
+Suppose a 1-year policy on a life with \(q_{x}=0.02\), sum assured \$10,000, \(i=5\%\).<br>
+Death in the year (prob 0.02): PV \(=10{,}000\times0.952381=\$9{,}523.81\).<br>
+Survival (prob 0.98): PV \(=0\).<br>
+\(E(Z)=0.02\times9{,}523.81+0.98\times0=\$190.48\).<br>
+Nobody receives \$190.48; either the insurer pays \$9,523.81 or it pays nothing. \$190.48 is the fair price per policy before expenses.</div>
+
+<h3>The crucial distinction: \(M\) for death, \(D\) for survival</h3>
+<div class="tw"><table class="l">
+<tr><th>What triggers the payment</th><th>Which column you sum</th><th>Because</th></tr>
+<tr><td>Death — the event is <i>dying</i></td><td>\(C\)'s, accumulated into \(M\)</td><td>Each \(C_{y}=v^{y+1}d_{y}\) carries the <b>deaths</b> \(d_{y}\)</td></tr>
+<tr><td>Survival — the event is <i>living</i></td><td>\(D\)'s</td><td>Each \(D_{y}=v^{y}\ell_{y}\) carries the <b>lives</b> \(\ell_{y}\)</td></tr>
+<tr><td>Both (endowment assurance)</td><td>\(M\)'s <i>and</i> \(D\)'s</td><td>It is a term assurance plus a pure endowment</td></tr>
+</table></div>
+<p>Keep that mapping in mind and the whole formula sheet becomes a single sentence.</p>
+</section>
+
+<!-- ================= 4. TYPES ================= -->
+<section id="types">
+<h2>4 · The five product types</h2>
+<div class="tw"><table class="l">
+<tr><th>Type</th><th>Pays when…</th><th>Notation for \$1</th><th>In one sentence</th></tr>
+<tr><td><b>Whole-life assurance</b></td><td>Death, whenever it occurs</td><td>\(A_{x}\)</td><td>Certain to pay eventually — but not <i>when</i></td></tr>
+<tr><td><b>Term (temporary) assurance</b></td><td>Death within \(n\) years</td><td>\(A^{1}_{x:\overline{n}|}\)</td><td>Cover for a limited window; nothing if the person survives</td></tr>
+<tr><td><b>Pure endowment</b></td><td>Survival to the end of \(n\) years</td><td>\({}_{n}E_{x}\)</td><td>A savings product: pay only if alive at the end</td></tr>
+<tr><td><b>Endowment assurance</b></td><td>Death within \(n\) years <b>or</b> survival to \(n\)</td><td>\(A_{x:\overline{n}|}\)</td><td>Term assurance <b>+</b> pure endowment — pays for certain</td></tr>
+<tr><td><b>Deferred whole-life</b></td><td>Death after a \(k\)-year deferral</td><td>\({}_{k|}A_{x}\)</td><td>Whole-life cover that switches on after \(k\) years</td></tr>
+</table></div>
+<div class="box key"><b class="t">The one identity worth memorising</b>
+\[A_{x:\overline{n}|}=\underbrace{A^{1}_{x:\overline{n}|}}_{\text{pays on death in term}}+\underbrace{{}_{n}E_{x}}_{\text{pays on survival}}\]
+An endowment assurance pays for <i>certain</i> — you either die in the term or you survive it. The two branches are mutually exclusive and exhaustive, so the EPVs simply add.</div>
+</section>
+
+<!-- ================= 5. WHOLE LIFE ================= -->
+<section id="whole">
+<h2>5 · Whole-life assurance</h2>
+<div class="card">
+<p>The sum assured is paid <b>at the end of the year of death</b>, whenever that is. For a benefit of 1:</p>
+\[\boxed{A_{x}=v\,q_{x}+v^{2}\,{}_{1}p_{x}q_{x+1}+v^{3}\,{}_{2}p_{x}q_{x+2}+\cdots=\sum_{k=1}^{\infty}v^{k}\,{}_{k-1}p_{x}\,q_{x+k-1}}\]
+<p>Reading the first three terms off the mortality table:</p>
+<div class="tw"><table>
+<tr><th>Death during year</th><th>Probability</th><th>Present value of \$1</th><th>Contribution</th></tr>
+<tr><td>1</td><td>\(q_{x}\)</td><td>\(v\)</td><td>\(v\,q_{x}\)</td></tr>
+<tr><td>2</td><td>\({}_{1}p_{x}q_{x+1}\)</td><td>\(v^{2}\)</td><td>\(v^{2}{}_{1}p_{x}q_{x+1}\)</td></tr>
+<tr><td>3</td><td>\({}_{2}p_{x}q_{x+2}\)</td><td>\(v^{3}\)</td><td>\(v^{3}{}_{2}p_{x}q_{x+2}\)</td></tr>
+</table></div>
+<p>and so on to the limiting age. This is a probability-weighted average of the discounted payment, exactly as in the scenario.</p>
+</div>
+
+<div class="card">
+<h3>Converting to commutation functions</h3>
+<p>Replace each probability by life-table deaths, since \({}_{k-1}p_{x}q_{x+k-1}=d_{x+k-1}/\ell_{x}\):</p>
+\[A_{x}=\frac{1}{\ell_{x}}\left(v\,d_{x}+v^{2}d_{x+1}+v^{3}d_{x+2}+\cdots\right)\]
+<p>Now multiply top and bottom by \(v^{x}\) — the same trick as in the annuity chapter. Writing \(C_{x}=v^{x+1}d_{x}\),</p>
+\[A_{x}=\frac{1}{v^{x}\ell_{x}}\left(C_{x}+C_{x+1}+C_{x+2}+\cdots\right)=\frac{M_{x}}{D_{x}},\qquad M_{x}=\sum_{k\ge x}C_{k}.\]
+<div class="box"><b class="t">Result</b>
+\[\boxed{A_{x}=\frac{M_{x}}{D_{x}}}\]
+The numerator counts discounted <b>deaths</b>, the denominator discounted <b>lives</b>. Their ratio is the probability-weighted discounted benefit.</div>
+</div>
+</section>
+
+<!-- ================= 6. TERM ================= -->
+<section id="term">
+<h2>6 · Term (temporary) assurance</h2>
+<div class="card">
+<p>Identical to whole-life, except the payments stop after \(n\) years: if the person survives the term, nothing is paid.</p>
+\[A^{1}_{x:\overline{n}|}=v\,q_{x}+v^{2}{}_{1}p_{x}q_{x+1}+\cdots+v^{n}{}_{n-1}p_{x}q_{x+n-1}\]
+<p>In life-table form the sum is \(\dfrac{1}{\ell_{x}}\left(v\,d_{x}+v^{2}d_{x+1}+\cdots+v^{n}d_{x+n-1}\right)\), and after multiplying by \(v^{x}\) the bracket is exactly \(C_{x}+C_{x+1}+\cdots+C_{x+n-1}\). Since \(M_{x}\) contains all \(C\)'s from \(x\) onward and \(M_{x+n}\) contains the ones we do <b>not</b> want,</p>
+\[\boxed{A^{1}_{x:\overline{n}|}=\frac{M_{x}-M_{x+n}}{D_{x}}}\]
+<p><b>Superscript 1</b> marks a <i>death</i> benefit; the bar over \(n\) just marks the term. The subtraction is the same "keep the first \(n\) terms" device you met with \(N_{x+1}-N_{x+n+1}\) in the annuity chapter.</p>
+</div>
+</section>
+
+<!-- ================= 7. ENDOWMENT ================= -->
+<section id="endow">
+<h2>7 · Pure endowment and endowment assurance</h2>
+
+<h3>7.1 Pure endowment</h3>
+<div class="card">
+<p>Pays the sum assured only if the person <b>survives</b> to the end of \(n\) years. There is no death benefit at all.</p>
+<p>The payment of 1 at time \(n\) occurs with probability \({}_{n}p_{x}=\ell_{x+n}/\ell_{x}\), so</p>
+\[{}_{n}E_{x}=v^{n}\,{}_{n}p_{x}=v^{n}\frac{\ell_{x+n}}{\ell_{x}}.\]
+<p>Multiply top and bottom by \(v^{x}\):</p>
+\[{}_{n}E_{x}=\frac{v^{x+n}\ell_{x+n}}{v^{x}\ell_{x}}=\boxed{\frac{D_{x+n}}{D_{x}}}.\]
+<div class="box"><b class="t">Sanity check</b>
+Only <b>survival</b> is involved, so only \(D\)'s appear. At \(n=0\), \({}_{0}E_{x}=D_{x}/D_{x}=1\): paying 1 today with certainty is worth exactly 1. ✓</div>
+</div>
+
+<h3>7.2 Endowment assurance</h3>
+<div class="card">
+<p>Pays on death if death occurs within \(n\) years, <b>or</b> at the end of \(n\) years if the person is still alive. The two events are disjoint and together cover every possibility, so the EPVs add:</p>
+\[A_{x:\overline{n}|}=A^{1}_{x:\overline{n}|}+{}_{n}E_{x}
+=\frac{M_{x}-M_{x+n}}{D_{x}}+\frac{D_{x+n}}{D_{x}}\]
+\[\boxed{A_{x:\overline{n}|}=\frac{M_{x}-M_{x+n}+D_{x+n}}{D_{x}}}\]
+<p>A pure endowment of 1 is paid with certainty at the latest at time \(n\) — which is why an \(n\)-year endowment assurance is worth <b>more</b> than the \(n\)-year term assurance on the same life. It is the only one of the five that is guaranteed to pay something.</p>
+</div>
+</section>
+
+<!-- ================= 8. DEFERRED ================= -->
+<section id="defer">
+<h2>8 · Deferred whole-life assurance</h2>
+<div class="card">
+<p>Cover starts only after \(k\) years: no benefit is paid if death occurs during the first \(k\) years. The first possible death benefit falls at the end of year \(k+1\).</p>
+<p>Whole-life assurance is \(M_{x}/D_{x}\); the first \(k\) years contribute \(C_{x}+\cdots+C_{x+k-1}\), so what remains is \(C_{x+k}+C_{x+k+1}+\cdots=M_{x+k}\):</p>
+\[\boxed{{}_{k|}A_{x}=\frac{M_{x+k}}{D_{x}}}\]
+<div class="box key"><b class="t">Why this must be true</b>
+Every death is either "within the first \(k\) years" or "after them". So
+\[A_{x}=\underbrace{A^{1}_{x:\overline{k}|}}_{\text{dies in first }k\text{ yrs}}+\underbrace{{}_{k|}A_{x}}_{\text{dies after}}\quad\Longleftrightarrow\quad \frac{M_{x}}{D_{x}}=\frac{M_{x}-M_{x+k}}{D_{x}}+\frac{M_{x+k}}{D_{x}}.\]
+The identity is just \(M_{x}=(M_{x}-M_{x+k})+M_{x+k}\) — nothing more. Watch for this as a free check on any exam answer.</div>
+</div>
+</section>
+
+<!-- ================= 9. EXAMPLES ================= -->
+<section id="ex">
+<h2>9 · Worked examples</h2>
+
+<h3>Example 1 · Whole-life assurance, age 50</h3>
+<div class="card">
+<p>A person aged 50 buys whole-life assurance with sum assured \$100,000. Given \(D_{50}=5{,}000\) and \(M_{50}=750\):</p>
+<div class="step"><b>EPV factor.</b>
+\[A_{50}=\frac{M_{50}}{D_{50}}=\frac{750}{5{,}000}=0.15.\]</div>
+<div class="step"><b>Scale to the sum assured.</b>
+\[\text{EPV}=100{,}000\times0.15=\$15{,}000.\]</div>
+<div class="sol">Interpretation: \$15,000 today buys a certain \$100,000 whenever the person dies — because \$100,000 is paid <i>once, in the future, and only with probability 1 in total but at a deeply uncertain time</i>. The factor 0.15 is well below 1 because of discounting: the average payment date is decades away.</div>
+</div>
+
+<h3>Example 2 · 10-year term assurance, age 40</h3>
+<div class="card">
+<p>Ten-year term assurance, sum assured \$200,000. Given \(D_{40}=8{,}000\), \(M_{40}=1{,}200\), \(M_{50}=720\):</p>
+<div class="step"><b>Factor.</b>
+\[A^{1}_{40:\overline{10}|}=\frac{M_{40}-M_{50}}{D_{40}}=\frac{1{,}200-720}{8{,}000}=\frac{480}{8{,}000}=0.06.\]</div>
+<div class="step"><b>Scale.</b>
+\[\text{EPV}=200{,}000\times0.06=\$12{,}000.\]</div>
+<div class="sol">Only 6 cents per dollar of cover: the insurer pays only if death falls inside the ten-year window.</div>
+</div>
+
+<h3>Example 3 · 10-year pure endowment, age 40</h3>
+<div class="card">
+<p>Sum assured \$100,000, paid at age 50 if the person is alive. Given \(D_{40}=8{,}000\), \(D_{50}=5{,}600\):</p>
+\[{}_{10}E_{40}=\frac{D_{50}}{D_{40}}=\frac{5{,}600}{8{,}000}=0.70,\qquad \text{EPV}=100{,}000\times0.70=\$70{,}000.\]
+<div class="sol">Here the factor is large (0.70) because survival to 50 is very likely — \(0.70\) is precisely \(v^{10}\times{}_{10}p_{40}\), i.e. the discount factor times the survival probability.</div>
+</div>
+
+<h3>Example 4 · The same life, all three products</h3>
+<div class="card">
+<p>Using the <b>same</b> age-40 basis (\(D_{40}=8{,}000\), \(M_{40}=1{,}200\), \(M_{50}=720\), \(D_{50}=5{,}600\)), price all three \$100,000 products:</p>
+<div class="tw"><table>
+<tr><th>Product</th><th>Factor</th><th>Calculation</th><th>EPV</th></tr>
+<tr><td>10-year term</td><td>0.06</td><td>\((1{,}200-720)/8{,}000\)</td><td>\$6,000</td></tr>
+<tr><td>10-year pure endowment</td><td>0.70</td><td>\(5{,}600/8{,}000\)</td><td>\$70,000</td></tr>
+<tr><td>10-year endowment assurance</td><td>0.76</td><td>\((1{,}200-720+5{,}600)/8{,}000\)</td><td>\$76,000</td></tr>
+</table></div>
+<div class="step"><b>Consistency check.</b> Endowment \(=\) term \(+\) pure endowment:
+\[0.06+0.70=0.76\quad\checkmark\]</div>
+<div class="sol">The pure endowment is the expensive part — it is essentially a savings contract. Term assurance is cheap because the event it insures against is unlikely.</div>
+</div>
+
+<h3>Example 5 · 10-year deferred whole-life, age 40</h3>
+<div class="card">
+<p>Whole-life cover of \$200,000 that pays nothing if death occurs in the first 10 years. With \(D_{40}=8{,}000\), \(M_{50}=720\):</p>
+\[{}_{10|}A_{40}=\frac{M_{50}}{D_{40}}=\frac{720}{8{,}000}=0.09,\qquad \text{EPV}=200{,}000\times0.09=\$18{,}000.\]
+<div class="step"><b>Check against Example 2.</b> Term (first 10 years) \(=0.06\); deferred (after 10 years) \(=0.09\); sum \(=0.15\), and indeed \(A_{40}=M_{40}/D_{40}=1{,}200/8{,}000=0.15\). ✓</div>
+<div class="sol">Deferral shifts value from the early years to the later ones; the two pieces must always reconstruct the whole-life factor.</div>
+</div>
+</section>
+
+<!-- ================= 10. PRACTICE ================= -->
+<section id="practice">
+<h2>10 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 11. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>11 · Derivations</h2>
+
+<details open><summary>D1 · Why the EPV is a probability-weighted sum</summary>
+<p>Let \(K_{x}\) be the number of complete years lived before death (so \(K_{x}=0\) means death in the first year). The payment of 1 at the end of the year of death has present value \(Z=v^{K_{x}+1}\). By the definition of expectation for a discrete random variable,</p>
+\[E(Z)=\sum_{k=1}^{\infty}v^{k}\,P(K_{x}=k-1).\]
+<p>Now \(P(K_{x}=k-1)=P(\text{survive }k-1\text{ years})\times P(\text{die in the next year}\mid\text{alive at }x+k-1)={}_{k-1}p_{x}\,q_{x+k-1}\). Hence</p>
+\[A_{x}=E(Z)=\sum_{k=1}^{\infty}v^{k}\,{}_{k-1}p_{x}\,q_{x+k-1}.\]
+<p>Each term is (probability) × (present value), and the whole is the expected present value.</p></details>
+
+<details><summary>D2 · Probability of death in year \(k\), from the life table</summary>
+<p>Survive \(k-1\) years, then die within the next one:</p>
+\[{}_{k-1}p_{x}\,q_{x+k-1}=\frac{\ell_{x+k-1}}{\ell_{x}}\cdot\frac{d_{x+k-1}}{\ell_{x+k-1}}=\frac{d_{x+k-1}}{\ell_{x}}.\]
+<p>The intermediate \(\ell\) cancels. Summing over all \(k\) gives \(\sum_{k\ge1}d_{x+k-1}/\ell_{x}=\ell_{x}/\ell_{x}=1\): death happens in exactly one year, with total probability 1.</p></details>
+
+<details><summary>D3 · Whole-life: \(A_{x}=M_{x}/D_{x}\)</summary>
+<p>Start from the life-table form:</p>
+\[A_{x}=\frac{1}{\ell_{x}}\left(v\,d_{x}+v^{2}d_{x+1}+v^{3}d_{x+2}+\cdots\right).\]
+<p>Multiply numerator and denominator by \(v^{x}\):</p>
+\[A_{x}=\frac{1}{v^{x}\ell_{x}}\left(v^{x+1}d_{x}+v^{x+2}d_{x+1}+v^{x+3}d_{x+2}+\cdots\right).\]
+<p>The bracket is \(C_{x}+C_{x+1}+C_{x+2}+\cdots=M_{x}\), and the prefactor is \(1/D_{x}\). Therefore \(A_{x}=M_{x}/D_{x}\).</p>
+<p><b>Why \(v^{x+1}\) and not \(v^{x}\)?</b> Because \(C_{x}=v^{x+1}d_{x}\) is the present value at age \(x\) of the deaths <i>during</i> year \(x\to x+1\), which are paid at the <b>end</b> of that year.</p></details>
+
+<details><summary>D4 · Term assurance: \(A^{1}_{x:\overline{n}|}=(M_{x}-M_{x+n})/D_{x}\)</summary>
+<p>Only the first \(n\) death-years contribute:</p>
+\[A^{1}_{x:\overline{n}|}=\frac{1}{\ell_{x}}\left(v\,d_{x}+v^{2}d_{x+1}+\cdots+v^{n}d_{x+n-1}\right)
+=\frac{v^{x+1}d_{x}+\cdots+v^{x+n}d_{x+n-1}}{v^{x}\ell_{x}}.\]
+<p>The numerator is \(C_{x}+\cdots+C_{x+n-1}\). Split \(M_{x}\):</p>
+\[M_{x}=\underbrace{C_{x}+\cdots+C_{x+n-1}}_{\text{wanted}}+\underbrace{C_{x+n}+C_{x+n+1}+\cdots}_{=\,M_{x+n}}.\]
+<p>Therefore the wanted sum is \(M_{x}-M_{x+n}\), and \(A^{1}_{x:\overline{n}|}=(M_{x}-M_{x+n})/D_{x}\).</p></details>
+
+<details><summary>D5 · Pure endowment: \({}_{n}E_{x}=D_{x+n}/D_{x}\)</summary>
+<p>The payment of 1 at time \(n\) happens with probability \({}_{n}p_{x}=\ell_{x+n}/\ell_{x}\):</p>
+\[{}_{n}E_{x}=v^{n}\frac{\ell_{x+n}}{\ell_{x}}=\frac{v^{x+n}\ell_{x+n}}{v^{x}\ell_{x}}=\frac{D_{x+n}}{D_{x}}.\]
+<p>Notice there is no \(q\) anywhere: a pure endowment is a <i>survival</i> benefit, so only lives \(\ell\) (and hence \(D\)) appear.</p></details>
+
+<details><summary>D6 · Endowment assurance: adding the two pieces</summary>
+<p>An \(n\)-year endowment assurance pays 1 if death occurs within \(n\) years, and pays 1 at time \(n\) if the person survives. These events are disjoint and exhaustive, so</p>
+\[A_{x:\overline{n}|}=A^{1}_{x:\overline{n}|}+{}_{n}E_{x}
+=\frac{M_{x}-M_{x+n}}{D_{x}}+\frac{D_{x+n}}{D_{x}}=\frac{M_{x}-M_{x+n}+D_{x+n}}{D_{x}}.\]
+<p>Common denominator \(D_{x}\); nothing else needed.</p></details>
+
+<details><summary>D7 · Deferred whole-life: \({}_{k|}A_{x}=M_{x+k}/D_{x}\)</summary>
+<p>Deaths in the first \(k\) years pay nothing, so the \(C\)-terms \(C_{x},\dots,C_{x+k-1}\) are dropped from \(M_{x}\). What is left is</p>
+\[C_{x+k}+C_{x+k+1}+\cdots=M_{x+k},\qquad\text{so}\qquad {}_{k|}A_{x}=\frac{M_{x+k}}{D_{x}}.\]
+<p>Equivalently, by the identity in §8, \({}_{k|}A_{x}=A_{x}-A^{1}_{x:\overline{k}|}\).</p></details>
+
+<details><summary>D8 · Every formula is "probability × present value"</summary>
+<p>Lay the five formulas side by side and the pattern is the same in each:</p>
+<div class="tw"><table class="l">
+<tr><th>Product</th><th>Event summed over</th><th>Column used</th></tr>
+<tr><td>Whole-life \(A_{x}\)</td><td>death in any year \(k\ge1\)</td><td>\(M_{x}\)</td></tr>
+<tr><td>Term \(A^{1}_{x:\overline{n}|}\)</td><td>death in year \(k\le n\)</td><td>\(M_{x}-M_{x+n}\)</td></tr>
+<tr><td>Pure endowment \({}_{n}E_{x}\)</td><td>survival to \(n\)</td><td>\(D_{x+n}\)</td></tr>
+<tr><td>Endowment \(A_{x:\overline{n}|}\)</td><td>death in \(k\le n\) <b>or</b> survival to \(n\)</td><td>\(M_{x}-M_{x+n}+D_{x+n}\)</td></tr>
+<tr><td>Deferred \({}_{k|}A_{x}\)</td><td>death in year \(k\ge\) deferral \(+1\)</td><td>\(M_{x+k}\)</td></tr>
+</table></div>
+<p>In every row, the numerator is the discounted number of <b>relevant events</b> and the denominator \(D_{x}\) is the discounted number of <b>people at risk</b>. The quotient is the expected discounted payout per policy.</p></details>
+</section>
+
+<!-- ================= 12. FORMULA SHEET ================= -->
+<h2 id="formulas">12 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Symbols</th></tr>
+<tr><td>Whole-life assurance</td><td>\(A_{x}=\dfrac{M_{x}}{D_{x}}\)</td><td>pays on death whenever it occurs</td></tr>
+<tr><td>\(n\)-year term assurance</td><td>\(A^{1}_{x:\overline{n}|}=\dfrac{M_{x}-M_{x+n}}{D_{x}}\)</td><td>pays only if death within \(n\) years</td></tr>
+<tr><td>\(n\)-year pure endowment</td><td>\({}_{n}E_{x}=\dfrac{D_{x+n}}{D_{x}}\)</td><td>pays only if alive at \(n\)</td></tr>
+<tr><td>\(n\)-year endowment assurance</td><td>\(A_{x:\overline{n}|}=\dfrac{M_{x}-M_{x+n}+D_{x+n}}{D_{x}}\)</td><td>pays either way</td></tr>
+<tr><td>\(k\)-year deferred whole-life</td><td>\({}_{k|}A_{x}=\dfrac{M_{x+k}}{D_{x}}\)</td><td>no benefit in first \(k\) years</td></tr>
+<tr><td>Endowment identity</td><td>\(A_{x:\overline{n}|}=A^{1}_{x:\overline{n}|}+{}_{n}E_{x}\)</td><td>death + survival pieces</td></tr>
+<tr><td>Deferral identity</td><td>\(A_{x}=A^{1}_{x:\overline{n}|}+{}_{n|}A_{x}\)</td><td>always a useful check</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Commutation function</th><th>Definition</th><th>Meaning</th></tr>
+<tr><td>\(D_{x}\)</td><td>\(v^{x}\ell_{x}\)</td><td>discounted lives at age \(x\)</td></tr>
+<tr><td>\(C_{x}\)</td><td>\(v^{x+1}d_{x}\)</td><td>discounted deaths during year \(x\)</td></tr>
+<tr><td>\(M_{x}\)</td><td>\(\sum_{k\ge x}C_{k}=C_{x}+M_{x+1}\)</td><td>accumulated discounted deaths from age \(x\)</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Probability</th><th>Life-table form</th><th>Used for</th></tr>
+<tr><td>\(q_{x}\)</td><td>\(d_{x}/\ell_{x}\)</td><td>death in first year</td></tr>
+<tr><td>\({}_{k-1}p_{x}\,q_{x+k-1}\)</td><td>\(d_{x+k-1}/\ell_{x}\)</td><td>death in year \(k\)</td></tr>
+<tr><td>\({}_{n}p_{x}\)</td><td>\(\ell_{x+n}/\ell_{x}\)</td><td>survival to \(n\)</td></tr>
+</table></div>
+
+<!-- ================= 13. CALCULATOR ================= -->
+<section id="calc">
+<h2>13 · Life assurance calculator</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter the life table \(\ell_{y}\) starting at age \(x\) (comma-separated). \(D_{y}\), \(C_{y}\), \(M_{y}\) are built from it, and all five products are priced per \$1 and for the sum assured you enter.</p>
+<div class="row">
+<label>Interest \(i\) %<input id="ir" type="number" value="5" step="0.01"></label>
+<label>Age \(x\)<input id="xa" type="number" value="40" step="1" min="0"></label>
+<label>Term \(n\)<input id="tn" type="number" value="10" min="1" step="1"></label>
+<label>Deferral \(k\)<input id="dk" type="number" value="10" min="0" step="1"></label>
+<label>Sum assured<input id="sa" type="number" value="100000" min="1" step="1000"></label>
+</div>
+<label style="display:block;font-size:13px;color:var(--muted);margin:8px 0">Life table \(\ell_{y}\)
+<textarea id="lt" rows="3" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">90000,89100,88110,87029,85859,84600,83300,81900,80400,78800,77000</textarea></label>
+<button class="b" onclick="calcA()">Compute</button>
+<button class="b alt" onclick="preset()">Reset to scenario</button>
+<div class="row" id="aout"></div>
+<div class="tw" id="atab"></div>
+</div>
+</section>
+
+<footer>Study guide on life assurance · scope follows the Theory of Interest lecture slides (sum assured, the five product types, EPV as probability × present value, \(D/C/M\) commutation functions, and the EPV formulas for each product).</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- calculator ---------- */
+function f4(x){return x.toFixed(4)}
+function f0(x){return x.toLocaleString('en-US',{maximumFractionDigits:0})}
+function f2(x){return x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function g(a,i){return (i>=0&&i<a.length)?a[i]:0}
+function calcA(){
+  var i=+document.getElementById('ir').value/100;
+  var x=+document.getElementById('xa').value;
+  var n=Math.max(1,Math.round(+document.getElementById('tn').value));
+  var k=Math.max(0,Math.round(+document.getElementById('dk').value));
+  var SA=Math.max(1,+document.getElementById('sa').value);
+  var raw=document.getElementById('lt').value.split(/[^0-9.]+/).filter(function(s){return s!==''}).map(Number);
+  var out=document.getElementById('aout'), tab=document.getElementById('atab');
+  if(i<=-1||raw.length<2||raw.some(isNaN)){out.innerHTML='<p>Enter a valid rate and at least two \\(\\ell_y\\) values.</p>';tab.innerHTML='';return;}
+  var v=1/(1+i), m=raw.length;
+  var d=[];for(var j=0;j<m-1;j++)d[j]=raw[j]-raw[j+1];d[m-1]=0;
+  var D=raw.map(function(l,j){return Math.pow(v,j)*l});
+  var C=d.map(function(dd,j){return Math.pow(v,j+1)*dd});
+  var M=[];var s=0;for(var j=m-1;j>=0;j--){s+=C[j];M[j]=s;}
+  var Ax=M[0]/D[0];
+  var term=(M[0]-g(M,n))/D[0];
+  var pure=g(D,n)/D[0];
+  var endow=term+pure;
+  var def=g(M,k)/D[0];
+  var K=[['\\(A_x\\) whole life',f4(Ax),f2(SA*Ax)],
+         ['\\(A^{1}_{x:\\overline{n}|}\\) term',f4(term),f2(SA*term)],
+         ['\\({}_{n}E_x\\) pure endowment',f4(pure),f2(SA*pure)],
+         ['\\(A_{x:\\overline{n}|}\\) endowment',f4(endow),f2(SA*endow)],
+         ['\\({}_{k|}A_x\\) deferred',f4(def),f2(SA*def)]];
+  out.innerHTML=K.map(function(q){return '<div class="kpi"><small>'+q[0]+'</small><b>'+q[1]+'</b><br><small>EPV '+q[2]+'</small></div>'}).join('');
+  var rows='<table><tr><th>Age \\(y\\)</th><th>\\(\\ell_y\\)</th><th>\\(d_y\\)</th><th>\\(D_y\\)</th><th>\\(C_y\\)</th><th>\\(M_y\\)</th></tr>';
+  for(var j2=0;j2<m;j2++){
+    rows+='<tr><td>'+(x+j2)+'</td><td>'+f0(raw[j2])+'</td><td>'+(d[j2]?f0(d[j2]):'—')+'</td><td>'+D[j2].toFixed(2)+'</td><td>'+(C[j2]?C[j2].toFixed(2):'—')+'</td><td>'+M[j2].toFixed(2)+'</td></tr>';
+  }
+  tab.innerHTML=rows+'</table>';
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([out,tab]);
+}
+function preset(){
+  document.getElementById('ir').value=5;document.getElementById('xa').value=40;
+  document.getElementById('tn').value=10;document.getElementById('dk').value=10;
+  document.getElementById('sa').value=100000;
+  document.getElementById('lt').value='90000,89100,88110,87029,85859,84600,83300,81900,80400,78800,77000';
+  calcA();
+}
+calcA();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'Which statement best describes a whole-life assurance?',
+  o:['A benefit is paid only if the policyholder survives a specified period','A benefit is paid if death occurs within a specified term only','A benefit is paid on death whenever death occurs, provided the policy is in force','A benefit is paid only at the end of the policy term'],a:2,
+  s:'Whole-life assurance has no expiry: the sum assured is paid whenever death occurs.'},
+ {q:'Why is the present value of a life assurance benefit treated as a random variable?',
+  o:['Because the interest rate is random','Because the time of death is uncertain','Because the sum assured changes','Because the life table is random'],a:1,
+  s:'The payment amount and the interest rate are fixed; the only randomness is the future lifetime, which fixes the payment date.'},
+ {q:'For a whole-life assurance with benefit 1, the commutation formula is:',
+  o:['\\(A_x=N_x/D_x\\)','\\(A_x=M_x/D_x\\)','\\(A_x=D_x/M_x\\)','\\(A_x=M_x/N_x\\)'],a:1,
+  s:'Deaths are in the \\(C\\) column, accumulated as \\(M\\); lives are in \\(D\\). Hence \\(A_x=M_x/D_x\\).'},
+ {q:'An \\(n\\)-year term assurance:',
+  o:['Pays whenever death occurs, regardless of when','Pays only if the policyholder survives \\(n\\) years','Pays a death benefit if death occurs during the next \\(n\\) years','Pays both a death benefit and a survival benefit'],a:2,
+  s:'If the life survives the term, nothing is paid.'},
+ {q:'Why is \\(A_x\\) called an <i>expected</i> present value?',
+  o:['Because the insurer expects to pay the benefit','Because the present value depends on the uncertain future lifetime','Because the interest rate is uncertain','Because the sum assured is uncertain'],a:1,
+  s:'It is the probability-weighted average of the discounted benefit over all possible death times.'},
+ {q:'In \\(A_x=v q_x+v^{2}{}_{1}p_x q_{x+1}+\\cdots\\), why does each term carry a probability?',
+  o:['To account for inflation','Because \\(E[Z]=\\sum(\\text{value}\\times\\text{probability})\\)','To convert deaths into lives','Because the sum assured is random'],a:1,
+  s:'Each discounted benefit is multiplied by the probability that it is actually paid — the definition of expectation.'},
+ {q:'A pure endowment \\({}_{n}E_x\\) equals:',
+  o:['\\(M_x/D_x\\)','\\((M_x-M_{x+n})/D_x\\)','\\(D_{x+n}/D_x\\)','\\(M_{x+n}/D_x\\)'],a:2,
+  s:'Only survival matters, so only \\(D\\) appears: \\({}_{n}E_x=D_{x+n}/D_x\\).'},
+ {q:'An \\(n\\)-year endowment assurance pays:',
+  o:['Only on death in the term','Only on survival to \\(n\\)','On death in the term or on survival to \\(n\\)','Only at the end of the term'],a:2,
+  s:'It is term assurance plus a pure endowment, and pays for certain.'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Q'+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'✔ Correct. ':'✘ Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

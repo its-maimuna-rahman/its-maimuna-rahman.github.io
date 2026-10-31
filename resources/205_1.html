@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demography & Demographic Data – Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.1rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
+.bd{background:#006a4e15;color:#006a4e}.us{background:#1f3a8a15;color:#1f3a8a}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#sources">Sources</a><a href="#primary">Primary</a><a href="#secondary">Secondary</a><a href="#relevance">Relevance</a><a href="#compare">Compare</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Reference</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Demography · Population Studies</span>
+<h1>Demography & Demographic Data</h1>
+<p class="lead">Every year Bangladesh records roughly 3 million births and 950,000 deaths; the United States records about 3.6 million births and 3.4 million deaths. How do the two countries know these numbers, where do the figures live, and why does the difference in their data machinery matter? This guide follows two families through every major source — census, survey, register — and works through the arithmetic behind the estimates.</p>
+</header>
+
+<!-- ================= 1. SCENARIO ================= -->
+<section id="scen">
+<h2>1 · Two families, two data systems</h2>
+<div class="card">
+<p>On the same morning in March, a baby is born to the <b>Rahman family</b> in Cumilla, Bangladesh, and another to the <b>Miller family</b> in Columbus, Ohio. Both countries will eventually know about these births. But the machinery differs sharply, and the difference shows up in the quality of every statistic the two governments publish.</p>
+
+<div class="step"><b>The Rahman baby.</b> The birth is registered locally under the Birth and Death Registration Act 2004 and entered into the <b>Birth and Death Registration Information System (BDRIS)</b>, which feeds the national identity database. The legal record exists. But in 2025, only about <b>63%</b> of births in Bangladesh were registered at all, and only <b>9%</b> within the statutory 45-day window. So the register cannot, on its own, tell the Bangladesh Bureau of Statistics (BBS) how many babies were born this year.</div>
+
+<div class="step"><b>Filling the gap with SVRS.</b> BBS runs the <b>Sample Vital Registration System (SVRS)</b>: a continuous survey of about <b>1,000 primary sampling units</b> spread across the country, tracking roughly <b>250,000 households</b>. SVRS records births, deaths, marriages, migration, disability and contraceptive use every year. It estimates that Bangladesh's crude birth rate is about <b>18 per 1,000</b> and crude death rate about <b>5.5 per 1,000</b> — which, applied to a population of about <b>170 million</b>, implies roughly <b>3.06 million births</b> and <b>935,000 deaths</b> a year. Those are the numbers the government actually uses.</div>
+
+<div class="step"><b>The Miller baby.</b> The birth is certified on a <b>U.S. Standard Certificate of Live Birth</b> at the hospital. The Ohio Department of Health transmits the record to the CDC's <b>National Vital Statistics System (NVSS)</b>, which compiles official birth and death statistics for all 50 states and the District of Columbia. U.S. births in 2022 numbered about <b>3.66 million</b>; deaths about <b>3.28 million</b>. Every one of those records is a legal certificate, not a sample estimate.</div>
+
+<div class="step"><b>The census underneath both.</b> Every ten years, both countries enumerate everyone. Bangladesh's <b>Population and Housing Census 2022</b> counted about <b>165 million</b> people (later adjusted to roughly <b>170 million</b> after post-enumeration checks). The <b>U.S. Decennial Census</b> in 2020 counted about <b>331 million</b>. The census gives the denominator — the total population — that every rate needs.</div>
+
+<div class="sol">The Rahman baby is known through a <b>sample survey</b> because the civil register is incomplete. The Miller baby is known through a <b>complete civil registration system</b>. Both are re-counted ten years later by a <b>census</b>. Same event, different machinery, different statistical consequences.</div>
+
+<div class="box"><b class="t">The cost gap in one comparison</b>
+The U.S. 2020 Census cost about <b>$13.6 billion</b> to count 331 million people — roughly <b>$41 per person</b>. Bangladesh's 2022 Census cost about <b>$140 million</b> to count 165 million — roughly <b>$0.85 per person</b>. The difference reflects labour costs, infrastructure, and how much follow-up enumeration each country can afford. The cheaper census is not worse; it is calibrated to a different budget and a different labour market.</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · What demography studies</h2>
+<div class="box"><b class="t">Demography</b>
+The scientific study of human populations — their <b>size</b>, <b>composition</b> (by age, sex and other characteristics) and <b>change</b> over time through <b>births</b>, <b>deaths</b> and <b>migration</b>. Three questions organise the field: how many people live here, who are they, and how are those numbers changing?</div>
+<div class="grid">
+<div class="card"><b>Population size</b><br>The total count in a place at a point in time. Censuses are the gold standard: Bangladesh's 2022 Census recorded 165.16 million people; the U.S. 2020 Census recorded 331.45 million.</div>
+<div class="card"><b>Composition</b><br>Age, sex, household structure, education, ethnicity. Surveys provide this in detail: the BDHS samples roughly 17,000–20,000 households; the ACS samples about 3.5 million addresses a year.</div>
+<div class="card"><b>Components of change</b><br>Births, deaths, migration. Registers and vital statistics track these: NVSS records about 3.66 million U.S. births a year; SVRS estimates Bangladesh's 3.06 million.</div>
+</div>
+<div class="box key"><b class="t">The demographic balancing equation</b>
+\[\text{Population}_{\text{end}} = \text{Population}_{\text{start}} + \text{Births} - \text{Deaths} + \text{Net Migration}\]
+With Bangladesh-style numbers — start 170 million, births 3.06 million, deaths 0.935 million, net migration −0.5 million — the end population is 171.625 million. Every data source in this chapter exists to measure one of these terms.</div>
+</section>
+
+<!-- ================= 3. CONCEPT ================= -->
+<section id="concept">
+<h2>3 · The three tools and their trade-offs</h2>
+<div class="card">
+<p>Counting a whole country is not one problem but three, and each has a different tool. The trade-off is between <b>coverage</b> (how many people the tool reaches) and <b>detail</b> (how much it asks each person).</p>
+<ol>
+<li><b>A census</b> reaches everyone, every ten years, and asks a short set of questions. Its strength is exhaustive coverage; its weakness is infrequency and shallowness.</li>
+<li><b>A survey</b> reaches a representative sample, can run every year, and asks many detailed questions. Its strength is depth and frequency; its weakness is sampling error and the risk of bias in hard-to-reach groups.</li>
+<li><b>A register</b> records events continuously as they happen, but only for people who register. Its strength is continuity and legal standing; its weakness is incomplete coverage where registration incentives or infrastructure are weak.</li>
+</ol>
+<p>No single tool does all three jobs. Demographers combine them: census for the denominator, survey for the rates and characteristics, register for the event counts.</p>
+</div>
+
+<h3>Why sample size matters more than population size</h3>
+<div class="card">
+<p>The standard error of a sample proportion \(\hat p\) is</p>
+\[\text{SE}(\hat p)=\sqrt{\frac{p(1-p)}{n}}\times\sqrt{\frac{N-n}{N-1}},\]
+<p>where \(n\) is the sample size and \(N\) the population size. For \(n\) much smaller than \(N\), the second factor is nearly 1, so precision depends almost entirely on \(n\).</p>
+<div class="step"><b>Bangladesh.</b> Suppose SVRS surveys \(n=250{,}000\) households and estimates a proportion \(p=0.5\). Then
+\[\text{SE}=\sqrt{\frac{0.25}{250{,}000}}\approx0.0010,\qquad\text{95% margin of error}\approx\pm0.20\text{ percentage points.}\]</div>
+<div class="step"><b>United States.</b> The ACS surveys about 3.5 million addresses. With \(p=0.5\),
+\[\text{SE}=\sqrt{\frac{0.25}{3{,}500{,}000}}\approx0.00027,\qquad\text{95% margin of error}\approx\pm0.053\text{ percentage points.}\]</div>
+<p>Fourteen times the sample buys about four times the precision — the square-root law. A census is still needed for exact small-area counts, but for national rates the sample does the heavy lifting.</p>
+</div>
+
+<div class="box"><b class="t">Primary vs secondary</b>
+<b>Primary data</b> are collected and published by the organisation that gathered them: a census, a survey, a vital registration system. <b>Secondary data</b> are compilations or derived estimates built on primary data: a UN <i>World Population Prospects</i> volume, a World Bank indicator, a published analytical report. The distinction is about who produced the number, not about reliability.</div>
+</section>
+
+<!-- ================= 4. SOURCES ================= -->
+<section id="sources">
+<h2>4 · The three sources and their publications</h2>
+<p>Each source produces a family of published reports. Knowing which report to consult is half the skill.</p>
+<div class="tw"><table class="l">
+<tr><th>Source</th><th><span class="badge bd">Bangladesh</span></th><th><span class="badge us">United States</span></th></tr>
+<tr><td><b>Census</b></td><td>Population and Housing Census 2022 (BBS): preliminary report released 27 July 2022, followed by national and administrative reports. Counted 165.16 million; post-enumeration adjustment to ~170 million.</td><td>Decennial Census (Census Bureau, every 10 years since 1790). 2020 count: 331.45 million. Total cost $13.6 billion.</td></tr>
+<tr><td><b>Survey</b></td><td>SVRS annual report (BBS): ~1,000 PSUs, ~250,000 households. BDHS (NIPORT): ~17,000–20,000 households every 3 years. MICS (UNICEF/BBS). BMMS (maternal mortality).</td><td>ACS (Census Bureau): 3.5 million addresses/year, 1-year and 5-year estimates. CPS (BLS): ~60,000 households/month. SIPP (Census): income dynamics.</td></tr>
+<tr><td><b>Register / vital statistics</b></td><td>Civil registration via BDRIS under the Office of the Registrar General (Birth and Death Registration Act 2004). 2025 completeness: 63% births, 59% deaths. BBS uses SVRS for official statistics.</td><td>National Vital Statistics System (NVSS), CDC/NCHS, built on state birth and death certificates. All 50 states plus D.C. in the Vital Statistics Cooperative Program; near-complete coverage.</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 5. PRIMARY ================= -->
+<section id="primary">
+<h2>5 · Primary sources in detail</h2>
+
+<h3>5.1 The population census</h3>
+<div class="card">
+<p>A census is a complete enumeration of every person in a country at a single point in time, usually every ten years. It is the only source that gives counts for every small area — every district, every neighbourhood — and it creates the <b>sample frame</b> from which surveys draw their samples.</p>
+<div class="step"><b>Bangladesh 2022.</b> Conducted by BBS in June 2022 using digital tablets and a geospatial enumeration architecture. About <b>370,000 enumerators</b> worked for about ten days. The preliminary count of <b>165.16 million</b> was published within a month; the post-enumeration check adjusted the total to about <b>170 million</b>. The census also collected housing, household amenities and disability data.</div>
+<div class="step"><b>United States 2020.</b> Conducted by the Census Bureau with online, mail and in-person response modes. About <b>500,000 temporary workers</b> were employed over the enumeration period. The count of <b>331.45 million</b> determined the apportionment of 435 House seats and guided the distribution of about <b>$1.5 trillion</b> a year in federal funds. Cost: about <b>$13.6 billion</b>, or roughly <b>$41 per person</b>.</div>
+<div class="step"><b>What a census cannot do.</b> It is expensive, infrequent, and asks few questions. That is exactly why surveys exist.</div>
+</div>
+
+<h3>5.2 The sample survey</h3>
+<div class="card">
+<p>A survey collects data from a representative sample and generalises to the whole population. It can be frequent, detailed and flexible in a way a census cannot.</p>
+<div class="step"><b>Bangladesh: SVRS.</b> The Sample Vital Registration System began in 1980 with 150 primary sampling units and 250 households. It now covers about <b>1,000 PSUs</b> and <b>250,000 households</b>, recording births, deaths, marriages, migration, disability and contraceptive use. SVRS is the main source of annual fertility and mortality estimates between censuses. It reports crude birth rate around <b>18/1,000</b> and crude death rate around <b>5.5/1,000</b>.</div>
+<div class="step"><b>Bangladesh: BDHS, MICS, BMMS.</b> The Bangladesh Demographic and Health Survey, conducted by NIPORT with ICF International, samples roughly <b>17,000–20,000 households</b> per round and covers health, fertility, family planning and child wellbeing. MICS focuses on child indicators. BMMS measures maternal mortality. Together these have produced more than 25 national health and demographic surveys in two decades.</div>
+<div class="step"><b>United States: ACS.</b> The American Community Survey contacts about <b>3.5 million addresses a year</b> and produces annual estimates of social, economic, housing and demographic characteristics for every community. It replaced the long-form census questionnaire after 2000. One-year estimates are available for areas of 65,000+ people; five-year estimates for smaller areas. The response rate is around <b>85–90%</b>.</div>
+<div class="step"><b>United States: CPS and SIPP.</b> The Current Population Survey samples about <b>60,000 households a month</b> and produces the monthly unemployment rate. The Survey of Income and Program Participation follows the same households for several years to track income and programme participation over time.</div>
+</div>
+
+<h3>5.3 The register (civil registration and vital statistics)</h3>
+<div class="card">
+<p>A register records vital events continuously as they occur and produces vital statistics at annual or monthly intervals. In principle it is the best source: complete, continuous, legally grounded. In practice it is only as good as its coverage.</p>
+<div class="step"><b>Bangladesh.</b> Civil registration is governed by the <b>Birth and Death Registration Act 2004</b>, administered through local government registrars, and entered into <b>BDRIS</b> linked to the national identity system. In 2025, birth registration reached about <b>63%</b> and death registration about <b>59%</b>, with a persistent gender gap in death registration (64% male, 36% female). Only about <b>9%</b> of births are registered within the statutory 45-day window. Because of these gaps, BBS uses <b>SVRS</b> to produce official vital statistics.</div>
+<div class="step"><b>United States.</b> The <b>National Vital Statistics System (NVSS)</b> is a federal–state partnership. Hospitals and funeral directors complete standard certificates; state registrars transmit records; the CDC's National Center for Health Statistics compiles the national files. All 50 states and D.C. participate in the Vital Statistics Cooperative Program. Revised standard certificates were fully implemented for births by 2016 and for deaths by 2018. Birth records are about <b>3.66 million</b> a year; death records about <b>3.28 million</b>.</div>
+<div class="box"><b class="t">Why the coverage gap matters</b>
+The U.S. register is the primary source of vital statistics. Bangladesh's register is still supplemented by a sample system. That single difference shapes every demographic estimate either country publishes: one country's rates are grounded in a complete count, the other's in a carefully designed sample.</div>
+</div>
+</section>
+
+<!-- ================= 6. SECONDARY ================= -->
+<section id="secondary">
+<h2>6 · Secondary sources</h2>
+<div class="card">
+<p>Secondary data are compilations or derived estimates built on primary data. They are what most researchers actually use, because they harmonise inconsistent national sources into comparable series.</p>
+<div class="tw"><table class="l">
+<tr><th>Publication</th><th>Producer</th><th>What it provides</th></tr>
+<tr><td><b>World Population Prospects</b> (revision every 2 years)</td><td>UN Population Division</td><td>Global population estimates and projections by age and sex for every country, from 1950 to 2100</td></tr>
+<tr><td><b>World Urbanization Prospects</b></td><td>UN Population Division</td><td>Urban and rural shares; city growth</td></tr>
+<tr><td><b>World Population Ageing</b></td><td>UN Population Division</td><td>Ageing indicators across countries</td></tr>
+<tr><td><b>National census reports</b></td><td>BBS / U.S. Census Bureau</td><td>Official national and sub-national tables</td></tr>
+<tr><td><b>SVRS annual report</b></td><td>BBS</td><td>Annual national and regional fertility, mortality, migration</td></tr>
+<tr><td><b>CDC WONDER and NVSS files</b></td><td>CDC/NCHS</td><td>Queryable birth and death microdata and public-use files</td></tr>
+</table></div>
+<div class="box key"><b class="t">Reading a secondary source responsibly</b>
+Always ask what primary sources fed it and how gaps were filled. A UN estimate for Bangladesh leans heavily on SVRS and census data; one for the U.S. leans on NVSS and ACS. The number is only as good as the chain behind it.</div>
+</div>
+</section>
+
+<!-- ================= 7. RELEVANCE ================= -->
+<section id="relevance">
+<h2>7 · Why demography matters in both countries</h2>
+<div class="grid">
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>The demographic dividend.</b> About <b>46 million people aged 15–29</b> — roughly 27% of the population — are in the working-age window. Whether this becomes a dividend or a missed opportunity depends on skills, jobs and health investment. The window closes as fertility declines: the total fertility rate has fallen from about 6.0 in the 1970s to roughly 2.0 in 2022.</div>
+<div class="card"><span class="badge us">United States</span><br><b>Population ageing.</b> About <b>10,000 Americans turn 65 every day</b>, and combined Social Security and Medicare spending is projected to rise from roughly <b>9% of GDP</b> in 2020 to more than <b>11% by 2036</b>. The share of the population aged 65+ is about <b>17.3%</b>; in Bangladesh it is about <b>5.5%</b>. The gap is the whole fiscal story.</div>
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>Health and family planning.</b> SVRS and BDHS data drive maternal health, immunisation and family-planning programmes. Fertility decline is measured, not assumed: the TFR of about 2.0 is a survey-based estimate, and the contraceptive prevalence rate of about 64% is tracked annually.</div>
+<div class="card"><span class="badge us">United States</span><br><b>Resource allocation.</b> ACS estimates support over <b>300 evidence-based federal uses</b> and guide the distribution of billions in federal funds. The Decennial Census itself determines the apportionment of the House of Representatives.</div>
+</div>
+<div class="box"><b class="t">What the two countries share</b>
+Bangladesh uses demography to capture a dividend before the window closes; the United States uses it to manage the fiscal consequences of ageing. Both need a reliable census, regular surveys and credible vital statistics — and both are limited by the weakest link in their own chain. For Bangladesh that link is civil registration completeness; for the United States it is the cost and complexity of very large surveys and the gaps for small or hard-to-reach populations.</div>
+</section>
+
+<!-- ================= 8. COMPARE ================= -->
+<section id="compare">
+<h2>8 · Side-by-side comparison</h2>
+<div class="tw"><table class="l">
+<tr><th>Feature</th><th><span class="badge bd">Bangladesh</span></th><th><span class="badge us">United States</span></th></tr>
+<tr><td>National statistics office</td><td>Bangladesh Bureau of Statistics (BBS)</td><td>U.S. Census Bureau (population); CDC/NCHS (vital statistics)</td></tr>
+<tr><td>Latest census</td><td>Population and Housing Census 2022: 165.16 million; post-enumeration ~170 million</td><td>Decennial Census 2020: 331.45 million</td></tr>
+<tr><td>Census cost</td><td>~$140 million (~$0.85 per person)</td><td>~$13.6 billion (~$41 per person)</td></tr>
+<tr><td>Continuous vital statistics</td><td>SVRS sample (~1,000 PSUs, ~250,000 households); civil register incomplete</td><td>NVSS complete civil registration; ~3.66 million births, ~3.28 million deaths a year</td></tr>
+<tr><td>Main detailed survey</td><td>BDHS (~17,000–20,000 households every 3 years); MICS; SVRS modules</td><td>ACS (3.5 million addresses/year); CPS (60,000 households/month); SIPP</td></tr>
+<tr><td>Birth registration completeness</td><td>~63% (2025); ~9% within 45 days</td><td>Near 100% (all states in Vital Statistics Cooperative Program)</td></tr>
+<tr><td>Total fertility rate (approx.)</td><td>~2.0 (2022)</td><td>~1.66 (2022)</td></tr>
+<tr><td>Crude birth rate (approx.)</td><td>~18 per 1,000</td><td>~11 per 1,000</td></tr>
+<tr><td>Crude death rate (approx.)</td><td>~5.5 per 1,000</td><td>~10.4 per 1,000 (higher because of ageing)</td></tr>
+<tr><td>Share aged 65+</td><td>~5.5%</td><td>~17.3%</td></tr>
+<tr><td>Key demographic challenge</td><td>Realising the youth dividend; completing civil registration</td><td>Ageing population and fiscal sustainability</td></tr>
+<tr><td>Data strength</td><td>Rich survey tradition; rapidly improving digital registration</td><td>Near-complete registration; long consistent time series</td></tr>
+<tr><td>Data weakness</td><td>Registration completeness and timeliness still limited</td><td>Cost and complexity of very large surveys; gaps for small populations</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 9. PRACTICE ================= -->
+<section id="practice">
+<h2>9 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 10. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>10 · Conceptual derivations and worked numbers</h2>
+
+<details open><summary>Derivation 1 · The demographic balancing equation, with numbers</summary>
+<p>A population at time \(t+1\) is the population at time \(t\), plus everyone who enters (births and immigrants), minus everyone who leaves (deaths and emigrants):</p>
+\[P_{t+1}=P_{t}+B-D+IM-OM=P_{t}+B-D+NM,\]
+<p>where \(NM=IM-OM\) is net migration. Rearranging gives the growth rate:</p>
+\[\frac{P_{t+1}-P_{t}}{P_{t}}=\frac{B-D+NM}{P_{t}}.\]
+<p><b>Worked example (Bangladesh-style figures).</b> Start with \(P=170{,}000{,}000\), \(B=3{,}060{,}000\), \(D=935{,}000\), \(NM=-500{,}000\):</p>
+\[P_{t+1}=170{,}000{,}000+3{,}060{,}000-935{,}000-500{,}000=171{,}625{,}000.\]
+\[\text{Growth rate}=\frac{1{,}625{,}000}{170{,}000{,}000}=0.00956\approx0.96\%\text{ per year.}\]
+<p>Every demographic data source measures one or more of these terms: censuses measure \(P\), registers measure \(B\) and \(D\), surveys estimate all of them with sampling error.</p></details>
+
+<details><summary>Derivation 2 · Why a census is needed even when a register exists</summary>
+<p>A register records events, not stocks. To turn a count of births into a birth rate you need the denominator — the mid-year population. The census supplies that denominator, and also supplies the sample frame that makes surveys representative. Without a census, neither register-based rates nor sample-based estimates can be trusted.</p>
+<p><b>Numerical illustration.</b> Suppose a register records 60,000 births in a district. Without a census count of the district's population you cannot say whether that is a high or a low fertility rate. If the district has 1.5 million people, the CBR is 40 per 1,000 — high. If it has 3 million, the CBR is 20 per 1,000 — moderate. The register alone tells you the numerator; only the census supplies the denominator.</p></details>
+
+<details><summary>Derivation 3 · Sample precision, with numbers</summary>
+<p>A survey observes a sample of size \(n\) from a population of size \(N\). The estimate \(\hat p\) of a proportion has standard error</p>
+\[\text{SE}(\hat p)=\sqrt{\frac{p(1-p)}{n}}\times\sqrt{\frac{N-n}{N-1}}\ \ \text{(finite population correction)}.\]
+<p>For large \(N\) the second factor is close to 1, so precision depends mainly on \(n\).</p>
+<p><b>Numerical example.</b> For \(p=0.5\) and \(n=17{,}000\) (BDHS):</p>
+\[\text{SE}=\sqrt{\frac{0.25}{17{,}000}}\approx0.00383,\qquad95\%\text{ CI}\approx\pm0.75\text{ pp.}\]
+<p>For \(n=250{,}000\) (SVRS):</p>
+\[\text{SE}=\sqrt{\frac{0.25}{250{,}000}}\approx0.0010,\qquad95\%\text{ CI}\approx\pm0.20\text{ pp.}\]
+<p>To halve the margin of error you need four times the sample — the square-root law.</p></details>
+
+<details><summary>Derivation 4 · Dual-record correction (why SVRS exists)</summary>
+<p>If the civil register captures only a fraction \(c\) of events, the register count \(R\) understates the true number \(T\) by the factor \(c\): \(T=R/c\). Without an independent estimate of \(c\) the register cannot be corrected. SVRS provides that estimate through a dual-record system (capture–recapture):</p>
+\[T=\frac{R\times E}{M},\]
+<p>where \(E\) is the count from the independent enumeration and \(M\) is the number found in both.</p>
+<p><b>Numerical example.</b> Suppose the register records \(R=60{,}000\) births, the SVRS enumeration finds \(E=65{,}000\) births in the same area, and \(M=55{,}000\) births are found in both:</p>
+\[T=\frac{60{,}000\times65{,}000}{55{,}000}=70{,}909.\]
+<p>Estimated register completeness \(c=R/T=60{,}000/70{,}909\approx84.6\%\). The register's raw 60,000 is therefore adjusted upward to about 70,900. That is why BBS uses SVRS, not the raw register, to produce official vital statistics between censuses.</p></details>
+
+<details><summary>Derivation 5 · From counts to rates — the standard toolkit</summary>
+\[CBR=\frac{B}{P}\times1000,\qquad CDR=\frac{D}{P}\times1000,\qquad RNI=\frac{B-D}{P}\times100.\]
+<p>Each rate needs a numerator from a register or survey and a denominator from a census or population estimate. The whole architecture of demographic data exists to supply these two pieces consistently.</p>
+<p><b>Worked example.</b> For Bangladesh-style figures — \(B=3{,}060{,}000\), \(D=935{,}000\), \(P=170{,}000{,}000\):</p>
+\[CBR=\frac{3{,}060{,}000}{170{,}000{,}000}\times1000\approx18.0,\quad CDR=\frac{935{,}000}{170{,}000{,}000}\times1000\approx5.5,\]
+\[RNI=\frac{3{,}060{,}000-935{,}000}{170{,}000{,}000}\times100\approx1.25\%.\]
+<p>These are the figures the government publishes as the country's annual demographic profile.</p></details>
+</section>
+
+<!-- ================= 11. REFERENCE ================= -->
+<h2 id="formulas">11 · Reference sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Term</th><th>Meaning</th><th>Where it is measured</th></tr>
+<tr><td><b>Demography</b></td><td>Study of population size, composition and change</td><td>All sources</td></tr>
+<tr><td><b>Census</b></td><td>Complete enumeration, usually every 10 years</td><td>BBS; U.S. Census Bureau</td></tr>
+<tr><td><b>Survey</b></td><td>Representative sample, frequent and detailed</td><td>SVRS, BDHS, MICS; ACS, CPS, SIPP</td></tr>
+<tr><td><b>Register / vital statistics</b></td><td>Continuous record of births, deaths, marriages, migration</td><td>BDRIS/ORG; NVSS</td></tr>
+<tr><td><b>Primary data</b></td><td>Collected and published by the collecting body</td><td>Census, survey, register</td></tr>
+<tr><td><b>Secondary data</b></td><td>Compilations or derived estimates</td><td>World Population Prospects; national analytical reports</td></tr>
+<tr><td><b>Demographic balancing equation</b></td><td>\(P_{t+1}=P_t+B-D+NM\)</td><td>Backbone of all estimation</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Indicator</th><th>Formula</th><th>Data needed</th></tr>
+<tr><td>Crude birth rate</td><td>\(B/P\times1000\)</td><td>Births; mid-year population</td></tr>
+<tr><td>Crude death rate</td><td>\(D/P\times1000\)</td><td>Deaths; mid-year population</td></tr>
+<tr><td>Rate of natural increase</td><td>\((B-D)/P\times100\)</td><td>Births, deaths, population</td></tr>
+<tr><td>Net migration rate</td><td>\(NM/P\times1000\)</td><td>Net migrants; population</td></tr>
+<tr><td>Dual-record total</td><td>\(T=RE/M\)</td><td>Register count, enumeration count, matched count</td></tr>
+<tr><td>Sample standard error</td><td>\(\sqrt{p(1-p)/n}\)</td><td>Sample proportion, sample size</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 12. EXPLORER ================= -->
+<section id="explorer">
+<h2>12 · Comparative data explorer</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Choose a country and a source to see what that source can and cannot provide. The rate calculator below runs the demographic balancing equation on adjustable inputs.</p>
+<div class="row">
+<label>Country
+<select id="country">
+<option value="bd">Bangladesh</option>
+<option value="us">United States</option>
+</select></label>
+<label>Data source
+<select id="src">
+<option value="census">Census</option>
+<option value="survey">Survey</option>
+<option value="register">Register / vital statistics</option>
+<option value="secondary">Secondary compilation</option>
+</select></label>
+</div>
+<button class="b" onclick="explore()">Show source</button>
+<div id="explout"></div>
+
+<h3 style="margin-top:22px">Rate calculator</h3>
+<div class="row">
+<label>Start population<input id="P" type="number" value="170000000"></label>
+<label>Births<input id="B" type="number" value="3060000"></label>
+<label>Deaths<input id="D" type="number" value="935000"></label>
+<label>Net migration<input id="NM" type="number" value="-500000"></label>
+</div>
+<button class="b" onclick="rates()">Compute</button>
+<button class="b alt" onclick="presetBD()">Bangladesh-style</button>
+<button class="b alt" onclick="presetUS()">US-style</button>
+<div class="row" id="eqout"></div>
+</div>
+</section>
+
+<footer>Study guide on demography and demographic data · comparative Bangladesh–United States · sources include BBS, ORG/BDRIS, SVRS, U.S. Census Bureau, CDC/NCHS NVSS, ACS and UN Population Division publications.</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- explorer data ---------- */
+var DATA={
+ bd:{
+  census:{t:'Population and Housing Census 2022',p:'BBS preliminary report (27 July 2022), national report, administrative report',g:'Total counts for every district; housing characteristics; digital enumeration architecture; ~370,000 enumerators; cost ~$140 million (~$0.85 per person counted)',l:'Conducted once a decade — no annual detail, few questions'},
+  survey:{t:'SVRS; BDHS; MICS',p:'BBS annual SVRS report; NIPORT/BDHS; UNICEF/BBS MICS',g:'SVRS covers ~1,000 PSUs and ~250,000 households; annual fertility, mortality, migration; BDHS samples ~17,000–20,000 households; health, family planning, child wellbeing',l:'Sample-based — sampling error; SVRS does not cover every household'},
+  register:{t:'Civil registration via BDRIS (Office of the Registrar General)',p:'Birth and Death Registration Act 2004; BDRIS records linked to national ID',g:'Legal identity; continuous birth and death events',l:'Completeness ~63% births, ~59% deaths (2025); only ~9% of births registered within 45 days'},
+  secondary:{t:'World Population Prospects; national analytical reports',p:'UN Population Division; BBS compiled tables',g:'Harmonised international comparisons; long-run projections; regional tables',l:'Derived — depends entirely on the quality of Bangladesh primary sources'}
+ },
+ us:{
+  census:{t:'Decennial Census',p:'U.S. Census Bureau, every 10 years since 1790',g:'Exact counts for apportionment and federal fund allocation; small-area data; 2020 count 331.45 million; cost $13.6 billion (~$41 per person)',l:'Infrequent; short questionnaire (long form replaced by ACS)'},
+  survey:{t:'American Community Survey (ACS); CPS; SIPP',p:'U.S. Census Bureau; Bureau of Labor Statistics',g:'ACS samples 3.5 million addresses/year; annual social, economic, housing and demographic detail; CPS samples ~60,000 households/month; SIPP tracks income dynamics',l:'Sample-based; 1-year estimates unavailable for very small areas; 5-year estimates needed'},
+  register:{t:'National Vital Statistics System (NVSS)',p:'CDC/NCHS with state registration offices; standard birth and death certificates',g:'Complete, continuous birth and death statistics; ~3.66 million births and ~3.28 million deaths a year; cause of death; linked birth–infant death files',l:'Depends on state reporting; some cause-of-death coding delays; excludes non-resident events'},
+  secondary:{t:'World Population Prospects; CDC WONDER; published NVSS reports',p:'UN Population Division; CDC/NCHS',g:'Global comparisons; queryable microdata; annual vital statistics reports',l:'Derived or aggregated — must be read alongside the underlying primary sources'}
+ }
+};
+function explore(){
+ var c=document.getElementById('country').value,s=document.getElementById('src').value,d=DATA[c][s];
+ var badge=c==='bd'?'<span class="badge bd">Bangladesh</span>':'<span class="badge us">United States</span>';
+ document.getElementById('explout').innerHTML='<div class="card"><b>'+badge+' · '+d.t+'</b>'+
+  '<p><b>Published as:</b> '+d.p+'</p><p><b>What it gives you:</b> '+d.g+'</p>'+
+  '<p><b>What it cannot give you:</b> '+d.l+'</p></div>';
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([document.getElementById('explout')]);
+}
+function fmt(n){return n.toLocaleString('en-US',{maximumFractionDigits:0})}
+function rates(){
+ var P=+document.getElementById('P').value,B=+document.getElementById('B').value,D=+document.getElementById('D').value,NM=+document.getElementById('NM').value;
+ if(!(P>0)){document.getElementById('eqout').innerHTML='<p>Enter a positive starting population.</p>';return;}
+ var end=P+B-D+NM,cbr=B/P*1000,cdr=D/P*1000,rni=(B-D)/P*100;
+ document.getElementById('eqout').innerHTML=
+  '<div class="kpi"><small>End population</small><b>'+fmt(end)+'</b></div>'+
+  '<div class="kpi"><small>Crude birth rate</small><b>'+cbr.toFixed(2)+' / 1,000</b></div>'+
+  '<div class="kpi"><small>Crude death rate</small><b>'+cdr.toFixed(2)+' / 1,000</b></div>'+
+  '<div class="kpi"><small>Rate of natural increase</small><b>'+rni.toFixed(2)+'%</b></div>'+
+  '<div class="kpi"><small>Net migration rate</small><b>'+(NM/P*1000).toFixed(2)+' / 1,000</b></div>';
+}
+function presetBD(){document.getElementById('P').value=170000000;document.getElementById('B').value=3060000;document.getElementById('D').value=935000;document.getElementById('NM').value=-500000;rates()}
+function presetUS(){document.getElementById('P').value=335000000;document.getElementById('B').value=3660000;document.getElementById('D').value=3280000;document.getElementById('NM').value=1000000;rates()}
+explore();rates();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'Which of these is a <b>primary</b> source of demographic data?',
+  o:['A UN World Population Prospects table','A national population census','A World Bank indicator page','A textbook summary of fertility rates'],a:1,
+  s:'Primary data are collected and published by the organisation that gathered them. A census is the classic primary source.'},
+ {q:'In Bangladesh, why does BBS rely on SVRS rather than the civil register for official vital statistics?',
+  o:['The register is too expensive','Civil registration completeness is still partial, so the register undercounts events','SVRS is legally required by the UN','The register does not record births'],a:1,
+  s:'Birth registration was about 63% and death registration about 59% in 2025, so SVRS is used to produce official statistics between censuses.'},
+ {q:'A population starts at 170,000,000 with 3,060,000 births, 935,000 deaths and net migration of −500,000. What is the end population?',
+  o:['171,625,000','172,625,000','170,625,000','169,625,000'],a:0,
+  s:'170,000,000 + 3,060,000 − 935,000 − 500,000 = 171,625,000.'},
+ {q:'Using the same figures, what is the crude birth rate per 1,000?',
+  o:['15.0','18.0','20.0','22.0'],a:1,
+  s:'3,060,000 / 170,000,000 × 1,000 = 18.0 per 1,000.'},
+ {q:'The U.S. National Vital Statistics System (NVSS) is built on:',
+  o:['A sample of 3.5 million addresses','State birth and death certificates transmitted to CDC/NCHS','The Decennial Census long form','The Current Population Survey'],a:1,
+  s:'NVSS collects records from state registration offices based on U.S. standard certificates of birth and death.'},
+ {q:'The American Community Survey differs from the Decennial Census mainly because it:',
+  o:['Counts everyone every ten years','Surveys a large sample annually and asks far more questions','Is conducted by the CDC','Only covers housing'],a:1,
+  s:'The ACS samples about 3.5 million addresses a year and produces detailed annual social, economic, housing and demographic estimates.'},
+ {q:'If the SVRS register count is 60,000 births, the enumeration finds 65,000, and 55,000 match, what is the dual-record estimate of total births?',
+  o:['60,000','65,000','70,909','55,000'],a:2,
+  s:'T = (60,000 × 65,000) / 55,000 = 70,909.'},
+ {q:'The U.S. 2020 Census cost about $13.6 billion to count 331 million people. What was the approximate cost per person counted?',
+  o:['$4.10','$41.00','$410.00','$0.41'],a:1,
+  s:'$13.6 billion / 331 million ≈ $41 per person.'},
+ {q:'Bangladesh’s demographic dividend refers to:',
+  o:['A falling old-age dependency ratio caused by ageing','A large working-age youth population that can boost economic growth if invested in','A surplus of registered births','The complete elimination of mortality'],a:1,
+  s:'About 46 million people aged 15–29 — roughly 27% of the population — are in the working-age window.'},
+ {q:'Why is the U.S. crude death rate (about 10.4 per 1,000) higher than Bangladesh’s (about 5.5 per 1,000)?',
+  o:['Because the U.S. has worse healthcare','Because the U.S. population is older, so more people die each year','Because Bangladesh undercounts deaths in the register','Because the U.S. has more births'],a:1,
+  s:'A higher share of elderly people raises the crude death rate even when age-specific mortality is lower. This is why demographers age-standardise rates.'},
+ {q:'What is the main advantage of a survey over a census?',
+  o:['It covers everyone','It can ask detailed questions frequently and at lower cost','It is legally required','It has no sampling error'],a:1,
+  s:'Surveys trade coverage for depth and frequency. They can ask many questions and run annually, which a census cannot.'},
+ {q:'Which statement about secondary demographic data is correct?',
+  o:['They are always less reliable than primary data','They are compilations or derived estimates based on primary data','They are collected directly from households','They are only produced by national statistical offices'],a:1,
+  s:'Secondary data are compilations or derived estimates built on primary sources — for example, UN World Population Prospects.'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Question '+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'Correct. ':'Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

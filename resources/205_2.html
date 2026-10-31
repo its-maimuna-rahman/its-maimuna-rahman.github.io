@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>De Facto / De Jure & the Census Pipeline – Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.1rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
+.bd{background:#006a4e15;color:#006a4e}.us{background:#1f3a8a15;color:#1f3a8a}
+.num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent2);color:#fff;font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:6px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#pipeline">Pipeline</a><a href="#prep">Steps 1–5</a><a href="#conduct">Steps 6–7</a><a href="#after">Steps 8–10</a><a href="#relevance">Relevance</a><a href="#compare">Compare</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Reference</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Demography · Census and Survey Methods</span>
+<h1>De Facto, De Jure & the Census Pipeline</h1>
+<p class="lead">A census does not simply count people. It first decides <i>which</i> people belong to a place, then moves every household's answer through ten stages before it becomes a published number. This guide takes one apartment in Dhaka and one house in Ohio through that entire pipeline, and shows where the counting rules and the processing machinery decide what the final total turns out to be.</p>
+</header>
+
+<!-- ================= 1. SCENARIO ================= -->
+<section id="scen">
+<h2>1 · Two doorsteps, one counting rule</h2>
+<div class="card">
+<p>On census night, two enumerators are working. One climbs the stairs of a six-storey apartment block in Mirpur, Dhaka. The other rings a doorbell in a suburb of Columbus, Ohio. Both households are ordinary. Both present a counting problem that the census rules must resolve before any number is written down.</p>
+
+<div class="step"><b>The Mirpur household.</b> Five people live in the flat: a married couple, two children, and the husband's mother. Tonight, the eldest son is not there — he works in a garment factory in Chattogram and stays in a rented room there for most of the month, but his name is on the Dhaka rent agreement and he returns every few weeks. Also present tonight is a cousin from Comilla, visiting for a week.</div>
+
+<div class="step"><b>The Columbus household.</b> Two parents and a nineteen-year-old daughter. The daughter is at university in another state and lives in a dormitory nine months of the year; tonight she is on campus, not at home.</div>
+
+<div class="step"><b>The counting rule decides the answer.</b> Under the <b>de facto</b> method, you count everyone <b>present in the dwelling on census night</b>. Under the <b>de jure</b> method, you count everyone whose <b>usual residence</b> is that dwelling, regardless of where they are tonight.</div>
+
+<div class="tw"><table class="l">
+<tr><th>Person</th><th>De facto (present tonight)</th><th>De jure (usual residence)</th></tr>
+<tr><td>Mirpur couple</td><td>Counted</td><td>Counted</td></tr>
+<tr><td>Two children</td><td>Counted</td><td>Counted</td></tr>
+<tr><td>Grandmother</td><td>Counted</td><td>Counted</td></tr>
+<tr><td>Eldest son (in Chattogram tonight)</td><td>Not counted here</td><td>Counted here</td></tr>
+<tr><td>Visiting cousin from Comilla</td><td>Counted here</td><td>Not counted here (counted in Comilla)</td></tr>
+<tr><td>Columbus parents</td><td>Counted</td><td>Counted</td></tr>
+<tr><td>Daughter (at university)</td><td>Not counted at home</td><td>Counted at her dormitory, not at home</td></tr>
+</table></div>
+
+<div class="step"><b>What each country does.</b> The United States counts by <b>usual residence</b> — a de jure rule. College students are counted at their campus address, military personnel at their base, and people with two homes at the one they occupy most of the year. Bangladesh's census also asks about usual residence, but the enumeration is built around <b>who is present in the dwelling when the enumerator arrives</b>, so the published totals behave like a de facto count, with adjustments made for people who move between districts.</div>
+
+<div class="step"><b>The same household, two different totals.</b> If the Mirpur flat reports 6 people under the de facto rule and 6 under the de jure rule — but a <i>different</i> six — the national total can differ sharply once millions of such cases are added up. In a country with heavy internal labour migration, the gap between the two methods is not a rounding error. It is the difference between counting a city's daytime population and its resident population.</div>
+
+<div class="sol">The choice of method is made before any enumerator leaves the office. Everything downstream — the questionnaire, the training manual, the edit rules, the published tables — inherits that choice. This is why the ten-step pipeline below begins with <b>defining the concepts</b>, not with counting.</div>
+
+<div class="box"><b class="t">The numbers at stake</b>
+Bangladesh's 2022 Census produced a preliminary total of <b>165.16 million</b>, later adjusted to about <b>170 million</b> after the post-enumeration check. The U.S. 2020 Census counted <b>331.45 million</b>. Both figures rest on a definition of who belongs where, agreed long before enumeration began.</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · The two counting rules</h2>
+<div class="grid">
+<div class="card"><b>De facto method</b><br>Every person is counted <b>where they are physically present</b> at the moment of enumeration, regardless of where they normally live. Fast to apply, needs no address register, and suits populations that move frequently. The risk is that people who are away — migrant workers, students, patients — are counted somewhere else, or missed entirely if they are travelling.</div>
+<div class="card"><b>De jure method</b><br>Every person is counted at their <b>usual place of residence</b>, regardless of where they are at the moment of enumeration. Gives a stable resident population and pairs well with an address list. The risk is that it requires a clear, agreed rule for what "usual" means, and that people with two homes or no fixed address fall through the definition.</div>
+</div>
+<div class="box key"><b class="t">Why almost no country uses either rule in its pure form</b>
+A strict de facto census would count a hotel guest as a resident of the hotel. A strict de jure census would need every household to know exactly which address is "usual". So countries adopt a <b>modified</b> version: they fix a reference moment, write a short list of special cases (students, soldiers, prisoners, diplomats, people in hospitals, seasonal workers), and publish those rules. The rulebook, not the label, is what determines the count.</div>
+<div class="tw"><table class="l">
+<tr><th>Special case</th><th>Typical rule</th></tr>
+<tr><td>College student living away</td><td>Counted at the college address (U.S. convention)</td></tr>
+<tr><td>Military personnel</td><td>Counted at the base, not the family home</td></tr>
+<tr><td>Person in hospital or care home</td><td>Counted at the institution if the stay is long-term; otherwise at home</td></tr>
+<tr><td>Diplomats and their families</td><td>Usually counted at the embassy residence, or excluded from the national total</td></tr>
+<tr><td>People with two homes</td><td>Counted where they spend most nights</td></tr>
+<tr><td>Seasonal and circular migrants</td><td>Counted at the place they regard as home, or where they are found — this is where the two methods diverge most</td></tr>
+<tr><td>Homeless people</td><td>Counted at shelters, or in a separate night count of outdoor locations</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 3. CONCEPT ================= -->
+<section id="concept">
+<h2>3 · What the choice actually changes</h2>
+<div class="card">
+<p>The de facto and de jure rules give the same answer for most households, because most people sleep where they live. The differences are concentrated in a small set of mobile groups, and those groups are not randomly distributed. They cluster in cities with in-migration, in university towns, in areas with military bases or large construction sites, and along borders.</p>
+<p>Three consequences follow, and they matter more than the definitional nicety:</p>
+<ol>
+<li><b>The national total can differ by millions.</b> In a country with tens of millions of internal migrants, changing the residence rule shifts people between districts without changing how many people exist.</li>
+<li><b>Small areas are affected disproportionately.</b> A district that exports workers looks larger under de jure than under de facto; a district that imports them looks the opposite. Planning funds, electoral boundaries and school places are allocated on these small-area totals.</li>
+<li><b>Comparability across rounds breaks if the rule changes.</b> A census that switches methods between rounds produces a spurious jump or drop that looks like demographic change but is not.</li>
+</ol>
+</div>
+
+<h3>The pipeline in one paragraph</h3>
+<div class="card">
+<p>A census or a large survey moves through ten linked stages. First the concepts are defined. Then a statistical office is organised and legally mandated to carry out the work. Then the operation is planned and administered — budget, staff, timetable, logistics. Quality control is built in at every stage, not added at the end. Geography turns the country into countable units. Instruments turn the concepts into questions. The enumeration itself collects the answers. Processing converts them into a clean, coded dataset. Review checks that the results make sense. Dissemination puts them in front of users. A failure at any one stage shows up as an error in the final number, and it is usually impossible to tell after the fact which stage caused it.</p>
+</div>
+</section>
+
+<!-- ================= 4. PIPELINE ================= -->
+<section id="pipeline">
+<h2>4 · The ten steps at a glance</h2>
+<div class="tw"><table class="l">
+<tr><th>#</th><th>Step</th><th>The question it answers</th><th>Who does it</th></tr>
+<tr><td>1</td><td>Definition of concepts</td><td>What exactly are we counting?</td><td>Statisticians, subject specialists, government</td></tr>
+<tr><td>2</td><td>Organisation of statistical offices</td><td>Who is legally responsible, and with what resources?</td><td>National statistical office, ministry</td></tr>
+<tr><td>3</td><td>Administration and planning</td><td>How will it be paid for, staffed and scheduled?</td><td>Project management, finance, logistics</td></tr>
+<tr><td>4</td><td>Quality control</td><td>How will we know the work is being done correctly?</td><td>Supervisors, audit teams, methodologists</td></tr>
+<tr><td>5</td><td>Geography</td><td>How do we divide the country into countable pieces?</td><td>Cartographers, GIS specialists</td></tr>
+<tr><td>6</td><td>Census instruments</td><td>How do we turn concepts into questions?</td><td>Questionnaire designers, translators</td></tr>
+<tr><td>7</td><td>Conducting the census and survey</td><td>How are the answers actually collected?</td><td>Enumerators, supervisors, field managers</td></tr>
+<tr><td>8</td><td>Processing the data</td><td>How do raw responses become a usable file?</td><td>Data processing unit, programmers</td></tr>
+<tr><td>9</td><td>Data review</td><td>Do the results hold together?</td><td>Demographers, analysts, post-enumeration teams</td></tr>
+<tr><td>10</td><td>Dissemination</td><td>How do users get the numbers, and in what form?</td><td>Publication unit, data portal, user services</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 5. STEPS 1-5 ================= -->
+<section id="prep">
+<h2>5 · Steps 1–5: before anyone leaves the office</h2>
+
+<h3><span class="num">1</span>Definition of concepts</h3>
+<div class="card">
+<p>Every number in a census is the answer to a question, and every question rests on a definition. Before enumeration, the statistical office fixes exactly what counts as a household, who counts as its head, what "urban" means, what counts as literacy, what counts as work, and how age is recorded.</p>
+<div class="step"><b>Why definitions decide totals.</b> A household is usually defined as people who live together and share food from a common kitchen. Under that rule a live-in domestic worker may be part of the household; under a rule based only on shared address, they may be a separate household. The same dwelling, two different household counts, and therefore two different average household sizes.</div>
+<div class="step"><b>Comparability.</b> Definitions are aligned with international standards so that the country's data can be compared with others. Urban and rural are notorious here: one country's "urban" means a municipality above a population threshold, another's means any settlement with a paved road. Cross-country comparisons of urbanisation can differ by tens of percentage points purely because of definition.</div>
+<div class="step"><b>Bangladesh and the United States.</b> Both publish a detailed concepts and definitions manual alongside the census results. The Bangladesh 2022 Census report defines household, head of household, disability and economic activity in separate annexes. The U.S. Census Bureau publishes a residence rules document before every decennial census, listing exactly how students, prisoners, military personnel and people with multiple homes are to be treated.</div>
+</div>
+
+<h3><span class="num">2</span>Organisation of national statistical offices</h3>
+<div class="card">
+<p>Someone has to be legally responsible, funded, and staffed. That someone is the national statistical office, and the way it is organised determines what it can do.</p>
+<div class="step"><b><span class="badge bd">Bangladesh</span></b> The <b>Bangladesh Bureau of Statistics (BBS)</b>, under the Ministry of Planning, is the main producer of official statistics. Its legal mandate comes from the Statistics Act 2013. But statistics are also produced by other bodies: the National Institute of Population Research and Training (NIPORT) runs the Demographic and Health Survey; the Directorate General of Health Services produces health statistics; the Office of the Registrar General runs civil registration through BDRIS. This is a <b>decentralised</b> system, and coordinating it is a standing challenge.</div>
+<div class="step"><b><span class="badge us">United States</span></b> The U.S. is even more decentralised. The <b>Census Bureau</b> (Department of Commerce) runs the decennial census and the ACS. The <b>National Center for Health Statistics</b> (CDC) runs vital statistics. The <b>Bureau of Labor Statistics</b> runs the Current Population Survey. Each has its own mandate, budget line and independence, which protects against political interference but complicates cross-agency consistency.</div>
+<div class="step"><b>Independence and budget.</b> Statistical offices need a legal guarantee that their methods and release dates cannot be changed for political convenience, and a multi-year budget because a census is planned over five to ten years. A census that is funded only in the year it is conducted cannot be planned properly.</div>
+</div>
+
+<h3><span class="num">3</span>Administration and planning</h3>
+<div class="card">
+<p>This is the stage where a statistical exercise becomes a logistical operation. It covers the budget, the timetable, the staffing plan, procurement, legal instruments, pilot tests, cartographic preparation, publicity, and coordination with local government.</p>
+<div class="step"><b>Scale in Bangladesh.</b> The 2022 Census employed roughly <b>370,000 enumerators and supervisors</b>, used digital tablets for the first time, and ran its main enumeration over about ten days in June. The budget was in the order of <b>$140 million</b>. Every one of those tablets had to be procured, configured, charged, distributed, insured and returned.</div>
+<div class="step"><b>Scale in the United States.</b> The 2020 Census cost about <b>$13.6 billion</b>, employed around <b>500,000 temporary workers</b> at peak, and offered online, mail, telephone and in-person response. The cost per person counted was roughly <b>$41</b>, against about <b>$0.85</b> in Bangladesh.</div>
+<div class="step"><b>Pilots and pretests.</b> No questionnaire goes into the field without being tested on a small sample. A pretest reveals that a question is misunderstood, that a form takes too long, or that the tablet software crashes when the battery drops below a threshold. Fixing these before the main operation is far cheaper than fixing them after.</div>
+<div class="step"><b>Publicity.</b> Households cooperate when they know the census is legitimate. Bangladesh runs television and mosque announcements; the U.S. runs a paid advertising campaign targeted at hard-to-count communities. A census that nobody has heard of produces refusals and locked doors.</div>
+</div>
+
+<h3><span class="num">4</span>Quality control</h3>
+<div class="card">
+<p>Quality control is not a final inspection. It is a set of checks built into every stage, designed to catch errors while they can still be corrected.</p>
+<div class="step"><b>Standardised training.</b> Every enumerator is trained from the same manual, using the same worked examples, and assessed before deployment. Variation in training becomes variation in the data.</div>
+<div class="step"><b>Supervision.</b> Enumerators are grouped under supervisors who accompany them on a sample of visits and re-check a sample of completed questionnaires. The ratio of enumerators to supervisors is a planning decision with direct consequences for data quality.</div>
+<div class="step"><b>Re-interviews and spot checks.</b> A random sample of households is revisited by a supervisor and asked the same key questions. Discrepancies flag a problem with a particular enumerator, not with the population.</div>
+<div class="step"><b>Real-time monitoring.</b> Where enumeration is done on tablets, each submission carries a timestamp, a GPS location and an interview duration. A cluster of interviews completed in three minutes, or all recorded at the same GPS point, is a strong signal of fabrication and can be investigated while the team is still in the field.</div>
+<div class="step"><b>Post-enumeration survey.</b> After the census, an independent sample survey re-enumerates a small number of areas. Comparing the two counts estimates how many people were missed or double-counted. Bangladesh ran such a check after the 2022 Census, which is why the preliminary total of 165.16 million was adjusted to about 170 million.</div>
+</div>
+
+<h3><span class="num">5</span>Geography</h3>
+<div class="card">
+<p>A country is too large to count as a single unit, so it is divided into pieces small enough for one enumerator to cover in the available time. These pieces are the <b>enumeration areas</b>, and they are drawn on maps before enumeration begins.</p>
+<div class="step"><b>Enumeration areas and household listing.</b> Each enumeration area is designed to contain a manageable number of households — typically 100 to 150 for a single enumerator in a ten-day census. Before the main count, enumerators walk the area and list every structure and household, so that they know what they are supposed to find and can be checked against it later.</div>
+<div class="step"><b><span class="badge bd">Bangladesh</span></b> The 2022 Census used a geospatial enumeration architecture, with enumeration areas drawn on digital maps and tablets carrying the area boundaries. This was a major change from earlier paper-based censuses and made it possible to monitor coverage area by area.</div>
+<div class="step"><b><span class="badge us">United States</span></b> The Census Bureau maintains <b>TIGER</b>, a digital map of every street, and divides the country into census tracts, block groups and blocks. An <b>address canvassing</b> operation walks the country in the year before the census to update the address list, since the U.S. census is largely mail- and internet-based.</div>
+<div class="step"><b>Geography is also the sample frame.</b> Surveys do not draw households from thin air. They draw <b>primary sampling units</b> from the census geography, then list households within them, then select. A poor map produces a poor sample.</div>
+</div>
+</section>
+
+<!-- ================= 6. STEPS 6-7 ================= -->
+<section id="conduct">
+<h2>6 · Steps 6–7: the instrument, and the field</h2>
+
+<h3><span class="num">6</span>Census instruments</h3>
+<div class="card">
+<p>The instrument is the questionnaire plus everything that supports it: the enumerator manual, the training guide, the translation, the software, and the show-cards used in the field.</p>
+<div class="step"><b>One concept per question.</b> "Do you work, and if so what is your occupation and income?" is three questions fused into one, and will produce unusable answers. Each item on a census form asks about one thing, in language the respondent can interpret without training.</div>
+<div class="step"><b>Short form versus long form.</b> A census asks a short set of questions of everyone (age, sex, relationship, residence) and a longer set of a sample. The U.S. decennial census is short-form only; the detailed questions moved to the ACS. Bangladesh's census schedule is longer, covering housing, amenities, disability and economic activity for every household.</div>
+<div class="step"><b>Translation and back-translation.</b> A questionnaire written in one language and used in another must be translated, then independently translated back, and the two versions compared. Otherwise a question about "work" may be understood as paid employment in one version and any income-generating activity in another.</div>
+<div class="step"><b>Paper versus digital.</b> Bangladesh's 2022 Census used computer-assisted personal interviewing on tablets, with built-in range checks and skip logic. The U.S. offers online, paper, telephone and in-person modes. Each mode has its own error profile: paper forms need manual data entry and allow skipped questions; digital forms can prevent some errors but can also prevent an enumerator from recording an unusual but true answer.</div>
+</div>
+
+<h3><span class="num">7</span>Conducting the census and survey</h3>
+<div class="card">
+<p>This is the stage where the operation meets reality. A household is not available, a lane is flooded, a respondent misunderstands, a tablet runs out of charge. The quality of the entire census depends on how well the field plan anticipated these situations.</p>
+
+<h4 style="font-size:1rem;color:var(--accent2);margin-top:1.2em">Who is at home, and who answers</h4>
+<div class="step"><b>Timing of visits.</b> Enumerators work in the evening and at weekends when adults are at home, and return at a different time of day to a household that was locked on the first visit. A single daytime visit in a working-class neighbourhood will systematically miss employed adults — a bias, not a random error.</div>
+<div class="step"><b>Respondent rules.</b> The head of household answers for everyone, which is efficient but introduces <b>proxy reporting</b>: a husband reporting his wife's age, education and work status. Proxy answers are systematically less accurate for some items, particularly age of women, income and disability. Sensitive items are best asked of the person themselves, and many surveys arrange for female enumerators to interview women in private.</div>
+<div class="step"><b>Households with nobody at home.</b> At least three revisit attempts, spread across different days and times, before a household is recorded as absent. The number of attempts is a planning decision and must be documented, because "absent" households are a coverage loss that cannot be recovered later.</div>
+
+<h4 style="font-size:1rem;color:var(--accent2);margin-top:1.2em">Populations that need a special plan</h4>
+<div class="tw"><table class="l">
+<tr><th>Group</th><th>Why the standard visit fails</th><th>Usual approach</th></tr>
+<tr><td>Homeless people</td><td>No dwelling to visit</td><td>Separate night count of shelters and outdoor locations, with a fixed set of places visited</td></tr>
+<tr><td>Residents of institutions</td><td>Not a private household</td><td>Group quarters listing, completed with the institution's records</td></tr>
+<tr><td>Students in dormitories</td><td>Counted at home by parents, and again at college</td><td>A written residence rule that assigns them to one place only</td></tr>
+<tr><td>Migrant construction workers</td><td>Sleep on site, move every few weeks</td><td>Counted where found, or at their home district if they can be identified</td></tr>
+<tr><td>Diplomats and foreign residents</td><td>Legal status affects inclusion</td><td>Explicit inclusion or exclusion rule applied uniformly</td></tr>
+<tr><td>People in disaster-affected areas</td><td>Displaced from their usual dwelling</td><td>Counted at their temporary location, with usual residence recorded separately</td></tr>
+</table></div>
+
+<h4 style="font-size:1rem;color:var(--accent2);margin-top:1.2em">Sampling for surveys: what changes when you are not counting everyone</h4>
+<div class="card">
+<p>A census counts everyone. A survey counts a sample and multiplies up. The design of that sample is where surveys succeed or fail.</p>
+<div class="step"><b>The frame.</b> Households are selected from a list. For a national survey, the frame is built from census enumeration areas: a sample of areas is chosen, then households are listed within each chosen area, then a sample of households is drawn from the list. This is <b>multistage sampling</b>, and it is the standard design behind Bangladesh's SVRS, BDHS and the U.S. ACS.</div>
+<div class="step"><b>Stratification.</b> The country is divided into strata — urban and rural, or by division, or by region — and a sample is drawn from each. Stratification guarantees that every part of the country is represented and reduces the variance of the national estimate.</div>
+<div class="step"><b>Clustering and the design effect.</b> Because interviewing is expensive, surveys cluster households in a limited number of areas. Households in the same village resemble each other more than households drawn at random, so the effective sample size is smaller than the number of interviews. The ratio is the <b>design effect</b>, usually between 1.5 and 2.0 for clustered household surveys. A sample of 10,000 with a design effect of 1.8 behaves like a simple random sample of about 5,500.</div>
+<div class="step"><b>Weights.</b> Each household is selected with a known probability, so each receives a weight equal to the inverse of that probability. Weights are then adjusted for non-response and calibrated to census totals by age and sex. Without weights, a survey over-samples the easily reached and under-represents everyone else.</div>
+</div>
+
+<h4 style="font-size:1rem;color:var(--accent2);margin-top:1.2em">Practical checks that protect a survey in the field</h4>
+<div class="ul" style="margin:0 0 12px 0">
+<p><b>Season and calendar.</b> Avoid Ramadan and Eid, the monsoon flood season, harvest peaks and school examination weeks. A survey fielded during a flood measures the flood, not the population.</p>
+<p><b>Consent and confidentiality.</b> Explain who is conducting the survey, what the data will be used for, and that individual answers will not be shared with any other agency. Cooperation depends on this being true, not just stated.</p>
+<p><b>Length of interview.</b> A household interview beyond about 45 to 60 minutes produces fatigue and rushed answers. Long instruments should be split or shortened.</p>
+<p><b>Recall period.</b> Questions about events must specify a fixed window — "in the last 12 months" — and the window must be consistent across the instrument. Vague recall periods produce inflated counts of recent events.</p>
+<p><b>Non-response follow-up.</b> Refusals are converted by a second, more experienced visit. Unconverted refusals are recorded and their number reported, because a low response rate is a quality statement about the survey, not a footnote.</p>
+<p><b>Field editing.</b> The supervisor checks each completed questionnaire for completeness and internal consistency before it leaves the area. Corrections made at the doorstep are far cheaper than corrections made at the processing centre.</p>
+</div>
+</div>
+
+<h3><span class="num">8</span>Processing the data</h3>
+<div class="card">
+<p>Processing turns a stack of forms — or a stream of tablet uploads — into a clean, coded dataset. It is where most silent errors are introduced or removed.</p>
+<div class="step"><b>Capture.</b> Paper forms are scanned or keyed; digital forms upload to a central server. Every record receives a unique identifier and is linked to its enumeration area, so that coverage can be checked geographically.</div>
+<div class="step"><b>Coding.</b> Free-text answers — occupation, industry, cause of death, place of birth — are converted into standard codes. Coding rules must be written down and applied consistently, because a coder who interprets "garment worker" as manufacturing in one district and as trade in another creates an artificial regional difference.</div>
+<div class="step"><b>Editing.</b> Range checks (age cannot exceed 120), consistency checks (a five-year-old cannot be married), and structural checks (every household must have a head) are run automatically. Failing records are referred back to the original form or, if that is impossible, flagged.</div>
+<div class="step"><b>Imputation.</b> Missing or impossible values are filled in using rules — typically by copying the value from a similar record (hot-deck imputation). Imputation is unavoidable in a large census; the essential discipline is to count and report how many values were imputed, so users can judge the effect.</div>
+<div class="step"><b>Weighting and tabulation.</b> Survey records receive their design weights, which are adjusted for non-response and post-stratified to census totals. The weighted file is then tabulated into the published tables.</div>
+<div class="step"><b><span class="badge bd">Bangladesh</span> and <span class="badge us">United States</span></b> Bangladesh's 2022 Census processed tablet submissions centrally, with automatic checks at the point of entry and a data-processing unit at BBS. The U.S. Census Bureau runs a large automated processing system with documented edit and imputation rules for both the decennial census and the ACS.</div>
+</div>
+
+<h3><span class="num">9</span>Data review</h3>
+<div class="card">
+<p>Before publication, the results are examined for plausibility. Review does not usually change the count, but it decides whether the count is published as-is, adjusted, or accompanied by a warning.</p>
+<div class="step"><b>Internal consistency.</b> Sex ratios by age, household size distributions, and the ratio of children to women of childbearing age are checked against expectation. A sudden excess of people at ages ending in 0 or 5 is <b>age heaping</b> — a sign that respondents are rounding their ages, and a clue about data quality.</div>
+<div class="step"><b>Comparison with previous rounds.</b> A district that grew by 40% in ten years is either a genuine boom town or an enumeration problem. Demographers use the <b>cohort component method</b> to project what the population should be, given births, deaths and migration, and compare the projection with the count.</div>
+<div class="step"><b>Post-enumeration survey.</b> An independent re-count of a sample of areas estimates net coverage error. Bangladesh's post-enumeration check after the 2022 Census led to an upward adjustment of about five million people. The U.S. runs a similar Post-Enumeration Survey, and publishes separate estimates for groups that are at risk of being undercounted.</div>
+<div class="step"><b>Decision to adjust.</b> Whether to publish the raw count or an adjusted figure is a policy decision, taken transparently and documented. Either way, the unadjusted count and the adjustment must both be reported, or users cannot reconcile the numbers.</div>
+</div>
+
+<h3><span class="num">10</span>Dissemination</h3>
+<div class="card">
+<p>Data that nobody can find, or nobody can understand, has not been collected. Dissemination is the final step and the one most often under-resourced.</p>
+<div class="step"><b>Sequence of releases.</b> A preliminary total is released within weeks — Bangladesh's 2022 preliminary report appeared on 27 July 2022, about a month after enumeration. Detailed national tables follow, then district and sub-district reports, then microdata.</div>
+<div class="step"><b>Formats.</b> PDF reports for narrative and reference; spreadsheet and database files for analysis; interactive portals for non-specialists. Bangladesh publishes through the BBS website and the national open data portal. The U.S. publishes through data.census.gov and the CDC's WONDER system.</div>
+<div class="step"><b>Confidentiality.</b> Small-area tables are checked for disclosure risk. A table that identifies a single household — the only widow in a small village, for example — is suppressed or aggregated before publication. This is a legal obligation in both countries.</div>
+<div class="step"><b>User consultation.</b> Users are asked in advance what tables they need. A census that publishes what the statisticians found interesting, rather than what planners and researchers need, wastes a large part of its value.</div>
+</div>
+</section>
+
+<!-- ================= 7. RELEVANCE ================= -->
+<section id="relevance">
+<h2>7 · Why the method and the pipeline matter</h2>
+<div class="grid">
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>De facto counting suits a mobile population.</b> With tens of millions of internal migrants — garment workers, construction labourers, rickshaw pullers, seasonal agricultural workers — a strict de jure rule would require every household to state a single usual address with confidence. Counting people where they are found is more robust, provided the results are adjusted for the districts that export and import workers.</div>
+<div class="card"><span class="badge us">United States</span><br><b>De jure counting suits a stable address system.</b> A mail-based census requires an address list, and a de jure rule supplies one. The cost is that people without a stable address — renters who move often, undocumented immigrants, people displaced by hurricanes or wildfires — are the most likely to be missed, which is why the Census Bureau publishes separate coverage estimates for these groups.</div>
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>The pipeline is where coverage is won or lost.</b> The gap between the preliminary 165.16 million and the adjusted 170 million is roughly the size of a major city. It is not a counting error in the ordinary sense; it is what a post-enumeration check is for.</div>
+<div class="card"><span class="badge us">United States</span><br><b>The pipeline is where money is allocated.</b> Census totals determine the apportionment of the House of Representatives and guide the distribution of roughly $1.5 trillion a year in federal funds. A coverage error of a fraction of a percent is a budget decision worth billions.</div>
+</div>
+<div class="box"><b class="t">The common lesson</b>
+Both countries face the same structural problem: the people most in need of being counted are the hardest to count. The de facto and de jure rules differ in which groups they miss. The ten-step pipeline exists to make those misses visible, measurable, and where possible, correctable.</div>
+</section>
+
+<!-- ================= 8. COMPARE ================= -->
+<section id="compare">
+<h2>8 · Side-by-side comparison</h2>
+<div class="tw"><table class="l">
+<tr><th>Feature</th><th><span class="badge bd">Bangladesh</span></th><th><span class="badge us">United States</span></th></tr>
+<tr><td>Residence rule in practice</td><td>Enumeration based on presence at the dwelling, with usual-residence questions also asked</td><td>Usual residence (de jure), with published rules for students, military and people with two homes</td></tr>
+<tr><td>Statistical office</td><td>BBS under the Ministry of Planning; Statistics Act 2013</td><td>Census Bureau (Commerce), NCHS (CDC), BLS (Labor) — decentralised</td></tr>
+<tr><td>Census instrument</td><td>Tablet-based CAPI, longer household schedule</td><td>Online, paper, telephone and in-person; short form only; long questions moved to the ACS</td></tr>
+<tr><td>Field force</td><td>~370,000 enumerators and supervisors, about ten days</td><td>~500,000 temporary workers at peak, months of follow-up</td></tr>
+<tr><td>Cost</td><td>~$140 million (~$0.85 per person)</td><td>~$13.6 billion (~$41 per person)</td></tr>
+<tr><td>Quality control</td><td>Supervisor re-checks, GPS and duration monitoring on tablets, post-enumeration check</td><td>Re-interview samples, administrative records comparison, Post-Enumeration Survey, Demographic Analysis</td></tr>
+<tr><td>Adjustment after review</td><td>2022 total adjusted from 165.16 million to about 170 million</td><td>Coverage estimates published by group; decisions on adjustment taken separately</td></tr>
+<tr><td>Dissemination</td><td>BBS portal, national open data portal, printed district reports</td><td>data.census.gov, CDC WONDER, public-use microdata</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 9. PRACTICE ================= -->
+<section id="practice">
+<h2>9 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 10. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>10 · Derivations and worked numbers</h2>
+
+<details open><summary>Derivation 1 · How the two residence rules produce different totals</summary>
+<p>Let \(P\) be the number of people whose usual residence is a given area, \(A\) the number of those residents who are temporarily away, and \(V\) the number of visitors present who usually live elsewhere. Then</p>
+\[\text{De jure count}=P,\qquad \text{De facto count}=P-A+V.\]
+<p>The difference is \(V-A\), the net temporary presence. Summed over all areas, the national de facto total equals the national de jure total, because every visitor is an absentee somewhere else. The rules change the <i>distribution</i>, not the national total — unless people are missed or double-counted at the margin.</p>
+<p><b>Worked example.</b> A district has \(P=1{,}200{,}000\) usual residents; 80,000 of them work in the capital for most of the year; 30,000 people from other districts are staying there temporarily. Then</p>
+\[\text{De jure}=1{,}200{,}000,\qquad \text{De facto}=1{,}200{,}000-80{,}000+30{,}000=1{,}150{,}000.\]
+<p>A 50,000-person gap in one district — about 4% — is enough to change school-place allocations, road budgets and constituency boundaries.</p></details>
+
+<details><summary>Derivation 2 · Sample size for a survey proportion</summary>
+<p>For a simple random sample, the sample size needed to estimate a proportion \(p\) with margin of error \(e\) at confidence level \(z\) is</p>
+\[n_0=\frac{z^2\,p(1-p)}{e^2}.\]
+<p>Clustered designs inflate this by the design effect \(\text{DEFF}\), and a finite population correction may reduce it:</p>
+\[n=\frac{n_0\times\text{DEFF}}{1+\dfrac{n_0\times\text{DEFF}-1}{N}}.\]
+<p><b>Worked example.</b> Take \(p=0.5\), \(e=0.02\), \(z=1.96\):</p>
+\[n_0=\frac{1.96^2\times0.25}{0.02^2}=\frac{0.9604}{0.0004}=2{,}401.\]
+<p>With a design effect of 1.8, \(n=2{,}401\times1.8=4{,}322\) households. For a national survey of 10,000 households, the effective sample is \(10{,}000/1.8\approx5{,}556\) — the clustering costs about 44% of the nominal sample.</p></details>
+
+<details><summary>Derivation 3 · Non-response bias</summary>
+<p>Suppose a survey achieves a response rate \(r\), and the responding group has mean \(\bar y_r\) while non-respondents have mean \(\bar y_n\). The true mean is</p>
+\[\bar y=r\,\bar y_r+(1-r)\,\bar y_n,\]
+<p>so the bias from using the respondents alone is</p>
+\[\text{Bias}=\bar y_r-\bar y=(1-r)(\bar y_r-\bar y_n).\]
+<p><b>Worked example.</b> A survey of labour force participation achieves \(r=0.70\). Respondents report a participation rate of 0.62; non-respondents, who tend to be out at work all day, would have reported 0.78. Then</p>
+\[\bar y=0.70(0.62)+0.30(0.78)=0.434+0.234=0.668,\qquad \text{Bias}=0.62-0.668=-0.048.\]
+<p>A 4.8 percentage-point understatement of labour force participation, produced entirely by who was at home. Revisit attempts and evening interviews are the standard defence.</p></details>
+
+<details><summary>Derivation 4 · Estimating coverage from a post-enumeration survey</summary>
+<p>Let \(C\) be the number of people found by the census, \(S\) the number found by an independent post-enumeration survey in the same areas, and \(M\) the number found by both. The dual-system estimate of the true population is</p>
+\[\hat T=\frac{C\times S}{M}.\]
+<p><b>Worked example.</b> In the sampled areas, the census counts 48,000 people, the survey counts 50,000, and 45,000 are found in both:</p>
+\[\hat T=\frac{48{,}000\times50{,}000}{45{,}000}=53{,}333.\]
+<p>Census coverage is \(48{,}000/53{,}333\approx90\%\), so the census missed about 10% of the population in those areas. Scaling that coverage rate to the national count gives the adjusted total. The method assumes the two sources are independent, which is never exactly true — people missed by both tend to be the most mobile — so the estimate is a lower bound on the true undercount.</p></details>
+
+<details><summary>Derivation 5 · Weighting a sample back to the population</summary>
+<p>A household selected with probability \(\pi_i\) receives a base weight \(w_i=1/\pi_i\). Weights are adjusted for non-response within weighting classes, then calibrated so that the weighted sample matches known population totals \(N_g\) in group \(g\):</p>
+\[w_i^{\text{cal}}=w_i^{\text{nr}}\times\frac{N_g}{\sum_{j\in g}w_j^{\text{nr}}}.\]
+<p><b>Worked example.</b> A stratum contains 120,000 women aged 20–29 in the population, but the 1,500 responding women in that stratum carry a combined non-response-adjusted weight of only 100,000. The calibration factor is \(120{,}000/100{,}000=1.2\), applied to every respondent in the stratum. Without this step, the survey would understate young women by 20,000 in every table it publishes.</p></details>
+</section>
+
+<!-- ================= 11. REFERENCE ================= -->
+<h2 id="formulas">11 · Reference sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Term</th><th>What it means</th></tr>
+<tr><td><b>De facto</b></td><td>Count people where they are present on the reference night</td></tr>
+<tr><td><b>De jure</b></td><td>Count people at their usual place of residence</td></tr>
+<tr><td><b>Reference moment</b></td><td>The instant to which the count refers; everyone present at that moment is counted</td></tr>
+<tr><td><b>Enumeration area</b></td><td>The smallest mapped area assigned to one enumerator</td></tr>
+<tr><td><b>Household listing</b></td><td>A pre-census walk of each area to record every structure and household</td></tr>
+<tr><td><b>Primary sampling unit</b></td><td>The area selected at the first stage of a multi-stage sample</td></tr>
+<tr><td><b>Design effect</b></td><td>How much larger the variance is than a simple random sample of the same size</td></tr>
+<tr><td><b>Imputation</b></td><td>Filling a missing or impossible value using a documented rule</td></tr>
+<tr><td><b>Post-enumeration survey</b></td><td>An independent re-count of a sample of areas, used to estimate coverage error</td></tr>
+<tr><td><b>Age heaping</b></td><td>An excess of ages ending in 0 or 5, indicating rounded reporting</td></tr>
+<tr><td><b>Group quarters</b></td><td>Institutions such as dormitories, barracks, prisons and care homes</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Formula</th><th>Use</th></tr>
+<tr><td>\(\text{De facto}=P-A+V\)</td><td>Converting between residence rules</td></tr>
+<tr><td>\(n_0=z^2p(1-p)/e^2\)</td><td>Sample size for a proportion</td></tr>
+<tr><td>\(n=n_0\times\text{DEFF}\)</td><td>Adjusting for clustering</td></tr>
+<tr><td>\(\text{Bias}=(1-r)(\bar y_r-\bar y_n)\)</td><td>Non-response bias</td></tr>
+<tr><td>\(\hat T=CS/M\)</td><td>Dual-system estimate of the true population</td></tr>
+<tr><td>\(w_i=1/\pi_i\)</td><td>Base survey weight</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Step</th><th>The one thing to remember</th></tr>
+<tr><td>1 · Concepts</td><td>Definitions decide totals before any counting starts</td></tr>
+<tr><td>2 · Organisation</td><td>Legal mandate, independence and multi-year budget</td></tr>
+<tr><td>3 · Administration</td><td>Budget, staff, timetable, pilots, publicity</td></tr>
+<tr><td>4 · Quality control</td><td>Built in at every stage, not inspected at the end</td></tr>
+<tr><td>5 · Geography</td><td>Enumeration areas and household listing</td></tr>
+<tr><td>6 · Instruments</td><td>One concept per question; test and back-translate</td></tr>
+<tr><td>7 · Conducting</td><td>Timing, respondent rules, special populations, sampling</td></tr>
+<tr><td>8 · Processing</td><td>Capture, code, edit, impute, weight</td></tr>
+<tr><td>9 · Review</td><td>Plausibility checks and coverage estimation</td></tr>
+<tr><td>10 · Dissemination</td><td>Release in sequence, protect confidentiality, consult users</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 12. EXPLORER ================= -->
+<section id="explorer">
+<h2>12 · Interactive explorer</h2>
+<div class="card calc">
+<h3 style="margin-top:0">Residence rule simulator</h3>
+<p style="font-size:14px;color:var(--muted);margin-top:0">Set the usual residents of a district, the number of them who are away on the reference night, and the number of visitors present from elsewhere. The two rules then give different totals.</p>
+<div class="row">
+<label>Usual residents \(P\)<input id="P" type="number" value="1200000"></label>
+<label>Away on census night \(A\)<input id="A" type="number" value="80000"></label>
+<label>Visitors present \(V\)<input id="V" type="number" value="30000"></label>
+</div>
+<button class="b" onclick="residence()">Compare rules</button>
+<div class="row" id="resout"></div>
+
+<h3 style="margin-top:26px">Sample size calculator</h3>
+<div class="row">
+<label>Confidence level
+<select id="zsel">
+<option value="1.645">90%</option>
+<option value="1.96" selected>95%</option>
+<option value="2.576">99%</option>
+</select></label>
+<label>Expected proportion \(p\)<input id="pp" type="number" value="0.5" step="0.01" min="0.01" max="0.99"></label>
+<label>Margin of error \(e\) (%)<input id="ee" type="number" value="2" step="0.1"></label>
+<label>Design effect<input id="deff" type="number" value="1.8" step="0.1"></label>
+<label>Population size \(N\)<input id="NN" type="number" value="170000000"></label>
+</div>
+<button class="b" onclick="samp()">Compute sample</button>
+<div class="row" id="sampout"></div>
+</div>
+</section>
+
+<footer>Study guide on de facto and de jure counting and the ten-step census and survey pipeline · comparative Bangladesh–United States · examples drawn from BBS, NIPORT, the U.S. Census Bureau and CDC/NCHS practice.</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- residence simulator ---------- */
+function fmt(n){return Math.round(n).toLocaleString('en-US')}
+function residence(){
+  var P=+document.getElementById('P').value, A=+document.getElementById('A').value, V=+document.getElementById('V').value;
+  if(!(P>0)||A<0||V<0||A>P){document.getElementById('resout').innerHTML='<p>Check inputs: \\(P>0\\), \\(0\\le A\\le P\\), \\(V\\ge0\\).</p>';return;}
+  var dj=P, df=P-A+V, diff=df-dj;
+  document.getElementById('resout').innerHTML=
+    '<div class="kpi"><small>De jure total</small><b>'+fmt(dj)+'</b></div>'+
+    '<div class="kpi"><small>De facto total</small><b>'+fmt(df)+'</b></div>'+
+    '<div class="kpi"><small>Difference</small><b>'+(diff>0?'+':'')+fmt(diff)+'</b></div>'+
+    '<div class="kpi"><small>Difference as % of de jure</small><b>'+(diff/dj*100).toFixed(2)+'%</b></div>';
+}
+
+/* ---------- sample size ---------- */
+function samp(){
+  var z=+document.getElementById('zsel').value, p=+document.getElementById('pp').value,
+      e=+document.getElementById('ee').value/100, deff=+document.getElementById('deff').value,
+      N=+document.getElementById('NN').value;
+  if(!(p>0&&p<1)||!(e>0)||deff<=0||N<=0){document.getElementById('sampout').innerHTML='<p>Check inputs.</p>';return;}
+  var n0=z*z*p*(1-p)/(e*e);
+  var nc=n0*deff;
+  var nf=nc/(1+(nc-1)/N);
+  document.getElementById('sampout').innerHTML=
+    '<div class="kpi"><small>Simple random \\(n_0\\)</small><b>'+fmt(n0)+'</b></div>'+
+    '<div class="kpi"><small>With design effect</small><b>'+fmt(nc)+'</b></div>'+
+    '<div class="kpi"><small>With finite population correction</small><b>'+fmt(nf)+'</b></div>'+
+    '<div class="kpi"><small>Effective sample for '+fmt(nc)+' interviews</small><b>'+fmt(nc/deff)+'</b></div>';
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([document.getElementById('sampout')]);
+}
+residence();samp();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'Under the de facto rule, a person is counted:',
+  o:['At their usual place of residence, wherever they are tonight','Wherever they are physically present on the reference night','Only if they are registered at that address','At both their home and their workplace'],a:1,
+  s:'De facto counts presence at the reference moment, regardless of usual residence.'},
+ {q:'The United States decennial census uses which residence rule?',
+  o:['De facto','De jure (usual residence), with published special-case rules','Neither — it counts only citizens','It alternates between the two'],a:1,
+  s:'The U.S. counts people at their usual residence; students are counted at college, military at base, and people with two homes where they spend most nights.'},
+ {q:'In a district with 1,200,000 usual residents, 80,000 away and 30,000 visitors present, the de facto count is:',
+  o:['1,200,000','1,150,000','1,250,000','1,230,000'],a:1,
+  s:'1,200,000 − 80,000 + 30,000 = 1,150,000.'},
+ {q:'Which step comes first in the census pipeline?',
+  o:['Geography','Quality control','Definition of concepts','Dissemination'],a:2,
+  s:'Definitions decide what is being counted; every later step inherits them.'},
+ {q:'The main purpose of an enumeration area is to:',
+  o:['Decide the interest rate','Give one enumerator a manageable, mapped workload and provide a sample frame','Replace the questionnaire','Set the census budget'],a:1,
+  s:'Enumeration areas are the smallest mapped units, designed for one enumerator and used as the survey sample frame.'},
+ {q:'Bangladesh’s 2022 Census preliminary total of 165.16 million was later adjusted to about 170 million mainly because of:',
+  o:['A change in the interest rate','The post-enumeration check, which estimated people missed in the count','A change in the definition of urban','A recount of births'],a:1,
+  s:'The post-enumeration check estimated coverage error and led to an upward adjustment of roughly five million people.'},
+ {q:'A design effect of 1.8 means that:',
+  o:['The sample is 1.8 times larger than needed','Clustering inflates variance, so the effective sample is the nominal sample divided by 1.8','Non-response is 1.8%','The population is 1.8 times the sample'],a:1,
+  s:'Clustered households resemble each other, so precision is lower than a simple random sample of the same size.'},
+ {q:'Non-response bias is largest when:',
+  o:['The response rate is high and respondents and non-respondents are similar','The response rate is low and respondents differ from non-respondents','The sample is large','The questionnaire is short'],a:1,
+  s:'Bias = (1 − r)(mean of respondents − mean of non-respondents); both a low response rate and a large difference increase it.'},
+ {q:'In dual-system estimation, \\(\\hat T = CS/M\\), the quantity \\(M\\) is:',
+  o:['The number of people missed by both sources','The number found by both the census and the survey','The total population','The margin of error'],a:1,
+  s:'M is the matched count found in both sources; it is the overlap that allows the true total to be estimated.'},
+ {q:'Which of these is a quality-control measure during enumeration, not after it?',
+  o:['Publishing the national report','Monitoring GPS location and interview duration on tablets','Running a post-enumeration survey','Tabulating the final dataset'],a:1,
+  s:'Real-time monitoring of submissions catches fabrication and coverage problems while the field team is still deployed.'},
+ {q:'Why do surveys weight each household by the inverse of its selection probability?',
+  o:['To increase the sample size','So that the weighted sample matches the population it represents','To reduce the questionnaire length','To avoid the need for a census'],a:1,
+  s:'Weights correct for unequal selection probabilities and are then calibrated to census totals by age and sex.'},
+ {q:'Age heaping in a census table is best described as:',
+  o:['A deliberate adjustment','An excess of reported ages ending in 0 or 5','A type of imputation','A sampling error'],a:1,
+  s:'Rounding of ages produces spikes at round numbers; it is a useful signal of data quality during review.'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Question '+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'Correct. ':'Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

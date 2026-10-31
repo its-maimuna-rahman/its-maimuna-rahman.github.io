@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fertility & Mortality Measures – Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}h4{font-size:1.05rem;margin:1.3em 0 .3em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.1rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
+.bd{background:#006a4e15;color:#006a4e}.us{background:#1f3a8a15;color:#1f3a8a}
+.num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent2);color:#fff;font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:6px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#math">The Math</a><a href="#fertility">Fertility</a><a href="#mortality">Mortality</a><a href="#context">Context</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#reference">Reference</a><a href="#calc">Calculators</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Demography · Fertility and Mortality</span>
+<h1>Fertility & Mortality Measures</h1>
+<p class="lead">Every population changes through two flows: births and deaths. Demographers have built a small arsenal of measures to describe each flow — some crude and quick, some precise and age-specific, some built for comparison across countries with wildly different age structures. This guide derives every major measure, works each one through with real numbers, and shows what the figures look like in Bangladesh and the United States.</p>
+</header>
+
+<!-- ================= 1. THE MATH ================= -->
+<section id="math">
+<h2>1 · Rates, ratios, and why the denominator matters</h2>
+<div class="card">
+<p>A <b>rate</b> divides events by the population exposed to the risk of those events. A <b>ratio</b> divides two counts that need not be related as numerator and denominator. Almost every confusion in demographic measurement comes from mixing the two.</p>
+\[ \text{Rate} = \frac{\text{events in a period}}{\text{person-time exposed}} \times k \]
+\[ \text{Ratio} = \frac{\text{one count}}{\text{another count}} \times k \]
+<p>The constant \(k\) is usually 1,000 for births and deaths, 100,000 for maternal deaths, and 100 for percentages.</p>
+<p>The choice of denominator is the whole game. A crude birth rate divides births by <i>everyone</i>. A general fertility rate divides births by <i>women of childbearing age</i>. An age-specific fertility rate divides births to women aged \(x\) by <i>women aged \(x\)</i>. Each step narrows the denominator toward the group actually at risk, and each step produces a measure that is more comparable across populations.</p>
+</div>
+<div class="box key"><b class="t">The two questions every measure answers</b>
+<b>Fertility:</b> how many births per woman, per year, or per woman-year of exposure?<br>
+<b>Mortality:</b> how many deaths per person, per live birth, or per person-year of exposure?</div>
+</section>
+
+<!-- ================= 2. FERTILITY ================= -->
+<section id="fertility">
+<h2>2 · Fertility measures</h2>
+
+<h3>2.1 Crude Birth Rate (CBR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{CBR} = \frac{B}{P} \times 1000 \]
+<p>\(B\) = live births in a year, \(P\) = mid-year total population.</p>
+<p><b>Why it exists.</b> It is the simplest fertility measure: births per 1,000 people. It needs only two numbers, both of which are available even in countries with weak statistical systems. It is used for quick estimates of the number of births next year, and for rough comparisons.</p>
+<p><b>What it gets wrong.</b> The denominator includes men, children and the elderly — nobody who can give birth. A country with a young age structure will have a high CBR even if each woman has few children, simply because a large share of the population is of childbearing age. This is why CBR is <i>confounded by age structure</i> and is not a good measure for comparing fertility across countries.</p>
+<p><b>Worked example.</b> A district has 136,000 people and 5,834 births in a year.</p>
+\[ \text{CBR} = \frac{5{,}834}{136{,}000} \times 1000 = 42.9 \text{ per 1,000} \]
+<p>Interpretation: about 43 births for every 1,000 people in the district.</p>
+</div>
+
+<h3>2.2 General Fertility Rate (GFR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{GFR} = \frac{B}{P_f(15\text{–}49)} \times 1000 \]
+<p>\(P_f(15\text{–}49)\) = mid-year female population aged 15 to 49, the reproductive ages.</p>
+<p><b>Why it exists.</b> GFR fixes the most obvious defect of CBR: it divides births by the women who can actually have them. It is the first measure that comes close to a true fertility rate.</p>
+<p><b>What it still gets wrong.</b> The denominator spans ages with very different fecundity. A 15-year-old and a 45-year-old are both in the denominator, but their probabilities of giving birth in a year differ by an order of magnitude. GFR therefore still depends on the age distribution within the reproductive range.</p>
+<p><b>Worked example.</b> A region has 182 births and 11,650 women aged 15–49.</p>
+\[ \text{GFR} = \frac{182}{11{,}650} \times 1000 = 15.6 \text{ per 1,000 women} \]
+<p>Interpretation: about 15.6 births per 1,000 women of reproductive age.</p>
+</div>
+
+<h3>2.3 Age-Specific Fertility Rate (ASFR)</h3>
+<div class="card">
+<p><b>Formula.</b> For a five-year age group \(x\) to \(x+n\):</p>
+\[ {}_n\text{ASFR}_x = \frac{{}_nB_x}{{}_nP_{f,x}} \times 1000 \]
+<p>\({}_nB_x\) = births to women in that age group; \({}_nP_{f,x}\) = mid-year female population in that age group.</p>
+<p><b>Why it exists.</b> ASFR is the building block of every refined fertility measure. It isolates the age group, so it is <b>not affected by the age structure of the population</b>. It reveals the shape of the fertility schedule: rates rise through the twenties, peak in the late twenties or early thirties, then decline.</p>
+<p><b>Worked example.</b> In Kerala in 2001, women aged 30–34 had 63,738 births against a mid-year population of 1,330,656.</p>
+\[ \text{ASFR}_{30\text{–}34} = \frac{63{,}738}{1{,}330{,}656} \times 1000 = 47.9 \text{ per 1,000} \]
+<p>Interpretation: about 48 births per 1,000 women aged 30–34 in that year.</p>
+</div>
+
+<h3>2.4 Total Fertility Rate (TFR)</h3>
+<div class="card">
+<p><b>Formula.</b> If ASFRs are given for five-year age groups:</p>
+\[ \text{TFR} = 5 \sum_{x=15}^{49} \text{ASFR}_x \]
+<p>If ASFRs are given for single years of age:</p>
+\[ \text{TFR} = \sum_{x=15}^{49} \text{ASFR}_x \]
+<p><b>Why it exists.</b> TFR is the summary measure of fertility. It answers: <i>if a woman experienced the current age-specific fertility rates throughout her reproductive life, how many children would she have?</i> It is a synthetic cohort measure, exactly analogous to life expectancy: it does not describe any real woman, but it describes the fertility regime.</p>
+<p><b>What it gets wrong.</b> TFR is affected by <b>tempo</b>. If women delay childbearing, the period TFR falls even if completed cohort fertility does not. A TFR below 2.1 does not necessarily mean the population will shrink immediately, because the age structure may still have many women of childbearing age.</p>
+<p><b>Worked example.</b> Suppose the five-year ASFRs (per 1,000) are:</p>
+<div class="tw"><table>
+<tr><th>Age group</th><td>15–19</td><td>20–24</td><td>25–29</td><td>30–34</td><td>35–39</td><td>40–44</td><td>45–49</td></tr>
+<tr><th>ASFR</th><td>24.5</td><td>144.9</td><td>133.1</td><td>87.2</td><td>42.1</td><td>9.4</td><td>1.2</td></tr>
+</table></div>
+\[ \text{TFR} = 5(24.5+144.9+133.1+87.2+42.1+9.4+1.2) = 5(442.4) = 2{,}212 \text{ per 1,000} \]
+<p>Divide by 1,000 to express as children per woman:</p>
+\[ \text{TFR} = 2.21 \text{ children per woman} \]
+<p>Interpretation: at these rates, a woman would have about 2.2 children over her lifetime. This is just above replacement level (2.1).</p>
+</div>
+
+<h3>2.5 Child–Woman Ratio (CWR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{CWR} = \frac{P_{0\text{–}4}}{P_{f,15\text{–}49}} \times 1000 \]
+<p><b>Why it exists.</b> It requires only a census age distribution, with no birth registration at all. It is used in settings where births are not reliably recorded, and as a quick check on other fertility estimates.</p>
+<p><b>What it gets wrong.</b> The numerator counts <i>living</i> children aged 0–4, not births. In a high-mortality setting, many children born in those five years have died, so CWR understates fertility. It is best used as a rough indicator of the child dependency burden, not as a precise fertility measure.</p>
+<p><b>Interpretation.</b> CWR is below 1 in low-fertility countries and close to 1 in high-fertility countries.</p>
+</div>
+
+<h3>2.6 Parity Progression Ratio (PPR)</h3>
+<div class="card">
+<p><b>Formula.</b> Let \(W_i\) be the number of women who have reached <i>at least</i> parity \(i\) (i.e., have had at least \(i\) children). Then</p>
+\[ \text{PPR}_i = \frac{W_{i+1}}{W_i} \]
+<p><b>Why it exists.</b> PPR measures the probability that a woman who has had \(i\) children goes on to have another. It is the fertility analogue of a survival probability, and it is the natural measure for studying birth intervals and stopping behaviour. The set of PPRs across parities can be used to compute TFR without age-specific data.</p>
+<p><b>Worked example.</b> Suppose 1,000 women have at least one child, 800 have at least two, 500 have at least three, and 200 have at least four.</p>
+<div class="tw"><table>
+<tr><th>Parity transition</th><th>\(W_i\)</th><th>\(W_{i+1}\)</th><th>PPR\(_i\)</th></tr>
+<tr><td>1 → 2</td><td>1,000</td><td>800</td><td>0.800</td></tr>
+<tr><td>2 → 3</td><td>800</td><td>500</td><td>0.625</td></tr>
+<tr><td>3 → 4</td><td>500</td><td>200</td><td>0.400</td></tr>
+</table></div>
+<p>Interpretation: 80% of women with one child go on to have a second; 62.5% of those with two go on to a third; only 40% of those with three go on to a fourth.</p>
+</div>
+
+<h3>2.7 Gross and Net Reproduction Rates</h3>
+<div class="card">
+<p><b>Gross Reproduction Rate (GRR).</b> The number of daughters a woman would have if she experienced current fertility rates and survived through the reproductive ages:</p>
+\[ \text{GRR} = \text{TFR} \times \frac{B_f}{B} \]
+<p>where \(B_f/B\) is the proportion of births that are female (about 0.488).</p>
+<p><b>Net Reproduction Rate (NRR).</b> The number of daughters a woman would have if she also survived to the age of childbearing. NRR is GRR adjusted for female mortality:</p>
+\[ \text{NRR} \approx \text{GRR} \times \text{survival factor} \]
+<p><b>Why they exist.</b> NRR is the true replacement measure. NRR = 1 means each generation of women exactly replaces itself. NRR &lt; 1 means the population will eventually decline; NRR &gt; 1 means it will grow.</p>
+<p><b>Worked example.</b> If TFR = 2.21 and the female share of births is 0.488, then</p>
+\[ \text{GRR} = 2.21 \times 0.488 = 1.08 \]
+<p>If survival through the reproductive ages is about 0.97, then</p>
+\[ \text{NRR} \approx 1.08 \times 0.97 = 1.05 \]
+<p>Interpretation: each generation of women is replaced by about 1.05 daughters, so the population is growing slowly.</p>
+</div>
+
+<h3>2.8 Other fertility measures</h3>
+<div class="tw"><table class="l">
+<tr><th>Measure</th><th>What it captures</th><th>Formula or note</th></tr>
+<tr><td><b>Children Ever Born (CEB)</b></td><td>Average number of children born to women by age</td><td>From censuses/surveys; used to estimate cohort fertility</td></tr>
+<tr><td><b>Cohort Fertility</b></td><td>Completed fertility of a real birth cohort</td><td>Sum of cohort ASFRs up to age 49</td></tr>
+<tr><td><b>Mean age at childbearing</b></td><td>The average age at which women give birth</td><td>\(\sum x \cdot \text{ASFR}_x / \sum \text{ASFR}_x\)</td></tr>
+<tr><td><b>Birth interval</b></td><td>Time between successive births</td><td>Median or mean interval; measures tempo</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 3. MORTALITY ================= -->
+<section id="mortality">
+<h2>3 · Mortality measures</h2>
+
+<h3>3.1 Crude Death Rate (CDR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{CDR} = \frac{D}{P} \times 1000 \]
+<p>\(D\) = deaths in a year, \(P\) = mid-year population.</p>
+<p><b>Why it exists.</b> The simplest mortality measure, used for quick estimates and as a denominator for other calculations.</p>
+<p><b>What it gets wrong.</b> CDR is heavily confounded by age structure. A country with a large elderly population will have a high CDR even if its age-specific death rates are low. This is why the United States has a higher CDR than Bangladesh despite having lower mortality at every age: the U.S. population is older.</p>
+<p><b>Worked example.</b> A country has 935,000 deaths and a mid-year population of 170,000,000.</p>
+\[ \text{CDR} = \frac{935{,}000}{170{,}000{,}000} \times 1000 = 5.5 \text{ per 1,000} \]
+</div>
+
+<h3>3.2 Age-Specific Mortality Rate (ASMR)</h3>
+<div class="card">
+<p><b>Formula.</b> For age group \(x\) to \(x+n\):</p>
+\[ {}_nM_x = \frac{{}_nD_x}{{}_nP_x} \times 1000 \]
+<p>\({}_nD_x\) = deaths in the age group; \({}_nP_x\) = mid-year population in that age group.</p>
+<p><b>Why it exists.</b> ASMR is the mortality analogue of ASFR. It isolates the age group, so it is not distorted by the overall age structure. It is the input to life tables and to standardized mortality rates.</p>
+</div>
+
+<h3>3.3 Infant Mortality Rate (IMR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{IMR} = \frac{D_{<1}}{B} \times 1000 \]
+<p>\(D_{<1}\) = deaths of children under age 1 in a year; \(B\) = live births in the same year.</p>
+<p><b>Why it exists.</b> IMR is the single most sensitive indicator of a population's health and living conditions. It captures the effects of maternal health, sanitation, nutrition, and access to basic care. It is the standard measure in international comparisons and in the SDGs.</p>
+<p><b>What it gets wrong.</b> The numerator and denominator refer to different cohorts: deaths of infants under 1 in year \(t\) include some born in year \(t-1\), while some born in year \(t\) die in year \(t+1\). The rate is therefore a ratio, not a true probability, though it is close to one when births are stable.</p>
+<p><b>Worked example.</b> A country has 3,628,934 live births and 20,048 infant deaths.</p>
+\[ \text{IMR} = \frac{20{,}048}{3{,}628{,}934} \times 1000 = 5.52 \text{ per 1,000 live births} \]
+</div>
+
+<h3>3.4 Neonatal and Post-Neonatal Mortality Rates</h3>
+<div class="card">
+<p><b>Neonatal Mortality Rate (NMR).</b></p>
+\[ \text{NMR} = \frac{D_{<28\text{ days}}}{B} \times 1000 \]
+<p><b>Post-Neonatal Mortality Rate (PNMR).</b></p>
+\[ \text{PNMR} = \text{IMR} - \text{NMR} \]
+<p><b>Why they exist.</b> Neonatal deaths are driven by obstetric care, prematurity and congenital conditions. Post-neonatal deaths are driven by infections, nutrition and the environment. Splitting IMR into these two parts tells you whether to invest in delivery care or in public health.</p>
+<p><b>Worked example.</b> Using the U.S. 2024 figures: IMR = 5.52, NMR = 3.66. Then PNMR = 5.52 − 3.66 = 1.86 per 1,000 live births.</p>
+</div>
+
+<h3>3.5 Under-5 Mortality Rate (U5MR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{U5MR} = \frac{D_{<5}}{B} \times 1000 \]
+<p><b>Why it exists.</b> U5MR captures the cumulative risk of death from birth to the fifth birthday. It is the child-survival indicator used in the SDGs and by UNICEF. It includes infant deaths plus deaths at ages 1–4.</p>
+<p><b>Worked example.</b> If a country has 3.6 million births and 180,000 deaths of children under 5:</p>
+\[ \text{U5MR} = \frac{180{,}000}{3{,}600{,}000} \times 1000 = 50 \text{ per 1,000 live births} \]
+</div>
+
+<h3>3.6 Maternal Mortality Ratio (MMR)</h3>
+<div class="card">
+<p><b>Formula.</b></p>
+\[ \text{MMR} = \frac{\text{maternal deaths}}{\text{live births}} \times 100{,}000 \]
+<p>Maternal deaths are deaths from complications of pregnancy, childbirth and the puerperium.</p>
+<p><b>Why it exists.</b> MMR measures the risk a woman faces from pregnancy and childbirth. It is a direct indicator of the quality of obstetric care and of gender equity in health.</p>
+<p><b>Worked example.</b> A country has 1,200 maternal deaths and 3,000,000 live births.</p>
+\[ \text{MMR} = \frac{1{,}200}{3{,}000{,}000} \times 100{,}000 = 40 \text{ per 100,000 live births} \]
+</div>
+
+<h3>3.7 Standardized Mortality Rates</h3>
+<div class="card">
+<p><b>Why standardization exists.</b> Crude rates cannot be compared across populations with different age structures. Standardization removes the effect of age structure by applying the study population's age-specific rates to a standard population's age distribution.</p>
+<p><b>Direct standardization.</b></p>
+\[ \text{DSR} = \frac{\sum_x M_x \cdot P^{\text{std}}_x}{\sum_x P^{\text{std}}_x} \times 1000 \]
+<p>\(M_x\) = study population's age-specific rate; \(P^{\text{std}}_x\) = standard population in age group \(x\).</p>
+<p><b>Indirect standardization.</b> Compute the expected deaths in the study population using the standard population's age-specific rates, then form the Standardized Mortality Ratio:</p>
+\[ \text{SMR} = \frac{\text{observed deaths}}{\text{expected deaths}} \]
+<p><b>Worked example (direct).</b> Suppose the study population's ASMRs are 2, 5, and 20 per 1,000 in three age groups, and the standard population has 10,000, 20,000 and 5,000 people in those groups.</p>
+\[ \text{Expected deaths} = (2\times10{,}000) + (5\times20{,}000) + (20\times5{,}000) = 20{,}000 + 100{,}000 + 100{,}000 = 220{,}000 \]
+\[ \text{DSR} = \frac{220{,}000}{35{,}000} \times 1000 = 6{,}286 \text{ per 1,000} \]
+<p>(This is a stylized example with very high rates; the arithmetic illustrates the method.)</p>
+<p><b>Why it matters.</b> Without standardization, a country with an old population will always look unhealthy relative to a young one. Standardized rates answer the question: <i>if these two countries had the same age structure, which would have higher mortality?</i></p>
+</div>
+
+<h3>3.8 Other mortality measures</h3>
+<div class="tw"><table class="l">
+<tr><th>Measure</th><th>Formula or definition</th></tr>
+<tr><td><b>Perinatal mortality rate</b></td><td>(stillbirths + early neonatal deaths) / (live births + stillbirths) × 1,000</td></tr>
+<tr><td><b>Stillbirth rate</b></td><td>stillbirths / (live births + stillbirths) × 1,000</td></tr>
+<tr><td><b>Early neonatal mortality rate</b></td><td>deaths in first 7 days / live births × 1,000</td></tr>
+<tr><td><b>Late neonatal mortality rate</b></td><td>deaths between 7 and 28 days / live births × 1,000</td></tr>
+<tr><td><b>Cause-specific mortality rate</b></td><td>deaths from a cause / mid-year population × 100,000</td></tr>
+<tr><td><b>Case fatality rate</b></td><td>deaths from a disease / diagnosed cases of that disease × 100</td></tr>
+<tr><td><b>Life expectancy \(e_x\)</b></td><td>\(T_x/l_x\) from the life table; average remaining years at age \(x\)</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 4. CONTEXT ================= -->
+<section id="context">
+<h2>4 · Bangladesh and the United States in numbers</h2>
+<div class="grid">
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>Fertility.</b> TFR is about <b>2.14</b> children per woman (2024); CBR about <b>20 per 1,000</b>. The fertility transition has been rapid: TFR fell from about 6.8 in 1971 to near replacement level.</div>
+<div class="card"><span class="badge us">United States</span><br><b>Fertility.</b> TFR is about <b>1.60</b> children per woman (2024, a record low); CBR about <b>11 per 1,000</b>. The U.S. has been below replacement since 1971.</div>
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>Mortality.</b> IMR about <b>20 per 1,000</b> live births; MMR about <b>123 per 100,000</b> live births; life expectancy about <b>72–74 years</b>.</div>
+<div class="card"><span class="badge us">United States</span><br><b>Mortality.</b> IMR about <b>5.52 per 1,000</b> live births; MMR about <b>23 per 100,000</b> live births; life expectancy about <b>76–78 years</b>.</div>
+</div>
+<div class="box"><b class="t">Why the comparison matters</b>
+The U.S. has lower mortality at every age but a higher CDR than Bangladesh, because its population is much older. Bangladesh has higher fertility and higher infant mortality, but a younger population and therefore a lower CDR. This is exactly why demographers use age-specific and standardized measures rather than crude rates for comparison.</div>
+</section>
+
+<!-- ================= 5. PRACTICE ================= -->
+<section id="practice">
+<h2>5 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 6. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>6 · Derivations and deeper examples</h2>
+
+<details open><summary>Derivation 1 · Why TFR is a synthetic cohort measure</summary>
+<p>If a woman lived through all ages 15–49 and at each age \(x\) had a probability \(\text{ASFR}_x/1000\) of giving birth in that year, her expected total number of births would be the sum of those yearly probabilities:</p>
+\[ \text{TFR} = \sum_{x=15}^{49} \frac{\text{ASFR}_x}{1000}. \]
+<p>For five-year age groups, each ASFR covers five single years, so the sum is multiplied by 5. TFR is synthetic because no real woman experiences <i>current</i> rates at every age across her life; the measure combines the rates of a single period as if they applied to a cohort.</p></details>
+
+<details><summary>Derivation 2 · Worked TFR from a full ASFR table</summary>
+<div class="tw"><table>
+<tr><th>Age group</th><th>ASFR (per 1,000)</th></tr>
+<tr><td>15–19</td><td>24.5</td></tr>
+<tr><td>20–24</td><td>144.9</td></tr>
+<tr><td>25–29</td><td>133.1</td></tr>
+<tr><td>30–34</td><td>87.2</td></tr>
+<tr><td>35–39</td><td>42.1</td></tr>
+<tr><td>40–44</td><td>9.4</td></tr>
+<tr><td>45–49</td><td>1.2</td></tr>
+</table></div>
+\[ \sum \text{ASFR} = 24.5+144.9+133.1+87.2+42.1+9.4+1.2 = 442.4 \]
+\[ \text{TFR} = 5 \times 442.4 = 2{,}212 \text{ per 1,000} = 2.21 \text{ children per woman} \]</details>
+
+<details><summary>Derivation 3 · Standardization in full</summary>
+<p><b>Direct method.</b> For each age group \(x\), multiply the study rate \(M_x\) by the standard population \(P^{\text{std}}_x\). Sum the products to get expected deaths. Divide by the total standard population.</p>
+<p><b>Worked example with three age groups:</b></p>
+<div class="tw"><table>
+<tr><th>Age group</th><th>Study rate \(M_x\) (per 1,000)</th><th>Standard pop \(P^{\text{std}}_x\)</th><th>Expected deaths</th></tr>
+<tr><td>Young</td><td>2</td><td>10,000</td><td>20</td></tr>
+<tr><td>Middle</td><td>5</td><td>20,000</td><td>100</td></tr>
+<tr><td>Old</td><td>20</td><td>5,000</td><td>100</td></tr>
+<tr><th>Total</th><th></th><th>35,000</th><th>220</th></tr>
+</table></div>
+\[ \text{DSR} = \frac{220}{35{,}000} \times 1000 = 6.29 \text{ per 1,000} \]
+<p><b>Indirect method.</b> Apply the standard population's rates to the study population's age structure to get expected deaths \(E\). Then SMR = observed \(O\) / expected \(E\). The indirectly standardized rate is \(\text{SMR} \times \text{crude rate of standard population}\).</p></details>
+
+<details><summary>Derivation 4 · Why IMR is a ratio, not a probability</summary>
+<p>A true infant death probability would require following one birth cohort for a full year. The conventional IMR divides deaths of infants under 1 in calendar year \(t\) by births in calendar year \(t\). The numerator includes infants born in year \(t-1\), while the denominator excludes births in year \(t+1\) whose deaths will occur in year \(t+1\). When births are roughly constant, the two cohorts are similar in size and the ratio is close to the probability. When births are changing rapidly, the discrepancy matters. The <b>cohort IMR</b> follows a single birth cohort and is the true probability; it is used in careful research but is not the routine published measure.</p></details>
+</section>
+
+<!-- ================= 7. REFERENCE ================= -->
+<h2 id="reference">7 · Reference sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Measure</th><th>Formula</th><th>Denominator</th><th>Constant</th></tr>
+<tr><td>CBR</td><td>\(B/P\)</td><td>Total population</td><td>1,000</td></tr>
+<tr><td>GFR</td><td>\(B/P_f(15\text{–}49)\)</td><td>Women 15–49</td><td>1,000</td></tr>
+<tr><td>ASFR</td><td>\({}_nB_x/{}_nP_{f,x}\)</td><td>Women in age group</td><td>1,000</td></tr>
+<tr><td>TFR</td><td>\(5\sum \text{ASFR}_x\)</td><td>Synthetic</td><td>—</td></tr>
+<tr><td>CWR</td><td>\(P_{0\text{–}4}/P_{f,15\text{–}49}\)</td><td>Women 15–49</td><td>1,000</td></tr>
+<tr><td>PPR</td><td>\(W_{i+1}/W_i\)</td><td>Women of parity \(i\)</td><td>—</td></tr>
+<tr><td>GRR</td><td>\(\text{TFR}\times B_f/B\)</td><td>Synthetic</td><td>—</td></tr>
+<tr><td>CDR</td><td>\(D/P\)</td><td>Total population</td><td>1,000</td></tr>
+<tr><td>ASMR</td><td>\({}_nD_x/{}_nP_x\)</td><td>Population in age group</td><td>1,000</td></tr>
+<tr><td>IMR</td><td>\(D_{<1}/B\)</td><td>Live births</td><td>1,000</td></tr>
+<tr><td>NMR</td><td>\(D_{<28}/B\)</td><td>Live births</td><td>1,000</td></tr>
+<tr><td>PNMR</td><td>\(\text{IMR}-\text{NMR}\)</td><td>Live births</td><td>1,000</td></tr>
+<tr><td>U5MR</td><td>\(D_{<5}/B\)</td><td>Live births</td><td>1,000</td></tr>
+<tr><td>MMR</td><td>\(D_{\text{maternal}}/B\)</td><td>Live births</td><td>100,000</td></tr>
+<tr><td>DSR</td><td>\(\sum M_x P^{\text{std}}_x/\sum P^{\text{std}}_x\)</td><td>Standard population</td><td>1,000</td></tr>
+<tr><td>SMR</td><td>\(O/E\)</td><td>Expected deaths</td><td>—</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 8. CALCULATORS ================= -->
+<section id="calc">
+<h2>8 · Interactive calculators</h2>
+
+<div class="card calc">
+<h3 style="margin-top:0">TFR from ASFRs</h3>
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter seven five-year ASFR values (per 1,000) for ages 15–19 through 45–49.</p>
+<textarea id="asfrin" rows="2" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">24.5,144.9,133.1,87.2,42.1,9.4,1.2</textarea>
+<button class="b" onclick="tfrCalc()">Compute TFR</button>
+<div class="row" id="tfrout"></div>
+</div>
+
+<div class="card calc">
+<h3 style="margin-top:0">Standardized Mortality Ratio (SMR)</h3>
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter observed deaths and expected deaths (from standard rates applied to the study population).</p>
+<div class="row">
+<label>Observed deaths \(O\)<input id="obs" type="number" value="63"></label>
+<label>Expected deaths \(E\)<input id="exp" type="number" value="58.12"></label>
+</div>
+<button class="b" onclick="smrCalc()">Compute SMR</button>
+<div class="row" id="smrout"></div>
+</div>
+</section>
+
+<footer>Study guide on fertility and mortality measures · formulas derived and worked through with numerical examples · comparative Bangladesh–United States context · sources include BBS, NIPORT, U.S. Census Bureau, CDC/NCHS and UN demographic methods.</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- TFR calculator ---------- */
+function tfrCalc(){
+ var raw=document.getElementById('asfrin').value.split(/[^0-9.]+/).filter(Boolean).map(Number);
+ var out=document.getElementById('tfrout');
+ if(raw.length!==7||raw.some(isNaN)){out.innerHTML='<p>Enter exactly seven ASFR values.</p>';return;}
+ var sum=raw.reduce(function(a,b){return a+b},0);
+ var tfr=5*sum/1000;
+ out.innerHTML='<div class="kpi"><small>Sum of ASFRs</small><b>'+sum.toFixed(1)+'</b></div>'+
+  '<div class="kpi"><small>TFR (children per woman)</small><b>'+tfr.toFixed(2)+'</b></div>'+
+  '<div class="kpi"><small>Replacement level</small><b>2.10</b></div>';
+}
+
+/* ---------- SMR calculator ---------- */
+function smrCalc(){
+ var O=+document.getElementById('obs').value, E=+document.getElementById('exp').value;
+ var out=document.getElementById('smrout');
+ if(!(E>0)){out.innerHTML='<p>Expected deaths must be positive.</p>';return;}
+ var smr=O/E;
+ out.innerHTML='<div class="kpi"><small>Observed</small><b>'+O+'</b></div>'+
+  '<div class="kpi"><small>Expected</small><b>'+E.toFixed(2)+'</b></div>'+
+  '<div class="kpi"><small>SMR</small><b>'+smr.toFixed(3)+'</b></div>'+
+  '<div class="kpi"><small>Interpretation</small><b>'+(smr>1?'Excess mortality':'Lower mortality')+'</b></div>';
+}
+tfrCalc();smrCalc();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'The crude birth rate (CBR) divides births by:',
+  o:['Women aged 15–49','Total mid-year population','Live births','Women aged 20–29'],a:1,
+  s:'CBR uses the entire population as the denominator, which is why it is confounded by age structure.'},
+ {q:'The general fertility rate (GFR) improves on CBR by:',
+  o:['Using a larger numerator','Dividing by women of reproductive age','Using deaths instead of births','Multiplying by 100,000'],a:1,
+  s:'GFR restricts the denominator to women aged 15–49, the group actually at risk of childbearing.'},
+ {q:'TFR from five-year ASFRs is calculated as:',
+  o:['\(\sum \text{ASFR}\)','\(5\sum \text{ASFR}\)','\(\sum \text{ASFR}/5\)','\(5/\sum \text{ASFR}\)'],a:1,
+  s:'Each ASFR covers five single years, so the sum is multiplied by 5.'},
+ {q:'If the five ASFRs sum to 442.4 per 1,000, TFR is:',
+  o:['0.44','2.21','4.42','22.1'],a:1,
+  s:'\(5 \times 442.4 = 2,212\) per 1,000, which is 2.21 children per woman.'},
+ {q:'The child–woman ratio (CWR) is limited because:',
+  o:['It uses too large a denominator','It counts living children, not births, so it understates fertility where mortality is high','It cannot be calculated from a census','It uses women aged 50–54'],a:1,
+  s:'CWR counts surviving children aged 0–4; in high-mortality settings many born children have died.'},
+ {q:'Parity progression ratio (PPR) measures:',
+  o:['The number of children ever born','The probability that a woman of parity \(i\) goes on to parity \(i+1\)','The total fertility rate','The sex ratio at birth'],a:1,
+  s:'PPR\(_i = W_{i+1}/W_i\), the proportion of women at parity \(i\) who progress to the next parity.'},
+ {q:'The crude death rate (CDR) can be misleading because:',
+  o:['It uses too small a numerator','It is confounded by the age structure of the population','It counts only infant deaths','It is expressed per 100,000'],a:1,
+  s:'An older population will have a higher CDR even if age-specific mortality is low.'},
+ {q:'The infant mortality rate (IMR) is:',
+  o:['Deaths under 5 divided by births','Deaths under 1 divided by live births','Deaths under 28 days divided by births','Maternal deaths divided by births'],a:1,
+  s:'IMR = deaths of infants under age 1 / live births × 1,000.'},
+ {q:'Post-neonatal mortality rate (PNMR) equals:',
+  o:['IMR + NMR','IMR − NMR','NMR − IMR','IMR × NMR'],a:1,
+  s:'PNMR is the difference between infant and neonatal mortality: IMR − NMR.'},
+ {q:'The maternal mortality ratio (MMR) is expressed per:',
+  o:['1,000 live births','10,000 live births','100,000 live births','1,000,000 live births'],a:2,
+  s:'MMR = maternal deaths / live births × 100,000.'},
+ {q:'Direct standardization removes the effect of:',
+  o:['Mortality rates','Age structure','Birth rates','Migration'],a:1,
+  s:'It applies the study population’s age-specific rates to a standard age distribution, removing the confounding effect of age structure.'},
+ {q:'The Standardized Mortality Ratio (SMR) is:',
+  o:['Expected deaths / observed deaths','Observed deaths / expected deaths','Crude rate × 1,000','Age-specific rate / standard rate'],a:1,
+  s:'SMR = O/E; a value above 1 indicates excess mortality relative to the standard.'},
+ {q:'Bangladesh’s TFR is approximately:',
+  o:['1.6','2.1','4.0','6.8'],a:1,
+  s:'Bangladesh’s TFR is about 2.14 (2024), close to replacement level.'},
+ {q:'The United States’ IMR is approximately:',
+  o:['2.0 per 1,000','5.5 per 1,000','20 per 1,000','50 per 1,000'],a:1,
+  s:'The U.S. IMR in 2024 was about 5.52 infant deaths per 1,000 live births.'},
+ {q:'Neonatal mortality (NMR) covers deaths in the first:',
+  o:['7 days','28 days','1 year','5 years'],a:1,
+  s:'NMR = deaths under 28 days / live births × 1,000.'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Question '+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'Correct. ':'Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

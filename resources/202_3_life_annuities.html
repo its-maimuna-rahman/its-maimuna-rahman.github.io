@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Life Annuities – Theory of Interest Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#blocks">Building blocks</a><a href="#types">Types</a><a href="#comm">Commutation</a><a href="#ex">Examples</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Formulas</a><a href="#calc">Calculator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Theory of Interest · Actuarial Statistics</span>
+<h1>Life Annuities</h1>
+<p class="lead">A stream of payments that stops the moment a person dies. This page prices that promise: the survival probabilities, the expected present value, the commutation functions, and every standard formula — with one real case solved first.</p>
+</header>
+
+<!-- ============ 1. SCENARIO ============ -->
+<section id="scen">
+<h2>1 · A real-life case, solved</h2>
+<div class="card">
+<p><b>Priya, aged exactly 60,</b> retires with <b>\$500,000</b> of savings. She hands it to an insurer in exchange for a <b>whole-life annuity-due of \$100,000</b>: the insurer pays her \$100,000 <b>at the start of every year, for as long as she lives</b>, and the money is gone when she dies.</p>
+<p>The insurer prices at an annual effective interest rate of \(i=5\%\) and uses a mortality basis summarised by these survival probabilities:</p>
+<div class="tw"><table>
+<tr><th>\(k\)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+<tr><th>\({}_{k}p_{60}\)</th><td>1.000</td><td>0.970</td><td>0.935</td><td>0.895</td><td>0.850</td></tr>
+</table></div>
+<p><b>Question:</b> how much must the insurer set aside today to fund these uncertain payments — and is \$500,000 enough?</p>
+
+<div class="step"><b>Step 1 · One payment at a time.</b> A payment of \$100,000 at time \(k\) is made only if Priya survives \(k\) years. Its present value today is therefore <b>payment × discount factor</b>, but that number is paid with probability \({}_{k}p_{60}\) only. So its <b>expected</b> present value is
+\[\text{EPV}_k = 100{,}000 \times v^{k} \times {}_{k}p_{60}, \qquad v=\frac{1}{1.05}=0.952381.\]</div>
+
+<div class="step"><b>Step 2 · Compute each term.</b> The first payment is made <b>today</b> with certainty, so it carries no discount and no survival factor.</div>
+<div class="tw"><table>
+<tr><th>\(k\)</th><th>Payment</th><th>\(v^{k}\)</th><th>\({}_{k}p_{60}\)</th><th>EPV of payment</th></tr>
+<tr><td>0</td><td>100,000</td><td>1.000000</td><td>1.000</td><td>100,000.00</td></tr>
+<tr><td>1</td><td>100,000</td><td>0.952381</td><td>0.970</td><td>92,380.95</td></tr>
+<tr><td>2</td><td>100,000</td><td>0.907029</td><td>0.935</td><td>84,807.26</td></tr>
+<tr><td>3</td><td>100,000</td><td>0.863838</td><td>0.895</td><td>77,313.47</td></tr>
+<tr><td>4</td><td>100,000</td><td>0.822702</td><td>0.850</td><td>69,929.71</td></tr>
+</table></div>
+
+<div class="step"><b>Step 3 · Add them up.</b> Factor out the \$100,000 and define
+\[\ddot{a}_{60}=\sum_{k=0}^{4} v^{k}\,{}_{k}p_{60}=1+0.92381+0.84807+0.77313+0.69930=4.24431.\]
+Then
+\[\text{PV}=100{,}000 \times 4.24431=\$424{,}431.\]</div>
+
+<div class="sol">Under the 5-year illustration the insurer needs <b>\$424,431</b> today. Priya's \$500,000 covers it — with \$75,569 to spare.</div>
+
+<div class="step"><b>Step 4 · The illustration is the catch.</b> The table stopped at 4 years, but a 60-year-old can live to 90. Extending the same life table over the full remaining lifetime gives
+\[\ddot{a}_{60}=\sum_{k=0}^{\infty} v^{k}{}_{k}p_{60}\approx 6.86670 \quad\Longrightarrow\quad \text{PV}\approx \$686{,}670.\]
+Now \$500,000 is <b>not</b> enough — it falls about \$187,000 short.</div>
+
+<div class="sol">Lesson: the annuity factor is a <b>sum over the whole remaining lifetime</b>. Truncating the sum understates the cost badly — here by 38%.</div>
+
+<div class="box"><b class="t">What the insurer is really doing</b>
+It is not guessing Priya's death date. It sells 10,000 such annuities and knows that <i>on average</i> the payments will cost exactly the sum of the expected present values. The law of large numbers turns the random variable into a predictable liability.</div>
+</div>
+</section>
+
+<!-- ============ 2. DEFINITION ============ -->
+<section id="def">
+<h2>2 · Definition</h2>
+<p>The keywords from the case were <mark>series of payments</mark>, <mark>while the individual is alive</mark>, <mark>survival probability</mark>, <mark>discount factor</mark>, <mark>expected present value</mark> and <mark>uncertain timing</mark>. Combined:</p>
+<div class="box"><b class="t">Life annuity</b>
+A <b>series of payments</b> made to an individual <b>conditional on that individual being alive</b> at each payment date, according to specified payment amounts and timing. The payment at time \(k\) is received <b>only if</b> the person survives to time \(k\).</div>
+<div class="grid">
+<div class="card"><b>Annuity-certain</b><br>Payments are guaranteed. The only uncertainty is the <i>time value of money</i>. Value \(=a_{\overline{n}|}\) or \(s_{\overline{n}|}\).</div>
+<div class="card"><b>Life annuity</b><br>Payments depend on survival. Uncertainty is <i>time value of money <b>plus</b> mortality</i>.</div>
+<div class="card"><b>Actuarial present value (APV)</b><br>The probability-weighted present value of the uncertain payment stream — an <b>expectation</b>, not a certain amount.</div>
+</div>
+<div class="box key"><b class="t">The one-line idea</b>
+\[\text{Expected PV of a payment at time }k \;=\; \underbrace{v^{k}}_{\text{discount}}\times\underbrace{{}_{k}p_{x}}_{\text{survival}}\]</div>
+</section>
+
+<!-- ============ 3. CONCEPT ============ -->
+<section id="concept">
+<h2>3 · The idea in plain words</h2>
+<div class="card">
+<p>Ordinary financial maths asks: <i>what is a series of future payments worth today?</i> Actuarial maths adds a second question: <i>will the person still be alive when the payment is due?</i></p>
+<p>So every single payment gets multiplied by two fractions:</p>
+<ol>
+<li><b>The discount factor \(v^{k}\)</b> — because a dollar in \(k\) years is worth less than a dollar today.</li>
+<li><b>The survival probability \({}_{k}p_{x}\)</b> — because the dollar might never arrive at all.</li>
+</ol>
+<p>Both fractions are between 0 and 1, so a life annuity is always worth less than the same payment stream paid with certainty. Add up all the discounted, probability-weighted payments and you have the <b>actuarial present value</b>.</p>
+</div>
+<h3>Why the present value is a random variable</h3>
+<div class="card">
+<p>Take a whole-life annuity-immediate of \$10,000 on a life aged 60. The number of payments is not known in advance:</p>
+<ul>
+<li>dies after 2 years → payments at years 1 and 2 only;</li>
+<li>survives 10 years → 10 payments;</li>
+<li>survives 20 years → 20 payments.</li>
+</ul>
+<p>Write \(T_{x}\) for the future lifetime of a life aged \(x\). Then the present value of the payments is itself a random variable:
+\[Z = v\,I(T_{x}\ge 1) + v^{2}I(T_{x}\ge 2) + v^{3}I(T_{x}\ge 3)+\cdots\]
+where \(I(\cdot)\) is an indicator (1 if the event happens, 0 otherwise). Taking expectations, and using \(P(T_{x}\ge k)={}_{k}p_{x}\),
+\[E(Z)=v\,{}_{1}p_{x}+v^{2}{}_{2}p_{x}+v^{3}{}_{3}p_{x}+\cdots\]
+So the familiar annuity formula <b>is</b> an expectation. That is why we call it the <i>expected</i> present value.</p>
+</div>
+<h3>A two-outcome illustration</h3>
+<div class="card">
+<p>Suppose a life can have only two possible future lifetimes:</p>
+<div class="tw"><table>
+<tr><th>Future lifetime</th><th>Probability</th><th>PV of the annuity</th></tr>
+<tr><td>1 year</td><td>0.4</td><td>\$952</td></tr>
+<tr><td>2 years</td><td>0.6</td><td>\$1,860</td></tr>
+</table></div>
+\[E(Z)=0.4(952)+0.6(1{,}860)=380.80+1{,}116.00=\$1{,}496.80.\]
+<div class="sol">\$1,496.80 is the <b>probability-weighted average</b>. Nobody ever actually receives \$1,496.80 — the real outcome is either \$952 or \$1,860. The average is what the insurer must hold per policy.</div>
+</div>
+</section>
+
+<!-- ============ 4. BUILDING BLOCKS ============ -->
+<section id="blocks">
+<h2>4 · The building blocks</h2>
+
+<h3>4.1 Survival probabilities from a life table</h3>
+<div class="card">
+<p>A life table tracks a cohort from birth. The essential columns:</p>
+<div class="tw"><table class="l">
+<tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(\ell_{x}\)</td><td>Number alive at exact age \(x\)</td></tr>
+<tr><td>\(d_{x}\)</td><td>Number dying between ages \(x\) and \(x+1\)</td></tr>
+<tr><td>\(q_{x}\)</td><td>Probability a life aged \(x\) dies before age \(x+1\)</td></tr>
+<tr><td>\(p_{x}\)</td><td>Probability a life aged \(x\) survives to age \(x+1\)</td></tr>
+<tr><td>\(L_{x}\)</td><td>Person-years lived between ages \(x\) and \(x+1\)</td></tr>
+<tr><td>\(T_{x}\)</td><td>Total future person-years lived above age \(x\)</td></tr>
+<tr><td>\(\mathring{e}_{x}\)</td><td>Complete expectation of life at age \(x\)</td></tr>
+</table></div>
+<p>The relationships you must be able to quote instantly:</p>
+\[d_{x}=\ell_{x}-\ell_{x+1},\qquad q_{x}=\frac{d_{x}}{\ell_{x}},\qquad p_{x}=\frac{\ell_{x+1}}{\ell_{x}},\qquad p_{x}+q_{x}=1.\]
+</div>
+
+<h3>4.2 Multi-year survival</h3>
+<div class="card">
+<p>Surviving \(k\) years means surviving year 1 <i>and</i> year 2 <i>and</i> … — but the chain collapses beautifully:
+\[{}_{k}p_{x}=\frac{\ell_{x+k}}{\ell_{x}},\qquad {}_{k}q_{x}=1-{}_{k}p_{x}.\]
+<b>Example.</b> With \(\ell_{60}=100{,}000\) and \(\ell_{63}=89{,}500\):
+\[{}_{3}p_{60}=\frac{89{,}500}{100{,}000}=0.895,\qquad {}_{3}q_{60}=0.105.\]
+So \(10.5\%\) of 60-year-olds die before reaching 63.</div>
+
+<h3>4.3 The expected present value of one payment</h3>
+<div class="card">
+<p>A payment of \$1 at time \(k\) requires two things to happen:</p>
+<div class="step"><b>Survive.</b> Probability \(={}_{k}p_{x}=\ell_{x+k}/\ell_{x}\).</div>
+<div class="step"><b>Discount.</b> Present value \(=v^{k}\), where \(v=1/(1+i)\).</div>
+<p>These are independent, so multiply:
+\[\boxed{v^{k}\,{}_{k}p_{x}}\]
+This little product is the atom out of which every life-annuity formula is built.</p>
+</div>
+
+<h3>4.4 The whole-life annuity-due</h3>
+<div class="card">
+<p>Payments of 1 are made at times \(0,1,2,\dots\) as long as the person is alive. The first payment is certain, so it contributes exactly 1.</p>
+\[\ddot{a}_{x}=1+v\,{}_{1}p_{x}+v^{2}{}_{2}p_{x}+v^{3}{}_{3}p_{x}+\cdots=\sum_{k=0}^{\infty}v^{k}\,{}_{k}p_{x}.\]
+<p>Applying it to the scenario above with \(\ell_{60}=100{,}000,\ \ell_{61}=97{,}000,\dots\) and \(i=5\%\) reproduces the 4.24431 we found by hand.</p>
+</div>
+</section>
+
+<!-- ============ 5. TYPES ============ -->
+<section id="types">
+<h2>5 · The main types of life annuity</h2>
+<p>Life annuities are classified by <b>when payments start</b> and <b>how long they last</b>.</p>
+<div class="tw"><table class="l">
+<tr><th>Type</th><th>Payment times</th><th>Notation</th><th>Idea</th></tr>
+<tr><td><b>Whole-life immediate</b></td><td>\(1,2,3,\dots\)</td><td>\(\bar{a}_{x}\)</td><td>End of each year, for the rest of life</td></tr>
+<tr><td><b>Whole-life due</b></td><td>\(0,1,2,\dots\)</td><td>\(\ddot{a}_{x}\)</td><td>Start of each year, for the rest of life</td></tr>
+<tr><td><b>Temporary (term)</b></td><td>\(1,\dots,n\) (or \(0,\dots,n-1\))</td><td>\(\bar{a}_{x:\overline{n}|}\), \(\ddot{a}_{x:\overline{n}|}\)</td><td>At most \(n\) payments, and only while alive</td></tr>
+<tr><td><b>Deferred</b></td><td>starts after \(k\) years</td><td>\({}_{k|}\bar{a}_{x}\)</td><td>Nothing during the \(k\)-year deferral, then life payments</td></tr>
+<tr><td><b>Deferred temporary</b></td><td>\(k+1,\dots,k+n\)</td><td>\({}_{k|}\bar{a}_{x:\overline{n}|}\)</td><td>Deferral then a limited term</td></tr>
+</table></div>
+<div class="box"><b class="t">Due vs. immediate</b>
+The only difference is a one-period shift. Since the payment at time 0 is certain,
+\[\ddot{a}_{x}=1+\bar{a}_{x}.\]
+A due annuity is always worth exactly <b>1 more</b> than the corresponding immediate annuity.</div>
+</section>
+
+<!-- ============ 6. COMMUTATION ============ -->
+<section id="comm">
+<h2>6 · Commutation functions</h2>
+<p>A whole-life annuity has infinitely many terms. Rather than sum them one by one, actuaries pre-tabulate two columns that do the summing for us.</p>
+
+<div class="card">
+<h3>The D-function</h3>
+\[\boxed{D_{x}=v^{x}\ell_{x}}\qquad\text{— the discounted number alive at age }x.\]
+<p>Its whole purpose is the ratio</p>
+\[\frac{D_{x+k}}{D_{x}}=\frac{v^{x+k}\ell_{x+k}}{v^{x}\ell_{x}}=v^{k}\frac{\ell_{x+k}}{\ell_{x}}=v^{k}\,{}_{k}p_{x}.\]
+<div class="box key"><b class="t">The bridge</b>
+\[\frac{D_{x+k}}{D_{x}}=v^{k}\,{}_{k}p_{x}\]
+Every life-annuity formula follows from substituting this into the sum.</div>
+</div>
+
+<div class="card">
+<h3>The N-function</h3>
+\[N_{x}=D_{x}+D_{x+1}+D_{x+2}+\cdots=\sum_{k=x}^{\infty}D_{k}\]
+<p>So \(N_{x+1}=D_{x+1}+D_{x+2}+\cdots\) is just \(N_{x}\) with the first term removed, giving the recursion</p>
+\[N_{x}=D_{x}+N_{x+1}.\]
+</div>
+
+<div class="card">
+<h3>Death-related and accumulated functions</h3>
+<div class="tw"><table class="l">
+<tr><th>Function</th><th>Definition</th><th>Interpretation</th></tr>
+<tr><td>\(D_{x}\)</td><td>\(v^{x}\ell_{x}\)</td><td>Discounted number alive at age \(x\)</td></tr>
+<tr><td>\(N_{x}\)</td><td>\(\sum_{k\ge x}D_{k}\)</td><td>Accumulated \(D\)-functions from age \(x\) onward</td></tr>
+<tr><td>\(C_{x}\)</td><td>\(v^{x+1}d_{x}\)</td><td>Discounted deaths between \(x\) and \(x+1\)</td></tr>
+<tr><td>\(M_{x}\)</td><td>\(\sum_{k\ge x}C_{k}\)</td><td>Accumulated \(C\)-functions</td></tr>
+<tr><td>\(S_{x}\)</td><td>\(\sum_{k\ge x}N_{k}\)</td><td>Accumulated \(N\)-functions</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">For life <b>annuities</b> we only need \(D\) and \(N\). The \(C\), \(M\), \(S\) columns are tabulated alongside them and are used when pricing life <b>insurance</b> benefits, which is outside the annuity scope here.</p>
+</div>
+
+<div class="box warn"><b class="t">Practical note</b>
+\(D_{x}=v^{x}\ell_{x}\) contains a huge constant factor \(v^{x}\). Since every annuity formula uses \(D\)'s only as a <b>ratio</b> with the same base age, that factor cancels — which is why printed tables often use a rescaled version.</div>
+</section>
+
+<!-- ============ 7. EXAMPLES ============ -->
+<section id="ex">
+<h2>7 · Worked examples</h2>
+
+<h3>Example 1 · Whole-life immediate</h3>
+<div class="card">
+<p>A person aged 60 buys a <b>whole-life annuity-immediate</b> paying \$10,000 at the end of each year while alive. The mortality/interest basis gives
+\[D_{60}=4{,}000,\qquad N_{61}=516{,}000.\]
+Find the actuarial present value.</p>
+<div class="step"><b>Formula.</b> \(\bar{a}_{60}=\dfrac{N_{61}}{D_{60}}\).</div>
+<div class="step"><b>Per dollar of annuity.</b>
+\[\bar{a}_{60}=\frac{516{,}000}{4{,}000}=129.\]</div>
+<div class="step"><b>Scale to the actual payment.</b>
+\[\text{PV}=10{,}000\times129=\$1{,}290{,}000.\]</div>
+<div class="sol">The insurer must hold <b>\$1.29 million</b> today to fund \$10,000 a year at each year-end for life.</div>
+</div>
+
+<h3>Example 2 · 10-year temporary immediate</h3>
+<div class="card">
+<p>A person aged 50 will receive \$20,000 at the <b>end</b> of each year for <b>at most 10 years</b>, provided they are alive at each payment date. Given
+\[D_{50}=6{,}000,\quad N_{51}=700{,}000,\quad N_{61}=560{,}000.\]
+<div class="step"><b>Formula.</b> A term annuity-immediate keeps only the \(D\)-terms from \(x+1\) to \(x+n\):
+\[\bar{a}_{x:\overline{n}|}=\frac{N_{x+1}-N_{x+n+1}}{D_{x}}.\]
+With \(x=50,\ n=10\):
+\[\bar{a}_{50:\overline{10}|}=\frac{N_{51}-N_{61}}{D_{50}}=\frac{700{,}000-560{,}000}{6{,}000}=\frac{140{,}000}{6{,}000}=23.3333.\]</div>
+<div class="step"><b>Scale.</b>
+\[\text{PV}=20{,}000\times23.3333\approx\$466{,}667.\]</div>
+<div class="sol">Why subtract? \(N_{51}\) contains every \(D\)-term from age 51 onward; \(N_{61}\) contains everything from 61 onward. The difference leaves exactly \(D_{51}+\cdots+D_{60}\) — the ten years we want.</div>
+</div>
+
+<h3>Example 3 · 5-year deferred whole-life immediate</h3>
+<div class="card">
+<p>A person aged 55 will receive \$15,000 at the <b>end</b> of each year, beginning <b>after a 5-year deferral</b>, for as long as they live. Given
+\[D_{55}=5{,}000,\qquad N_{61}=360{,}000.\]
+<div class="step"><b>Payment times.</b> Years 1–5: nothing. First payment at the end of year 6, then 7, 8, …</div>
+<div class="step"><b>Formula.</b> A \(k\)-year deferred whole-life immediate starts at \(k+1\):
+\[{}_{k|}\bar{a}_{x}=\frac{N_{x+k+1}}{D_{x}}.\]
+With \(x=55,\ k=5\):
+\[{}_{5|}\bar{a}_{55}=\frac{N_{55+5+1}}{D_{55}}=\frac{N_{61}}{D_{55}}=\frac{360{,}000}{5{,}000}=72.\]</div>
+<div class="step"><b>Scale.</b>
+\[\text{PV}=15{,}000\times72=\$1{,}080{,}000.\]</div>
+<div class="sol">Deferral makes the annuity <i>cheaper</i> than an immediate one starting at 55 — the insurer collects five years of interest and the person may not survive to collect anything.</div>
+</div>
+
+<h3>Summary of the three</h3>
+<div class="tw"><table>
+<tr><th>#</th><th>Type</th><th>Formula</th><th>PV of \$1</th><th>Actual PV</th></tr>
+<tr><td>1</td><td>Whole-life immediate</td><td>\(N_{x+1}/D_{x}\)</td><td>129.000</td><td>\$1,290,000</td></tr>
+<tr><td>2</td><td>10-yr temporary immediate</td><td>\((N_{x+1}-N_{x+n+1})/D_{x}\)</td><td>23.333</td><td>\$466,667</td></tr>
+<tr><td>3</td><td>5-yr deferred whole-life</td><td>\(N_{x+k+1}/D_{x}\)</td><td>72.000</td><td>\$1,080,000</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 8. PRACTICE ============ -->
+<section id="practice">
+<h2>8 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ============ 9. DERIVATIONS ============ -->
+<section id="deriv">
+<h2>9 · Derivations</h2>
+<div class="box"><b class="t">The five-step recipe</b>
+Every formula on this page is built the same way:
+<b>1</b> write the payment times · <b>2</b> write \(v^{k}{}_{k}p_{x}\) for each · <b>3</b> replace it by \(D_{x+k}/D_{x}\) · <b>4</b> add the \(D\)-terms · <b>5</b> collapse the sum into \(N\)'s.</div>
+
+<details open><summary>D1 · The bridge: \(D_{x+k}/D_{x}=v^{k}{}_{k}p_{x}\)</summary>
+<p>By definition \(D_{x}=v^{x}\ell_{x}\), so
+\[\frac{D_{x+k}}{D_{x}}=\frac{v^{x+k}\ell_{x+k}}{v^{x}\ell_{x}}=v^{k}\cdot\frac{\ell_{x+k}}{\ell_{x}}=v^{k}\,{}_{k}p_{x}.\]
+The factor \(v^{x}\) cancels. Everything below is this identity applied to a list of payment times.</p></details>
+
+<details><summary>D2 · Whole-life annuity-immediate: \(\bar{a}_{x}=N_{x+1}/D_{x}\)</summary>
+<p><b>Payment times:</b> \(1,2,3,\dots\)</p>
+\[\bar{a}_{x}=v\,{}_{1}p_{x}+v^{2}{}_{2}p_{x}+v^{3}{}_{3}p_{x}+\cdots
+=\frac{D_{x+1}}{D_{x}}+\frac{D_{x+2}}{D_{x}}+\frac{D_{x+3}}{D_{x}}+\cdots\]
+Pull out \(1/D_{x}\):
+\[=\frac{D_{x+1}+D_{x+2}+D_{x+3}+\cdots}{D_{x}}=\frac{N_{x+1}}{D_{x}}.\]
+Note the numerator starts at \(D_{x+1}\), not \(D_{x}\) — because the first payment is at time 1.</p></details>
+
+<details><summary>D3 · Whole-life annuity-due: \(\ddot{a}_{x}=N_{x}/D_{x}\)</summary>
+<p><b>Payment times:</b> \(0,1,2,\dots\)</p>
+\[\ddot{a}_{x}=1+v\,{}_{1}p_{x}+v^{2}{}_{2}p_{x}+\cdots
+=\frac{D_{x}}{D_{x}}+\frac{D_{x+1}}{D_{x}}+\frac{D_{x+2}}{D_{x}}+\cdots=\frac{N_{x}}{D_{x}}.\]
+The leading term is \(D_{x}/D_{x}=1\), i.e. the certain payment today.</p>
+<p><b>Corollary.</b> Since \(N_{x}=D_{x}+N_{x+1}\),
+\[\frac{N_{x}}{D_{x}}=1+\frac{N_{x+1}}{D_{x}}\quad\Longrightarrow\quad \ddot{a}_{x}=1+\bar{a}_{x}.\]</p></details>
+
+<details><summary>D4 · Temporary annuities (immediate and due)</summary>
+<p><b>Immediate, payments at \(1,\dots,n\):</b></p>
+\[\bar{a}_{x:\overline{n}|}=\frac{D_{x+1}}{D_{x}}+\cdots+\frac{D_{x+n}}{D_{x}}=\frac{D_{x+1}+\cdots+D_{x+n}}{D_{x}}.\]
+Now
+\[N_{x+1}=D_{x+1}+\cdots+D_{x+n}+D_{x+n+1}+\cdots\]
+\[N_{x+n+1}=D_{x+n+1}+D_{x+n+2}+\cdots\]
+Subtracting kills the tail and leaves exactly the wanted terms:
+\[\boxed{\bar{a}_{x:\overline{n}|}=\frac{N_{x+1}-N_{x+n+1}}{D_{x}}}.\]
+<p><b>Due, payments at \(0,\dots,n-1\):</b> the same argument starting one term earlier gives
+\[\ddot{a}_{x:\overline{n}|}=\frac{N_{x}-N_{x+n}}{D_{x}}.\]
+Check: \(\ddot{a}_{x:\overline{n}|}=1+\bar{a}_{x:\overline{n-1}|}\).</p></details>
+
+<details><summary>D5 · Deferred whole-life annuity-immediate</summary>
+<p><b>Deferral of \(k\) years:</b> no payments in years \(1,\dots,k\); the first payment is at the end of year \(k+1\).</p>
+\[{}_{k|}\bar{a}_{x}=v^{k+1}{}_{k+1}p_{x}+v^{k+2}{}_{k+2}p_{x}+\cdots
+=\frac{D_{x+k+1}}{D_{x}}+\frac{D_{x+k+2}}{D_{x}}+\cdots\]
+The numerator is precisely \(N_{x+k+1}\):
+\[\boxed{{}_{k|}\bar{a}_{x}=\frac{N_{x+k+1}}{D_{x}}}.\]
+<p>Equivalently, by subtraction of whole-life annuities,
+\({}_{k|}\bar{a}_{x}=\bar{a}_{x}-{}_{k}\bar{a}_{x}=\dfrac{N_{x+1}-N_{x+k+1}}{D_{x}}\) — the \(k\)-year <i>temporary</i> piece is exactly what gets removed.</p></details>
+
+<details><summary>D6 · Deferred temporary annuity: \({}_{k|}\bar{a}_{x:\overline{n}|}\)</summary>
+<p><b>Payment times:</b> \(k+1,\ k+2,\ \dots,\ k+n\).</p>
+\[{}_{k|}\bar{a}_{x:\overline{n}|}=\frac{D_{x+k+1}+D_{x+k+2}+\cdots+D_{x+k+n}}{D_{x}}.\]
+Take the two accumulations
+\[N_{x+k+1}=D_{x+k+1}+D_{x+k+2}+\cdots\]
+\[N_{x+k+n+1}=D_{x+k+n+1}+D_{x+k+n+2}+\cdots\]
+Their difference is exactly the \(n\) terms in the numerator:
+\[\boxed{{}_{k|}\bar{a}_{x:\overline{n}|}=\frac{N_{x+k+1}-N_{x+k+n+1}}{D_{x}}}.\]</details>
+
+<details><summary>D7 · Why the formula is an expectation</summary>
+<p>Let \(T_{x}\) be the future lifetime and \(I(\cdot)\) the indicator function. For an immediate annuity of 1,
+\[Z=\sum_{k=1}^{\infty}v^{k}I(T_{x}\ge k).\]
+Linearity of expectation works even for infinite sums, so
+\[E(Z)=\sum_{k=1}^{\infty}v^{k}\,E[I(T_{x}\ge k)]=\sum_{k=1}^{\infty}v^{k}P(T_{x}\ge k)=\sum_{k=1}^{\infty}v^{k}{}_{k}p_{x}.\]
+Since \(P(T_{x}\ge k)={}_{k}p_{x}\) is the definition of the \(k\)-year survival probability, the actuarial formula is nothing but \(E(Z)\). The randomness of \(T_{x}\) is fully absorbed into the probabilities.</p></details>
+</section>
+
+<!-- ============ 10. FORMULA SHEET ============ -->
+<h2 id="formulas">10 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Annuity</th><th>Payment times</th><th>Sum of \(D\)'s</th><th>Commutation form</th></tr>
+<tr><td>Whole-life immediate</td><td>\(1,2,3,\dots\)</td><td>\(D_{x+1}+D_{x+2}+\cdots\)</td><td>\(N_{x+1}/D_{x}\)</td></tr>
+<tr><td>Whole-life due</td><td>\(0,1,2,\dots\)</td><td>\(D_{x}+D_{x+1}+\cdots\)</td><td>\(N_{x}/D_{x}\)</td></tr>
+<tr><td>\(n\)-year temporary immediate</td><td>\(1,\dots,n\)</td><td>\(D_{x+1}+\cdots+D_{x+n}\)</td><td>\((N_{x+1}-N_{x+n+1})/D_{x}\)</td></tr>
+<tr><td>\(n\)-year temporary due</td><td>\(0,\dots,n-1\)</td><td>\(D_{x}+\cdots+D_{x+n-1}\)</td><td>\((N_{x}-N_{x+n})/D_{x}\)</td></tr>
+<tr><td>\(k\)-year deferred whole-life</td><td>\(k+1,k+2,\dots\)</td><td>\(D_{x+k+1}+\cdots\)</td><td>\(N_{x+k+1}/D_{x}\)</td></tr>
+<tr><td>\(k\)-year deferred, \(n\)-year temporary</td><td>\(k+1,\dots,k+n\)</td><td>\(D_{x+k+1}+\cdots+D_{x+k+n}\)</td><td>\((N_{x+k+1}-N_{x+k+n+1})/D_{x}\)</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Symbols</th></tr>
+<tr><td>Survival probability</td><td>\({}_{k}p_{x}=\ell_{x+k}/\ell_{x}\)</td><td>\(\ell_{x}\) from the life table</td></tr>
+<tr><td>Death probability</td><td>\({}_{k}q_{x}=1-{}_{k}p_{x}\)</td><td></td></tr>
+<tr><td>EPV of one payment</td><td>\(v^{k}{}_{k}p_{x}=D_{x+k}/D_{x}\)</td><td>\(v=1/(1+i)\)</td></tr>
+<tr><td>D-function</td><td>\(D_{x}=v^{x}\ell_{x}\)</td><td>discounted lives</td></tr>
+<tr><td>N-function</td><td>\(N_{x}=\sum_{k\ge x}D_{k}\)</td><td>\(N_{x}=D_{x}+N_{x+1}\)</td></tr>
+<tr><td>C / M / S</td><td>\(C_{x}=v^{x+1}d_{x}\), \(M_{x}=\sum C_{k}\), \(S_{x}=\sum N_{k}\)</td><td>used for insurance benefits</td></tr>
+<tr><td>Due vs immediate</td><td>\(\ddot{a}_{x}=1+\bar{a}_{x}\)</td><td></td></tr>
+</table></div>
+
+<!-- ============ 11. CALCULATOR ============ -->
+<section id="calc">
+<h2>11 · Life annuity calculator</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter the life table \(\ell_{y}\) for \(y=x,x+1,x+2,\dots\) (comma-separated). Everything below is computed from \(D_{y}=v^{y-x}\ell_{y}\) and \(N_{y}=\sum_{z\ge y}D_{z}\).</p>
+<div class="row">
+<label>Interest \(i\) %<input id="ir" type="number" value="5" step="0.01"></label>
+<label>Age \(x\)<input id="xa" type="number" value="60" step="1" min="0"></label>
+<label>Term \(n\)<input id="tn" type="number" value="5" min="1" step="1"></label>
+<label>Deferral \(k\)<input id="dk" type="number" value="3" min="0" step="1"></label>
+</div>
+<label style="display:block;font-size:13px;color:var(--muted);margin:8px 0">Life table \(\ell_{y}\)
+<textarea id="lt" rows="3" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">100000,97000,93500,89500,85000,80000,74000,67000,59000,50000,40000</textarea></label>
+<button class="b" onclick="calcA()">Compute</button>
+<button class="b alt" onclick="preset()">Reset to example</button>
+<div class="row" id="aout"></div>
+<div class="tw" id="atab"></div>
+</div>
+</section>
+
+<footer>Study guide on life annuities · scope follows the Theory of Interest lecture slides (survival probabilities, expected present value, annuity types, commutation functions, present-value formulas).</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- calculator ---------- */
+function f4(x){return x.toFixed(4)}
+function f0(x){return x.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}
+function g(a,i){return i<a.length?a[i]:0}
+function calcA(){
+  var i=+document.getElementById('ir').value/100;
+  var x=+document.getElementById('xa').value;
+  var n=Math.max(1,Math.round(+document.getElementById('tn').value));
+  var k=Math.max(0,Math.round(+document.getElementById('dk').value));
+  var raw=document.getElementById('lt').value.split(/[^0-9.]+/).filter(function(s){return s!==''}).map(Number);
+  var out=document.getElementById('aout'), tab=document.getElementById('atab');
+  if(i<=-1||raw.length<2||raw.some(isNaN)){out.innerHTML='<p>Enter a valid rate and at least two \\(\\ell_y\\) values.</p>';tab.innerHTML='';return;}
+  var v=1/(1+i);
+  var D=raw.map(function(l,j){return Math.pow(v,j)*l});
+  var N=[],s=0;
+  for(var j=D.length-1;j>=0;j--){s+=D[j];N[j]=s;}
+  var due=N[0]/D[0];
+  var imm=g(N,1)/D[0];
+  var tdue=(N[0]-g(N,n))/D[0];
+  var timm=(g(N,1)-g(N,n+1))/D[0];
+  var def=g(N,k+1)/D[0];
+  var deft=(g(N,k+1)-g(N,k+n+1))/D[0];
+  var K=[['\\(\\ddot a_x\\) whole-life due',f4(due)],
+         ['\\(\\bar a_x\\) whole-life imm.',f4(imm)],
+         [n+'-yr temporary due',f4(tdue)],
+         [n+'-yr temporary imm.',f4(timm)],
+         [k+'-yr deferred due-like',f4(def)],
+         [k+'-yr def., '+n+'-yr temp.',f4(deft)]];
+  out.innerHTML=K.map(function(q){return '<div class="kpi"><small>'+q[0]+'</small><b>'+q[1]+'</b></div>'}).join('');
+  var rows='<table><tr><th>Age \\(y\\)</th><th>\\(\\ell_y\\)</th><th>\\(D_y\\)</th><th>\\(N_y\\)</th><th>\\(v^{y-x}{}_{y-x}p_x\\)</th></tr>';
+  for(var j2=0;j2<D.length;j2++){
+    rows+='<tr><td>'+(x+j2)+'</td><td>'+f0(raw[j2])+'</td><td>'+D[j2].toFixed(2)+'</td><td>'+N[j2].toFixed(2)+'</td><td>'+(D[j2]/D[0]).toFixed(6)+'</td></tr>';
+  }
+  tab.innerHTML=rows+'</table>';
+  if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([out,tab]);
+}
+function preset(){
+  document.getElementById('ir').value=5;document.getElementById('xa').value=60;
+  document.getElementById('tn').value=5;document.getElementById('dk').value=3;
+  document.getElementById('lt').value='100000,97000,93500,89500,85000,80000,74000,67000,59000,50000,40000';
+  calcA();
+}
+calcA();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'The expected present value of a payment of 1 at time \\(k\\), conditional on survival, is:',
+  o:['\\(v^{k}\\)','\\({}_{k}p_{x}\\)','\\(v^{k}{}_{k}p_{x}\\)','\\(v^{k}/{}_{k}p_{x}\\)'],a:2,
+  s:'Both effects multiply: discount for time, survival probability for mortality.'},
+ {q:'In a whole-life annuity-<b>due</b>, the first payment is made:',
+  o:['At the end of year 1','Immediately, at time 0','After the deferral period','At the end of each year for \\(n\\) years'],a:1,
+  s:'"Due" means payments at the beginning of each year, so the time-0 payment is certain and contributes exactly 1.'},
+ {q:'\\(\\ddot{a}_{x}\\) expressed with \\(\\bar{a}_{x}\\) equals:',
+  o:['\\(\\bar{a}_{x}-1\\)','\\(\\bar{a}_{x}\\)','\\(1+\\bar{a}_{x}\\)','\\(v\\,\\bar{a}_{x}\\)'],a:2,
+  s:'\\(N_{x}=D_{x}+N_{x+1}\\), so \\(N_{x}/D_{x}=1+N_{x+1}/D_{x}\\).'},
+ {q:'The commutation form of the \\(n\\)-year temporary annuity-due is:',
+  o:['\\((N_{x+1}-N_{x+n+1})/D_{x}\\)','\\((N_{x}-N_{x+n})/D_{x}\\)','\\(N_{x+n}/D_{x}\\)','\\(N_{x}/D_{x+n}\\)'],a:1,
+  s:'Payments at \\(0,\\dots,n-1\\) give \\(D_x+\\cdots+D_{x+n-1}\\), i.e. \\(N_x-N_{x+n}\\), over \\(D_x\\).'},
+ {q:'A \\(k\\)-year deferred whole-life annuity-immediate has value:',
+  o:['\\(N_{x+k}/D_{x}\\)','\\(N_{x+k+1}/D_{x}\\)','\\(N_{x+1}/D_{x+k}\\)','\\((N_{x+1}-N_{x+k+1})/D_{x}\\)'],a:1,
+  s:'First payment falls at the end of year \\(k+1\\), so the numerator starts at \\(D_{x+k+1}\\); the whole tail from there is \\(N_{x+k+1}\\).'},
+ {q:'If \\(\\ell_{60}=100{,}000\\) and \\(\\ell_{65}=85{,}000\\), then \\({}_{5}p_{60}\\) is:',
+  o:['0.850','0.150','0.085','1.176'],a:0,
+  s:'\\({}_{5}p_{60}=\\ell_{65}/\\ell_{60}=85{,}000/100{,}000=0.850\\).'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Q'+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'✔ Correct. ':'✘ Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>

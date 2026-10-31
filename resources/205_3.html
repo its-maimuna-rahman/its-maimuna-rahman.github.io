@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Life Tables & Age Indices – Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}h4{font-size:1.05rem;margin:1.3em 0 .3em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.1rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em}
+.bd{background:#006a4e15;color:#006a4e}.us{background:#1f3a8a15;color:#1f3a8a}
+.num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent2);color:#fff;font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:6px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#math">The Math</a><a href="#columns">Columns explained</a><a href="#heaping">Age heaping</a><a href="#whipple">Whipple's</a><a href="#myers">Myers'</a><a href="#implications">Implications</a><a href="#context">Real world</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Reference</a><a href="#calc">Calculators</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Demography · Population Analysis</span>
+<h1>Life Tables & Age Indices</h1>
+<p class="lead">The life table is demography's central machine: it takes a single assumption about mortality and produces every quantity a government, insurer or researcher needs — how many people survive to any age, what the risk of dying at that age is, and how many years of life remain. The age indices are the quality-control instruments that decide whether the ages fed into that machine are trustworthy. This guide derives the life table column by column, explains why each one exists, and then walks through Whipple's and Myers' indices with every step of arithmetic shown.</p>
+</header>
+
+<!-- ================= 1. THE MATH ================= -->
+<section id="math">
+<h2>1 · The mathematical core: one assumption, every column</h2>
+<div class="card">
+<p>Demographers cannot follow a real birth cohort for a century and then publish the results. By the time the last member dies, the mortality conditions that shaped that cohort have long since changed. So instead, they build a <b>synthetic cohort</b>: a hypothetical group of 100,000 newborns who, at every age, experience the death rates actually observed in a single period. The life table is the record of what happens to that hypothetical group.</p>
+<p>The only input the table needs is a sequence of survivorship values. Everything else is arithmetic derived from that sequence:</p>
+\[d_x=l_x-l_{x+1}\qquad q_x=\frac{d_x}{l_x}\qquad p_x=\frac{l_{x+1}}{l_x}\]
+\[L_x=\frac{l_x+l_{x+1}}{2}\qquad T_x=\sum_{y\ge x}L_y\qquad e_x=\frac{T_x}{l_x}\]
+<p>Each of these exists for a reason. The next section explains what each one answers, what question it makes possible, and what it is used for in practice.</p>
+</div>
+
+<div class="card">
+<h3>Worked example: a complete mini life table</h3>
+<p>Take a radix \(l_0=100{,}000\) and suppose death counts of 1,500, 500, 400, 300 and 200 over the next five years. Build every column.</p>
+<div class="tw"><table>
+<tr><th>Age \(x\)</th><th>\(l_x\)</th><th>\(d_x=l_x-l_{x+1}\)</th><th>\(q_x=d_x/l_x\)</th><th>\(p_x=l_{x+1}/l_x\)</th><th>\(L_x=(l_x+l_{x+1})/2\)</th><th>\(T_x=\sum_{y\ge x}L_y\)</th><th>\(e_x=T_x/l_x\)</th></tr>
+<tr><td>0</td><td>100,000</td><td>1,500</td><td>0.01500</td><td>0.98500</td><td>99,250</td><td>489,950</td><td>4.900</td></tr>
+<tr><td>1</td><td>98,500</td><td>500</td><td>0.00508</td><td>0.99492</td><td>98,250</td><td>390,700</td><td>3.967</td></tr>
+<tr><td>2</td><td>98,000</td><td>400</td><td>0.00408</td><td>0.99592</td><td>97,800</td><td>292,450</td><td>2.984</td></tr>
+<tr><td>3</td><td>97,600</td><td>300</td><td>0.00307</td><td>0.99693</td><td>97,450</td><td>194,650</td><td>1.994</td></tr>
+<tr><td>4</td><td>97,300</td><td>200</td><td>0.00206</td><td>0.99794</td><td>97,200</td><td>97,200</td><td>0.999</td></tr>
+<tr><td>5</td><td>97,100</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</table></div>
+<div class="step"><b>Step 1: \(d_x\).</b> \(d_0=100{,}000-98{,}500=1{,}500\); \(d_1=98{,}500-98{,}000=500\); and so on.</div>
+<div class="step"><b>Step 2: \(q_x\).</b> \(q_0=1{,}500/100{,}000=0.01500\); \(q_1=500/98{,}500=0.00508\).</div>
+<div class="step"><b>Step 3: \(L_x\).</b> \(L_0=(100{,}000+98{,}500)/2=99{,}250\); \(L_1=(98{,}500+98{,}000)/2=98{,}250\).</div>
+<div class="step"><b>Step 4: \(T_x\).</b> Start at the bottom: \(T_4=L_4=97{,}200\); \(T_3=L_3+T_4=97{,}450+97{,}200=194{,}650\); continue upward to \(T_0=489{,}950\).</div>
+<div class="step"><b>Step 5: \(e_x\).</b> \(e_0=489{,}950/100{,}000=4.90\); \(e_1=390{,}700/98{,}500=3.97\); \(e_4=97{,}200/97{,}300=1.00\).</div>
+<div class="sol">A newborn in this synthetic cohort is expected to live 4.90 years; a person aged 4 is expected to live 1.00 more year. Every later column is derived from the two columns to its left.</div>
+</div>
+</section>
+
+<!-- ================= 2. COLUMNS EXPLAINED ================= -->
+<section id="columns">
+<h2>2 · Why each column exists, and why it matters</h2>
+<p>The life table is often taught as a sequence of formulas. That is the wrong way to learn it. Each column answers a specific question, and each question is asked by a specific kind of user: an actuary pricing a policy, a planner sizing a school system, an epidemiologist comparing two countries. Understanding the purpose of each column is what makes the table usable rather than merely memorable.</p>
+
+<h3>Column 1 — \(l_x\): the number surviving to exact age \(x\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> No one can observe a real cohort for 100 years, so we simulate one. Set \(l_0=100{,}000\) (the radix) and let each subsequent value record how many of that group survive to each birthday. The entire table is a model of what would happen to 100,000 newborns if the current death rates applied at every age.</p>
+<p><b>What question it answers.</b> "Of 100,000 babies born this year, how many will reach age 65?" The answer is \(l_{65}\). "What fraction of the population survives to retirement?" The answer is \(l_{65}/l_0\).</p>
+<p><b>Why it matters.</b> This is the column that makes the rest of the table possible. The cohort-component projection model — the standard method for forecasting national populations — begins by taking the current population by age and multiplying each age group by a survival ratio \(l_{x+1}/l_x\). Without \(l_x\), no national population projection exists. In actuarial work, the ratio \(l_{x+k}/l_x\) is exactly the probability of survival that prices a life annuity.</p>
+</div>
+
+<h3>Column 2 — \(d_x\): deaths between age \(x\) and \(x+1\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> \(d_x\) is the difference between consecutive \(l\) values. On its own it is a bookkeeping entry, but its <i>distribution</i> across ages is one of the most informative pictures in demography. A country in which most of the \(d_x\) values pile up at ages 75–90 has a <b>rectangular</b> survival curve: almost everyone survives to old age, then dies in a narrow window. A country in which large \(d_x\) values appear at ages 0–5 has a <b>triangular</b> curve: deaths are concentrated at the start of life.</p>
+<p><b>What question it answers.</b> "Where is mortality concentrated?" If you draw a bar chart of \(d_x\) against age, the shape tells you immediately whether a country's health system is dealing with child mortality, maternal mortality, or chronic disease.</p>
+<p><b>Why it matters.</b> The distribution of \(d_x\) is the primary diagnostic for health policy. A country that sees its \(d_x\) shift from ages 0–5 toward ages 65–85 has completed the demographic transition. A country still seeing a large \(d_x\) spike in the first year of life needs neonatal and maternal health investment. In insurance, \(d_x\) enters the calculation of life-insurance premiums through the commutation function \(C_x = v^{x+1}d_x\).</p>
+</div>
+
+<h3>Column 3 — \(q_x\): the probability of dying between \(x\) and \(x+1\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> \(q_x\) is \(d_x\) divided by \(l_x\). The division is the whole point: it converts an absolute count of deaths into a <b>rate</b> that is independent of the size of the cohort. A country of 200 million and a country of 2 million with the same \(q_x\) at age 60 have the same mortality risk at age 60, even though their absolute death counts differ by a factor of 100.</p>
+<p><b>What question it answers.</b> "Given that I have survived to age 60, what is the chance I die before 61?" That is \(q_{60}\). "What is the chance a 40-year-old man dies before 65?" That is the five-year death probability, which can be built from the \(q_x\) values.</p>
+<p><b>Why it matters.</b> \(q_x\) is the currency in which demographers, actuaries and epidemiologists exchange information. It is the input to every population projection. It is the central input to life insurance pricing: the net single premium for a whole-life assurance is built from \(q_x\). It is the standard measure for comparing mortality between countries, between time periods, and between subgroups of a population. When you read a headline saying "U.S. life expectancy fell," the underlying number is a \(q_x\) series that has shifted upward at some ages.</p>
+</div>
+
+<h3>Column 4 — \(p_x\): the probability of surviving from \(x\) to \(x+1\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> \(p_x=1-q_x\). It is the complement, but it is not merely a convenience. In the cohort-component projection, each age group is advanced by multiplying by \(p_x\). In survival analysis, \(p_x\) is the per-year survival probability that generates the survival function \(S(t)\). In the pricing of annuities, \({}_kp_x\), the \(k\)-year survival probability, is the product \(p_x\cdot p_{x+1}\cdots p_{x+k-1}\).</p>
+<p><b>What question it answers.</b> "What fraction of the cohort alive at age \(x\) will still be alive at \(x+1\)?" In a projection: "How many 30-year-olds in 2025 become 31-year-olds in 2026?" Multiply the 2025 count by \(p_{30}\).</p>
+<p><b>Why it matters.</b> Every population projection in the world is, at bottom, a repeated application of \(p_x\). The UN's World Population Prospects, national population estimates, pension-fund solvency calculations, school-enrolment projections — all rely on a \(p_x\) schedule. When a country's \(p_x\) at older ages rises because of medical improvement, the entire fiscal projection for pensions shifts.</p>
+</div>
+
+<h3>Column 5 — \(L_x\): person-years lived between \(x\) and \(x+1\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> You cannot add \(l_x\) values across ages — they are snapshots, not durations. To get a measure of <i>time lived</i>, you need person-years: one person alive for a full year contributes 1 person-year; two people alive for half a year contribute 1 person-year. Under the assumption that deaths are spread evenly across the year, the average number alive during the year is \((l_x+l_{x+1})/2\), and that is \(L_x\).</p>
+<p><b>What question it answers.</b> "How much exposure to risk does the cohort experience between ages \(x\) and \(x+1\)?" If you want to compute an age-specific death rate, you need a denominator that reflects the time at risk, not the number of people at a single instant. \(L_x\) is that denominator.</p>
+<p><b>Why it matters.</b> \(L_x\) is the foundation of the mid-year population estimate, which is the denominator of almost every crude rate. It is also used in the construction of period life tables from observed rates: the raw data give you death counts by age, and \(L_x\) converts them into a consistent denominator. In population projections and in the construction of abridged life tables, \(L_x\) is the unit that gets summed forward.</p>
+</div>
+
+<h3>Column 6 — \(T_x\): total person-years lived above age \(x\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> \(T_x\) is the sum of all the \(L\) values from age \(x\) upward: \(T_x=L_x+L_{x+1}+L_{x+2}+\cdots\). It represents the total future lifetime of everyone in the cohort who reaches age \(x\).</p>
+<p><b>What question it answers.</b> "How many years will the cohort live in total from age \(x\) onward?" If you want to know the total life-years a cohort contributes after age 60, you read \(T_{60}\). If you want to know the total cost of paying a pension of \$1 per year to every survivor from age 65 onward, the answer is \(T_{65}\) times the annuity amount (discounted for interest).</p>
+<p><b>Why it matters.</b> \(T_x\) is the quantity that makes life expectancy possible: \(e_x=T_x/l_x\). It is also the natural denominator for certain types of population projections: the total number of years lived by a cohort is a stable, interpretable quantity that survives changes in cohort size. In insurance, the present value of a whole-life annuity is \(T\)-based through the relationship \(N_x = \sum_{y\ge x}D_y\), and the \(D_x\) functions are constructed from \(v^x l_x\), the discounted version of \(l_x\).</p>
+</div>
+
+<h3>Column 7 — \(e_x\): the complete expectation of life at age \(x\)</h3>
+<div class="card">
+<p><b>Why we compute it.</b> \(e_x=T_x/l_x\) is the average number of additional years a person aged \(x\) will live. It is the summary statistic of the table — a single number that captures the entire mortality pattern from age \(x\) onward.</p>
+<p><b>What question it answers.</b> "How long, on average, does a 65-year-old live?" The answer is \(e_{65}\). "How long does a newborn live?" The answer is \(e_0\), life expectancy at birth. "How much has life expectancy improved since 1990?" The answer is \(e_0(2024)-e_0(1990)\).</p>
+<p><b>Why it matters.</b> \(e_x\) is the number the public, the press and the policymakers actually use. Social Security projections depend on \(e_{65}\) (how long retirees will collect benefits). Retirement-age policy depends on \(e_{65}\) (if it rises, the retirement age may need to rise too). Health-care planning depends on \(e_{x}\) at older ages (the number of years of disability-free life). Insurance pricing uses \(e_{x}\) directly in annuity rate calculations.</p>
+<p>The most important point: \(e_x\) is <b>not</b> the age at which people die. It is the average number of years remaining at age \(x\). A country where \(e_0=75\) is not a country where everyone dies at 75; it is a country where the average newborn would live 75 years if current mortality conditions persisted. The distinction matters, because the same \(e_0\) can come from a country with high infant mortality and high adult survival, or from a country with low infant mortality and moderate adult survival.</p>
+</div>
+</section>
+
+<!-- ================= 3. AGE HEAPING ================= -->
+<section id="heaping">
+<h2>3 · Age heaping: the error the indices exist to measure</h2>
+<div class="card">
+<p>Every column of the life table assumes that the ages recorded in the census or survey are correct. In practice, they are not. People round their ages, especially when they are older, less literate, or answering a question they do not consider important. A woman who is 43 may say 45; a man who is 58 may say 60. The result is a distorted age distribution with unnatural spikes at round numbers, and every rate calculated from that distribution inherits the distortion.</p>
+</div>
+
+<h3>Why people round their ages</h3>
+<div class="grid">
+<div class="card"><b>Ignorance of exact age</b><br>In settings where birth registration is incomplete or where age is rarely asked, many adults genuinely do not know their exact birth year. The nearest round number is the best available answer.</div>
+<div class="card"><b>Cognitive convenience</b><br>Even when people know their exact age, rounding to 0 or 5 is faster and feels natural. The tendency is universal and increases with age.</div>
+<div class="card"><b>Cultural significance</b><br>Certain ages carry social meaning — 18, 21, 60, 65 — and respondents may round toward them to signal adulthood, seniority, or eligibility for a benefit.</div>
+<div class="card"><b>Interviewer behaviour</b><br>In rapid fieldwork, an enumerator may record the age the respondent offers without probing for a birth date. The recorded age is whatever the respondent said first.</div>
+</div>
+
+<h3>What heaping does to a life table</h3>
+<div class="card">
+<p>Suppose a large number of 43-year-olds report their age as 45. Then:</p>
+<div class="step"><b>The denominator at 45 is inflated.</b> More people are counted at age 45 than actually exist.</div>
+<div class="step"><b>\(q_{45}\) is understated.</b> The number of deaths at 45 is roughly correct, but it is divided by an inflated denominator. The calculated death probability is too low.</div>
+<div class="step"><b>\(q_{43}\) is overstated.</b> People who were actually 43 have been moved to 45, so the number counted at 43 is too small. The same number of deaths divided by a smaller denominator gives a higher rate.</div>
+<div class="step"><b>\(e_x\) is biased.</b> If \(q\) is understated at some ages and overstated at others, the sum that produces \(e_x\) is wrong in both directions. The final life expectancy may be biased upward or downward depending on the pattern of heaping.</div>
+<div class="step"><b>Dependency ratios are distorted.</b> The number of "people aged 65+" is a key planning quantity. If some 63-year-olds report 65 and some 67-year-olds report 65, the total may look correct, but the distribution within the group is wrong — which matters for health-care cost projections, pension eligibility, and social-service planning.</div>
+</div>
+
+<div class="box key"><b class="t">The two questions the indices answer</b>
+Whipple's index asks: <i>how much does the age distribution cluster on multiples of five?</i> Myers' index asks: <i>how much does it cluster on any terminal digit at all?</i> Together they tell you whether the age data can be used directly, or must be smoothed before any rate is calculated.</div>
+</section>
+
+<!-- ================= 4. WHIPPLE ================= -->
+<section id="whipple">
+<h2>4 · Whipple's index: full calculation</h2>
+<div class="card">
+<p>Whipple's index measures heaping on the two terminal digits that account for most rounding: 0 and 5. It compares the population at ages ending in 0 or 5 with the total population in a surrounding age band, adjusted so that a perfectly smooth age distribution gives an index of exactly 100.</p>
+\[\boxed{W=\frac{P_{25}+P_{30}+P_{35}+P_{40}+P_{45}+P_{50}+P_{55}+P_{60}}{\dfrac{1}{5}\left(P_{23}+P_{24}+\cdots+P_{62}\right)}\times100}\]
+<p>The numerator sums eight ages: 25, 30, 35, 40, 45, 50, 55, 60. The denominator is the total population aged 23 to 62 — forty single years — divided by 5 to make the two sides comparable. Under a perfectly smooth age distribution, the numerator would equal the denominator, and \(W\) would equal 100.</p>
+</div>
+
+<h3>Worked calculation from a forty-age table</h3>
+<p>Suppose a district reports the following population (in thousands) at each single year of age from 23 to 62. The pattern deliberately shows the kind of heaping you would expect in raw survey data: ages ending in 0 and 5 are noticeably larger than their neighbours.</p>
+<div class="tw"><table>
+<tr><th>Age</th><th>Population</th><th>Age</th><th>Population</th><th>Age</th><th>Population</th><th>Age</th><th>Population</th></tr>
+<tr><td>23</td><td>95</td><td>33</td><td>86</td><td>43</td><td>78</td><td>53</td><td>70</td></tr>
+<tr><td>24</td><td>98</td><td>34</td><td>85</td><td>44</td><td>77</td><td>54</td><td>69</td></tr>
+<tr><td><b>25</b></td><td><b>120</b></td><td><b>35</b></td><td><b>115</b></td><td><b>45</b></td><td><b>108</b></td><td><b>55</b></td><td><b>102</b></td></tr>
+<tr><td>26</td><td>96</td><td>36</td><td>84</td><td>46</td><td>76</td><td>56</td><td>68</td></tr>
+<tr><td>27</td><td>93</td><td>37</td><td>83</td><td>47</td><td>75</td><td>57</td><td>67</td></tr>
+<tr><td>28</td><td>91</td><td>38</td><td>82</td><td>48</td><td>74</td><td>58</td><td>66</td></tr>
+<tr><td>29</td><td>90</td><td>39</td><td>81</td><td>49</td><td>73</td><td>59</td><td>65</td></tr>
+<tr><td><b>30</b></td><td><b>118</b></td><td><b>40</b></td><td><b>112</b></td><td><b>50</b></td><td><b>105</b></td><td><b>60</b></td><td><b>98</b></td></tr>
+<tr><td>31</td><td>89</td><td>41</td><td>80</td><td>51</td><td>72</td><td>61</td><td>64</td></tr>
+<tr><td>32</td><td>87</td><td>42</td><td>79</td><td>52</td><td>71</td><td>62</td><td>63</td></tr>
+</table></div>
+
+<h4>Step 1 — Numerator: the eight ages ending in 0 or 5</h4>
+<div class="card">
+\[P_{25}+P_{30}+P_{35}+P_{40}+P_{45}+P_{50}+P_{55}+P_{60}\]
+\[=120+118+115+112+108+105+102+98=878\]
+<p>These are the eight values in bold above. Their average is \(878/8=109.75\) thousand per age.</p>
+</div>
+
+<h4>Step 2 — Denominator: the full forty-age band, divided by five</h4>
+<div class="card">
+<p>Add every population from age 23 to 62:</p>
+\[95+98+120+96+93+91+90+118+89+87+86+85+115+84+83+82+81+112+80+79\]
+\[+78+77+108+76+75+74+73+105+72+71+70+69+102+68+67+66+65+98+64+63\]
+\[=3{,}405\]
+<p>Divide by 5 because there are five single years of age per "average" step in the band (the denominator needs to represent the average population per age in the band, multiplied by the eight "slots" the numerator occupies):</p>
+\[\frac{3{,}405}{5}=681\]
+<p>The average population per age in the band is \(3{,}405/40=85.125\) thousand. Multiplying by 8 slots gives \(8\times85.125=681\), which is the same number.</p>
+</div>
+
+<h4>Step 3 — The index</h4>
+<div class="card">
+\[W=\frac{878}{681}\times100=128.9\]
+<p>Interpretation against the standard bands:</p>
+<div class="tw"><table>
+<tr><th>Whipple's index</th><th>Interpretation</th></tr>
+<tr><td>Below 105</td><td>Very accurate data; essentially no heaping on 0 and 5</td></tr>
+<tr><td>105 – 110</td><td>Reasonably accurate</td></tr>
+<tr><td>110 – 125</td><td>Approximate; noticeable heaping</td></tr>
+<tr><td>125 – 175</td><td>Rough; substantial heaping</td></tr>
+<tr><td>Above 175</td><td>Very rough; ages are largely unusable without adjustment</td></tr>
+</table></div>
+<p>An index of 128.9 falls in the "rough" band. The data show substantial heaping on 0 and 5, and any life table built directly from these ages would need smoothing first.</p>
+</div>
+
+<div class="sol">The eight ages ending in 0 or 5 contain 878 thousand people. The forty-age band contains 3,405 thousand. Dividing the band by 5 gives 681, the expected size of the numerator under a smooth distribution. The ratio 878/681 = 1.289, so ages ending in 0 or 5 are 28.9% more populous than they should be.</div>
+</section>
+
+<!-- ================= 5. MYERS ================= -->
+<section id="myers">
+<h2>5 · Myers' index: full calculation</h2>
+<div class="card">
+<p>Whipple's index has a blind spot: it only looks at 0 and 5. If a population also heaps on other digits — say, even numbers, or 8, or 9 — Whipple's index will not see it. Myers' index measures heaping on <b>every</b> terminal digit, from 0 through 9, and is designed so that the actual age structure of the population does not distort the result.</p>
+<p>The method works in four steps:</p>
+<ol>
+<li>For each terminal digit \(d\), sum the population at every age from 10 to 89 whose final digit is \(d\). Call this \(N_d\).</li>
+<li>Blend adjacent digits so that the smooth age structure cancels: \(B_d=N_d+N_{d+1}\) (with \(N_{10}=N_0\) for the wrap at digit 9).</li>
+<li>Express each \(B_d\) as a percentage of the total: \(P_d=B_d/\sum B_j\times100\).</li>
+<li>Sum the absolute deviations from 10: \(I=\sum_{d=0}^{9}|P_d-10|\).</li>
+</ol>
+<p>Under perfect reporting, every \(P_d\) equals 10% and \(I=0\). The maximum possible value of \(I\) is 180 (all ages on one digit, which is impossible in practice but gives the scale).</p>
+</div>
+
+<h3>Worked calculation from an eighty-age table</h3>
+<p>Suppose a country reports the following populations (in thousands) at each single year of age from 10 to 89. The data deliberately show strong heaping on 0 and 5, with a smooth decline across the age range.</p>
+<div class="tw"><table>
+<tr><th>Decade</th><th>Digit 0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr>
+<tr><td>10–19</td><td><b>130</b></td><td>95</td><td>92</td><td>90</td><td>88</td><td><b>125</b></td><td>85</td><td>83</td><td>81</td><td>79</td></tr>
+<tr><td>20–29</td><td><b>110</b></td><td>88</td><td>86</td><td>84</td><td>82</td><td><b>105</b></td><td>80</td><td>78</td><td>76</td><td>74</td></tr>
+<tr><td>30–39</td><td><b>100</b></td><td>78</td><td>76</td><td>74</td><td>72</td><td><b>95</b></td><td>70</td><td>68</td><td>66</td><td>64</td></tr>
+<tr><td>40–49</td><td><b>90</b></td><td>68</td><td>66</td><td>64</td><td>62</td><td><b>85</b></td><td>60</td><td>58</td><td>56</td><td>54</td></tr>
+<tr><td>50–59</td><td><b>80</b></td><td>58</td><td>56</td><td>54</td><td>52</td><td><b>75</b></td><td>50</td><td>48</td><td>46</td><td>44</td></tr>
+<tr><td>60–69</td><td><b>70</b></td><td>48</td><td>46</td><td>44</td><td>42</td><td><b>65</b></td><td>40</td><td>38</td><td>36</td><td>34</td></tr>
+<tr><td>70–79</td><td><b>60</b></td><td>38</td><td>36</td><td>34</td><td>32</td><td><b>55</b></td><td>30</td><td>28</td><td>26</td><td>24</td></tr>
+<tr><td>80–89</td><td><b>50</b></td><td>28</td><td>26</td><td>24</td><td>22</td><td><b>45</b></td><td>20</td><td>18</td><td>16</td><td>14</td></tr>
+</table></div>
+
+<h4>Step 1 — Sum by terminal digit, \(N_d\)</h4>
+<div class="card">
+<p>Add each column down the eight decades:</p>
+<div class="tw"><table>
+<tr><th>Digit \(d\)</th><th>Calculation</th><th>\(N_d\)</th></tr>
+<tr><td>0</td><td>130+110+100+90+80+70+60+50</td><td><b>690</b></td></tr>
+<tr><td>1</td><td>95+88+78+68+58+48+38+28</td><td><b>501</b></td></tr>
+<tr><td>2</td><td>92+86+76+66+56+46+36+26</td><td><b>484</b></td></tr>
+<tr><td>3</td><td>90+84+74+64+54+44+34+24</td><td><b>468</b></td></tr>
+<tr><td>4</td><td>88+82+72+62+52+42+32+22</td><td><b>452</b></td></tr>
+<tr><td>5</td><td>125+105+95+85+75+65+55+45</td><td><b>650</b></td></tr>
+<tr><td>6</td><td>85+80+70+60+50+40+30+20</td><td><b>435</b></td></tr>
+<tr><td>7</td><td>83+78+68+58+48+38+28+18</td><td><b>419</b></td></tr>
+<tr><td>8</td><td>81+76+66+56+46+36+26+16</td><td><b>403</b></td></tr>
+<tr><td>9</td><td>79+74+64+54+44+34+24+14</td><td><b>387</b></td></tr>
+<tr><th>Total</th><th></th><th><b>4,889</b></th></tr>
+</table></div>
+<p>Notice that 690 and 650 stand out immediately: digits 0 and 5 are over-represented, which is exactly the heaping pattern the data were constructed to show.</p>
+</div>
+
+<h4>Step 2 — Blend adjacent digits, \(B_d=N_d+N_{d+1}\)</h4>
+<div class="card">
+<p>Why blend? The raw \(N_d\) values reflect both digit preference and the true age structure. In a real population, ages 10–19 are larger than ages 80–89 (because many people die before reaching 80), so the sum \(N_d\) over all decades is lower for every digit simply because the higher decades contribute less. Blending adjacent digits cancels this effect, because the smooth decline from one decade to the next affects \(N_d\) and \(N_{d+1}\) in the same way.</p>
+<div class="tw"><table>
+<tr><th>Digit \(d\)</th><th>\(B_d=N_d+N_{d+1}\)</th><th>Value</th></tr>
+<tr><td>0</td><td>\(N_0+N_1=690+501\)</td><td><b>1,191</b></td></tr>
+<tr><td>1</td><td>\(N_1+N_2=501+484\)</td><td><b>985</b></td></tr>
+<tr><td>2</td><td>\(N_2+N_3=484+468\)</td><td><b>952</b></td></tr>
+<tr><td>3</td><td>\(N_3+N_4=468+452\)</td><td><b>920</b></td></tr>
+<tr><td>4</td><td>\(N_4+N_5=452+650\)</td><td><b>1,102</b></td></tr>
+<tr><td>5</td><td>\(N_5+N_6=650+435\)</td><td><b>1,085</b></td></tr>
+<tr><td>6</td><td>\(N_6+N_7=435+419\)</td><td><b>854</b></td></tr>
+<tr><td>7</td><td>\(N_7+N_8=419+403\)</td><td><b>822</b></td></tr>
+<tr><td>8</td><td>\(N_8+N_9=403+387\)</td><td><b>790</b></td></tr>
+<tr><td>9</td><td>\(N_9+N_0=387+690\)</td><td><b>1,077</b></td></tr>
+<tr><th>Total</th><th></th><th><b>9,778</b></th></tr>
+</table></div>
+<p>The total of the \(B_d\) values is \(2\times4{,}889=9{,}778\), as it must be: each \(N_d\) enters exactly twice, once as itself and once as the neighbor of the digit before it.</p>
+</div>
+
+<h4>Step 3 — Percentages \(P_d=B_d/9{,}778\times100\)</h4>
+<div class="card">
+<div class="tw"><table>
+<tr><th>Digit \(d\)</th><th>\(B_d\)</th><th>\(P_d\) (%)</th><th>\(|P_d-10|\)</th></tr>
+<tr><td>0</td><td>1,191</td><td>12.18</td><td>2.18</td></tr>
+<tr><td>1</td><td>985</td><td>10.07</td><td>0.07</td></tr>
+<tr><td>2</td><td>952</td><td>9.74</td><td>0.26</td></tr>
+<tr><td>3</td><td>920</td><td>9.41</td><td>0.59</td></tr>
+<tr><td>4</td><td>1,102</td><td>11.27</td><td>1.27</td></tr>
+<tr><td>5</td><td>1,085</td><td>11.10</td><td>1.10</td></tr>
+<tr><td>6</td><td>854</td><td>8.73</td><td>1.27</td></tr>
+<tr><td>7</td><td>822</td><td>8.41</td><td>1.59</td></tr>
+<tr><td>8</td><td>790</td><td>8.08</td><td>1.92</td></tr>
+<tr><td>9</td><td>1,077</td><td>11.02</td><td>1.02</td></tr>
+<tr><th>Total</th><th>9,778</th><th>100.00</th><th><b>11.27</b></th></tr>
+</table></div>
+<p>The peaks at 0 (12.18%) and 5 (11.10%) are exactly the heaping we built into the data. The peak at 4 (11.27%) and at 9 (11.02%) are artifacts of the simple blend: when there is a heap at 0, the blend \(N_9+N_0\) imports that heap into the value for 9, and the blend \(N_4+N_5\) imports the heap at 5 into the value for 4. The full Myers method uses a more elaborate weighting across decades specifically to eliminate this wrap-around leakage; for teaching purposes the simplified blend shows the principle clearly, and the general shape of the index is correct.</p>
+</div>
+
+<h4>Step 4 — The index</h4>
+<div class="card">
+\[I=\sum_{d=0}^{9}|P_d-10|=2.18+0.07+0.26+0.59+1.27+1.10+1.27+1.59+1.92+1.02=11.27\]
+<div class="tw"><table>
+<tr><th>Myers' index</th><th>Interpretation</th></tr>
+<tr><td>Below 5</td><td>Excellent data; no meaningful digit preference</td></tr>
+<tr><td>5 – 15</td><td>Good data; minor heaping</td></tr>
+<tr><td>15 – 30</td><td>Moderate heaping; smoothing advisable before use</td></tr>
+<tr><td>Above 30</td><td>Severe heaping; ages are unreliable without adjustment</td></tr>
+</table></div>
+<p>An index of 11.27 falls in the "good" band. The data show real heaping on 0 and 5, but the overall digit distribution is not severely distorted. Before building a life table from these ages, a demographer would apply a smoothing routine — typically a moving average across adjacent ages, or a model-based adjustment — to redistribute the excess at 0 and 5 back to the ages where it belongs.</p>
+</div>
+
+<div class="sol">The full Myers calculation: sum by digit → blend adjacent digits → convert to percentages → sum absolute deviations from 10. The index of 11.27 says the age data are usable but need smoothing before any life-table column is computed from them.</div>
+</section>
+
+<!-- ================= 6. IMPLICATIONS ================= -->
+<section id="implications">
+<h2>6 · What the indices imply, in layers</h2>
+<p>The indices are not an end in themselves. They are diagnostic tools, and what matters is what follows from the diagnosis. The implications fall into three layers: what happens to a single life table, what happens when you compare two life tables, and what happens when the distortion propagates through years of policy.</p>
+
+<h3>First-order implications: the single life table</h3>
+<div class="card">
+<div class="step"><b>\(q_x\) is wrong in opposite directions at adjacent ages.</b> At the heaped ages (0 and 5), the denominator \(l_x\) is inflated, so \(q_x\) is understated. At the neighbouring ages, the denominator is deflated, so \(q_x\) is overstated. The sum of deaths across all ages is correct — people still die — but the age-specific rates are wrong.</div>
+<div class="step"><b>\(e_x\) is biased, but in a direction that depends on the pattern.</b> If heaping is concentrated at young ages, life expectancy at birth can be understated, because the large \(l_x\) values at round ages distort the \(T_x\) sum. If heaping is concentrated at older ages, the effect is smaller but still present.</div>
+<div class="step"><b>Dependency ratios are distorted.</b> The standard old-age dependency ratio is \(P_{65+}/P_{15-64}\). If some 63-year-olds report 65 and some 67-year-olds report 65, the ratio's numerator and denominator are both wrong, in different directions, producing a spurious change in the ratio that has nothing to do with actual demographic change.</div>
+<div class="step"><b>Insurance pricing is wrong.</b> A life-insurance premium for a 45-year-old is built from \(q_{45}\). If \(q_{45}\) is understated because of heaping, the premium is too low, and the insurer loses money on that cohort. If the insurer knows the heaping exists, it will smooth the rates before pricing — but the smoothed rates are not the observed rates, so any competitive analysis based on raw rates is misleading.</div>
+</div>
+
+<h3>Second-order implications: comparing two life tables</h3>
+<div class="card">
+<div class="step"><b>Trend comparisons break if the heaping pattern changes.</b> If the 2010 survey had heavy heaping and the 2020 survey had little (because literacy and civil registration improved), then the apparent decline in mortality at ages 60 and 65 may be partly a data artifact: in 2010, the denominator at 65 was inflated; in 2020, it is correct. The observed \(q_{65}\) falls partly because the denominator changed, not because mortality improved.</div>
+<div class="step"><b>Cross-country comparisons break if the heaping patterns differ.</b> Bangladesh's Whipple index is typically 115–135; the United States' is around 100–102. A direct comparison of \(q_{60}\) between the two countries is contaminated by this difference. Demographers either smooth both sets of rates first, or restrict comparisons to ages where heaping is minimal.</div>
+<div class="step"><b>Cohort survival estimates are biased.</b> Following a cohort from one census to the next uses survival ratios \(l_{x+k}/l_x\). If heaping differs between the two censuses, the survival ratio picks up the difference in heaping, not just the difference in mortality. The apparent cohort survival can be too high or too low by several percentage points.</div>
+</div>
+
+<h3>Higher-order implications: accumulated error over time</h3>
+<div class="card">
+<div class="step"><b>Projections built on heaped data accumulate error.</b> A population projection that starts from a heaped age distribution and applies period survival rates will produce a projected population whose age distribution is also heaped. Each decade of projection compounds the distortion. After three or four decades, the projected elderly population may be wrong by millions — which is exactly the number that pension and health-care cost projections depend on.</div>
+<div class="step"><b>Policy errors compound.</b> Suppose a pension plan is built on a life table that understates \(q_{65}\) because of heaping. The plan assumes retirees live longer than they do, so it over-reserves and charges higher premiums than necessary. Over a decade, the plan accumulates a surplus that looks like good management but is actually a data artifact. If the heaping reverses (because civil registration improves), the surplus evaporates and the plan faces a sudden deficit.</div>
+<div class="step"><b>Health-policy targeting misallocates resources.</b> If a programme is targeted at "people aged 60–69" and the age distribution in that band is heavily heaped, the programme may over-serve people who are actually 58 or 62 and under-serve people who are actually 67 or 68. The cost of the misallocation is proportional to the size of the heaping distortion and the cost of the intervention.</div>
+<div class="step"><b>The distortion feeds back into the next round of data collection.</b> If health facilities, pension offices and insurance companies all use the heaped age distribution to plan their services, they inadvertently reinforce it: the services they offer at round ages make those ages more attractive to claim, and the heaping becomes self-reinforcing.</div>
+</div>
+
+<div class="box warn"><b class="t">The practical rule</b>
+Run both indices on any new age distribution <i>before</i> building a life table from it. If Whipple's is above 110 or Myers' is above 15, apply a smoothing method — typically a moving average or a model-based graduation — before computing \(q_x\). Report both the raw and the smoothed indices alongside the published table, so that users can see how much adjustment was applied.</div>
+</section>
+
+<!-- ================= 7. REAL WORLD ================= -->
+<section id="context">
+<h2>7 · What the data look like in Bangladesh and the United States</h2>
+<div class="grid">
+<div class="card"><span class="badge us">United States</span><br><b>Life expectancy and index values.</b> U.S. life expectancy at birth is about <b>76.4 years</b> (73.5 for men, 79.3 for women). Whipple's index is typically <b>100–102</b>; Myers' index is typically <b>below 5</b>. The NVSS death registration and the Decennial Census together produce age data of very high quality, and the life table can be built directly from the reported ages without smoothing.</div>
+<div class="card"><span class="badge bd">Bangladesh</span><br><b>Life expectancy and index values.</b> Life expectancy at birth is about <b>72.4 years</b> (71.1 for men, 73.8 for women). Whipple's index is typically <b>115–135</b>; Myers' index typically <b>15–25</b>. The age data from the census and from SVRS require smoothing before a life table is built. The published life tables are constructed by BBS after applying a standard smoothing routine.</div>
+</div>
+<div class="box"><b class="t">Why the two countries differ</b>
+Three factors drive the gap. First, <b>literacy and numeracy</b>: where adults know their birth year, they report it accurately. Second, <b>civil registration</b>: a complete birth record gives every person a verifiable date of birth. Third, <b>interview practice</b>: a well-trained enumerator probes for the birth date, while a rushed one accepts the first number offered. All three are stronger in the United States, so its ages are cleaner.</div>
+</section>
+
+<!-- ================= 8. PRACTICE ================= -->
+<section id="practice">
+<h2>8 · Practice (click an answer)</h2>
+<div id="quiz"></div>
+</section>
+
+<!-- ================= 9. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>9 · Derivations and worked examples</h2>
+
+<details open><summary>Derivation 1 · Why \(L_x=(l_x+l_{x+1})/2\)</summary>
+<p>Assume deaths are spread uniformly across the year. The number alive at time \(t\) within the year falls linearly from \(l_x\) to \(l_{x+1}\):</p>
+\[l(t)=l_x-t\,d_x,\qquad 0\le t\le 1.\]
+<p>The person-years lived is the integral of \(l(t)\) over the year:</p>
+\[L_x=\int_0^1(l_x-t\,d_x)\,dt=l_x-\frac{d_x}{2}=\frac{2l_x-d_x}{2}=\frac{l_x+l_{x+1}}{2}.\]
+<p>The uniform assumption is good for most ages but poor for infancy, where deaths are concentrated in the first weeks. That is why \(L_0\) uses a separation factor: \(L_0\approx0.3\,l_0+0.7\,l_1\) in many standard tables.</p></details>
+
+<details><summary>Derivation 2 · Why Whipple's index equals 100 under a smooth distribution</summary>
+<p>Suppose ages are distributed evenly, so \(P_a=k\) for every age \(a\) in the band 23–62. The numerator is</p>
+\[8k,\]
+<p>because there are eight ages (25, 30, …, 60) each with \(k\) people. The denominator is</p>
+\[\frac{1}{5}(40k)=8k,\]
+<p>because there are forty ages in the band, each with \(k\) people, divided by 5. Therefore</p>
+\[W=\frac{8k}{8k}\times100=100.\]
+<p>Any excess at ages ending in 0 or 5 raises the numerator and pushes \(W\) above 100.</p></details>
+
+<details><summary>Derivation 3 · Worked Whipple calculation, step by step</summary>
+<p>From the data in section 4:</p>
+<div class="step"><b>Numerator.</b> \(P_{25}=120\), \(P_{30}=118\), \(P_{35}=115\), \(P_{40}=112\), \(P_{45}=108\), \(P_{50}=105\), \(P_{55}=102\), \(P_{60}=98\). Sum \(=878\).</div>
+<div class="step"><b>Denominator.</b> Sum of all forty ages \(23\)–\(62\) \(=3{,}405\). Divide by \(5\): \(681\).</div>
+<div class="step"><b>Index.</b> \(878/681=1.289\). Multiply by 100: \(W=128.9\).</div>
+<p>Interpretation: the ages ending in 0 or 5 hold 28.9% more people than a smooth distribution would require. The data fall in the "rough" band and need smoothing before use.</p></details>
+
+<details><summary>Derivation 4 · Worked Myers calculation, step by step</summary>
+<p>From the data in section 5:</p>
+<div class="step"><b>Step 1.</b> Sum by terminal digit: \(N_0=690\), \(N_1=501\), \(N_2=484\), \(N_3=468\), \(N_4=452\), \(N_5=650\), \(N_6=435\), \(N_7=419\), \(N_8=403\), \(N_9=387\). Total \(=4{,}889\).</div>
+<div class="step"><b>Step 2.</b> Blend adjacent digits: \(B_0=1{,}191\), \(B_1=985\), \(B_2=952\), \(B_3=920\), \(B_4=1{,}102\), \(B_5=1{,}085\), \(B_6=854\), \(B_7=822\), \(B_8=790\), \(B_9=1{,}077\). Total \(=9{,}778\).</div>
+<div class="step"><b>Step 3.</b> Percentages: \(12.18\), \(10.07\), \(9.74\), \(9.41\), \(11.27\), \(11.10\), \(8.73\), \(8.41\), \(8.08\), \(11.02\).</div>
+<div class="step"><b>Step 4.</b> Sum absolute deviations from 10: \(2.18+0.07+0.26+0.59+1.27+1.10+1.27+1.59+1.92+1.02=11.27\).</div>
+<p>Interpretation: the digit distribution is "good" but not excellent. The peaks at 0 and 5 confirm heaping; the peaks at 4 and 9 are artifacts of the simplified blend and would be smaller under the full Myers weighting.</p></details>
+
+<details><summary>Derivation 5 · Effect of heaping on a computed \(q_x\)</summary>
+<p>Suppose the true number of 45-year-olds in a district is 10,000 and the true number of 43-year-olds is 11,000. Suppose the reported counts are 13,000 at 45 and 8,000 at 43, because 3,000 people who are actually 43 reported themselves as 45. Suppose the true number of deaths at each exact age is 100.</p>
+<div class="step"><b>True \(q_{45}\).</b> \(100/10{,}000=0.0100\).</div>
+<div class="step"><b>Reported \(q_{45}\).</b> \(100/13{,}000=0.0077\) — understated by 23%.</div>
+<div class="step"><b>True \(q_{43}\).</b> \(100/11{,}000=0.0091\).</div>
+<div class="step"><b>Reported \(q_{43}\).</b> \(100/8{,}000=0.0125\) — overstated by 37%.</div>
+<p>The total number of deaths (200) is correct, but the age distribution of those deaths is badly wrong. The life table built from the reported ages would show an artificial improvement at 45 and an artificial deterioration at 43.</p></details>
+</section>
+
+<!-- ================= 10. REFERENCE ================= -->
+<h2 id="formulas">10 · Reference sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Meaning</th><th>Used for</th></tr>
+<tr><td>Deaths at age \(x\)</td><td>\(d_x=l_x-l_{x+1}\)</td><td>Number dying in the year</td><td>Distribution of mortality by age</td></tr>
+<tr><td>Probability of death</td><td>\(q_x=d_x/l_x\)</td><td>Risk of dying before \(x+1\)</td><td>Insurance pricing, projections, comparisons</td></tr>
+<tr><td>Probability of survival</td><td>\(p_x=l_{x+1}/l_x\)</td><td>Chance of reaching \(x+1\)</td><td>Cohort-component projections</td></tr>
+<tr><td>Person-years lived</td><td>\(L_x=(l_x+l_{x+1})/2\)</td><td>Average alive during the year</td><td>Mid-year population; exposure denominators</td></tr>
+<tr><td>Total person-years</td><td>\(T_x=\sum_{y\ge x}L_y\)</td><td>Years lived above age \(x\)</td><td>Life expectancy; pension cost</td></tr>
+<tr><td>Life expectancy</td><td>\(e_x=T_x/l_x\)</td><td>Average remaining years</td><td>Policy, insurance, planning</td></tr>
+<tr><td>Whipple's index</td><td>\(W=\dfrac{\sum P_{25,30,\dots,60}}{\frac{1}{5}\sum P_{23}^{62}}\times100\)</td><td>Heaping on 0 and 5</td><td>Data quality check</td></tr>
+<tr><td>Myers' index</td><td>\(I=\sum_{d=0}^{9}|P_d-10|\)</td><td>Heaping on every digit</td><td>Data quality check</td></tr>
+</table></div>
+<div class="tw"><table class="l">
+<tr><th>Index</th><th>Excellent</th><th>Good</th><th>Moderate</th><th>Severe</th></tr>
+<tr><td>Whipple's</td><td>Below 105</td><td>105–110</td><td>110–125</td><td>Above 125</td></tr>
+<tr><td>Myers'</td><td>Below 5</td><td>5–15</td><td>15–30</td><td>Above 30</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 11. CALCULATORS ================= -->
+<section id="calc">
+<h2>11 · Interactive calculators</h2>
+
+<div class="card calc">
+<h3 style="margin-top:0">Life table calculator</h3>
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter a sequence of \(l_x\) values (comma-separated). The calculator fills in \(d_x\), \(q_x\), \(p_x\), \(L_x\), \(T_x\) and \(e_x\) for every age.</p>
+<label style="display:block;font-size:13px;color:var(--muted);margin:8px 0">\(l_x\) values
+<textarea id="ltin" rows="2" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">100000,98500,98000,97600,97300,97100</textarea></label>
+<button class="b" onclick="lifeTable()">Compute table</button>
+<div class="tw" id="ltout"></div>
+</div>
+
+<div class="card calc">
+<h3 style="margin-top:0">Whipple's index calculator</h3>
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter the population at ages 23 to 62 (forty comma-separated values).</p>
+<textarea id="wpin" rows="2" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">95,98,120,96,93,91,90,118,89,87,86,85,115,84,83,82,81,112,80,79,78,77,108,76,75,74,73,105,72,71,70,69,102,68,67,66,65,98,64,63</textarea>
+<button class="b" onclick="whippleCalc()">Compute Whipple</button>
+<div class="row" id="wpout"></div>
+</div>
+
+<div class="card calc">
+<h3 style="margin-top:0">Myers' index calculator</h3>
+<p style="font-size:14px;color:var(--muted);margin-top:0">Enter the blended counts \(B_d\) for digits 0–9 (ten comma-separated values).</p>
+<textarea id="myin" rows="2" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit">1191,985,952,920,1102,1085,854,822,790,1077</textarea>
+<button class="b" onclick="myersCalc()">Compute Myers</button>
+<div class="row" id="myout"></div>
+</div>
+</section>
+
+<footer>Study guide on life tables and age indices · life-table columns derived and explained, Whipple's and Myers' indices calculated step by step · comparative Bangladesh–United States context · sources include BBS, NIPORT, U.S. Census Bureau and CDC/NCHS practice.</footer>
+</main>
+
+<script>
+/* ---------- theme ---------- */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+
+/* ---------- scrollspy ---------- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* ---------- life table ---------- */
+function fmt2(n){return isFinite(n)?n.toFixed(2):'—'}
+function lifeTable(){
+ var raw=document.getElementById('ltin').value.split(/[^0-9.]+/).filter(Boolean).map(Number);
+ var out=document.getElementById('ltout');
+ if(raw.length<2||raw.some(isNaN)){out.innerHTML='<p>Enter at least two valid \\(l_x\\) values.</p>';return;}
+ var n=raw.length, l=raw, d=[], q=[], p=[], L=[], T=[], e=[];
+ for(var i=0;i<n;i++){
+  d[i]=(i<n-1)?l[i]-l[i+1]:0;
+  q[i]=(l[i]>0)?d[i]/l[i]:0;
+  p[i]=(l[i]>0)?(i<n-1?l[i+1]/l[i]:0):0;
+  L[i]=(i<n-1)?(l[i]+l[i+1])/2:0;
+ }
+ var sum=0;
+ for(var i=n-1;i>=0;i--){sum+=L[i];T[i]=sum;}
+ for(var i=0;i<n;i++){e[i]=(l[i]>0)?T[i]/l[i]:0;}
+ var rows='<table><tr><th>\(x\)</th><th>\(l_x\)</th><th>\(d_x\)</th><th>\(q_x\)</th><th>\(p_x\)</th><th>\(L_x\)</th><th>\(T_x\)</th><th>\(e_x\)</th></tr>';
+ for(var i=0;i<n;i++){
+  rows+='<tr><td>'+i+'</td><td>'+Math.round(l[i]).toLocaleString()+'</td><td>'+(i<n-1?Math.round(d[i]).toLocaleString():'—')+'</td><td>'+fmt2(q[i])+'</td><td>'+(i<n-1?fmt2(p[i]):'—')+'</td><td>'+(i<n-1?Math.round(L[i]).toLocaleString():'—')+'</td><td>'+Math.round(T[i]).toLocaleString()+'</td><td>'+(isFinite(e[i])?e[i].toFixed(2):'—')+'</td></tr>';
+ }
+ out.innerHTML=rows+'</table>';
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([out]);
+}
+
+/* ---------- Whipple ---------- */
+function whippleCalc(){
+ var raw=document.getElementById('wpin').value.split(/[^0-9.]+/).filter(Boolean).map(Number);
+ var out=document.getElementById('wpout');
+ if(raw.length!==40||raw.some(isNaN)){out.innerHTML='<p>Enter exactly 40 values (ages 23 to 62).</p>';return;}
+ var ages=[25,30,35,40,45,50,55,60];
+ var num=0;
+ for(var i=0;i<ages.length;i++){var idx=ages[i]-23;num+=raw[idx];}
+ var den=raw.reduce(function(a,b){return a+b},0)/5;
+ var W=(den>0)?(num/den)*100:0;
+ out.innerHTML='<div class="kpi"><small>Numerator (ages 25–60 ending in 0/5)</small><b>'+num.toLocaleString()+'</b></div>'+
+  '<div class="kpi"><small>Denominator (sum 23–62 ÷ 5)</small><b>'+den.toFixed(2)+'</b></div>'+
+  '<div class="kpi"><small>Whipple\'s index</small><b>'+W.toFixed(2)+'</b></div>'+
+  '<div class="kpi"><small>Interpretation</small><b>'+(W<105?'Excellent':W<110?'Good':W<125?'Approximate':W<175?'Rough':'Very rough')+'</b></div>';
+}
+
+/* ---------- Myers ---------- */
+function myersCalc(){
+ var raw=document.getElementById('myin').value.split(/[^0-9.]+/).filter(Boolean).map(Number);
+ var out=document.getElementById('myout');
+ if(raw.length!==10||raw.some(isNaN)){out.innerHTML='<p>Enter exactly 10 values (digits 0–9).</p>';return;}
+ var total=raw.reduce(function(a,b){return a+b},0);
+ if(total<=0){out.innerHTML='<p>Total must be positive.</p>';return;}
+ var pct=raw.map(function(x){return x/total*100});
+ var dev=pct.map(function(x){return Math.abs(x-10)});
+ var I=dev.reduce(function(a,b){return a+b},0);
+ out.innerHTML='<div class="row">'+pct.map(function(x,j){return '<div class="kpi"><small>Digit '+j+' (%)</small><b>'+x.toFixed(2)+'%</b></div>'}).join('')+'</div>'+
+  '<div class="kpi" style="margin-top:10px"><small>Myers\' index \\(I=\\sum|P_d-10|\\)</small><b>'+I.toFixed(2)+'</b></div>'+
+  '<div class="kpi"><small>Interpretation</small><b>'+(I<5?'Excellent':I<15?'Good':I<30?'Moderate':'Severe')+'</b></div>';
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([out]);
+}
+
+lifeTable();whippleCalc();myersCalc();
+
+/* ---------- quiz ---------- */
+var Q=[
+ {q:'In a life table, the column \(l_x\) represents:',
+  o:['The number of people who die at age \(x\)','The number of people alive at exact age \(x\)','The probability of dying at age \(x\)','The expected remaining lifetime at age \(x\)'],a:1,
+  s:'\\(l_x\\) is the survivor column: the number alive at exact age \\(x\\), from a synthetic cohort of 100,000.'},
+ {q:'Why does the life table use \(L_x\) rather than \(l_x\) to compute total years lived?',
+  o:['Because \(l_x\) is not accurate','Because \(l_x\) is a snapshot, while \(L_x\) measures person-time','Because \(L_x\) is larger','Because \(L_x\) is easier to compute'],a:1,
+  s:'Adding snapshots gives no meaningful total; person-years require averaging over the interval, which is what \\(L_x\\) does.'},
+ {q:'The distribution of \(d_x\) across ages tells you:',
+  o:['The total number of deaths','Where mortality is concentrated','The population growth rate','The sex ratio'],a:1,
+  s:'A rectangular \\(d_x\\) curve (deaths piled at old ages) indicates a country with low child mortality; a triangular one indicates high early-life mortality.'},
+ {q:'Why is \(q_x\) more useful than \(d_x\) for comparing countries?',
+  o:['It is easier to compute','It removes the size of the population','It is always smaller','It is published more often'],a:1,
+  s:'\\(q_x\\) is a rate, not a count; two countries of different sizes with the same \\(q_x\\) have the same mortality risk at that age.'},
+ {q:'The survival probability \(p_x\) is the engine of population projections because:',
+  o:['It is a rate','It advances each age group one year forward when multiplied','It determines the total population','It has no error'],a:1,
+  s:'The cohort-component projection multiplies the current population in each age group by \\(p_x\\) to get the population one year older.'},
+ {q:'Life expectancy \(e_x\) is defined as:',
+  o:['\(l_x/T_x\)','\(T_x/l_x\)','\(T_x d_x\)','\(l_x+d_x\)'],a:1,
+  s:'\\(e_x=T_x/l_x\\), the total person-years above age \\(x\\) divided by the number alive at \\(x\\).'},
+ {q:'If 3,000 people aged 43 report their age as 45, the computed \(q_{45}\) will be:',
+  o:['Overstated','Understated','Unchanged','Exactly right'],a:1,
+  s:'The denominator at 45 is inflated, while the numerator (deaths at 45) is unchanged. The rate is understated.'},
+ {q:'Under a perfectly smooth age distribution, Whipple\'s index equals:',
+  o:['0','50','100','200'],a:2,
+  s:'Numerator equals denominator under smoothness, giving \\(W=100\\).'},
+ {q:'Whipple\'s index of 128 falls in which band?',
+  o:['Excellent','Good','Rough','Very rough'],a:2,
+  s:'125–175 is the "rough" band; the data need smoothing before use.'},
+ {q:'Myers\' index differs from Whipple\'s because it:',
+  o:['Uses a larger sample','Measures heaping on every terminal digit, not just 0 and 5','Requires no population data','Applies only to ages above 60'],a:1,
+  s:'Myers blends adjacent digits and measures the deviation of each digit from 10%, not just the 0 and 5 digits.'},
+ {q:'A Myers\' index of 35 indicates:',
+  o:['Excellent data','Good data','Moderate heaping','Severe heaping'],a:3,
+  s:'Above 30 is severe; the age data are unreliable without adjustment.'},
+ {q:'The main consequence of age heaping for a life table is:',
+  o:['The total death count is wrong','\\(q_x\\) is wrong in opposite directions at adjacent ages','\\(l_x\\) becomes negative','The radix changes'],a:1,
+  s:'Heaping at one age inflates the denominator there (understating \\(q\\)) and deflates it at neighbouring ages (overstating \\(q\\)).'},
+ {q:'Over repeated survey rounds, if the heaping pattern changes between rounds:',
+  o:['The effect on rates is negligible','Apparent trends in \\(q_x\\) may be data artifacts','The life table becomes more accurate','\(e_x\) is unaffected'],a:1,
+  s:'A decline in \\(q_{60}\\) between rounds may reflect a reduction in heaping at age 60, not a real mortality improvement.'},
+ {q:'For Bangladesh, Whipple\'s index is typically:',
+  o:['Below 100','100–102','115–135','Above 200'],a:2,
+  s:'Bangladesh age data show substantial heaping on 0 and 5, falling in the "approximate" to "rough" bands.'},
+ {q:'The standard response to a Whipple\'s index above 110 is:',
+  o:['Discard the data','Apply a smoothing routine before computing rates','Increase the sample size','Use the de facto rule instead'],a:1,
+  s:'Smoothing redistributes the excess at heaped ages back to neighbouring ages, producing usable rates.'}
+];
+(function(){var h='';Q.forEach(function(x,k){h+='<div class="card q" id="q'+k+'"><b>Question '+(k+1)+'.</b> '+x.q;x.o.forEach(function(o,m){h+='<button class="opt" onclick="ans('+k+','+m+')">'+'ABCD'[m]+') '+o+'</button>'});h+='<p class="fb"></p></div>'});document.getElementById('quiz').innerHTML=h})();
+function ans(k,m){var x=Q[k],c=document.getElementById('q'+k),b=c.querySelectorAll('.opt');
+ b.forEach(function(e,n){e.disabled=true;if(n===x.a)e.classList.add('right');else if(n===m)e.classList.add('wrong')});
+ c.querySelector('.fb').innerHTML=(m===x.a?'Correct. ':'Not quite. ')+x.s;
+ if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([c])}
+</script>
+</body>
+</html>
