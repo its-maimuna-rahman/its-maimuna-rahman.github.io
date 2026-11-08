@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Central Sampling Distributions: Chi-Squared, t and F</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:var(--soft);font-weight:600}
+.tw{overflow-x:auto}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.05rem}
+canvas{width:100%;height:260px;display:block;margin:10px 0}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#found">Foundation</a><a href="#chi">Chi-squared</a><a href="#tdist">t</a><a href="#fdist">F</a><a href="#links">Connections</a><a href="#choose">Choosing</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">&#9728;&#9790;</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Statistical Inference &middot; Sampling Theory</span>
+<h1>Central Sampling Distributions: Chi-Squared, t and F</h1>
+<p class="lead">A plant that fills bottles, a research station that grows rice and a mill that runs three production lines all share one problem. They hold a small sample and must make a claim about a population they cannot fully see. Three distributions, all built from the normal curve, make that claim precise. This guide builds each one, states its exact properties and shows how the three depend on each other.</p>
+</header>
+
+<section id="found">
+<h2>1 &middot; The common starting point</h2>
+<p>Let \(X_1,\dots,X_n\) be independent draws from a normal population \(N(\mu,\sigma^2)\). Define the sample mean and sample variance</p>
+\[ \bar X=\frac{1}{n}\sum_{i=1}^{n}X_i,\qquad S^2=\frac{1}{n-1}\sum_{i=1}^{n}\left(X_i-\bar X\right)^2 . \]
+<div class="box key"><b class="t">Three facts that everything below rests on</b>
+(i) \(\bar X\sim N\!\left(\mu,\ \sigma^2/n\right)\).<br>
+(ii) \(\dfrac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}\).<br>
+(iii) \(\bar X\) and \(S^2\) are independent.</div>
+<p>Fact (iii) holds only for normal populations, and it is what makes exact small-sample inference possible. Take a plant that fills 500 ml bottles. The machine has two separate settings: where it centres the fill, and how much the fill wobbles. Fact (iii) says a sample that happens to average high tells you nothing about whether the same sample looks too variable.</p>
+<p>The unknown \(\sigma\) is the obstacle. The quantity \(\sqrt n(\bar X-\mu)/\sigma\) is exactly standard normal, but it cannot be computed without \(\sigma\). Each distribution below is the answer to a specific way of dealing with that obstacle: study \(S^2\) itself (chi-squared), replace \(\sigma\) by \(S\) (t), or compare two variance estimates (F). In each case the goal is a quantity whose distribution is fully known, even though \(\mu\) and \(\sigma\) are not.</p>
+</section>
+
+<section id="chi">
+<h2>2 &middot; The chi-squared distribution</h2>
+<p>Let \(Z_1,\dots,Z_k\) be independent standard normal variables. Their sum of squares is chi-squared with \(k\) degrees of freedom, the number of independent squares being added:</p>
+\[ V=Z_1^2+\cdots+Z_k^2\sim\chi^2_k,\qquad f(x)=\frac{x^{k/2-1}\,e^{-x/2}}{2^{k/2}\,\Gamma(k/2)},\quad x\gt 0 . \]
+<p>This is a gamma distribution with shape \(k/2\) and scale \(2\). Squares cannot be negative, so the density lives on the positive axis. For small \(k\) it piles up near zero (\(\chi^2_2\) is exponential with mean 2). As \(k\) grows the curve moves right and turns nearly symmetric, because it is a sum of \(k\) independent terms, each with mean 1 and variance 2. Independent chi-squared variables add: \(\chi^2_a+\chi^2_b\sim\chi^2_{a+b}\).</p>
+<p>In fact (ii), the \(n\) deviations \(X_i-\bar X\) always sum to zero, so only \(n-1\) of them can move freely. That is why the degrees of freedom are \(n-1\) and not \(n\).</p>
+
+<h3>Operating on a variance: the bottling plant</h3>
+<p>The plant draws \(n=10\) bottles and finds \(s^2=4.2\ \text{ml}^2\). Because \((n-1)S^2/\sigma^2\) has a known distribution, the middle 95% of its probability gives a confidence interval for \(\sigma^2\):</p>
+\[ \left[\ \frac{(n-1)S^2}{\chi^2_{\alpha/2,\;n-1}}\ ,\ \ \frac{(n-1)S^2}{\chi^2_{1-\alpha/2,\;n-1}}\ \right] , \]
+<p>where \(\chi^2_{\alpha,k}\) is the point with area \(\alpha\) to its right. With 9 degrees of freedom, \(\chi^2_{0.025,9}=19.023\) and \(\chi^2_{0.975,9}=2.700\).</p>
+<div class="step"><b>Lower limit.</b> \(\dfrac{9\times 4.2}{19.023}=\dfrac{37.8}{19.023}\approx 1.99\).</div>
+<div class="step"><b>Upper limit.</b> \(\dfrac{37.8}{2.700}=14.0\).</div>
+<div class="sol">The 95% interval for \(\sigma^2\) is \((1.99,\ 14.0)\), so \(\sigma\) lies between about 1.41 ml and 3.74 ml.</div>
+<p>Two features matter. The interval is very wide, because ten bottles say little about spread. It is also not centred on \(s^2\): the upper limit sits much farther away than the lower one because the chi-squared curve is skewed to the right. Variance intervals are the clearest place to see that skewness at work.</p>
+<p>The second major use is the Pearson statistic \(\sum (O_i-E_i)^2/E_i\), which compares observed counts with expected counts. A hospital checking whether births are spread evenly across the seven weekdays compares seven observed counts with seven equal expected counts. For large counts the statistic follows \(\chi^2\) with (categories minus 1 minus estimated parameters) degrees of freedom. Only the right tail is used, because any departure from the expected pattern makes the sum larger.</p>
+
+<h3>Exact properties of \(\chi^2_k\)</h3>
+<div class="tw"><table>
+<tr><th>Property</th><th>Formula</th><th>Exists when</th></tr>
+<tr><td>Mean</td><td>\(k\)</td><td>always</td></tr>
+<tr><td>Variance</td><td>\(2k\)</td><td>always</td></tr>
+<tr><td>Mode</td><td>\(\max\!\left(k-2,\ 0\right)\)</td><td>always</td></tr>
+<tr><td>Skewness</td><td>\(\sqrt{\dfrac{8}{k}}\)</td><td>always</td></tr>
+<tr><td>Excess kurtosis</td><td>\(\dfrac{12}{k}\)</td><td>always</td></tr>
+<tr><td>\(n\)-th raw moment</td><td>\(\mu'_n=2^{n}\,\dfrac{\Gamma\!\left(\frac{k}{2}+n\right)}{\Gamma\!\left(\frac{k}{2}\right)}=\displaystyle\prod_{j=0}^{n-1}\left(k+2j\right)\)</td><td>\(n=1,2,3,\dots\)</td></tr>
+</table></div>
+<p>Skewness and excess kurtosis both shrink to zero as \(k\to\infty\), which confirms the move toward a normal shape: \(\left(\chi^2_k-k\right)/\sqrt{2k}\) is approximately \(N(0,1)\) for large \(k\).</p>
+</section>
+
+<section id="tdist">
+<h2>3 &middot; Student&rsquo;s t distribution</h2>
+<p>Let \(Z\sim N(0,1)\) and \(V\sim\chi^2_\nu\) be independent. Then</p>
+\[ T=\frac{Z}{\sqrt{V/\nu}}\sim t_\nu,\qquad f(t)=\frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\;\Gamma\!\left(\frac{\nu}{2}\right)}\left(1+\frac{t^2}{\nu}\right)^{-\frac{\nu+1}{2}} . \]
+<p>It arises when \(\sigma\) is replaced by \(S\). Divide the numerator and denominator of \((\bar X-\mu)/(S/\sqrt n)\) by \(\sigma/\sqrt n\). The numerator becomes the standard normal \(Z\) from fact (i). The denominator becomes \(\sqrt{V/(n-1)}\) with \(V=(n-1)S^2/\sigma^2\) from fact (ii), and fact (iii) supplies the independence:</p>
+\[ \frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}. \]
+<p>The curve is symmetric about zero like the normal, but its tails are heavier. The reason is that \(S\) is itself a random estimate. A sample that happens to have a small \(S\) inflates the ratio, and this produces extreme values more often than a normal curve would. With \(\nu=1\) the distribution is the Cauchy, which has no mean. As \(\nu\to\infty\), \(V/\nu\) settles at 1 and \(t_\nu\) becomes \(N(0,1)\).</p>
+
+<h3>Operating on a mean: the rice trial</h3>
+<p>A research station harvests \(n=10\) plots and records a mean yield of 4.8 tonnes per hectare with \(s=0.6\). The standard error is \(0.6/\sqrt{10}\approx 0.190\). With 9 degrees of freedom the 97.5% point is \(t_{0.025,9}=2.262\), so</p>
+\[ 4.8\ \pm\ 2.262\times 0.190\ =\ 4.8\ \pm\ 0.429\ \Rightarrow\ (4.37,\ 5.23). \]
+<div class="sol">Using the normal value 1.96 would give a margin of only 0.372. That interval is too narrow, because it ignores the uncertainty in \(S\).</div>
+<p>The same construction drives the two-sample comparison of means with pooled variance (\(n_1+n_2-2\) degrees of freedom) and the test of a regression coefficient (\(n-p\) degrees of freedom, with \(p\) coefficients fitted). In each case the numerator is a normal estimate and the denominator is an estimated standard error built from a chi-squared quantity.</p>
+
+<h3>Exact properties of \(t_\nu\)</h3>
+<div class="tw"><table>
+<tr><th>Property</th><th>Formula</th><th>Exists when</th></tr>
+<tr><td>Mean</td><td>\(0\)</td><td>\(\nu\gt 1\)</td></tr>
+<tr><td>Variance</td><td>\(\dfrac{\nu}{\nu-2}\)</td><td>\(\nu\gt 2\) (infinite for \(1\lt\nu\le 2\))</td></tr>
+<tr><td>Mode</td><td>\(0\)</td><td>always</td></tr>
+<tr><td>Skewness</td><td>\(0\)</td><td>\(\nu\gt 3\)</td></tr>
+<tr><td>Excess kurtosis</td><td>\(\dfrac{6}{\nu-4}\)</td><td>\(\nu\gt 4\) (infinite for \(2\lt\nu\le 4\))</td></tr>
+<tr><td>\(n\)-th raw moment</td><td>\(\mu'_n=0\) for odd \(n\lt\nu\).<br>For even \(n=2m\lt\nu\): \(\mu'_{2m}=\nu^{m}\,\dfrac{\Gamma\!\left(m+\frac12\right)\Gamma\!\left(\frac{\nu}{2}-m\right)}{\Gamma\!\left(\frac12\right)\Gamma\!\left(\frac{\nu}{2}\right)}=\nu^{m}\displaystyle\prod_{j=1}^{m}\frac{2j-1}{\nu-2j}\)</td><td>\(n\lt\nu\); for \(n\ge\nu\) the moment is infinite (even \(n\)) or undefined (odd \(n\))</td></tr>
+</table></div>
+<p>Moments of order \(\nu\) and above fail because the tails fall only like \(|t|^{-(\nu+1)}\). Low degrees of freedom therefore carry a real cost: with \(\nu\le 2\) even the variance is infinite.</p>
+</section>
+
+<section id="fdist">
+<h2>4 &middot; The F distribution</h2>
+<p>Let \(U\sim\chi^2_{d_1}\) and \(V\sim\chi^2_{d_2}\) be independent. Each divided by its own degrees of freedom is an average squared deviation, so the ratio compares two such averages:</p>
+\[ F=\frac{U/d_1}{V/d_2}\sim F_{d_1,d_2},\qquad f(x)=\frac{1}{x\,B\!\left(\frac{d_1}{2},\frac{d_2}{2}\right)}\sqrt{\frac{(d_1x)^{d_1}\,d_2^{\,d_2}}{(d_1x+d_2)^{d_1+d_2}}},\quad x\gt 0 . \]
+<p>For two independent normal samples of sizes \(n_1\) and \(n_2\), facts (ii) applied to each give</p>
+\[ \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F_{n_1-1,\;n_2-1}. \]
+<p>When \(\sigma_1=\sigma_2\) the unknown variance cancels and the ratio \(S_1^2/S_2^2\) alone follows an F curve. A mill comparing the thread-strength variability of two lines tests exactly this: a ratio far from 1 in either direction is evidence of unequal spread.</p>
+
+<h3>Operating on several means: the fertiliser trial</h3>
+<p>Three fertilisers are tried on 10 plots each, so \(N=30\). The between-group sum of squares \(SS_B\) and the within-group sum of squares \(SS_W\) are, after dividing by \(\sigma^2\), independent chi-squared variables when all three true means are equal, with 2 and 27 degrees of freedom. Hence</p>
+\[ F=\frac{SS_B/2}{SS_W/27}=\frac{MS_B}{MS_W}\sim F_{2,\,27}\quad\text{when the three means are equal}. \]
+<p>The denominator estimates \(\sigma^2\) regardless of what the means are. The numerator also estimates \(\sigma^2\) only when the means are equal, and otherwise grows. So only the right tail is used. The 5% critical value is \(F_{0.05;\,2,27}=3.354\). Suppose the trial gives \(F=5.1\). Since \(5.1\gt 3.354\), the data reject equal means, and a follow-up comparison of pairs is needed to see which fertiliser differs.</p>
+<p>The mean of this distribution is above 1 for every \(d_2\), yet close to 1 when \(d_2\) is large: if both estimates target the same variance, their ratio is centred near 1 but, being a ratio, it leans to the right. The variance-ratio test is sensitive to non-normality, so it should be used with checked data.</p>
+
+<h3>Exact properties of \(F_{d_1,d_2}\)</h3>
+<div class="tw"><table>
+<tr><th>Property</th><th>Formula</th><th>Exists when</th></tr>
+<tr><td>Mean</td><td>\(\dfrac{d_2}{d_2-2}\)</td><td>\(d_2\gt 2\)</td></tr>
+<tr><td>Variance</td><td>\(\dfrac{2\,d_2^{2}\left(d_1+d_2-2\right)}{d_1\left(d_2-2\right)^{2}\left(d_2-4\right)}\)</td><td>\(d_2\gt 4\)</td></tr>
+<tr><td>Mode</td><td>\(\dfrac{\left(d_1-2\right)d_2}{d_1\left(d_2+2\right)}\)</td><td>\(d_1\gt 2\); for \(d_1\le 2\) the mode is \(0\)</td></tr>
+<tr><td>Skewness</td><td>\(\dfrac{\left(2d_1+d_2-2\right)\sqrt{8\left(d_2-4\right)}}{\left(d_2-6\right)\sqrt{d_1\left(d_1+d_2-2\right)}}\)</td><td>\(d_2\gt 6\)</td></tr>
+<tr><td>Excess kurtosis</td><td>\(\dfrac{12\left[\,d_1\left(5d_2-22\right)\left(d_1+d_2-2\right)+\left(d_2-4\right)\left(d_2-2\right)^{2}\right]}{d_1\left(d_2-6\right)\left(d_2-8\right)\left(d_1+d_2-2\right)}\)</td><td>\(d_2\gt 8\)</td></tr>
+<tr><td>\(n\)-th raw moment</td><td>\(\mu'_n=\left(\dfrac{d_2}{d_1}\right)^{n}\dfrac{\Gamma\!\left(\frac{d_1}{2}+n\right)\Gamma\!\left(\frac{d_2}{2}-n\right)}{\Gamma\!\left(\frac{d_1}{2}\right)\Gamma\!\left(\frac{d_2}{2}\right)}\)</td><td>\(n\lt d_2/2\)</td></tr>
+</table></div>
+<p>The moment condition \(n\lt d_2/2\) explains the thresholds above: the mean needs \(n=1\), so \(d_2\gt 2\); the variance needs \(n=2\), so \(d_2\gt 4\); and so on up the list.</p>
+</section>
+
+<section id="links">
+<h2>5 &middot; How the three connect</h2>
+<p>The normal curve is the raw material. Squaring and adding normals gives chi-squared. Dividing a normal by the root of a scaled chi-squared gives t. Dividing one scaled chi-squared by another gives F. Each step reuses the previous one, so the properties of one distribution constrain the others.</p>
+<div class="tw"><table>
+<tr><th>Link</th><th>Statement</th></tr>
+<tr><td>Normal to chi-squared</td><td>\(Z\sim N(0,1)\Rightarrow Z^2\sim\chi^2_1\), and \(\chi^2_a+\chi^2_b\sim\chi^2_{a+b}\) for independent terms</td></tr>
+<tr><td>Chi-squared to t</td><td>\(T=Z\big/\sqrt{V/\nu}\) with \(V\sim\chi^2_\nu\) independent of \(Z\)</td></tr>
+<tr><td>Chi-squared to F</td><td>\(F=(U/d_1)\big/(V/d_2)\) with independent \(U\sim\chi^2_{d_1}\), \(V\sim\chi^2_{d_2}\)</td></tr>
+<tr><td>t squared is F</td><td>\(T^2=Z^2\big/(V/\nu)\), so \(t_\nu^{2}\sim F_{1,\nu}\)</td></tr>
+<tr><td>Reciprocal rule</td><td>\(1/F_{d_1,d_2}\sim F_{d_2,d_1}\), hence \(F_{1-\alpha;\,d_1,d_2}=\dfrac{1}{F_{\alpha;\,d_2,d_1}}\) for right-tail points</td></tr>
+<tr><td>Limit in the denominator</td><td>\(t_\nu\to N(0,1)\) and \(d_1F_{d_1,d_2}\to\chi^2_{d_1}\) as \(\nu,d_2\to\infty\)</td></tr>
+<tr><td>Special cases</td><td>\(t_1\) is Cauchy; \(\chi^2_2\) is exponential with mean 2; \(\chi^2_k\) is gamma with shape \(k/2\), scale 2</td></tr>
+</table></div>
+<div class="box"><b class="t">Check with the rice trial</b>
+The two-sided 5% point of \(t_9\) is \(2.262\), and \(2.262^2=5.117\), which is the 5% critical value of \(F_{1,9}\). A two-sided t test of one mean and a one-tailed F test on 1 and 9 degrees of freedom always agree.</div>
+<p>The limits explain why large samples behave so well. As the degrees of freedom of a denominator grow, the estimated variance stops fluctuating, and the extra randomness that made t heavy-tailed and F wide disappears. This is also why the t critical value 2.262 at 9 degrees of freedom falls toward 1.96 as the sample grows.</p>
+</section>
+
+<section id="choose">
+<h2>6 &middot; Choosing the right distribution</h2>
+<div class="grid">
+<div class="card"><b>Spread of one population</b><p>The statistic \((n-1)S^2/\sigma^2\) follows \(\chi^2_{n-1}\). Use it for variance intervals and for tests of a stated variance. Use the Pearson sum for count tables.</p></div>
+<div class="card"><b>Mean with \(\sigma\) unknown</b><p>The statistic \((\bar X-\mu)/(S/\sqrt n)\) follows \(t_{n-1}\). Use it for one-sample, two-sample and regression-coefficient inference.</p></div>
+<div class="card"><b>Compare spreads or several means</b><p>The ratio of two variance estimates follows \(F\). Use it for variance ratios, ANOVA and overall regression tests, always on the right tail for ANOVA.</p></div>
+</div>
+<div class="box warn"><b class="t">Assumption to check</b>
+All exact results above assume normal populations. For means with moderate or large samples, the central limit theorem makes the t procedures dependable even when the data are somewhat non-normal. The chi-squared interval for a variance and the F test for a variance ratio are much less forgiving, so a normal quantile plot of the data should come first.</div>
+</section>
+
+<section id="explorer">
+<h2>7 &middot; Distribution explorer</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Choose a distribution and its degrees of freedom. The curve and the exact property values update immediately. Entries marked undefined or infinite follow the existence conditions in the tables.</p>
+<div class="row">
+<label>Distribution
+<select id="dist"><option value="c">Chi-squared</option><option value="t">t</option><option value="f">F</option></select></label>
+<label id="la">Degrees of freedom (k, ν or d₁)<input id="pa" type="number" min="1" step="1" value="5"></label>
+<label id="lb">d₂<input id="pb" type="number" min="1" step="1" value="12"></label>
+<label>Overlay limit curve<select id="ov"><option value="1">On</option><option value="0">Off</option></select></label>
+</div>
+<canvas id="cv"></canvas>
+<p id="note" style="font-size:13px;color:var(--muted);margin:0"></p>
+<div class="row" id="kp"></div>
+</div>
+</section>
+
+<footer>Study guide on the central sampling distributions: chi-squared, Student&rsquo;s t and Snedecor&rsquo;s F &middot; formulas for properties stated without derivation</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}draw()}})();
+
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* explorer */
+function $(i){return document.getElementById(i)}
+function lg(z){var c=[676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+ if(z<0.5)return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*z)))-lg(1-z);
+ z-=1;var x=0.99999999999980993;for(var i=0;i<8;i++)x+=c[i]/(z+i+1);var t=z+7.5;
+ return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)}
+function pdf(d,x,a,b){
+ if(d==='c'){if(x<=0)return a<2?Infinity:(a===2?0.5:0);return Math.exp((a/2-1)*Math.log(x)-x/2-(a/2)*Math.LN2-lg(a/2))}
+ if(d==='t')return Math.exp(lg((a+1)/2)-lg(a/2)-0.5*Math.log(a*Math.PI)-((a+1)/2)*Math.log(1+x*x/a));
+ if(x<=0)return a<2?Infinity:(a===2?1:0);
+ return Math.exp(0.5*(a*Math.log(a*x)+b*Math.log(b)-(a+b)*Math.log(a*x+b))-Math.log(x)-(lg(a/2)+lg(b/2)-lg((a+b)/2)))}
+function stats(d,a,b){var U='undefined',I='infinite';
+ if(d==='c')return{m:a,v:2*a,o:a>=2?a-2:0,s:Math.sqrt(8/a),k:12/a};
+ if(d==='t')return{m:a>1?0:U,v:a>2?a/(a-2):(a>1?I:U),o:0,s:a>3?0:U,k:a>4?6/(a-4):(a>2?I:U)};
+ return{m:b>2?b/(b-2):U,v:b>4?2*b*b*(a+b-2)/(a*Math.pow(b-2,2)*(b-4)):U,o:a>2?(a-2)*b/(a*(b+2)):0,
+  s:b>6?(2*a+b-2)*Math.sqrt(8*(b-4))/((b-6)*Math.sqrt(a*(a+b-2))):U,
+  k:b>8?12*(a*(5*b-22)*(a+b-2)+(b-4)*Math.pow(b-2,2))/(a*(b-6)*(b-8)*(a+b-2)):U}}
+function fm(x){return typeof x==='number'?(+x.toFixed(4)).toString():x}
+function draw(){
+ var d=$('dist').value,a=Math.max(1,+$('pa').value||1),b=Math.max(1,+$('pb').value||1);
+ $('lb').style.display=d==='f'?'flex':'none';
+ var cv=$('cv'),w=cv.clientWidth||600,h=260,r=window.devicePixelRatio||1;cv.width=w*r;cv.height=h*r;
+ var g=cv.getContext('2d');g.setTransform(r,0,0,r,0,0);
+ var cs=getComputedStyle(document.documentElement),ink=cs.getPropertyValue('--muted'),ac=cs.getPropertyValue('--accent'),a2=cs.getPropertyValue('--accent2'),ln=cs.getPropertyValue('--line');
+ var x0=0,x1=d==='c'?a+5*Math.sqrt(2*a)+3:(d==='t'?6:5);if(d==='t')x0=-6;
+ var N=400,xs=[],ys=[],ymax=0,i,x,y;
+ for(i=0;i<=N;i++){x=x0+(x1-x0)*i/N;if(d!=='t'&&i===0)x=(x1-x0)/N/4;y=pdf(d,x,a,b);xs.push(x);ys.push(y);
+  if(isFinite(y)&&y>ymax&&(d==='t'||i>2))ymax=y}
+ var ov=$('ov').value==='1'&&d!=='f',oy=[];
+ if(ov)for(i=0;i<=N;i++){x=xs[i];var mu=d==='c'?a:0,sd=d==='c'?Math.sqrt(2*a):1;y=Math.exp(-0.5*Math.pow((x-mu)/sd,2))/(sd*Math.sqrt(2*Math.PI));oy.push(y);if(y>ymax)ymax=y}
+ ymax*=1.12;var L=40,R=w-12,T=12,B=h-28;
+ function X(v){return L+(v-x0)/(x1-x0)*(R-L)}function Y(v){return B-Math.min(v,ymax)/ymax*(B-T)}
+ g.strokeStyle=ln;g.lineWidth=1;g.beginPath();g.moveTo(L,B);g.lineTo(R,B);g.moveTo(L,T);g.lineTo(L,B);g.stroke();
+ g.fillStyle=ink;g.font='12px Inter,sans-serif';g.textAlign='center';
+ for(i=0;i<=5;i++){var v=x0+(x1-x0)*i/5;g.fillText(v.toFixed(1),X(v),h-10)}
+ g.textAlign='right';for(i=0;i<=3;i++){var yv=ymax*i/3;g.fillText(yv.toFixed(2),L-6,Y(yv)+4)}
+ if(ov){g.strokeStyle=a2;g.setLineDash([5,4]);g.lineWidth=1.6;g.beginPath();for(i=0;i<=N;i++){i?g.lineTo(X(xs[i]),Y(oy[i])):g.moveTo(X(xs[i]),Y(oy[i]))}g.stroke();g.setLineDash([])}
+ g.strokeStyle=ac;g.lineWidth=2.4;g.beginPath();for(i=0;i<=N;i++){var yy=isFinite(ys[i])?ys[i]:ymax;i?g.lineTo(X(xs[i]),Y(yy)):g.moveTo(X(xs[i]),Y(yy))}g.stroke();
+ $('note').textContent=ov?(d==='c'?'Dashed curve: normal with the same mean and variance, N(k, 2k).':'Dashed curve: standard normal N(0, 1).'):'';
+ var s=stats(d,a,b),lab=[['Mean',s.m],['Variance',s.v],['Mode',s.o],['Skewness',s.s],['Excess kurtosis',s.k]];
+ $('kp').innerHTML=lab.map(function(p){return '<div class="kpi"><small>'+p[0]+'</small><b>'+fm(p[1])+'</b></div>'}).join('')}
+['dist','pa','pb','ov'].forEach(function(i){$(i).addEventListener('input',draw)});
+addEventListener('resize',draw);draw();
+</script>
+</body>
+</html>

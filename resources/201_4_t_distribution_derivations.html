@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student's t Distribution: Full Derivations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:14px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:14px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:var(--soft);font-weight:600}
+.tw{overflow-x:auto}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:1em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.05rem;word-break:break-all}
+canvas{width:100%;height:260px;display:block;margin:10px 0}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#tools">Tools</a><a href="#origin">Origin</a><a href="#dens">Density</a><a href="#moments">Moments</a><a href="#mgf">MGF</a><a href="#cgf">CGF</a><a href="#cf">CF</a><a href="#meanvar">Mean &amp; Variance</a><a href="#skew">Skewness</a><a href="#kurt">Kurtosis</a><a href="#mode">Mode</a><a href="#limit">Limit</a><a href="#summary">Summary</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">&#9728;&#9790;</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Distribution Theory &middot; Full Derivations</span>
+<h1>Student&rsquo;s t Distribution: Derivations from First Principles</h1>
+<p class="lead">This guide derives every property of \(t_\nu\): the density, the raw moments, the moment generating function (MGF), the cumulant generating function (CGF), the characteristic function (CF), the mean, variance, skewness, kurtosis and mode. One shortcut does most of the work. Write \(T\) as a normal variable divided by an independent scaled chi-squared variable, then <mark>freeze the chi-squared part at a fixed number</mark>. Given that number, \(T\) is just a normal variable, and the rest is averaging over the chi-squared part.</p>
+</header>
+
+<section id="tools">
+<h2>1 &middot; Tools used throughout</h2>
+
+<h3>1.1 The gamma and beta functions</h3>
+<p>For \(s\gt 0\), \(\Gamma(s)=\int_0^\infty u^{\,s-1}e^{-u}\,du\).</p>
+<div class="step"><b>Recurrence.</b> Integrate by parts with \(u^{s}\) and \(e^{-u}\): \(\Gamma(s+1)=\big[-u^{s}e^{-u}\big]_0^\infty+s\int_0^\infty u^{s-1}e^{-u}du=s\,\Gamma(s)\).</div>
+<div class="step"><b>Value at one half.</b> Put \(u=y^2\): \(\Gamma(\tfrac12)=\int_0^\infty u^{-1/2}e^{-u}du=2\int_0^\infty e^{-y^2}dy=\int_{-\infty}^{\infty}e^{-y^2}dy=\sqrt\pi\).</div>
+<div class="step"><b>Scaled gamma integral.</b> For \(c\gt0\), substituting \(u=cv\):
+\[ \int_0^\infty v^{\,s-1}e^{-cv}\,dv=\frac{\Gamma(s)}{c^{\,s}} . \tag{G} \]</div>
+<div class="step"><b>Beta function.</b> \(B(p,q)=\int_0^1 u^{p-1}(1-u)^{q-1}du=\dfrac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}\). Substituting \(u=r/(1+r)\), so that \(1-u=1/(1+r)\) and \(du=dr/(1+r)^2\), turns it into
+\[ \int_0^\infty \frac{r^{\,p-1}}{(1+r)^{\,p+q}}\,dr=B(p,q). \tag{B} \]</div>
+
+<h3>1.2 The standard normal</h3>
+<p>Let \(Z\sim N(0,1)\). Complete the square in the exponent, \(sz-\tfrac{z^2}{2}=-\tfrac{(z-s)^2}{2}+\tfrac{s^2}{2}\), to get</p>
+\[ E\!\left[e^{sZ}\right]=e^{s^2/2}\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-(z-s)^2/2}dz=e^{s^2/2}. \]
+<p>Expand both sides in powers of \(s\). The left side is \(\sum_n E[Z^n]s^n/n!\) and the right side is \(e^{s^2/2}=\sum_m s^{2m}/(2^m m!)\). Matching coefficients:</p>
+\[ E[Z^{2m+1}]=0,\qquad E[Z^{2m}]=\frac{(2m)!}{2^m\,m!}=1\cdot3\cdot5\cdots(2m-1)=\prod_{j=1}^{m}(2j-1). \tag{N} \]
+<p>The same calculation with \(s=i\sigma t\) shows that \(N(0,\sigma^2)\) has characteristic function \(e^{-\sigma^2t^2/2}\).</p>
+
+<h3>1.3 The chi-squared variable</h3>
+<p>\(V\sim\chi^2_\nu\) has density \(f_V(v)=\dfrac{v^{\nu/2-1}e^{-v/2}}{2^{\nu/2}\Gamma(\nu/2)}\) for \(v\gt0\). For any real \(r\gt-\nu/2\), apply (G) with \(s=\nu/2+r\) and \(c=\tfrac12\):</p>
+\[ E\!\left[V^{\,r}\right]=\frac{1}{2^{\nu/2}\Gamma(\nu/2)}\int_0^\infty v^{\frac\nu2+r-1}e^{-v/2}dv=2^{\,r}\,\frac{\Gamma\!\left(\frac\nu2+r\right)}{\Gamma\!\left(\frac\nu2\right)} . \tag{V} \]
+<p>The condition \(r\gt-\nu/2\) is exactly what keeps \(s\) positive. Negative powers of \(V\) therefore have finite expectation only when the power is small enough, and this one fact controls which moments of \(t_\nu\) exist.</p>
+
+<h3>1.4 Generating functions</h3>
+<p>\(M_T(t)=E[e^{tT}]\), \(K_T(t)=\ln M_T(t)\) and \(\varphi_T(t)=E[e^{itT}]\). When \(M_T\) is finite near 0, \(E[T^n]=M_T^{(n)}(0)\) and \(\kappa_n=K_T^{(n)}(0)\).</p>
+</section>
+
+<section id="origin">
+<h2>2 &middot; Where \(t_\nu\) comes from</h2>
+<p>Take \(n\) independent \(N(\mu,\sigma^2)\) values with sample mean \(\bar X\) and sample variance \(S^2\). Three facts hold: \(\bar X\sim N(\mu,\sigma^2/n)\); \(V=(n-1)S^2/\sigma^2\sim\chi^2_{n-1}\); and \(\bar X\), \(S^2\) are independent. Divide the top and bottom of \(\dfrac{\bar X-\mu}{S/\sqrt n}\) by \(\sigma/\sqrt n\):</p>
+\[ \frac{\bar X-\mu}{S/\sqrt n}=\frac{\sqrt n(\bar X-\mu)/\sigma}{S/\sigma}=\frac{Z}{\sqrt{V/(n-1)}},\qquad Z=\frac{\sqrt n(\bar X-\mu)}{\sigma}\sim N(0,1). \]
+<p>The unknown \(\sigma\) cancels. This motivates the definition used below.</p>
+<div class="box key"><b class="t">Definition</b>
+Let \(Z\sim N(0,1)\) and \(V\sim\chi^2_\nu\) be independent. Then
+\[ T=\frac{Z}{\sqrt{V/\nu}}\sim t_\nu . \]
+The sample-mean statistic above is \(t_{n-1}\).</div>
+</section>
+
+<section id="dens">
+<h2>3 &middot; Deriving the density</h2>
+<p><b>The idea.</b> Fix \(V=v\). Then \(T=Z\sqrt{\nu/v}\) is a normal variable multiplied by a constant, so it is normal. Write down its density, then average over all values of \(v\).</p>
+<div class="step"><b>Step 1: the density given \(V=v\).</b> A constant \(c\) times \(Z\) has variance \(c^2\). Here \(c^2=\nu/v\), so \(T\mid V=v\sim N(0,\nu/v)\) with
+\[ f(x\mid v)=\sqrt{\frac{v}{2\pi\nu}}\;e^{-vx^2/(2\nu)} . \]</div>
+<div class="step"><b>Step 2: average over \(v\).</b>
+\[ f(x)=\int_0^\infty f(x\mid v)\,f_V(v)\,dv . \]</div>
+<div class="step"><b>Step 3: combine powers and exponentials.</b> The powers of \(v\) are \(v^{1/2}\cdot v^{\nu/2-1}=v^{\frac{\nu+1}{2}-1}\). The exponents add to \(-\tfrac v2-\tfrac{vx^2}{2\nu}=-\tfrac v2\left(1+\tfrac{x^2}{\nu}\right)\). So
+\[ f(x)=\frac{1}{\sqrt{2\pi\nu}\;2^{\nu/2}\,\Gamma(\nu/2)}\int_0^\infty v^{\frac{\nu+1}{2}-1}\,e^{-\frac v2\left(1+\frac{x^2}{\nu}\right)}dv . \]</div>
+<div class="step"><b>Step 4: apply (G)</b> with \(s=\frac{\nu+1}{2}\) and \(c=\frac12\left(1+\frac{x^2}{\nu}\right)\):
+\[ \int_0^\infty v^{\frac{\nu+1}{2}-1}e^{-cv}dv=\Gamma\!\left(\tfrac{\nu+1}{2}\right)\,2^{\frac{\nu+1}{2}}\left(1+\frac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}} . \]</div>
+<div class="step"><b>Step 5: collect the constants.</b>
+\[ \frac{2^{\frac{\nu+1}{2}}}{\sqrt{2\pi\nu}\;2^{\nu/2}}=\frac{2^{1/2}}{\sqrt2\,\sqrt{\pi\nu}}=\frac{1}{\sqrt{\pi\nu}} . \]</div>
+<div class="sol">\[ f_\nu(x)=\frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\;\Gamma\!\left(\frac\nu2\right)}\left(1+\frac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}},\qquad -\infty\lt x\lt\infty . \]</div>
+
+<h3>3.1 Check that it integrates to one</h3>
+<p>The density is even, so \(\int_{-\infty}^{\infty}\left(1+\frac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}}dx=2\int_0^\infty(\cdots)dx\). Substitute \(x=\sqrt{\nu s}\), so \(dx=\dfrac{\sqrt\nu}{2\sqrt s}ds\):</p>
+\[ 2\int_0^\infty(1+s)^{-\frac{\nu+1}{2}}\frac{\sqrt\nu}{2\sqrt s}\,ds=\sqrt\nu\int_0^\infty\frac{s^{\frac12-1}}{(1+s)^{\frac12+\frac\nu2}}\,ds=\sqrt\nu\;B\!\left(\tfrac12,\tfrac\nu2\right) \]
+<p>by (B) with \(p=\tfrac12\), \(q=\tfrac\nu2\). Multiply by the constant in front of the density:</p>
+\[ \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac\nu2\right)}\cdot\sqrt\nu\cdot\frac{\Gamma\!\left(\frac12\right)\Gamma\!\left(\frac\nu2\right)}{\Gamma\!\left(\frac{\nu+1}{2}\right)}=\frac{\Gamma(\frac12)}{\sqrt\pi}=1 . \]
+
+<h3>3.2 The case \(\nu=1\)</h3>
+<p>With \(\Gamma(1)=1\) and \(\Gamma(\frac12)=\sqrt\pi\), the constant is \(\dfrac{1}{\sqrt\pi\sqrt\pi}=\dfrac1\pi\), so \(f_1(x)=\dfrac{1}{\pi(1+x^2)}\). This is the Cauchy density. It has no mean, as Section 4 confirms.</p>
+</section>
+
+<section id="moments">
+<h2>4 &middot; Raw moments</h2>
+<h3>4.1 The one idea</h3>
+<p>Write \(T=Z\cdot W\) with \(W=\sqrt{\nu/V}\). \(Z\) and \(W\) are independent, so the expectation of a product is the product of expectations:</p>
+\[ E[T^n]=E[Z^n]\;E[W^n]=E[Z^n]\;\nu^{n/2}\,E\!\left[V^{-n/2}\right]. \]
+
+<h3>4.2 The normal part</h3>
+<p>From (N): \(E[Z^n]=0\) for odd \(n\), and \(E[Z^{2m}]=\prod_{j=1}^m(2j-1)\).</p>
+
+<h3>4.3 The chi-squared part</h3>
+<p>Apply (V) with \(r=-n/2\). It requires \(-\tfrac n2\gt-\tfrac\nu2\), that is \(n\lt\nu\):</p>
+\[ E\!\left[V^{-n/2}\right]=2^{-n/2}\,\frac{\Gamma\!\left(\frac{\nu-n}{2}\right)}{\Gamma\!\left(\frac\nu2\right)},\qquad n\lt\nu . \]
+<p>For even \(n=2m\), apply \(\Gamma(s)=(s-1)\Gamma(s-1)\) repeatedly, \(m\) times, starting from \(s=\nu/2\):</p>
+\[ \Gamma\!\left(\tfrac\nu2\right)=\left(\tfrac\nu2-1\right)\left(\tfrac\nu2-2\right)\cdots\left(\tfrac\nu2-m\right)\Gamma\!\left(\tfrac\nu2-m\right) . \]
+<p>Therefore \(\dfrac{\Gamma(\nu/2-m)}{\Gamma(\nu/2)}=\displaystyle\prod_{j=1}^m\frac{1}{\nu/2-j}=2^m\prod_{j=1}^m\frac{1}{\nu-2j}\), and the powers of 2 cancel:</p>
+\[ E\!\left[V^{-m}\right]=\prod_{j=1}^{m}\frac{1}{\nu-2j},\qquad E[W^{2m}]=\nu^m\prod_{j=1}^m\frac{1}{\nu-2j}. \]
+
+<h3>4.4 Combine</h3>
+<div class="sol">\[ E[T^{2m}]=\nu^{m}\prod_{j=1}^{m}\frac{2j-1}{\nu-2j}\quad(2m\lt\nu),\qquad E[T^{2m+1}]=0\quad(2m+1\lt\nu). \]</div>
+<p>An equivalent form uses \(\prod_{j=1}^m(2j-1)\cdot2^{-m}=\Gamma(m+\tfrac12)/\Gamma(\tfrac12)\):</p>
+\[ E[T^{2m}]=\nu^{m}\,\frac{\Gamma\!\left(m+\frac12\right)\Gamma\!\left(\frac\nu2-m\right)}{\Gamma\!\left(\frac12\right)\Gamma\!\left(\frac\nu2\right)} . \]
+
+<h3>4.5 The first moments</h3>
+<div class="tw"><table>
+<tr><th>Order</th><th>Value</th><th>Exists when</th></tr>
+<tr><td>1</td><td>\(0\)</td><td>\(\nu\gt1\)</td></tr>
+<tr><td>2</td><td>\(\dfrac{\nu}{\nu-2}\)</td><td>\(\nu\gt2\)</td></tr>
+<tr><td>3</td><td>\(0\)</td><td>\(\nu\gt3\)</td></tr>
+<tr><td>4</td><td>\(\dfrac{3\nu^2}{(\nu-2)(\nu-4)}\)</td><td>\(\nu\gt4\)</td></tr>
+<tr><td>6</td><td>\(\dfrac{15\nu^3}{(\nu-2)(\nu-4)(\nu-6)}\)</td><td>\(\nu\gt6\)</td></tr>
+</table></div>
+
+<h3>4.6 Why moments stop existing</h3>
+<p>The condition \(n\lt\nu\) can be seen in the density as well. For large \(|x|\), \(f_\nu(x)\) behaves like a constant times \(|x|^{-(\nu+1)}\). Then \(\int^\infty x^n\,x^{-(\nu+1)}dx\) converges exactly when \(n-\nu-1\lt-1\), that is \(n\lt\nu\). When \(n\ge\nu\) and \(n\) is even, the moment is infinite. When \(n\ge\nu\) and \(n\) is odd, the positive and negative sides are both infinite, so the moment is undefined.</p>
+</section>
+
+<section id="mgf">
+<h2>5 &middot; The moment generating function</h2>
+<div class="box warn"><b class="t">Result</b>
+\(M_T(t)=\infty\) for every \(t\ne0\). The MGF of \(t_\nu\) does not exist.</div>
+<div class="step"><b>Step 1: lower bound on the density.</b> For \(|x|\ge\sqrt\nu\) we have \(1+x^2/\nu\le 2x^2/\nu\). The exponent \(-\tfrac{\nu+1}{2}\) is negative, so the inequality flips:
+\[ f_\nu(x)\ \ge\ C\,|x|^{-(\nu+1)},\qquad C=\frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac\nu2\right)}\left(\frac{2}{\nu}\right)^{-\frac{\nu+1}{2}}\gt0 . \]</div>
+<div class="step"><b>Step 2: the exponential beats any power.</b> For \(t\gt0\) and every integer \(m\), \(e^{tx}\ge(tx)^m/m!\) when \(x\gt0\). Choose \(m\gt\nu\). Then
+\[ \int_{\sqrt\nu}^\infty e^{tx}f_\nu(x)\,dx\ \ge\ \frac{C\,t^m}{m!}\int_{\sqrt\nu}^\infty x^{\,m-\nu-1}dx=\infty , \]
+because \(m-\nu-1\gt-1\). The same argument on the negative side handles \(t\lt0\).</div>
+<p>So no series in \(t\) built from the MGF is available, and the moments of Section 4 had to be found another way. Only at \(t=0\) is \(M_T(0)=1\). The characteristic function in Section 7 replaces the MGF.</p>
+</section>
+
+<section id="cgf">
+<h2>6 &middot; The cumulant generating function</h2>
+<p>\(K_T(t)=\ln M_T(t)\) is undefined for \(t\ne0\), since \(M_T\) is infinite there. Individual cumulants can still be defined through the moments that exist, using the relations between cumulants and central moments (for a variable with mean 0, \(\kappa_2=\mu_2\), \(\kappa_3=\mu_3\), \(\kappa_4=\mu_4-3\mu_2^2\)). Because the mean is 0, central and raw moments coincide.</p>
+<div class="step"><b>\(\kappa_2\).</b> \(\kappa_2=\dfrac{\nu}{\nu-2}\), for \(\nu\gt2\).</div>
+<div class="step"><b>\(\kappa_3\).</b> \(\kappa_3=E[T^3]=0\), for \(\nu\gt3\).</div>
+<div class="step"><b>\(\kappa_4\).</b>
+\[ \kappa_4=\frac{3\nu^2}{(\nu-2)(\nu-4)}-3\left(\frac{\nu}{\nu-2}\right)^2=\frac{3\nu^2\left[(\nu-2)-(\nu-4)\right]}{(\nu-2)^2(\nu-4)}=\frac{6\nu^2}{(\nu-2)^2(\nu-4)},\qquad\nu\gt4 . \]</div>
+<p>All odd cumulants vanish by symmetry, and cumulants of order \(r\) exist only when \(r\lt\nu\).</p>
+</section>
+
+<section id="cf">
+<h2>7 &middot; The characteristic function</h2>
+<p>\(\varphi_T(t)=E[e^{itT}]\) exists for every distribution. The freeze-and-average idea works again.</p>
+<div class="step"><b>Step 1: freeze \(V=v\).</b> Given \(V=v\), \(T\sim N(0,\nu/v)\), whose characteristic function is \(e^{-\frac{\nu}{v}\cdot\frac{t^2}{2}}\) by Section 1.2.</div>
+<div class="step"><b>Step 2: average over \(v\).</b>
+\[ \varphi_T(t)=E\!\left[e^{-\nu t^2/(2V)}\right]=\frac{1}{2^{\nu/2}\Gamma(\nu/2)}\int_0^\infty v^{\frac\nu2-1}\,e^{-\frac v2-\frac{\nu t^2}{2v}}\,dv . \]</div>
+<div class="step"><b>Step 3: match a named integral.</b> The modified Bessel function \(K_s\) of the second kind is defined by
+\[ K_s(z)=\frac12\int_0^\infty u^{\,s-1}e^{-\frac z2\left(u+\frac1u\right)}du,\qquad z\gt0 . \]
+Put \(c=\sqrt\nu\,|t|\) and substitute \(v=cu\). Then \(\frac v2=\frac{cu}{2}\) and \(\frac{\nu t^2}{2v}=\frac{c^2}{2cu}=\frac{c}{2u}\), so the exponent is \(-\frac c2\left(u+\frac1u\right)\). Also \(v^{\frac\nu2-1}dv=c^{\nu/2}u^{\frac\nu2-1}du\). The integral equals \(c^{\nu/2}\cdot2K_{\nu/2}(c)\).</div>
+<div class="sol">\[ \varphi_T(t)=\frac{\left(\sqrt\nu\,|t|\right)^{\nu/2}K_{\nu/2}\!\left(\sqrt\nu\,|t|\right)}{2^{\nu/2-1}\,\Gamma(\nu/2)},\qquad\varphi_T(0)=1 . \]</div>
+
+<h3>7.1 Check: \(\nu=1\)</h3>
+<p>\(K_{1/2}(z)=\sqrt{\dfrac{\pi}{2z}}\,e^{-z}\). With \(z=|t|\), \(\Gamma(\frac12)=\sqrt\pi\) and \(2^{\nu/2-1}=2^{-1/2}\):</p>
+\[ \varphi_T(t)=\frac{|t|^{1/2}\sqrt{\frac{\pi}{2|t|}}\,e^{-|t|}}{2^{-1/2}\sqrt\pi}=e^{-|t|}, \]
+<p>the known characteristic function of the Cauchy distribution. Its sharp corner at \(t=0\) reflects the missing mean.</p>
+
+<h3>7.2 Check: the variance from a small-\(t\) expansion</h3>
+<p>Use \(e^{-y}\approx1-y\) in \(\varphi_T(t)=E[e^{-\nu t^2/(2V)}]\):</p>
+\[ \varphi_T(t)\approx1-\frac{\nu t^2}{2}\,E\!\left[\frac1V\right]=1-\frac{\nu}{2(\nu-2)}\,t^2 , \]
+<p>using \(E[1/V]=\dfrac{1}{\nu-2}\) from Section 4.3. A distribution with mean 0 and variance \(\sigma^2\) has \(\varphi(t)\approx1-\sigma^2t^2/2\), so \(\sigma^2=\dfrac{\nu}{\nu-2}\). This requires \(E[1/V]\lt\infty\), that is \(\nu\gt2\), the same condition as before.</p>
+</section>
+
+<section id="meanvar">
+<h2>8 &middot; Mean and variance</h2>
+<h3>Mean</h3>
+<p>\(E[T]=E[Z]\,E[W]=0\cdot E[W]=0\), provided \(E[W]=\sqrt\nu\,E[V^{-1/2}]\) is finite. By Section 4.3 that needs \(1\lt\nu\). The density is also symmetric about 0, which gives the same answer. For \(\nu\le1\) the mean is undefined.</p>
+<h3>Variance, route A: from the moments</h3>
+\[ \operatorname{Var}(T)=E[T^2]-0=1\cdot\nu\cdot E[V^{-1}]=\frac{\nu}{\nu-2},\qquad\nu\gt2 . \]
+<h3>Variance, route B: split by the frozen value</h3>
+<p>Given \(V=v\), the variance of \(T\) is \(\nu/v\) and the mean is 0. Taking the average over \(v\): \(E[T^2]=E[\nu/V]=\nu E[1/V]=\nu/(\nu-2)\). For \(1\lt\nu\le2\), \(E[1/V]=\infty\), so the variance is infinite.</p>
+<h3>Variance, route C: the characteristic function</h3>
+<p>Section 7.2 gave the same value from the small-\(t\) expansion.</p>
+<div class="sol">\[ E[T]=0\ (\nu\gt1),\qquad\operatorname{Var}(T)=\frac{\nu}{\nu-2}\ (\nu\gt2). \]
+The variance exceeds 1 and tends to 1 as \(\nu\to\infty\).</div>
+</section>
+
+<section id="skew">
+<h2>9 &middot; Skewness</h2>
+<p>The mean is 0, so central and raw moments agree. Skewness is \(\mu_3/\mu_2^{3/2}\).</p>
+<div class="step"><b>Third moment.</b> From Section 4, odd moments are 0 whenever they exist: \(E[T^3]=E[Z^3]E[W^3]=0\), valid for \(\nu\gt3\). The density is also an even function, so \(\int x^3f_\nu(x)dx\) cancels between the two sides.</div>
+<div class="sol">\[ \gamma_1=\frac{0}{\left(\nu/(\nu-2)\right)^{3/2}}=0,\qquad\nu\gt3 . \]</div>
+<p>For \(\nu\le3\) the third moment does not exist, so skewness is undefined even though the curve is perfectly symmetric.</p>
+</section>
+
+<section id="kurt">
+<h2>10 &middot; Kurtosis</h2>
+<p>With mean 0, \(\mu_4=E[T^4]\). Use the formula of Section 4.4 with \(m=2\):</p>
+\[ E[T^4]=\nu^2\cdot\frac{1\cdot3}{(\nu-2)(\nu-4)}=\frac{3\nu^2}{(\nu-2)(\nu-4)},\qquad\nu\gt4 . \]
+<p>Divide by the squared variance:</p>
+\[ \beta_2=\frac{\mu_4}{\mu_2^2}=\frac{3\nu^2}{(\nu-2)(\nu-4)}\cdot\frac{(\nu-2)^2}{\nu^2}=\frac{3(\nu-2)}{\nu-4} . \]
+<p>Subtract 3 to get the excess:</p>
+\[ \gamma_2=\frac{3(\nu-2)}{\nu-4}-3=\frac{3(\nu-2)-3(\nu-4)}{\nu-4}=\frac{6}{\nu-4} . \]
+<div class="sol">\[ \beta_2=\frac{3(\nu-2)}{\nu-4},\qquad\gamma_2=\frac{6}{\nu-4},\qquad\nu\gt4 . \]
+Cross-check: \(\kappa_4/\kappa_2^2=\dfrac{6\nu^2}{(\nu-2)^2(\nu-4)}\cdot\dfrac{(\nu-2)^2}{\nu^2}=\dfrac{6}{\nu-4}\), the same.</div>
+<p>The excess is positive, so the tails are heavier than normal. It shrinks like \(6/\nu\), and for \(2\lt\nu\le4\) the fourth moment is infinite.</p>
+</section>
+
+<section id="mode">
+<h2>11 &middot; The mode</h2>
+<p>Take the log of the density. Only one term depends on \(x\):</p>
+\[ \ln f_\nu(x)=\text{const}-\frac{\nu+1}{2}\ln\!\left(1+\frac{x^2}{\nu}\right) . \]
+<p>Differentiate:</p>
+\[ \frac{d}{dx}\ln f_\nu(x)=-\frac{\nu+1}{2}\cdot\frac{2x/\nu}{1+x^2/\nu}=-\frac{(\nu+1)\,x}{\nu+x^2} . \]
+<p>The denominator is always positive, so the sign is the sign of \(-x\): the density increases for \(x\lt0\), decreases for \(x\gt0\), and the only stationary point is \(x=0\).</p>
+<div class="sol">\[ \text{mode}=0\quad\text{for every }\nu\gt0 . \]
+Mean, median and mode all equal 0 whenever the mean exists.</div>
+</section>
+
+<section id="limit">
+<h2>12 &middot; Large \(\nu\): the normal limit</h2>
+<p><b>Why \(T\to Z\).</b> \(V/\nu\) has mean 1 and variance \(2\nu/\nu^2=2/\nu\), which tends to 0. So \(V/\nu\to1\), and \(T=Z/\sqrt{V/\nu}\to Z/1=Z\).</p>
+<p><b>The density.</b> Expand the log of the variable part with \(\ln(1+y)=y-\tfrac{y^2}{2}+\cdots\) and \(y=x^2/\nu\):</p>
+\[ -\frac{\nu+1}{2}\ln\!\left(1+\frac{x^2}{\nu}\right)=-\frac{\nu+1}{2}\left(\frac{x^2}{\nu}-\frac{x^4}{2\nu^2}+\cdots\right)\ \longrightarrow\ -\frac{x^2}{2}\quad(\nu\to\infty). \]
+<p>So \(\left(1+\frac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}}\to e^{-x^2/2}\). The constant in front must then tend to \(1/\sqrt{2\pi}\), because the density always integrates to 1.</p>
+<p><b>The moments agree.</b> \(\dfrac{\nu}{\nu-2}=1+\dfrac{2}{\nu-2}\to1\) and \(\gamma_2=\dfrac{6}{\nu-4}\to0\), the variance and excess kurtosis of \(N(0,1)\). The sizes of the corrections, \(2/(\nu-2)\) and \(6/(\nu-4)\), measure how far \(t_\nu\) is from normal at a given \(\nu\).</p>
+</section>
+
+<section id="summary">
+<h2>13 &middot; Summary of results</h2>
+<div class="tw"><table>
+<tr><th>Quantity</th><th>Result</th><th>Condition</th></tr>
+<tr><td>Density</td><td>\(\dfrac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac\nu2\right)}\left(1+\dfrac{x^2}{\nu}\right)^{-\frac{\nu+1}{2}}\)</td><td>all real \(x\)</td></tr>
+<tr><td>Even raw moments</td><td>\(\nu^{m}\displaystyle\prod_{j=1}^{m}\frac{2j-1}{\nu-2j}\)</td><td>\(2m\lt\nu\)</td></tr>
+<tr><td>Odd raw moments</td><td>\(0\)</td><td>\(n\lt\nu\)</td></tr>
+<tr><td>MGF</td><td>infinite for \(t\ne0\)</td><td>does not exist</td></tr>
+<tr><td>CGF</td><td>undefined; \(\kappa_2=\frac{\nu}{\nu-2}\), \(\kappa_3=0\), \(\kappa_4=\frac{6\nu^2}{(\nu-2)^2(\nu-4)}\)</td><td>\(r\lt\nu\) for \(\kappa_r\)</td></tr>
+<tr><td>CF</td><td>\(\dfrac{(\sqrt\nu|t|)^{\nu/2}K_{\nu/2}(\sqrt\nu|t|)}{2^{\nu/2-1}\Gamma(\nu/2)}\)</td><td>all real \(t\)</td></tr>
+<tr><td>Mean</td><td>\(0\)</td><td>\(\nu\gt1\)</td></tr>
+<tr><td>Variance</td><td>\(\dfrac{\nu}{\nu-2}\)</td><td>\(\nu\gt2\)</td></tr>
+<tr><td>Skewness</td><td>\(0\)</td><td>\(\nu\gt3\)</td></tr>
+<tr><td>Kurtosis (excess)</td><td>\(\dfrac{3(\nu-2)}{\nu-4}\) (\(\dfrac{6}{\nu-4}\))</td><td>\(\nu\gt4\)</td></tr>
+<tr><td>Mode</td><td>\(0\)</td><td>always</td></tr>
+</table></div>
+<div class="box key"><b class="t">The shortcut in one line</b>
+Given \(V=v\), \(T\) is \(N(0,\nu/v)\). The density, the characteristic function and every moment are an average of a normal quantity over the chi-squared density. Since \(T^2=Z^2/(V/\nu)\), \(T^2\) follows \(F_{1,\nu}\), which the F guide uses.</div>
+</section>
+
+<section id="explorer">
+<h2>14 &middot; t explorer</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Set the degrees of freedom \(\nu\). The curve and the exact values from the derivations update at once. Values marked undefined or infinite follow the existence conditions in the summary table.</p>
+<div class="row">
+<label>Degrees of freedom &nu;<input id="pa" type="number" min="1" step="1" value="5"></label>
+<label>Compare at x<input id="px" type="number" step="0.5" value="3"></label>
+<label>Overlay N(0,1)<select id="ov"><option value="1">On</option><option value="0">Off</option></select></label>
+</div>
+<canvas id="cv"></canvas>
+<p id="note" style="font-size:13px;color:var(--muted);margin:0"></p>
+<div class="row" id="kp"></div>
+</div>
+</section>
+
+<footer>Derivations of Student&rsquo;s t distribution: density, moments, MGF, CGF, CF, shape measures and mode</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}draw()}})();
+
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* explorer */
+function $(i){return document.getElementById(i)}
+function lg(z){var c=[676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+ if(z<0.5)return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*z)))-lg(1-z);
+ z-=1;var x=0.99999999999980993;for(var i=0;i<8;i++)x+=c[i]/(z+i+1);var t=z+7.5;
+ return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)}
+function pdf(x,a){return Math.exp(lg((a+1)/2)-lg(a/2)-0.5*Math.log(a*Math.PI)-((a+1)/2)*Math.log(1+x*x/a))}
+function npdf(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI)}
+function fm(x){return typeof x==='number'?(+x.toPrecision(6)).toString():x}
+function draw(){
+ var a=Math.max(1,+$('pa').value||1),px=+$('px').value;if(isNaN(px))px=0;
+ var cv=$('cv'),w=cv.clientWidth||600,h=260,r=window.devicePixelRatio||1;cv.width=w*r;cv.height=h*r;
+ var g=cv.getContext('2d');g.setTransform(r,0,0,r,0,0);
+ var cs=getComputedStyle(document.documentElement),ink=cs.getPropertyValue('--muted'),ac=cs.getPropertyValue('--accent'),a2=cs.getPropertyValue('--accent2'),ln=cs.getPropertyValue('--line');
+ var x0=-6,x1=6,N=400,xs=[],ys=[],ymax=0,i,x,y;
+ for(i=0;i<=N;i++){x=x0+(x1-x0)*i/N;y=pdf(x,a);xs.push(x);ys.push(y);if(y>ymax)ymax=y}
+ var ov=$('ov').value==='1',oy=[];
+ if(ov)for(i=0;i<=N;i++){y=npdf(xs[i]);oy.push(y);if(y>ymax)ymax=y}
+ ymax*=1.12;var L=40,R=w-12,T=12,B=h-28;
+ function X(v){return L+(v-x0)/(x1-x0)*(R-L)}function Y(v){return B-Math.min(v,ymax)/ymax*(B-T)}
+ g.strokeStyle=ln;g.lineWidth=1;g.beginPath();g.moveTo(L,B);g.lineTo(R,B);g.moveTo(L,T);g.lineTo(L,B);g.stroke();
+ g.fillStyle=ink;g.font='12px Inter,sans-serif';g.textAlign='center';
+ for(i=0;i<=6;i++){var v=x0+(x1-x0)*i/6;g.fillText(v.toFixed(1),X(v),h-10)}
+ g.textAlign='right';for(i=0;i<=3;i++){var yv=ymax*i/3;g.fillText(yv.toFixed(2),L-6,Y(yv)+4)}
+ if(ov){g.strokeStyle=a2;g.setLineDash([5,4]);g.lineWidth=1.6;g.beginPath();for(i=0;i<=N;i++){i?g.lineTo(X(xs[i]),Y(oy[i])):g.moveTo(X(xs[i]),Y(oy[i]))}g.stroke();g.setLineDash([])}
+ g.strokeStyle=ac;g.lineWidth=2.4;g.beginPath();for(i=0;i<=N;i++){i?g.lineTo(X(xs[i]),Y(ys[i])):g.moveTo(X(xs[i]),Y(ys[i]))}g.stroke();
+ g.strokeStyle=ink;g.setLineDash([2,4]);g.lineWidth=1;g.beginPath();g.moveTo(X(0),B);g.lineTo(X(0),Y(pdf(0,a)));g.stroke();g.setLineDash([]);
+ $('note').textContent=(ov?'Dashed curve: standard normal. ':'')+'Dotted line: the mode at 0.';
+ var U='undefined',I='infinite';
+ var m=a>1?0:U,v2=a>2?a/(a-2):(a>1?I:U),sk=a>3?0:U,ek=a>4?6/(a-4):(a>2?I:U);
+ var ft=pdf(px,a),fn=npdf(px);
+ var lab=[['Mean',m],['Variance',v2],['Mode',0],['Skewness',sk],['Excess kurtosis',ek],['t density at x',ft],['Normal density at x',fn],['Ratio t / normal',ft/fn]];
+ $('kp').innerHTML=lab.map(function(p){return '<div class="kpi"><small>'+p[0]+'</small><b>'+fm(p[1])+'</b></div>'}).join('')}
+['pa','px','ov'].forEach(function(i){$(i).addEventListener('input',draw)});
+addEventListener('resize',draw);draw();
+</script>
+</body>
+</html>

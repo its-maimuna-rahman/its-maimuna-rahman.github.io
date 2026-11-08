@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Non-Central Chi-Squared, t and F Distributions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:var(--soft);font-weight:600}
+.tw{overflow-x:auto}
+mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.05rem}
+canvas{width:100%;height:260px;display:block;margin:10px 0}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#idea">Idea</a><a href="#chi">Chi-squared</a><a href="#tdist">t</a><a href="#fdist">F</a><a href="#links">Connections</a><a href="#power">Power</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">&#9728;&#9790;</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Statistical Inference &middot; Power and Alternatives</span>
+<h1>Non-Central Chi-Squared, t and F Distributions</h1>
+<p class="lead">The central chi-squared, t and F curves describe a statistic when the null hypothesis is true. The moment the truth differs from the null, the statistic follows a shifted version of the same family. These shifted curves are the non-central distributions. They answer the question every study planner asks: if the effect is real and of a given size, how likely is the test to catch it?</p>
+</header>
+
+<section id="idea">
+<h2>1 &middot; What non-centrality means</h2>
+<p>Each central distribution is built from standard normal variables \(Z\sim N(0,1)\) with mean zero. A non-central distribution uses the same construction, but the normal variables have a non-zero mean. Under a true null hypothesis the means are zero. Under an alternative they are not, and the size of the departure is measured by one number, the <mark>non-centrality parameter</mark>.</p>
+<div class="box key"><b class="t">Reading the parameter</b>
+The parameter is always the true effect measured in units of noise. It equals 0 when the null is true, and it grows as the effect grows or as the sample grows. A non-centrality of 0 gives back the central distribution exactly.</div>
+<p>Three situations show how the parameter is read from a problem statement. For a mean, it is the true shift divided by the standard error. For several group means, it is the spread of the true means, summed over all observations, divided by \(\sigma^2\). For category counts, it is the sample size times the distance between the true shares and the null shares. The three scenarios below use one example of each.</p>
+</section>
+
+<section id="chi">
+<h2>2 &middot; The non-central chi-squared distribution</h2>
+<p>Let \(Z_1,\dots,Z_k\) be independent standard normals and let \(\mu_1,\dots,\mu_k\) be fixed numbers. Then</p>
+\[ V=\sum_{i=1}^{k}\left(Z_i+\mu_i\right)^2\sim\chi^2_k(\lambda),\qquad \lambda=\sum_{i=1}^{k}\mu_i^2 . \]
+<p>The distribution depends on the means only through \(\lambda\). Its density is a Poisson-weighted blend of central chi-squared curves. Choose \(J\) from a Poisson law with mean \(\lambda/2\), then use a central chi-squared with \(k+2J\) degrees of freedom:</p>
+\[ f(x)=\sum_{j=0}^{\infty}\frac{e^{-\lambda/2}\left(\lambda/2\right)^{j}}{j!}\;f_{\chi^2_{k+2j}}(x),\qquad x\gt 0 . \]
+<p>Pushing the means away from zero moves the curve to the right, widens it and makes it more symmetric. Independent terms add both parts: \(\chi^2_{a}(\lambda_1)+\chi^2_{b}(\lambda_2)\sim\chi^2_{a+b}(\lambda_1+\lambda_2)\).</p>
+
+<h3>Operating on counts: the call centre</h3>
+<p>A call centre expects its calls to fall equally in six time blocks, each with share \(p_{0}=1/6\). The true shares are \(0.20,\,0.20,\,0.15,\,0.15,\,0.15,\,0.15\). For \(n\) calls the Pearson statistic is approximately \(\chi^2_{5}(\lambda)\) with</p>
+\[ \lambda=n\sum_{i=1}^{6}\frac{\left(p_i-p_0\right)^2}{p_0}. \]
+<div class="step"><b>Distance.</b> \(\sum (p_i-p_0)^2/p_0=6\left[\,2(0.0333)^2+4(0.0167)^2\right]=0.02\).</div>
+<div class="step"><b>Non-centrality.</b> For \(n=300\): \(\lambda=300\times0.02=6\).</div>
+<div class="step"><b>Decision line.</b> The 5% critical value of \(\chi^2_5\) is \(11.070\), taken from the central distribution because the line is set under the null.</div>
+<div class="sol">Power \(=P\!\left(\chi^2_5(6)\gt 11.070\right)\approx 0.433\). The test misses this real pattern more than half the time. Raising \(n\) to about 650 gives \(\lambda=13\) and power near 0.81.</div>
+
+<h3>Exact properties of \(\chi^2_k(\lambda)\)</h3>
+<div class="tw"><table>
+<tr><th>Property</th><th>Formula</th></tr>
+<tr><td>Mean</td><td>\(k+\lambda\)</td></tr>
+<tr><td>Variance</td><td>\(2\left(k+2\lambda\right)\)</td></tr>
+<tr><td>Mode</td><td>No closed form. It is the root of \(f'(x)=0\), found numerically; at \(\lambda=0\) it reduces to \(\max(k-2,0)\)</td></tr>
+<tr><td>Skewness</td><td>\(\dfrac{2\sqrt2\,\left(k+3\lambda\right)}{\left(k+2\lambda\right)^{3/2}}\)</td></tr>
+<tr><td>Excess kurtosis</td><td>\(\dfrac{12\left(k+4\lambda\right)}{\left(k+2\lambda\right)^{2}}\)</td></tr>
+<tr><td>\(n\)-th raw moment</td><td>\(\mu'_n=2^{n}\,\dfrac{\Gamma\!\left(\frac{k}{2}+n\right)}{\Gamma\!\left(\frac{k}{2}\right)}\;{}_1F_1\!\left(-n;\ \tfrac{k}{2};\ -\tfrac{\lambda}{2}\right)=\displaystyle\sum_{j=0}^{\infty}\frac{e^{-\lambda/2}\left(\lambda/2\right)^{j}}{j!}\prod_{i=0}^{n-1}\left(k+2j+2i\right)\)</td></tr>
+</table></div>
+<p>Here \({}_1F_1(-n;a;z)=\sum_{i=0}^{n}\binom{n}{i}\dfrac{(-z)^i}{(a)_i}\) is a finite sum, with \((a)_i=a(a+1)\cdots(a+i-1)\). The cumulants have a single closed form, \(\kappa_n=2^{\,n-1}(n-1)!\,\left(k+n\lambda\right)\), and every entry above follows from it.</p>
+</section>
+
+<section id="tdist">
+<h2>3 &middot; The non-central t distribution</h2>
+<p>Let \(Z\sim N(0,1)\) and \(V\sim\chi^2_\nu\) be independent, and let \(\delta\) be a fixed real number. Then</p>
+\[ T'=\frac{Z+\delta}{\sqrt{V/\nu}}\sim t_\nu(\delta),\qquad f(t)=\int_{0}^{\infty}\sqrt{\frac{v}{\nu}}\;\varphi\!\left(t\sqrt{\frac{v}{\nu}}-\delta\right)f_{\chi^2_\nu}(v)\,dv, \]
+<p>where \(\varphi\) is the standard normal density. Given the denominator, the statistic is normal with mean \(\delta\) divided by the denominator. The integral averages over all possible denominators. The curve is shifted toward the sign of \(\delta\) and is no longer symmetric: the tail on the side away from \(\delta\) is thin, and the tail on the near side is long.</p>
+
+<h3>Operating on a mean: the rice trial</h3>
+<p>A researcher tests \(H_0:\mu=4.5\) tonnes per hectare on \(n=10\) plots. The true mean is 4.8 and \(\sigma=0.6\). The true shift in standard errors is</p>
+\[ \delta=\frac{\sqrt n\,(\mu-\mu_0)}{\sigma}=\frac{\sqrt{10}\times 0.3}{0.6}\approx 1.581 . \]
+<p>The statistic \((\bar X-\mu_0)/(S/\sqrt n)\) follows \(t_9(1.581)\). The two-sided 5% limits are \(\pm 2.262\), taken from the central \(t_9\).</p>
+<div class="sol">Power \(=P\!\left(|T'|\gt 2.262\right)\approx 0.293\). The trial finds the real gain in only about three attempts out of ten. Since \(\delta=0.5\sqrt n\) here, reaching 0.80 power needs \(n=34\), where \(\delta\approx 2.92\).</div>
+
+<h3>Exact properties of \(t_\nu(\delta)\)</h3>
+<div class="tw"><table>
+<tr><th>Property</th><th>Formula</th><th>Exists when</th></tr>
+<tr><td>Mean</td><td>\(\delta\sqrt{\dfrac{\nu}{2}}\;\dfrac{\Gamma\!\left(\frac{\nu-1}{2}\right)}{\Gamma\!\left(\frac{\nu}{2}\right)}\)</td><td>\(\nu\gt 1\)</td></tr>
+<tr><td>Variance</td><td>\(\dfrac{\nu\left(1+\delta^{2}\right)}{\nu-2}-\dfrac{\nu\,\delta^{2}}{2}\left[\dfrac{\Gamma\!\left(\frac{\nu-1}{2}\right)}{\Gamma\!\left(\frac{\nu}{2}\right)}\right]^{2}\)</td><td>\(\nu\gt 2\)</td></tr>
+<tr><td>Mode</td><td>No closed form; root of \(f'(t)=0\), found numerically. It has the sign of \(\delta\) and equals \(0\) at \(\delta=0\)</td><td>always</td></tr>
+<tr><td>Skewness</td><td>\(\dfrac{\mu'_3-3\mu'_1\mu'_2+2\mu_1'^{3}}{\sigma^{3}}\) with the raw moments below</td><td>\(\nu\gt 3\)</td></tr>
+<tr><td>Excess kurtosis</td><td>\(\dfrac{\mu'_4-4\mu'_1\mu'_3+6\mu_1'^{2}\mu'_2-3\mu_1'^{4}}{\sigma^{4}}-3\)</td><td>\(\nu\gt 4\)</td></tr>
+<tr><td>\(n\)-th raw moment</td><td>\(\mu'_n=\dfrac{\nu^{n/2}\,\Gamma\!\left(\frac{\nu-n}{2}\right)}{2^{n/2}\,\Gamma\!\left(\frac{\nu}{2}\right)}\displaystyle\sum_{j=0}^{\lfloor n/2\rfloor}\binom{n}{2j}\left(2j-1\right)!!\;\delta^{\,n-2j}\)</td><td>\(n\lt\nu\)</td></tr>
+</table></div>
+<p>The sum in the last row is \(E\!\left[(Z+\delta)^n\right]\). Written out, \(\mu'_2=\dfrac{\nu\left(1+\delta^2\right)}{\nu-2}\), \(\ \mu'_3=\dfrac{\nu^{3/2}\,\Gamma\!\left(\frac{\nu-3}{2}\right)}{2^{3/2}\,\Gamma\!\left(\frac{\nu}{2}\right)}\left(\delta^3+3\delta\right)\) and \(\mu'_4=\dfrac{\nu^{2}\left(\delta^4+6\delta^2+3\right)}{\left(\nu-2\right)\left(\nu-4\right)}\). Here \(\sigma^2\) is the variance in the table. At \(\delta=0\) every entry returns to the central \(t_\nu\) table.</p>
+</section>
+
+<section id="fdist">
+<h2>4 &middot; The non-central F distribution</h2>
+<p>Let \(U\sim\chi^2_{d_1}(\lambda)\) be non-central and \(V\sim\chi^2_{d_2}\) be central and independent of \(U\). Then</p>
+\[ F'=\frac{U/d_1}{V/d_2}\sim F_{d_1,d_2}(\lambda),\qquad f(x)=\sum_{j=0}^{\infty}\frac{e^{-\lambda/2}\left(\lambda/2\right)^{j}}{j!}\;\frac{1}{r_j}\,f_{F_{d_1+2j,\,d_2}}\!\left(\frac{x}{r_j}\right),\quad r_j=\frac{d_1+2j}{d_1}. \]
+<p>Only the numerator is shifted. The denominator still estimates \(\sigma^2\) alone, so a real effect makes the ratio larger and pushes the curve to the right, away from the central F curve that sets the critical value.</p>
+
+<h3>Operating on several means: the fertiliser trial</h3>
+<p>Three fertilisers have true mean yields 4.5, 4.8 and 5.1 with \(\sigma=0.6\), and each gets 10 plots. The overall mean is 4.8, so</p>
+\[ \lambda=\frac{\sum_i n_i\left(\mu_i-\bar\mu\right)^2}{\sigma^2}=\frac{10\left[(-0.3)^2+0^2+0.3^2\right]}{0.36}=5 . \]
+<p>The statistic is \(F_{2,27}(5)\) and the 5% line from the central \(F_{2,27}\) is \(3.354\).</p>
+<div class="sol">Power \(=P\!\left(F_{2,27}(5)\gt 3.354\right)\approx 0.458\). With 21 plots per fertiliser, \(\lambda=10.5\), the degrees of freedom become \((2,60)\) and the power rises to about 0.81.</div>
+
+<h3>Exact properties of \(F_{d_1,d_2}(\lambda)\)</h3>
+<div class="tw"><table>
+<tr><th>Property</th><th>Formula</th><th>Exists when</th></tr>
+<tr><td>Mean</td><td>\(\dfrac{d_2\left(d_1+\lambda\right)}{d_1\left(d_2-2\right)}\)</td><td>\(d_2\gt 2\)</td></tr>
+<tr><td>Variance</td><td>\(2\left(\dfrac{d_2}{d_1}\right)^{2}\dfrac{\left(d_1+\lambda\right)^{2}+\left(d_1+2\lambda\right)\left(d_2-2\right)}{\left(d_2-2\right)^{2}\left(d_2-4\right)}\)</td><td>\(d_2\gt 4\)</td></tr>
+<tr><td>Mode</td><td>No closed form; root of \(f'(x)=0\), found numerically</td><td>always</td></tr>
+<tr><td>Skewness</td><td>Same raw-moment expression as for \(t_\nu(\delta)\), using the raw moments below</td><td>\(d_2\gt 6\)</td></tr>
+<tr><td>Excess kurtosis</td><td>Same raw-moment expression as for \(t_\nu(\delta)\)</td><td>\(d_2\gt 8\)</td></tr>
+<tr><td>\(n\)-th raw moment</td><td>\(\mu'_n=\left(\dfrac{d_2}{d_1}\right)^{n}\dfrac{\Gamma\!\left(\frac{d_1}{2}+n\right)\Gamma\!\left(\frac{d_2}{2}-n\right)}{\Gamma\!\left(\frac{d_1}{2}\right)\Gamma\!\left(\frac{d_2}{2}\right)}\;{}_1F_1\!\left(-n;\ \tfrac{d_1}{2};\ -\tfrac{\lambda}{2}\right)\)</td><td>\(n\lt d_2/2\)</td></tr>
+</table></div>
+<p>The variance reduces to the central formula at \(\lambda=0\), and the mean reduces to \(d_2/(d_2-2)\). The factor \({}_1F_1\) is the same finite sum as in the chi-squared table, and it carries all the dependence on \(\lambda\).</p>
+</section>
+
+<section id="links">
+<h2>5 &middot; How the non-central family connects</h2>
+<div class="tw"><table>
+<tr><th>Link</th><th>Statement</th></tr>
+<tr><td>Back to the central case</td><td>Setting \(\lambda=0\) or \(\delta=0\) returns \(\chi^2_k\), \(t_\nu\) and \(F_{d_1,d_2}\) exactly</td></tr>
+<tr><td>Normal to chi-squared</td><td>\((Z+\delta)^2\sim\chi^2_1(\delta^2)\), and independent sums add both \(k\) and \(\lambda\)</td></tr>
+<tr><td>Poisson blend</td><td>\(\chi^2_k(\lambda)\) is a central \(\chi^2_{k+2J}\) with \(J\sim\text{Poisson}(\lambda/2)\)</td></tr>
+<tr><td>t squared is F</td><td>\(T'^{\,2}\sim F_{1,\nu}(\delta^2)\), the non-central counterpart of \(t_\nu^2\sim F_{1,\nu}\)</td></tr>
+<tr><td>Chi-squared to F</td><td>\(F'=(U/d_1)/(V/d_2)\) with \(U\) non-central and \(V\) central</td></tr>
+<tr><td>Large denominator degrees</td><td>\(t_\nu(\delta)\to N(\delta,1)\) and \(d_1F_{d_1,d_2}(\lambda)\to\chi^2_{d_1}(\lambda)\) as \(\nu,d_2\to\infty\)</td></tr>
+<tr><td>Large shape</td><td>\(\dfrac{V-(k+\lambda)}{\sqrt{2(k+2\lambda)}}\) is approximately \(N(0,1)\) when \(k\) or \(\lambda\) is large</td></tr>
+</table></div>
+<div class="box"><b class="t">Check with the rice trial</b>
+The rice test has \(\delta=1.581\), so \(\delta^2=2.5\). The equivalent F form gives \(F_{1,9}(2.5)\) and the same power, because \(|T'|\gt 2.262\) is the same event as \(T'^{\,2}\gt 5.117\). The non-central t is two-sided by construction, and the non-central F with 1 numerator degree of freedom is the same test written with squares.</div>
+<p>The mean of \(t_\nu(\delta)\) is \(\delta\) multiplied by a factor slightly above 1 that shrinks to 1 as \(\nu\) grows. For \(\nu=12\) and \(\delta=1.5\) the mean is 1.603, not 1.5. The estimated \(S\) is occasionally small, and this pulls the ratio outward.</div>
+</section>
+
+<section id="power">
+<h2>6 &middot; Using them: power and sample size</h2>
+<p>Every power calculation has the same three steps. Find the critical line from the central distribution, because it must hold when the null is true. Work out the non-centrality from the effect you want to detect. Then read the probability beyond the line from the non-central curve. Increasing the sample raises the non-centrality and also tightens the degrees of freedom, and both help.</p>
+<div class="grid">
+<div class="card"><b>Counts</b><p>\(\chi^2_{k}(\lambda)\) with \(\lambda=n\sum (p_i-p_{0i})^2/p_{0i}\). The call centre needs about 650 calls for power 0.8.</p></div>
+<div class="card"><b>One or two means</b><p>\(t_\nu(\delta)\) with \(\delta\) the true shift in standard errors. The rice trial needs 34 plots for power 0.8.</p></div>
+<div class="card"><b>Several means</b><p>\(F_{d_1,d_2}(\lambda)\) with \(\lambda\) the spread of true means over \(\sigma^2\). The fertiliser trial needs 21 plots per group for power 0.8.</p></div>
+</div>
+<div class="box warn"><b class="t">Planning values</b>
+The non-centrality uses a guessed effect and a guessed \(\sigma\), taken from earlier studies or a pilot. A power figure is only as good as these guesses, so check it over a range of plausible values.</div>
+</section>
+
+<section id="explorer">
+<h2>7 &middot; Distribution explorer</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Choose a non-central distribution and set its parameters. The solid curve is non-central, the dashed curve is the central version with the same degrees of freedom. The mode is found numerically. Values that do not exist show as undefined.</p>
+<div class="row">
+<label>Distribution
+<select id="dist"><option value="c">Non-central chi-squared</option><option value="t">Non-central t</option><option value="f">Non-central F</option></select></label>
+<label id="la">Degrees of freedom (k, ν or d₁)<input id="pa" type="number" min="1" step="1" value="5"></label>
+<label id="lb">d₂<input id="pb" type="number" min="1" step="1" value="27"></label>
+<label id="ln">Non-centrality<input id="pn" type="number" min="0" step="0.5" value="6"></label>
+<label>Show central curve<select id="ov"><option value="1">On</option><option value="0">Off</option></select></label>
+</div>
+<canvas id="cv"></canvas>
+<div class="row" id="kp"></div>
+</div>
+</section>
+
+<footer>Study guide on the non-central chi-squared, t and F distributions &middot; formulas for properties stated without derivation &middot; power figures computed from the exact distributions</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}draw()}})();
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* explorer */
+function $(i){return document.getElementById(i)}
+function lg(z){var c=[676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+ if(z<0.5)return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*z)))-lg(1-z);
+ z-=1;var x=0.99999999999980993;for(var i=0;i<8;i++)x+=c[i]/(z+i+1);var t=z+7.5;
+ return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)}
+function pc(x,k){return Math.exp((k/2-1)*Math.log(x)-x/2-(k/2)*Math.LN2-lg(k/2))}
+function pt0(x,a){return Math.exp(lg((a+1)/2)-lg(a/2)-0.5*Math.log(a*Math.PI)-((a+1)/2)*Math.log(1+x*x/a))}
+function pF(x,a,b){return Math.exp(0.5*(a*Math.log(a*x)+b*Math.log(b)-(a+b)*Math.log(a*x+b))-Math.log(x)-(lg(a/2)+lg(b/2)-lg((a+b)/2)))}
+function pw(j,h){return Math.exp(-h+j*Math.log(h)-lg(j+1))}
+function nJ(h){return Math.ceil(h+10*Math.sqrt(h)+30)}
+function pcn(x,k,l){if(l<=0)return pc(x,k);var h=l/2,s=0;for(var j=0;j<=nJ(h);j++)s+=pw(j,h)*pc(x,k+2*j);return s}
+function pFn(x,a,b,l){if(l<=0)return pF(x,a,b);var h=l/2,s=0;for(var j=0;j<=nJ(h);j++){var r=(a+2*j)/a;s+=pw(j,h)*pF(x/r,a+2*j,b)/r}return s}
+function ptn(x,nu,d){if(d===0)return pt0(x,nu);var sm=2+8/Math.sqrt(2*nu),n=500,h=sm/n,s=0;
+ for(var i=0;i<n;i++){var u=(i+0.5)*h,z=x*u-d;s+=u*Math.exp(-0.5*z*z)/Math.sqrt(2*Math.PI)*2*nu*u*pc(nu*u*u,nu)}return s*h}
+function C(n,i){var r=1;for(var j=1;j<=i;j++)r=r*(n-i+j)/j;return r}
+function hyp(n,a,l){var s=0,p=1;for(var i=0;i<=n;i++){s+=C(n,i)*Math.pow(l/2,i)/p;p*=a+i}return s}
+function rawT(n,nu,d){var p=0,df=1;for(var j=0;j<=Math.floor(n/2);j++){if(j>0)df*=2*j-1;p+=C(n,2*j)*df*Math.pow(d,n-2*j)}
+ return Math.pow(nu,n/2)*Math.exp(lg((nu-n)/2)-lg(nu/2))/Math.pow(2,n/2)*p}
+function rawF(n,a,b,l){return Math.pow(b/a,n)*Math.exp(lg(a/2+n)+lg(b/2-n)-lg(a/2)-lg(b/2))*hyp(n,a/2,l)}
+function shape(raw,ok){var U='undefined',m=[0];for(var n=1;n<=4;n++)m.push(ok(n)?raw(n):null);
+ var o={m:U,v:U,s:U,k:U};if(m[1]===null)return o;o.m=m[1];if(m[2]===null)return o;
+ var v=m[2]-m[1]*m[1];o.v=v;if(m[3]===null)return o;o.s=(m[3]-3*m[1]*m[2]+2*Math.pow(m[1],3))/Math.pow(v,1.5);
+ if(m[4]===null)return o;o.k=(m[4]-4*m[1]*m[3]+6*m[1]*m[1]*m[2]-3*Math.pow(m[1],4))/(v*v)-3;return o}
+function fm(x){return typeof x==='number'?(+x.toFixed(4)).toString():x}
+function draw(){
+ var d=$('dist').value,a=Math.max(1,+$('pa').value||1),b=Math.max(1,+$('pb').value||1),l=Math.max(0,+$('pn').value||0);
+ $('lb').style.display=d==='f'?'flex':'none';
+ $('ln').firstChild.nodeValue=d==='t'?'Non-centrality δ (any sign)':'Non-centrality λ';
+ if(d==='t'){$('pn').removeAttribute('min')}else{$('pn').min=0}
+ if(d==='t')l=+$('pn').value||0;
+ var cv=$('cv'),w=cv.clientWidth||600,h=260,r=window.devicePixelRatio||1;cv.width=w*r;cv.height=h*r;
+ var g=cv.getContext('2d');g.setTransform(r,0,0,r,0,0);
+ var cs=getComputedStyle(document.documentElement),ink=cs.getPropertyValue('--muted'),ac=cs.getPropertyValue('--accent'),a2=cs.getPropertyValue('--accent2'),ln=cs.getPropertyValue('--line');
+ var x0=0,x1;
+ if(d==='c')x1=a+l+5*Math.sqrt(2*(a+2*l))+3;else if(d==='t'){x0=Math.min(0,l)-6;x1=Math.max(0,l)+6}else x1=5+2*l/a;
+ var N=400,xs=[],ys=[],cy=[],ymax=0,i,x,y,yc;
+ for(i=0;i<=N;i++){x=x0+(x1-x0)*i/N;if(d!=='t'&&i===0)x=(x1-x0)/N/4;xs.push(x);
+  y=d==='c'?pcn(x,a,l):d==='t'?ptn(x,a,l):pFn(x,a,b,l);ys.push(y);
+  yc=d==='c'?pc(x,a):d==='t'?pt0(x,a):pF(x,a,b);cy.push(yc);
+  if(isFinite(y)&&y>ymax&&(d==='t'||i>2))ymax=y;if($('ov').value==='1'&&isFinite(yc)&&yc>ymax&&(d==='t'||i>2))ymax=yc}
+ ymax*=1.12;var L=40,R=w-12,T=12,B=h-28;
+ function X(v){return L+(v-x0)/(x1-x0)*(R-L)}function Y(v){return B-Math.min(v,ymax)/ymax*(B-T)}
+ g.strokeStyle=ln;g.lineWidth=1;g.beginPath();g.moveTo(L,B);g.lineTo(R,B);g.moveTo(L,T);g.lineTo(L,B);g.stroke();
+ g.fillStyle=ink;g.font='12px Inter,sans-serif';g.textAlign='center';
+ for(i=0;i<=5;i++){var v=x0+(x1-x0)*i/5;g.fillText(v.toFixed(1),X(v),h-10)}
+ g.textAlign='right';for(i=0;i<=3;i++){var yv=ymax*i/3;g.fillText(yv.toFixed(2),L-6,Y(yv)+4)}
+ if($('ov').value==='1'){g.strokeStyle=a2;g.setLineDash([5,4]);g.lineWidth=1.6;g.beginPath();for(i=0;i<=N;i++){var q=isFinite(cy[i])?cy[i]:ymax;i?g.lineTo(X(xs[i]),Y(q)):g.moveTo(X(xs[i]),Y(q))}g.stroke();g.setLineDash([])}
+ g.strokeStyle=ac;g.lineWidth=2.4;g.beginPath();for(i=0;i<=N;i++){var yy=isFinite(ys[i])?ys[i]:ymax;i?g.lineTo(X(xs[i]),Y(yy)):g.moveTo(X(xs[i]),Y(yy))}g.stroke();
+ var mo=0,mv=-1;for(i=3;i<=N;i++)if(isFinite(ys[i])&&ys[i]>mv){mv=ys[i];mo=xs[i]}if(d==='t'&&false)mo=0;
+ var s;
+ if(d==='c')s={m:a+l,v:2*(a+2*l),s:2*Math.SQRT2*(a+3*l)/Math.pow(a+2*l,1.5),k:12*(a+4*l)/Math.pow(a+2*l,2)};
+ else if(d==='t')s=shape(function(n){return rawT(n,a,l)},function(n){return n<a});
+ else s=shape(function(n){return rawF(n,a,b,l)},function(n){return n<b/2});
+ var lab=[['Mean',s.m],['Variance',s.v],['Mode (numerical)',mo],['Skewness',s.s],['Excess kurtosis',s.k]];
+ $('kp').innerHTML=lab.map(function(p){return '<div class="kpi"><small>'+p[0]+'</small><b>'+fm(p[1])+'</b></div>'}).join('')}
+['dist','pa','pb','pn','ov'].forEach(function(i){$(i).addEventListener('input',draw)});
+addEventListener('resize',draw);draw();
+</script>
+</body>
+</html>

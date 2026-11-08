@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sample Size Determination – AST204</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+main p,main li{margin:.9em 0;line-height:2.1}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%;width:90px}input[type=checkbox]{width:auto;accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}th{background:var(--card)}
+tr.hl td{background:var(--card);color:var(--ok);font-weight:700}
+.tw{overflow-x:auto}.tw table{min-width:560px}
+ul{padding-left:1.4rem}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;gap:6px 14px;align-items:baseline;padding:16px 20px;cursor:pointer}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem;flex:1}.dv .ch{color:var(--ac);transition:transform .3s}.dv[open] .ch{transform:rotate(90deg)}.dv[open]{border-color:var(--ac)}
+.dv .bd{padding:6px 22px 20px;overflow:hidden}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}mjx-container:not([display]){margin:0 .15em}
+.box mjx-container[display=true],.bd mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;max-width:100%;margin:.7em 0!important}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+input[type=range]{width:220px;padding:0;accent-color:var(--ac)}.sg{width:100%;height:auto;display:block}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#big">Overview</a><a href="#ci">CI Method</a><a href="#oc">Power &amp; OC Curves</a><a href="#e310">Specify the Means</a><a href="#dmin">Specify a Difference</a><a href="#hw">Practice</a><a href="#calc">Calculators</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:48px 0 8px"><h1>Sample Size Determination</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lecture 16 &middot; How many replicates \(n\) per treatment? The confidence-interval method, power and OC curves, and designing for a minimum detectable difference.</p></header>
+
+<section id="big"><h2>Big Picture</h2>
+<p>Before running an experiment you must choose \(n\), the number of replicates per treatment. Too few and a real difference can slip through unnoticed (a Type II error); too many and time and material are wasted. The rule of thumb: <b>small effects need more replicates than large effects</b>, and noisier data need more than clean data.</p>
+<div class="tw"><table><tr><th>Approach</th><th>Question it answers</th><th>You must supply</th></tr>
+<tr><td><b>Confidence interval</b></td><td>How precisely do I want to estimate a difference of two means?</td><td>half-width \(E\), \(\alpha\), a guess of \(\sigma\)</td></tr>
+<tr><td><b>OC curve / power</b></td><td>How likely should I be to detect a real difference?</td><td>\(\alpha\), target power, a guess of \(\sigma\), the means (or the smallest difference \(D\))</td></tr></table></div>
+<div class="box ex"><b>Running example: plasma etching</b> (\(a=4\) power settings, \(\sigma\approx25\) &Aring;/min). The CI method asks for \(n\) so that differences are estimated to within &plusmn;30 (answer \(n=7\)); the OC method asks for \(n\) so that real differences are detected with 90% probability (answers \(n=4\) to \(6\), depending on the difference). The two answers differ because the two questions differ. Both methods need an advance estimate of \(\sigma^2\), which comes from past experiments, a pilot run, or judgment.</div></section>
+
+<section id="ci"><h2>Confidence Interval Method</h2>
+<p>Here you decide in advance how wide the interval for a difference of two treatment means may be. For equal replicates, the half-width (margin of error) is</p>
+<div class="f">\[ E=t_{\alpha/2,\,N-a}\sqrt{\frac{2\,MS_E}{n}},\qquad N-a=a(n-1) \]</div>
+<p>Because the \(t\) value depends on \(n\) (through the error degrees of freedom), you cannot solve for \(n\) directly. Instead: put the guessed \(\sigma^2\) in place of \(MS_E\), then try \(n=2,3,4,\dots\) until \(E\) first drops to the target or below.</p>
+<div class="box ex"><b>Etch data.</b> \(a=4\), \(\alpha=0.05\), \(\sigma=25\) so \(\sigma^2=625\), target half-width \(\pm30\).
+<div class="tw"><table><tr><th>\(n\)</th><th>error df \(4(n-1)\)</th><th>\(t_{0.025}\)</th><th>\(\sqrt{2(625)/n}\)</th><th>\(E\)</th><th>\(E\le30\)?</th></tr>
+<tr><td>5</td><td>16</td><td>2.120</td><td>15.811</td><td>33.52</td><td>no</td></tr>
+<tr><td>6</td><td>20</td><td>2.086</td><td>14.434</td><td>30.11</td><td>no (just misses)</td></tr>
+<tr class="hl"><td>7</td><td>24</td><td>2.064</td><td>13.363</td><td>27.58</td><td>yes</td></tr></table></div>
+For \(n=7\): \(\sqrt{\dfrac{2(625)}{7}}=\sqrt{178.57}=13.363\), and \(E=2.064\times13.363=27.58\le30\). So \(n=7\) is the smallest sample size that works.</div>
+<p class="mut">Try your own numbers in the CI calculator below.</p>
+<h3>Interactive: watching the half-width shrink as n grows</h3>
+<p class="mut">Etch setting (a = 4, &sigma; = 25, &alpha; = 0.05). The curve is E for each n; the dashed line is the &plusmn;30 target. Drag n and see where the curve first gets under the line.</p>
+<div class="row"><label>n <input type="range" id="cn" min="2" max="30" value="5"></label><b id="cnv">5</b></div>
+<svg id="csv" class="sg" viewBox="0 0 700 150"></svg><div class="out" id="cro"></div></section>
+
+<section id="oc"><h2>Power and Operating Characteristic (OC) Curves</h2>
+<p>An <b>OC curve</b> plots the Type II error probability \(\beta\) of a test (for one fixed sample size) against a quantity that measures how false \(H_0\) is. The power is \(1-\beta\):</p>
+<div class="f">\[ \beta=1-P(\text{reject }H_0\mid H_0\text{ false})=1-P\big(F_0\gt F_{\alpha,a-1,N-a}\mid H_0\text{ false}\big) \]</div>
+<p>To compute this we need the distribution of \(F_0=MS_{Treatments}/MS_E\) when \(H_0\) is false: it follows a <b>noncentral \(F\)</b> distribution with \(a-1\) and \(N-a\) df and noncentrality parameter \(\delta\). When \(\delta=0\) it is the ordinary \(F\). The bigger \(\delta\), the further the distribution slides to the right, so rejection becomes more likely.</p>
+<div class="f">\[ \delta=\frac{n\sum_{i=1}^{a}\tau_i^2}{\sigma^2},\qquad \Phi^2=\frac{n\sum_{i=1}^{a}\tau_i^2}{a\,\sigma^2}=\frac{\delta}{a} \]</div>
+<p>The charts (Appendix Chart V) are drawn against \(\Phi\), for \(\alpha=0.05\) and \(0.01\) and various numerator and denominator df. <b>How to use a chart:</b> compute \(\Phi\); pick the curve for \(\nu_1=a-1\) and \(\nu_2=a(n-1)\); read \(\beta\) on the vertical axis; power \(=1-\beta\).</p>
+<ul><li><b>Raise \(n\)</b> or <b>spread the means further apart</b>: \(\Phi\) grows, \(\beta\) falls.</li><li><b>Raise \(\sigma\)</b>: \(\Phi\) shrinks, power falls.</li><li>You must supply \(\sigma^2\) and the pattern of means, which is the hard part in practice. If unsure about \(\sigma^2\), repeat the calculation for several plausible values (a <b>sensitivity analysis</b>) before committing to \(n\).</li></ul>
+<h3>Interactive: power as area under the F curves</h3>
+<p class="mut">Etch setting (a = 4, &sigma; = 25, &alpha; = 0.01), worst-case means for a minimum difference D. Grey: the F curve when \(H_0\) is true. Colored: the noncentral F curve when \(H_0\) is false. The dashed line is the critical value; the shaded area to its right is the <b>power</b>, the unshaded area to its left is \(\beta\). Raise n or D and watch the colored curve slide right. At D = 0 the power equals &alpha;.</p>
+<div class="row"><label>n <input type="range" id="wn" min="2" max="12" value="3"></label><b id="wnv">3</b><label>D <input type="range" id="wd" min="0" max="150" step="5" value="75"></label><b id="wdv">75</b></div>
+<svg id="wsv" class="sg" viewBox="0 0 700 260"></svg><div class="out" id="wo"></div></section>
+
+<section id="e310"><h2>Example: Specifying the Treatment Means</h2>
+<p>Etch experiment, \(\alpha=0.01\). We want power at least 0.90 if the true means are \(\mu=(575,\,600,\,650,\,675)\), and we believe \(\sigma\le25\).</p>
+<div class="box ex"><b>Step 1: effects.</b> \(\bar\mu=\dfrac{575+600+650+675}{4}=\dfrac{2500}{4}=625\), so \(\tau_i=\mu_i-\bar\mu=(-50,\,-25,\,25,\,50)\).<br>
+<b>Step 2:</b> \(\sum\tau_i^2=2500+625+625+2500=6250\).<br>
+<b>Step 3:</b> \(\Phi^2=\dfrac{n(6250)}{4(25)^2}=\dfrac{6250\,n}{2500}=2.5n\).<br>
+<b>Step 4:</b> \(\nu_1=a-1=3\), \(\nu_2=4(n-1)\). Try values of \(n\):</div>
+<div class="tw"><table><tr><th>\(n\)</th><th>\(\Phi^2=2.5n\)</th><th>\(\Phi\)</th><th>\(\nu_2\)</th><th>\(\beta\) (chart)</th><th>power (chart)</th><th>power (exact)</th></tr>
+<tr><td>3</td><td>7.5</td><td>2.74</td><td>8</td><td>&asymp;0.25</td><td>&asymp;0.75</td><td>0.753</td></tr>
+<tr class="hl"><td>4</td><td>10.0</td><td>3.16</td><td>12</td><td>&asymp;0.04</td><td>&asymp;0.96</td><td>0.962</td></tr>
+<tr><td>5</td><td>12.5</td><td>3.54</td><td>16</td><td>&lt;0.01</td><td>&gt;0.99</td><td>0.996</td></tr></table></div>
+<p>With \(n=3\) the power (0.75) is below 0.90, so three replicates are not enough. \(n=4\) already gives 0.96, so <b>\(n=4\) is the smallest sufficient choice</b>; \(n=5\) adds a safety margin. The "exact" column is computed from the noncentral \(F\) distribution rather than read off the chart.</p></section>
+
+<section id="dmin"><h2>Example: Specifying a Minimum Difference</h2>
+<p>Choosing a full set of means is awkward. A more natural question: <i>"If any two means differ by at least \(D\), I want \(H_0\) rejected with high probability."</i> In the worst case for power, the smallest possible \(\Phi^2\) is</p>
+<div class="f">\[ \Phi^2=\frac{nD^2}{2a\sigma^2} \]</div>
+<p>(derivation D3 below). If the true means are spread out more than this worst case, the power is even higher, so the sample size found this way is safe.</p>
+<div class="box ex"><b>Etch data.</b> Detect any two means differing by \(D=75\) &Aring;/min, power \(\ge0.90\), \(\alpha=0.01\), \(\sigma=25\), \(a=4\):
+\[\Phi^2=\frac{n(75)^2}{2(4)(25)^2}=\frac{5625\,n}{5000}=1.125\,n\]
+Worst-case means: two means at \(\pm D/2=\pm37.5\) from the grand mean, the other two at the grand mean, so \(\sum\tau_i^2=2(37.5)^2=2812.5=D^2/2\). Check: \(\Phi^2=\dfrac{n(2812.5)}{4(625)}=1.125\,n\).</div>
+<div class="tw"><table><tr><th>\(n\)</th><th>\(\Phi^2=1.125n\)</th><th>\(\Phi\)</th><th>\(\nu_2\)</th><th>power (exact)</th></tr>
+<tr><td>3</td><td>3.375</td><td>1.84</td><td>8</td><td>0.333</td></tr>
+<tr><td>4</td><td>4.500</td><td>2.12</td><td>12</td><td>0.606</td></tr>
+<tr><td>5</td><td>5.625</td><td>2.37</td><td>16</td><td>0.805</td></tr>
+<tr class="hl"><td>6</td><td>6.750</td><td>2.60</td><td>20</td><td>0.915</td></tr>
+<tr><td>7</td><td>7.875</td><td>2.81</td><td>24</td><td>0.967</td></tr></table></div>
+<p>So <b>\(n=6\)</b> replicates are needed.</p>
+</section>
+
+<section id="hw"><h2>Practice: Tumor Drugs (Worked)</h2>
+<p>Four drugs, 4 mice each, tumor sizes recorded. Group totals 20.4, 22.3, 34.8, 36.8 give means \(5.10,\ 5.575,\ 8.70,\ 9.20\). Assume \(\sigma=0.67\). How many mice per drug to detect a difference of 2 or more with probability at least 0.90 at \(\alpha=0.05\)?</p>
+<div class="box ex">\(a=4\), \(D=2\), \(\sigma^2=0.67^2=0.4489\):
+\[\Phi^2=\frac{n(2)^2}{2(4)(0.4489)}=\frac{4n}{3.5912}=1.114\,n\]
+\(\nu_1=3\), \(\nu_2=4(n-1)\), \(\alpha=0.05\).
+<div class="tw"><table><tr><th>\(n\)</th><th>\(\Phi^2\)</th><th>\(\Phi\)</th><th>\(\nu_2\)</th><th>power (exact)</th></tr>
+<tr><td>3</td><td>3.34</td><td>1.83</td><td>8</td><td>0.666</td></tr>
+<tr><td>4</td><td>4.46</td><td>2.11</td><td>12</td><td>0.864</td></tr>
+<tr class="hl"><td>5</td><td>5.57</td><td>2.36</td><td>16</td><td>0.952</td></tr></table></div>
+<b>Answer: 5 mice per drug (20 in total).</b> The experiment as run (\(n=4\)) had power about 0.86 for \(D=2\), slightly under the target. Sanity check: the data's own \(MS_E=4.7075/12=0.392\) (\(\hat\sigma=0.63\)), close to the assumed 0.67.</div></section>
+
+<section id="calc"><h2>Calculators</h2>
+<h3>1. Smallest \(n\) for a target half-width</h3>
+<div class="row"><label>\(a\) <input type="number" id="a1" value="4" min="2"></label><label>\(\sigma\) <input type="number" id="s1" value="25" step="any"></label><label>target \(E\) <input type="number" id="e1" value="30" step="any"></label><label>\(\alpha\) <input type="number" id="al1" value="0.05" step="0.01"></label></div>
+<div class="out" id="o1"></div>
+<h3>2. Power for each \(n\)</h3>
+<p class="mut">Give the smallest difference \(D\), or fill in \(\sum\tau_i^2\) to use specific means (it overrides \(D\)). Exact noncentral \(F\) power.</p>
+<div class="row"><label>\(a\) <input type="number" id="a2" value="4" min="2"></label><label>\(\sigma\) <input type="number" id="s2" value="25" step="any"></label><label>\(\alpha\) <input type="number" id="al2" value="0.01" step="0.01"></label><label>\(D\) <input type="number" id="d2" value="75" step="any"></label><label>\(\sum\tau_i^2\) <input type="number" id="t2" placeholder="optional" step="any"></label><label>target power <input type="number" id="p2" value="0.9" step="0.01"></label></div>
+<div class="out" id="o2"></div>
+<h3>3. Power curve</h3>
+<p class="mut">Drawn from the inputs of calculator 2: power against n, with the target power as a dashed line.</p>
+<svg id="pcv" class="sg" viewBox="0 0 700 240"></svg></section>
+
+<section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p>
+<details class="dv"><summary><span class="cd">D1</span><span class="tt">The half-width of the interval for \(\mu_i-\mu_j\)</span><span class="ch">&#9656;</span></summary><div class="bd">
+<p>The two averages are independent, each with variance \(\sigma^2/n\):</p>
+\[V(\bar y_{i\cdot}-\bar y_{j\cdot})=\frac{\sigma^2}{n}+\frac{\sigma^2}{n}=\frac{2\sigma^2}{n}\]
+<p>Estimating \(\sigma^2\) by \(MS_E\) (\(N-a\) df), the standardised difference has a \(t_{N-a}\) distribution, so</p>
+\[P\Big(-t_{\alpha/2,N-a}\le\frac{(\bar y_{i\cdot}-\bar y_{j\cdot})-(\mu_i-\mu_j)}{\sqrt{2MS_E/n}}\le t_{\alpha/2,N-a}\Big)=1-\alpha\]
+<p>Solving for \(\mu_i-\mu_j\) gives \((\bar y_{i\cdot}-\bar y_{j\cdot})\pm t_{\alpha/2,N-a}\sqrt{2MS_E/n}\). The \(\pm\) part is the half-width \(E\). Example, \(n=7\): \(E=2.064\sqrt{2(625)/7}=2.064(13.363)=27.58\).</p></div></details>
+<details class="dv"><summary><span class="cd">D2</span><span class="tt">Why \(\delta=n\sum\tau_i^2/\sigma^2\) measures how false \(H_0\) is</span><span class="ch">&#9656;</span></summary><div class="bd">
+<p>From the one-way ANOVA, \(E(MS_E)=\sigma^2\) and</p>
+\[E(MS_{Treatments})=\sigma^2+\frac{n\sum\tau_i^2}{a-1}\]
+<p>If \(H_0\) is true all \(\tau_i=0\) and both mean squares estimate \(\sigma^2\). The excess of \(MS_{Treatments}\) over \(\sigma^2\), measured in units of \(\sigma^2\) and multiplied by the numerator df, is</p>
+\[(a-1)\,\frac{E(MS_{Tr})-\sigma^2}{\sigma^2}=(a-1)\frac{n\sum\tau_i^2}{(a-1)\sigma^2}=\frac{n\sum\tau_i^2}{\sigma^2}=\delta\]
+<p>Dividing by \(a\) gives \(\Phi^2=\delta/a\). Numbers (means 575, 600, 650, 675; \(n=3\); \(\sigma=25\)): \(\delta=\dfrac{3(6250)}{625}=30\), \(\Phi^2=\dfrac{30}{4}=7.5\), \(\Phi=2.74\).</p></div></details>
+<details class="dv"><summary><span class="cd">D3</span><span class="tt">Minimum \(\Phi^2\) when two means differ by \(D\)</span><span class="ch">&#9656;</span></summary><div class="bd">
+<p>Suppose the largest gap is \(\tau_i-\tau_j=D\). Only the sum of squares matters, and the other \(\tau\)'s add non-negative terms, so the smallest case keeps them at 0. Use the identity</p>
+\[\tau_i^2+\tau_j^2=\frac{(\tau_i-\tau_j)^2+(\tau_i+\tau_j)^2}{2}\]
+<p>Since \((\tau_i+\tau_j)^2\ge0\), and \(\tau_i-\tau_j=D\):</p>
+\[\tau_i^2+\tau_j^2\ge\frac{D^2}{2}\]
+<p>Equality needs \(\tau_i+\tau_j=0\), i.e. \(\tau_i=D/2,\ \tau_j=-D/2\), which also keeps \(\sum\tau=0\). Hence \(\sum\tau_i^2\ge D^2/2\) and</p>
+\[\Phi^2=\frac{n\sum\tau_i^2}{a\sigma^2}\ge\frac{nD^2}{2a\sigma^2}\]
+<p>Etch: \(D=75\) gives \(\tau=\pm37.5\), \(\sum\tau_i^2=2812.5\), \(\Phi^2=\dfrac{n(2812.5)}{4(625)}=1.125\,n\).</p></div></details></section>
+
+<section id="form"><h2>Formula Sheet</h2>
+<table><tr><th>Formula</th><th>Meaning</th></tr>
+<tr><td>\(E=t_{\alpha/2,\,a(n-1)}\sqrt{2MS_E/n}\)</td><td>CI half-width; find smallest \(n\) with \(E\le\) target</td></tr>
+<tr><td>\(\beta=1-P(F_0\gt F_{\alpha,a-1,N-a}\mid H_0\text{ false})\)</td><td>Type II error; power \(=1-\beta\)</td></tr>
+<tr><td>\(\delta=\dfrac{n\sum\tau_i^2}{\sigma^2}\)</td><td>noncentrality parameter of \(F_0\)</td></tr>
+<tr><td>\(\Phi^2=\dfrac{n\sum\tau_i^2}{a\sigma^2}=\dfrac{\delta}{a}\)</td><td>OC-chart parameter; \(\nu_1=a-1,\ \nu_2=a(n-1)\)</td></tr>
+<tr><td>\(\Phi^2=\dfrac{nD^2}{2a\sigma^2}\)</td><td>minimum \(\Phi^2\) if two means differ by \(D\)</td></tr></table>
+<p class="mut">Recipe: choose \(\alpha\), \(\sigma\), and either the means or \(D\); compute \(\Phi\) for \(n=2,3,\dots\); read power; stop at the first \(n\) reaching the target.</p></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y)});
+const tbl=(h,r)=>`<div class="tw"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.join('')}</table></div>`;
+function power(n,a,al,dl){const v1=a-1,v2=a*(n-1),fc=jStat.centralF.inv(1-al,v1,v2),x=v1*fc/(v1*fc+v2),lam=dl/2;let w=Math.exp(-lam),c=0;for(let j=0;j<500;j++){c+=w*jStat.ibeta(x,v1/2+j,v2/2);w*=lam/(j+1)}return 1-c}
+function c1(){const a=+$('a1').value,s=+$('s1').value,E=+$('e1').value,al=+$('al1').value;if(!(a>=2&&s>0&&E>0&&al>0&&al<1)){$('o1').textContent='Enter valid numbers.';return}
+let rows=[],n=2,hit=0;for(;n<=500;n++){const df=a*(n-1),t=jStat.studentt.inv(1-al/2,df),h=t*s*Math.sqrt(2/n);rows.push([n,df,t,h]);if(h<=E){hit=n;break}}
+const sh=rows.slice(-4).map(r=>`<tr${r[0]==hit?' class="hl"':''}><td>${r[0]}</td><td>${r[1]}</td><td>${g(r[2])}</td><td>${g(r[3],2)}</td></tr>`);
+$('o1').innerHTML=(hit?`Smallest <b>n = ${hit}</b> per treatment (N = ${hit*a}).`:'No n up to 500 reaches this half-width.')+tbl(['n','error df','t','half-width E'],sh)}
+function c2(){const a=+$('a2').value,s=+$('s2').value,al=+$('al2').value,D=+$('d2').value,tp=+$('t2').value,P=+$('p2').value;
+if(!(a>=2&&s>0&&al>0&&al<1&&P>0&&P<1)||(!(tp>0)&&!(D>0))){$('o2').textContent='Enter valid numbers.';return}
+const st=tp>0?tp:D*D/2;let rows=[],hit=0;for(let n=2;n<=40;n++){const dl=n*st/(s*s),p=power(n,a,al,dl),ok=p>=P&&!hit;if(ok)hit=n;rows.push(`<tr${ok?' class="hl"':''}><td>${n}</td><td>${g(dl/a,3)}</td><td>${g(Math.sqrt(dl/a),2)}</td><td>${a*(n-1)}</td><td>${g(p,3)}</td></tr>`)}
+$('o2').innerHTML=(hit?`Smallest <b>n = ${hit}</b> reaches power ${P}.`:'Target power not reached by n = 40.')+tbl(['n','&Phi;&sup2;','&Phi;','&nu;&#8322;','power'],rows)}
+document.querySelectorAll('#calc input').forEach(e=>e.addEventListener('input',()=>{c1();c2()}));
+window.addEventListener('load',()=>{try{c1();c2()}catch(e){}});
+</script>
+<script>
+const Tx=(x,y,t,a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" style="fill:var(--mut);font-size:12px">${t}</text>`;
+const Ln=(x1,y1,x2,y2,c='var(--line)',d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:${c};stroke-width:1.5"${d?` stroke-dasharray="${d}"`:''}/>`;
+const Pl=(p,c,w=2.5)=>`<polyline points="${p.join(' ')}" style="fill:none;stroke:${c};stroke-width:${w}"/>`;
+function ncpdf(x,v1,v2,lam){let t=0,w=Math.exp(-lam);for(let j=0;j<260;j++){const m=v1+2*j,k=v1/m;t+=w*k*jStat.centralF.pdf(x*k,m,v2);w*=lam/(j+1)}return t}
+function wf(){const n=+$('wn').value,D=+$('wd').value;$('wnv').textContent=n;$('wdv').textContent=D;
+const a=4,s=25,al=.01,v1=3,v2=a*(n-1),dl=n*D*D/2/(s*s),lam=dl/2,fc=jStat.centralF.inv(1-al,v1,v2),xm=Math.max(fc*1.6,10),L=44,Rr=685,Tp=14,B=225,N=140;
+const xs=i=>.02+(xm-.02)*i/N,c=[],q=[];let ym=0;
+for(let i=0;i<=N;i++){let u=jStat.centralF.pdf(xs(i),v1,v2),v=ncpdf(xs(i),v1,v2,lam);u=isFinite(u)?u:0;v=isFinite(v)?v:0;c.push(u);q.push(v);ym=Math.max(ym,u,v)}
+ym*=1.1;const X=x=>L+(Rr-L)*x/xm,Y=y=>B-(B-Tp)*y/ym,P=(a,b)=>X(a).toFixed(1)+','+Y(b).toFixed(1);
+const cp=c.map((y,i)=>P(xs(i),y)),np=q.map((y,i)=>P(xs(i),y));
+const ar=[X(fc).toFixed(1)+','+B,P(fc,ncpdf(fc,v1,v2,lam))];for(let i=0;i<=N;i++)if(xs(i)>=fc)ar.push(np[i]);ar.push(X(xm).toFixed(1)+','+B);
+const st=xm>20?5:2;let tk='';for(let t=0;t<=xm;t+=st)tk+=Tx(X(t),B+17,t);
+$('wsv').innerHTML=`<polygon points="${ar.join(' ')}" style="fill:var(--ok);opacity:.35"/>`+Ln(L,B,Rr,B,'var(--mut)')+tk+Pl(cp,'var(--mut)')+Pl(np,'var(--ac)')+Ln(X(fc),Tp,X(fc),B,'var(--bad)','6 4')+Tx(X(fc)+6,Tp+12,'F crit = '+g(fc,2),'start')+Tx(Rr,Tp+12,'grey: H0 true &middot; red: H0 false (D = '+D+')','end');
+const p=power(n,a,al,dl);
+$('wo').innerHTML=`&delta; = ${g(dl,2)}, &Phi;&sup2; = ${g(dl/a,2)}, &Phi; = ${g(Math.sqrt(dl/a),2)}, error df = ${v2}<br>&beta; = ${g(1-p,3)} &middot; power = <b>${g(p,3)}</b>${p>=.9?' (meets 0.90)':''}`}
+function cw(){const n=+$('cn').value;$('cnv').textContent=n;const a=4,s=25,al=.05,T=30,L=44,Rr=685,Tp=14,B=120,ym=75;
+const t=k=>jStat.studentt.inv(1-al/2,a*(k-1)),E=k=>t(k)*s*Math.sqrt(2/k),X=k=>L+(Rr-L)*(k-2)/28,Y=e=>B-(B-Tp)*e/ym;
+const pts=[];for(let k=2;k<=30;k++)pts.push(X(k).toFixed(1)+','+Y(E(k)).toFixed(1));
+let tk='';[2,5,10,15,20,25,30].forEach(k=>tk+=Tx(X(k),B+16,k));[0,30,60].forEach(e=>tk+=Tx(L-6,Y(e)+4,e,'end'));
+const e=E(n),ok=e<=T;
+$('csv').innerHTML=Ln(L,B,Rr,B,'var(--mut)')+tk+Ln(L,Y(T),Rr,Y(T),'var(--bad)','6 4')+Tx(Rr,Y(T)-6,'target 30','end')+Pl(pts,'var(--ac)')+`<circle cx="${X(n)}" cy="${Y(e)}" r="6" style="fill:${ok?'var(--ok)':'var(--bad)'}"/>`;
+$('cro').innerHTML=`n = ${n}: error df = ${a*(n-1)}, t = ${g(t(n))}, E = t&sqrt;(2&sigma;&sup2;/n) = <b>${g(e,2)}</b> ${ok?'&le; 30, meets the target':'&gt; 30, too wide'}`}
+function pc(){const a=+$('a2').value,s=+$('s2').value,al=+$('al2').value,D=+$('d2').value,tp=+$('t2').value,P=+$('p2').value,sv=$('pcv');
+if(!(a>=2&&s>0&&al>0&&al<1&&P>0&&P<1)||(!(tp>0)&&!(D>0))){sv.innerHTML='';return}
+const st=tp>0?tp:D*D/2,L=44,Rr=685,Tp=14,B=205,K=20,X=n=>L+(Rr-L)*(n-2)/(K-2),Y=p=>B-(B-Tp)*p,pts=[];let hit=0,dots='',tk='';
+for(let n=2;n<=K;n++){const p=power(n,a,al,n*st/(s*s));if(p>=P&&!hit)hit=n;pts.push(X(n).toFixed(1)+','+Y(p).toFixed(1));dots+=`<circle cx="${X(n)}" cy="${Y(p)}" r="3.5" style="fill:var(--ac)"/>`;if(n%2==0)tk+=Tx(X(n),B+17,n)}
+[0,.5,1].forEach(v=>tk+=Tx(L-6,Y(v)+4,v,'end'));
+sv.innerHTML=Ln(L,B,Rr,B,'var(--mut)')+tk+Ln(L,Y(P),Rr,Y(P),'var(--bad)','6 4')+Tx(Rr,Y(P)-6,'target '+P,'end')+(hit?Ln(X(hit),Tp,X(hit),B,'var(--ok)','6 4')+Tx(X(hit),Tp+10,'n = '+hit):'')+Pl(pts,'var(--ac)')+dots}
+['wn','wd'].forEach(i=>$(i).addEventListener('input',wf));$('cn').addEventListener('input',cw);
+document.querySelectorAll('#calc input').forEach(e=>e.addEventListener('input',pc));
+window.addEventListener('load',()=>{try{wf();cw();pc()}catch(e){}});
+</script>
+</body></html>

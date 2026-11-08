@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Chi-Squared Distribution: Full Derivations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:14px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:14px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:var(--soft);font-weight:600}
+.tw{overflow-x:auto}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:1em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.05rem;word-break:break-all}
+canvas{width:100%;height:260px;display:block;margin:10px 0}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#tools">Tools</a><a href="#dist">Distribution</a><a href="#moments">Moments</a><a href="#mgf">MGF</a><a href="#cgf">CGF</a><a href="#cf">CF</a><a href="#meanvar">Mean &amp; Variance</a><a href="#skew">Skewness</a><a href="#kurt">Kurtosis</a><a href="#mode">Mode</a><a href="#limit">Limit</a><a href="#summary">Summary</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">&#9728;&#9790;</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Distribution Theory &middot; Full Derivations</span>
+<h1>The Chi-Squared Distribution: Derivations from First Principles</h1>
+<p class="lead">Every property of \(\chi^2_k\) is derived here step by step: the density, the raw moments, the moment generating function, the cumulant generating function, the characteristic function, the mean, variance, skewness, kurtosis and mode. Nothing is quoted without proof, apart from three standard analytic facts listed in Section 1. Each quantity is obtained by at least two independent routes, so every result is cross-checked.</p>
+</header>
+
+<section id="tools">
+<h2>1 &middot; Tools used throughout</h2>
+
+<h3>1.1 The gamma function</h3>
+<p>For \(s\gt 0\) define</p>
+\[ \Gamma(s)=\int_0^\infty t^{\,s-1}e^{-t}\,dt . \]
+<div class="step"><b>Recurrence.</b> Integrate by parts with \(u=t^{s}\) and \(dv=e^{-t}dt\):
+\[ \Gamma(s+1)=\Big[-t^{s}e^{-t}\Big]_0^\infty+s\int_0^\infty t^{\,s-1}e^{-t}\,dt=0+s\,\Gamma(s). \]
+The boundary term vanishes at both ends for \(s\gt 0\). Hence \(\Gamma(s+1)=s\,\Gamma(s)\), and since \(\Gamma(1)=\int_0^\infty e^{-t}dt=1\), we get \(\Gamma(n)=(n-1)!\) for positive integers \(n\).</div>
+<div class="step"><b>Value at one half.</b> Substitute \(t=u^2\), \(dt=2u\,du\):
+\[ \Gamma\!\left(\tfrac12\right)=\int_0^\infty t^{-1/2}e^{-t}\,dt=\int_0^\infty \frac{1}{u}\,e^{-u^2}\,2u\,du=2\int_0^\infty e^{-u^2}du=\int_{-\infty}^{\infty}e^{-u^2}du=\sqrt{\pi}. \]
+The last step is the Gaussian integral.</div>
+
+<h3>1.2 Two integrals</h3>
+<div class="step"><b>Scaled gamma integral.</b> For \(c\gt 0\) and \(s\gt 0\), substitute \(u=cx\):
+\[ \int_0^\infty x^{\,s-1}e^{-cx}\,dx=\frac{1}{c^{\,s}}\int_0^\infty u^{\,s-1}e^{-u}\,du=\frac{\Gamma(s)}{c^{\,s}}. \tag{G} \]</div>
+<div class="step"><b>Beta integral (standard result).</b> For \(p,q\gt 0\),
+\[ B(p,q)=\int_0^1 u^{\,p-1}(1-u)^{\,q-1}\,du=\frac{\Gamma(p)\,\Gamma(q)}{\Gamma(p+q)}. \tag{B} \]</div>
+<div class="step"><b>Gaussian integral with a scale.</b> For \(a\gt 0\),
+\[ \int_{-\infty}^{\infty}e^{-az^2/2}\,dz=\sqrt{\frac{2\pi}{a}}. \tag{N} \]
+This follows from the substitution \(z=y/\sqrt a\) and \(\int e^{-y^2/2}dy=\sqrt{2\pi}\).</div>
+
+<h3>1.3 Generating functions</h3>
+<p>For a random variable \(X\) define</p>
+\[ M_X(t)=E\!\left[e^{tX}\right],\qquad K_X(t)=\ln M_X(t),\qquad \varphi_X(t)=E\!\left[e^{itX}\right], \]
+<p>the moment generating function (MGF), the cumulant generating function (CGF) and the characteristic function (CF). When \(M_X\) exists in a neighbourhood of 0, expanding \(e^{tX}=\sum_n t^nX^n/n!\) and taking expectations term by term gives</p>
+\[ M_X(t)=\sum_{n=0}^{\infty}\mu'_n\,\frac{t^n}{n!}\quad\Longrightarrow\quad \mu'_n=E[X^n]=M_X^{(n)}(0). \]
+<p>In the same way \(\kappa_n=K_X^{(n)}(0)\) defines the \(n\)-th cumulant, and \(\mu'_n=i^{-n}\varphi_X^{(n)}(0)\). The characteristic function exists for every distribution. The <mark>uniqueness theorem</mark> says that two random variables with the same MGF on an open interval around 0, or with the same CF, have the same distribution.</p>
+<div class="box key"><b class="t">Plan</b>
+Section 2 derives the density from the definition \(\chi^2_k=Z_1^2+\cdots+Z_k^2\). Section 3 computes all raw moments directly from the density. Sections 4 to 6 compute the MGF, CGF and CF and recover the moments a second way. Sections 7 to 10 assemble mean, variance, skewness, kurtosis and mode.</div>
+</section>
+
+<section id="dist">
+<h2>2 &middot; Deriving the density</h2>
+<p>Let \(Z_1,\dots,Z_k\) be independent \(N(0,1)\) variables and put \(V=Z_1^2+\cdots+Z_k^2\). We derive the density of \(V\) in two stages: first \(k=1\), then the sum.</p>
+
+<h3>2.1 One degree of freedom</h3>
+<p>The standard normal density is \(\phi(z)=\dfrac{1}{\sqrt{2\pi}}e^{-z^2/2}\) with distribution function \(\Phi\). For \(x\gt 0\), the event \(Z^2\le x\) is the event \(-\sqrt x\le Z\le\sqrt x\), so</p>
+\[ F(x)=P(Z^2\le x)=\Phi(\sqrt x)-\Phi(-\sqrt x)=2\,\Phi(\sqrt x)-1, \]
+<p>where \(\Phi(-a)=1-\Phi(a)\) was used by symmetry. Differentiate with the chain rule, using \(\dfrac{d}{dx}\sqrt x=\dfrac{1}{2\sqrt x}\):</p>
+\[ f_1(x)=F'(x)=2\,\phi(\sqrt x)\cdot\frac{1}{2\sqrt x}=\frac{1}{\sqrt{2\pi}}\;x^{-1/2}e^{-x/2},\qquad x\gt 0. \]
+<p>Compare this with the proposed general form at \(k=1\). Since \(2^{1/2}\,\Gamma(1/2)=\sqrt{2}\sqrt{\pi}=\sqrt{2\pi}\),</p>
+\[ \frac{x^{1/2-1}e^{-x/2}}{2^{1/2}\,\Gamma(1/2)}=\frac{x^{-1/2}e^{-x/2}}{\sqrt{2\pi}}, \]
+<p>which is exactly \(f_1\). So the claimed formula holds for \(k=1\).</p>
+
+<h3>2.2 Adding independent chi-squared variables</h3>
+<p>Let \(U\) and \(W\) be independent with densities \(f_a\) and \(f_b\) of the proposed form, with \(a\) and \(b\) degrees of freedom. The density of the sum is the convolution</p>
+\[ f_{U+W}(x)=\int_0^x f_a(y)\,f_b(x-y)\,dy . \]
+<div class="step"><b>Step 1: substitute the densities.</b>
+\[ f_{U+W}(x)=\frac{1}{2^{(a+b)/2}\,\Gamma\!\left(\frac a2\right)\Gamma\!\left(\frac b2\right)}\int_0^x y^{\frac a2-1}(x-y)^{\frac b2-1}\,e^{-y/2}\,e^{-(x-y)/2}\,dy . \]
+The two exponentials combine into \(e^{-x/2}\), which does not depend on \(y\) and leaves the integral.</div>
+<div class="step"><b>Step 2: rescale the integration variable.</b> Put \(y=xu\) with \(0\le u\le 1\) and \(dy=x\,du\). Then \(y^{a/2-1}=x^{a/2-1}u^{a/2-1}\) and \((x-y)^{b/2-1}=x^{b/2-1}(1-u)^{b/2-1}\). Collecting the powers of \(x\), including the factor \(x\) from \(dy\):
+\[ x^{\frac a2-1}\cdot x^{\frac b2-1}\cdot x=x^{\frac{a+b}{2}-1}. \]
+So
+\[ f_{U+W}(x)=\frac{x^{\frac{a+b}{2}-1}e^{-x/2}}{2^{(a+b)/2}\,\Gamma\!\left(\frac a2\right)\Gamma\!\left(\frac b2\right)}\int_0^1 u^{\frac a2-1}(1-u)^{\frac b2-1}\,du . \]</div>
+<div class="step"><b>Step 3: recognise the Beta integral.</b> By (B) the remaining integral equals \(B\!\left(\frac a2,\frac b2\right)=\dfrac{\Gamma(a/2)\,\Gamma(b/2)}{\Gamma((a+b)/2)}\). The gamma functions \(\Gamma(a/2)\Gamma(b/2)\) cancel:
+\[ f_{U+W}(x)=\frac{x^{\frac{a+b}{2}-1}e^{-x/2}}{2^{(a+b)/2}\,\Gamma\!\left(\frac{a+b}{2}\right)} . \]</div>
+<p>This is the proposed form with \(a+b\) degrees of freedom. Now induct: \(f_1\) is correct, and adding one more independent \(Z_{k}^2\) (with \(b=1\)) to a sum of \(k-1\) squares (with \(a=k-1\)) gives the form with \(k\) degrees of freedom. Therefore</p>
+<div class="sol">\[ f_k(x)=\frac{x^{\,k/2-1}\,e^{-x/2}}{2^{k/2}\,\Gamma(k/2)},\qquad x\gt 0,\qquad V\sim\chi^2_k . \]
+In particular \(\chi^2_a+\chi^2_b\sim\chi^2_{a+b}\) for independent summands.</div>
+
+<h3>2.3 Check that the density integrates to one</h3>
+<p>Apply (G) with \(s=k/2\) and \(c=1/2\):</p>
+\[ \int_0^\infty x^{\frac k2-1}e^{-x/2}\,dx=\frac{\Gamma(k/2)}{(1/2)^{k/2}}=2^{k/2}\,\Gamma\!\left(\tfrac k2\right). \tag{1} \]
+<p>Dividing by the constant \(2^{k/2}\Gamma(k/2)\) gives total probability 1. Identity (1) is the engine behind every moment calculation that follows. It also shows that \(\chi^2_k\) is the gamma distribution with shape \(k/2\) and scale 2.</p>
+</section>
+
+<section id="moments">
+<h2>3 &middot; Raw moments</h2>
+<p>For \(V\sim\chi^2_k\) and any real \(r\) with \(r\gt -k/2\), write out the expectation:</p>
+\[ E\!\left[V^{\,r}\right]=\frac{1}{2^{k/2}\Gamma(k/2)}\int_0^\infty x^{\,r}\,x^{\frac k2-1}e^{-x/2}\,dx=\frac{1}{2^{k/2}\Gamma(k/2)}\int_0^\infty x^{\,\left(\frac k2+r\right)-1}e^{-x/2}\,dx . \]
+<p>The integral is again of type (G), now with \(s=k/2+r\) and \(c=1/2\), so it equals \(2^{k/2+r}\,\Gamma(k/2+r)\). The condition \(r\gt -k/2\) is needed so that \(s\gt 0\). Hence</p>
+\[ E\!\left[V^{\,r}\right]=\frac{2^{k/2+r}\,\Gamma\!\left(\frac k2+r\right)}{2^{k/2}\,\Gamma\!\left(\frac k2\right)}=2^{\,r}\,\frac{\Gamma\!\left(\frac k2+r\right)}{\Gamma\!\left(\frac k2\right)} . \tag{2} \]
+
+<h3>3.1 Positive integer moments as a product</h3>
+<p>For \(r=n\) a positive integer, apply the recurrence \(\Gamma(s+1)=s\,\Gamma(s)\) repeatedly, \(n\) times:</p>
+\[ \Gamma\!\left(\tfrac k2+n\right)=\left(\tfrac k2+n-1\right)\left(\tfrac k2+n-2\right)\cdots\left(\tfrac k2\right)\Gamma\!\left(\tfrac k2\right). \]
+<p>Substituting into (2) and distributing one factor 2 to each of the \(n\) brackets, since \(2\left(\frac k2+j\right)=k+2j\):</p>
+\[ \mu'_n=E[V^n]=2^{n}\prod_{j=0}^{n-1}\left(\frac k2+j\right)=\prod_{j=0}^{n-1}\left(k+2j\right)=k(k+2)(k+4)\cdots(k+2n-2). \tag{3} \]
+
+<h3>3.2 The first four raw moments</h3>
+<div class="tw"><table>
+<tr><th>\(n\)</th><th>\(\mu'_n\) in product form</th><th>Expanded</th></tr>
+<tr><td>1</td><td>\(k\)</td><td>\(k\)</td></tr>
+<tr><td>2</td><td>\(k(k+2)\)</td><td>\(k^2+2k\)</td></tr>
+<tr><td>3</td><td>\(k(k+2)(k+4)\)</td><td>\(k^3+6k^2+8k\)</td></tr>
+<tr><td>4</td><td>\(k(k+2)(k+4)(k+6)\)</td><td>\(k^4+12k^3+44k^2+48k\)</td></tr>
+</table></div>
+<p>The expansions are obtained as follows. For \(n=3\), \((k+2)(k+4)=k^2+6k+8\), then multiply by \(k\). For \(n=4\), let \(u=k^2+6k\). Then \(k(k+6)=u\) and \((k+2)(k+4)=k^2+6k+8=u+8\), so the product is \(u(u+8)=u^2+8u\). Now \(u^2=k^4+12k^3+36k^2\) and \(8u=8k^2+48k\), and the sum is \(k^4+12k^3+44k^2+48k\).</p>
+
+<h3>3.3 A negative moment as a bonus</h3>
+<p>Formula (2) also covers \(r=-1\), valid when \(k/2-1\gt 0\), that is \(k\gt 2\). Using \(\Gamma(k/2)=\left(\frac k2-1\right)\Gamma\!\left(\frac k2-1\right)\):</p>
+\[ E\!\left[\frac1V\right]=2^{-1}\,\frac{\Gamma\!\left(\frac k2-1\right)}{\Gamma\!\left(\frac k2\right)}=\frac12\cdot\frac{1}{\frac k2-1}=\frac{1}{k-2} . \]
+<p>This is the reason why \(1/V\) overshoots: \(E[1/V]=1/(k-2)\) is larger than \(1/E[V]=1/k\), as Jensen&rsquo;s inequality predicts for the convex function \(1/x\). For \(k\le 2\) the expectation is infinite.</p>
+</section>
+
+<section id="mgf">
+<h2>4 &middot; The moment generating function</h2>
+<p>By definition, \(M(t)=E\!\left[e^{tV}\right]=\displaystyle\int_0^\infty e^{tx}f_k(x)\,dx\).</p>
+
+<h3>4.1 Direct derivation from the density</h3>
+<div class="step"><b>Step 1: combine the exponentials.</b>
+\[ M(t)=\frac{1}{2^{k/2}\Gamma(k/2)}\int_0^\infty x^{\frac k2-1}\,e^{-x/2}\,e^{tx}\,dx=\frac{1}{2^{k/2}\Gamma(k/2)}\int_0^\infty x^{\frac k2-1}\,e^{-\frac{(1-2t)}{2}\,x}\,dx . \]</div>
+<div class="step"><b>Step 2: check convergence.</b> The integral converges exactly when the coefficient of \(-x\) in the exponent is positive: \(c=\dfrac{1-2t}{2}\gt 0\), that is \(t\lt\tfrac12\).</div>
+<div class="step"><b>Step 3: apply (G)</b> with \(s=k/2\) and \(c=(1-2t)/2\):
+\[ \int_0^\infty x^{\frac k2-1}e^{-cx}dx=\frac{\Gamma(k/2)}{\left(\frac{1-2t}{2}\right)^{k/2}}=\frac{2^{k/2}\,\Gamma(k/2)}{(1-2t)^{k/2}} . \]</div>
+<div class="step"><b>Step 4: cancel the constants.</b>
+\[ M(t)=\frac{1}{2^{k/2}\Gamma(k/2)}\cdot\frac{2^{k/2}\,\Gamma(k/2)}{(1-2t)^{k/2}} . \]</div>
+<div class="sol">\[ M_V(t)=(1-2t)^{-k/2},\qquad t\lt\tfrac12 . \]</div>
+
+<h3>4.2 Independent derivation through \(Z^2\)</h3>
+<p>For a single standard normal, apply (N) with \(a=1-2t\gt 0\):</p>
+\[ E\!\left[e^{tZ^2}\right]=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{tz^2}e^{-z^2/2}\,dz=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-(1-2t)z^2/2}\,dz=\frac{1}{\sqrt{2\pi}}\sqrt{\frac{2\pi}{1-2t}}=(1-2t)^{-1/2}. \]
+<p>The MGF of a sum of independent variables is the product of the MGFs, so for \(V=\sum_{j=1}^{k}Z_j^2\):</p>
+\[ M_V(t)=\prod_{j=1}^{k}(1-2t)^{-1/2}=(1-2t)^{-k/2}, \]
+<p>which agrees with 4.1. As a by-product, this MGF proves \(\chi^2_a+\chi^2_b\sim\chi^2_{a+b}\) in one line: \((1-2t)^{-a/2}(1-2t)^{-b/2}=(1-2t)^{-(a+b)/2}\), and the uniqueness theorem finishes the argument.</p>
+
+<h3>4.3 Moments from derivatives of the MGF</h3>
+<p>Differentiate \(M(t)=(1-2t)^{-k/2}\) repeatedly. The chain rule gives \(\dfrac{d}{dt}(1-2t)^{-p}=2p\,(1-2t)^{-p-1}\).</p>
+\[ \begin{aligned} M'(t)&=k\,(1-2t)^{-\frac k2-1},\\ M''(t)&=k\,(k+2)\,(1-2t)^{-\frac k2-2},\\ M'''(t)&=k(k+2)(k+4)\,(1-2t)^{-\frac k2-3}. \end{aligned} \]
+<p>At each step the new factor is \(2\left(\frac k2+j\right)=k+2j\). By induction</p>
+\[ M^{(n)}(t)=\prod_{j=0}^{n-1}(k+2j)\;(1-2t)^{-\frac k2-n},\qquad\text{so}\qquad \mu'_n=M^{(n)}(0)=\prod_{j=0}^{n-1}(k+2j). \]
+<div class="box key"><b class="t">Cross-check</b>
+This is identical to (3), obtained earlier by integrating the density directly. Two independent routes agree.</div>
+</section>
+
+<section id="cgf">
+<h2>5 &middot; The cumulant generating function</h2>
+<p>Take the logarithm of the MGF on the interval \(t\lt\tfrac12\):</p>
+\[ K(t)=\ln M(t)=-\frac k2\,\ln(1-2t) . \]
+
+<h3>5.1 Derivatives of \(K\)</h3>
+\[ K'(t)=-\frac k2\cdot\frac{-2}{1-2t}=\frac{k}{1-2t}. \]
+<p>Each further derivative of \((1-2t)^{-r}\) produces the factor \(2r\) and raises the power by one, so</p>
+\[ K''(t)=\frac{2k}{(1-2t)^2},\qquad K'''(t)=\frac{8k}{(1-2t)^3},\qquad K^{(4)}(t)=\frac{48k}{(1-2t)^4}. \]
+<p>The numerators follow the pattern \(k,\ 2k,\ 2k\cdot 4,\ 8k\cdot 6\), where the multipliers \(2\cdot1,\ 2\cdot2,\ 2\cdot3\) are the factors \(2r\) for \(r=1,2,3\). In general, by induction,</p>
+\[ K^{(r)}(t)=k\,2^{\,r-1}(r-1)!\,(1-2t)^{-r}. \]
+<p>The step from \(r\) to \(r+1\) multiplies by \(2r\): \(k\,2^{r-1}(r-1)!\cdot 2r=k\,2^{r}\,r!\), as required.</p>
+
+<h3>5.2 Cumulants</h3>
+<div class="sol">\[ \kappa_r=K^{(r)}(0)=k\,2^{\,r-1}\,(r-1)!\qquad\Longrightarrow\qquad \kappa_1=k,\quad \kappa_2=2k,\quad \kappa_3=8k,\quad \kappa_4=48k . \]</div>
+
+<h3>5.3 Cross-check by a power series</h3>
+<p>For \(|u|\lt 1\), \(-\ln(1-u)=\sum_{r\ge1}u^r/r\). Put \(u=2t\), valid for \(|t|\lt\tfrac12\):</p>
+\[ K(t)=\frac k2\sum_{r=1}^{\infty}\frac{(2t)^r}{r}=\sum_{r=1}^{\infty}\frac{k\,2^{\,r-1}}{r}\,t^r=\sum_{r=1}^{\infty}\Big[k\,2^{\,r-1}(r-1)!\Big]\frac{t^r}{r!} . \]
+<p>The last step multiplies and divides by \((r-1)!\), using \(r!=r\,(r-1)!\). The coefficient of \(t^r/r!\) is \(\kappa_r\), and it matches the derivative route.</p>
+
+<h3>5.4 From cumulants to central moments</h3>
+<p>Let \(\mu=E[V]=\kappa_1\). Centring subtracts \(\mu\) and removes only the first cumulant, so \(V-\mu\) has \(\kappa_1=0\) and the same \(\kappa_r\) for \(r\ge2\). Its MGF is \(\exp\!\left(\kappa_2\frac{t^2}{2}+\kappa_3\frac{t^3}{6}+\kappa_4\frac{t^4}{24}+\cdots\right)\). Expand \(e^y=1+y+\frac{y^2}{2}+\cdots\) with \(y\) equal to that sum and keep terms up to \(t^4\). The \(y^2/2\) term contributes \(\frac12\left(\frac{\kappa_2t^2}{2}\right)^2=\frac{\kappa_2^2}{8}t^4\), and higher powers of \(y\) start at \(t^6\):</p>
+\[ M_{V-\mu}(t)=1+\kappa_2\frac{t^2}{2}+\kappa_3\frac{t^3}{6}+\left(\frac{\kappa_4}{24}+\frac{\kappa_2^2}{8}\right)t^4+\cdots . \]
+<p>Match with \(M_{V-\mu}(t)=\sum_n\mu_n t^n/n!\), where \(\mu_n=E[(V-\mu)^n]\) are the central moments. The coefficient of \(t^4\) is \(\mu_4/24\), so multiplying by 24:</p>
+\[ \mu_2=\kappa_2,\qquad \mu_3=\kappa_3,\qquad \mu_4=\kappa_4+3\kappa_2^2 . \tag{4} \]
+</section>
+
+<section id="cf">
+<h2>6 &middot; The characteristic function</h2>
+<p>The CF is \(\varphi(t)=E\!\left[e^{itV}\right]\) for real \(t\). It always exists, and for \(\chi^2_k\) it requires no restriction on \(t\).</p>
+
+<h3>6.1 Derivation from the density</h3>
+<div class="step"><b>Step 1: combine the exponentials.</b>
+\[ \varphi(t)=\frac{1}{2^{k/2}\Gamma(k/2)}\int_0^\infty x^{\frac k2-1}\,e^{-x/2+itx}\,dx=\frac{1}{2^{k/2}\Gamma(k/2)}\int_0^\infty x^{\frac k2-1}e^{-c\,x}\,dx,\qquad c=\frac{1-2it}{2}. \]
+The constant \(c\) is complex with real part \(\tfrac12\gt 0\), so the integrand still decays like \(e^{-x/2}\) and the integral converges absolutely.</div>
+<div class="step"><b>Step 2: extend (G) to complex \(c\).</b> Identity (G) holds for real \(c\gt 0\). Both sides, \(\int_0^\infty x^{s-1}e^{-cx}dx\) and \(\Gamma(s)\,c^{-s}\), are analytic functions of \(c\) on the half-plane \(\operatorname{Re}c\gt 0\), where \(c^{-s}\) uses the principal branch. Two analytic functions that agree on the positive real axis agree on the whole half-plane. Hence (G) remains valid for our complex \(c\):
+\[ \int_0^\infty x^{\frac k2-1}e^{-cx}dx=\Gamma\!\left(\tfrac k2\right)c^{-k/2}=\Gamma\!\left(\tfrac k2\right)\left(\frac{1-2it}{2}\right)^{-k/2}=2^{k/2}\,\Gamma\!\left(\tfrac k2\right)(1-2it)^{-k/2}. \]</div>
+<div class="step"><b>Step 3: cancel the constants.</b></div>
+<div class="sol">\[ \varphi_V(t)=(1-2it)^{-k/2},\qquad t\in\mathbb R . \]</div>
+<p>This is the MGF with \(t\) replaced by \(it\). The substitution is legitimate here because the MGF exists on a neighbourhood of 0.</p>
+
+<h3>6.2 Independent derivation through \(Z^2\)</h3>
+<p>For \(Z\sim N(0,1)\), \(E[e^{itZ^2}]=\frac{1}{\sqrt{2\pi}}\int e^{-(1-2it)z^2/2}dz\). The complex coefficient \(a=1-2it\) has positive real part, so (N) extends in the same way by analytic continuation and gives \(\sqrt{2\pi/a}\), that is \(\varphi_{Z^2}(t)=(1-2it)^{-1/2}\). Independence turns the CF of a sum into a product, and \(\varphi_V(t)=(1-2it)^{-k/2}\) follows.</p>
+
+<h3>6.3 Modulus and phase</h3>
+<p>Write \(1-2it=r\,e^{-i\theta}\) with \(r=\sqrt{1+4t^2}\) and \(\theta=\arctan(2t)\). Raising to the power \(-k/2\):</p>
+\[ \varphi_V(t)=(1+4t^2)^{-k/4}\,e^{\,i\,\frac k2\arctan(2t)},\qquad |\varphi_V(t)|=(1+4t^2)^{-k/4}\le 1 . \]
+<p>The modulus decays to 0 as \(|t|\to\infty\), as it must for a distribution with a density (Riemann&ndash;Lebesgue lemma), and equals 1 at \(t=0\).</p>
+
+<h3>6.4 Moments from the CF</h3>
+<p>Differentiate \(\varphi(t)=(1-2it)^{-k/2}\). Now \(\dfrac{d}{dt}(1-2it)^{-p}=2ip\,(1-2it)^{-p-1}\), so each derivative brings the factor \(i\,(k+2j)\):</p>
+\[ \varphi^{(n)}(t)=i^{\,n}\prod_{j=0}^{n-1}(k+2j)\;(1-2it)^{-\frac k2-n}. \]
+<p>At \(t=0\) the last factor is 1, and \(\mu'_n=i^{-n}\varphi^{(n)}(0)=\prod_{j=0}^{n-1}(k+2j)\), once more equal to (3). For example \(\varphi'(0)=ik\), so \(E[V]=i^{-1}\cdot ik=k\).</p>
+
+<h3>6.5 Cumulants from the CF</h3>
+<p>The log of the CF is \(\ln\varphi(t)=K(it)=-\frac k2\ln(1-2it)\). Expanding with \(-\ln(1-u)=\sum u^r/r\) and \(u=2it\):</p>
+\[ \ln\varphi(t)=\sum_{r=1}^{\infty}\kappa_r\frac{(it)^r}{r!},\qquad \kappa_r=k\,2^{\,r-1}(r-1)!, \]
+<p>the same cumulants as in Section 5.</p>
+</section>
+
+<section id="meanvar">
+<h2>7 &middot; Mean and variance</h2>
+<h3>Route A: from the raw moments</h3>
+<p>From (3), \(E[V]=\mu'_1=k\) and \(E[V^2]=\mu'_2=k(k+2)\). The variance is the second raw moment minus the squared mean:</p>
+\[ \operatorname{Var}(V)=E[V^2]-\big(E[V]\big)^2=k(k+2)-k^2=k^2+2k-k^2=2k . \]
+<h3>Route B: from the MGF</h3>
+<p>\(M'(0)=k\) and \(M''(0)=k(k+2)\), and the same subtraction gives \(2k\).</p>
+<h3>Route C: from the CGF</h3>
+<p>\(\kappa_1=K'(0)=k\) and \(\kappa_2=K''(0)=2k\). The variance is the second cumulant directly.</p>
+<h3>Route D: from the definition as a sum of squares</h3>
+<p>For \(Z\sim N(0,1)\), \(E[Z^2]=1\) and \(E[Z^4]=3\), the fourth moment being obtained by one integration by parts: \(\int z^3\cdot z\,\phi(z)\,dz=3\int z^2\phi(z)\,dz=3\). Hence \(\operatorname{Var}(Z^2)=3-1=2\). The \(k\) squares are independent, so means and variances add:</p>
+\[ E[V]=k\cdot1=k,\qquad \operatorname{Var}(V)=k\cdot2=2k . \]
+<div class="sol">\[ E[V]=k,\qquad \operatorname{Var}(V)=2k,\qquad \text{sd}(V)=\sqrt{2k}. \]
+Four routes, one answer.</div>
+</section>
+
+<section id="skew">
+<h2>8 &middot; Skewness</h2>
+<p>Skewness is the standardised third central moment, \(\gamma_1=\mu_3\big/\mu_2^{3/2}\).</p>
+
+<h3>8.1 From the raw moments</h3>
+<p>Expand \(E[(V-\mu)^3]\) with \(\mu=k\), using \(\mu'_1=k\):</p>
+\[ \mu_3=\mu'_3-3\,\mu'_2\,\mu+3\,\mu'_1\,\mu^2-\mu^3=\mu'_3-3\,\mu'_2\,k+2k^3 , \]
+<p>because \(3\mu'_1\mu^2-\mu^3=3k^3-k^3=2k^3\). Insert \(\mu'_3=k^3+6k^2+8k\) and \(\mu'_2=k^2+2k\):</p>
+\[ \begin{aligned} \mu_3&=\left(k^3+6k^2+8k\right)-3k\left(k^2+2k\right)+2k^3\\ &=k^3+6k^2+8k-3k^3-6k^2+2k^3\\ &=\left(1-3+2\right)k^3+\left(6-6\right)k^2+8k=8k . \end{aligned} \]
+
+<h3>8.2 From the cumulants</h3>
+<p>By (4), \(\mu_3=\kappa_3=8k\), the same value obtained with much less algebra. This is the practical advantage of cumulants.</p>
+
+<h3>8.3 Standardise</h3>
+\[ \gamma_1=\frac{8k}{(2k)^{3/2}}=\frac{8k}{2k\sqrt{2k}}=\frac{4}{\sqrt{2k}}=\sqrt{\frac{16}{2k}}=\sqrt{\frac8k}. \]
+<div class="sol">\[ \gamma_1=\sqrt{\dfrac{8}{k}}\gt 0 . \]
+The distribution is right-skewed for every \(k\), and skewness vanishes like \(k^{-1/2}\).</div>
+<p>Check: \(k=1\) gives \(\sqrt8\approx 2.83\), a very heavy right tail, and \(k=2\) gives \(2\), which is the skewness of the exponential distribution, as it should be since \(\chi^2_2\) is exponential with mean 2.</p>
+</section>
+
+<section id="kurt">
+<h2>9 &middot; Kurtosis</h2>
+<p>Kurtosis is the standardised fourth central moment, \(\beta_2=\mu_4/\mu_2^2\), and excess kurtosis is \(\gamma_2=\beta_2-3\), which equals 0 for a normal distribution.</p>
+
+<h3>9.1 From the raw moments</h3>
+<p>Expand \(E[(V-\mu)^4]\) with \(\mu=k\):</p>
+\[ \mu_4=\mu'_4-4\,\mu'_3\,\mu+6\,\mu'_2\,\mu^2-4\,\mu'_1\,\mu^3+\mu^4=\mu'_4-4k\,\mu'_3+6k^2\,\mu'_2-3k^4 , \]
+<p>since \(-4\mu'_1\mu^3+\mu^4=-4k^4+k^4=-3k^4\). Now evaluate each of the four pieces:</p>
+\[ \begin{aligned} \mu'_4&=k^4+12k^3+44k^2+48k,\\ -4k\,\mu'_3&=-4k^4-24k^3-32k^2,\\ 6k^2\,\mu'_2&=6k^4+12k^3,\\ -3k^4&=-3k^4 . \end{aligned} \]
+<p>Add the columns by powers of \(k\):</p>
+\[ \begin{aligned} k^4:&\quad 1-4+6-3=0,\\ k^3:&\quad 12-24+12=0,\\ k^2:&\quad 44-32=12,\\ k^1:&\quad 48 . \end{aligned} \]
+\[ \mu_4=12k^2+48k . \]
+
+<h3>9.2 From the cumulants</h3>
+<p>By (4), \(\mu_4=\kappa_4+3\kappa_2^2=48k+3(2k)^2=48k+12k^2\), in agreement.</p>
+
+<h3>9.3 Standardise</h3>
+\[ \beta_2=\frac{\mu_4}{\mu_2^2}=\frac{12k^2+48k}{(2k)^2}=\frac{12k^2+48k}{4k^2}=3+\frac{12}{k},\qquad \gamma_2=\beta_2-3 . \]
+<div class="sol">\[ \beta_2=3+\frac{12}{k},\qquad \gamma_2=\frac{12}{k}\gt 0 . \]
+The tails are heavier than normal for every \(k\), and the excess shrinks like \(1/k\).</div>
+<p>Note that excess kurtosis equals \(\kappa_4/\kappa_2^2=48k/4k^2=12/k\), a general fact: excess kurtosis is the standardised fourth cumulant, and skewness is the standardised third cumulant, \(\kappa_3/\kappa_2^{3/2}=8k/(2k)^{3/2}\).</p>
+</section>
+
+<section id="mode">
+<h2>10 &middot; The mode</h2>
+<p>The mode is the point where the density is largest. Since \(\ln\) is increasing, we may maximise the log-density, which is easier to differentiate. For \(x\gt0\),</p>
+\[ \ln f_k(x)=\left(\frac k2-1\right)\ln x-\frac x2-\ln\!\left[2^{k/2}\Gamma(k/2)\right], \]
+<p>where the last term is a constant.</p>
+<div class="step"><b>First-order condition.</b>
+\[ \frac{d}{dx}\ln f_k(x)=\frac{k/2-1}{x}-\frac12=0\quad\Longrightarrow\quad x=k-2 . \]
+This is a positive solution only when \(k\gt2\).</div>
+<div class="step"><b>Second-order condition.</b>
+\[ \frac{d^2}{dx^2}\ln f_k(x)=-\frac{k/2-1}{x^2}\lt0\quad\text{for }k\gt2 , \]
+so \(x=k-2\) is a maximum. It is also the only stationary point, hence the global maximum.</div>
+<div class="step"><b>Case \(k=2\).</b> The density is \(f_2(x)=\tfrac12e^{-x/2}\), which is strictly decreasing, so the supremum is at the boundary \(x=0\) with value \(1/2\). The mode is 0.</div>
+<div class="step"><b>Case \(k=1\).</b> The density \(f_1(x)=x^{-1/2}e^{-x/2}/\sqrt{2\pi}\) is strictly decreasing and tends to \(+\infty\) as \(x\to0^+\). It has no finite maximum, and the density is unbounded at 0. By convention the mode is taken as 0.</div>
+<div class="sol">\[ \text{mode}=\max\left(k-2,\;0\right). \]</div>
+<p>The ordering of the three centre measures shows the right skew: mode \(=k-2\lt\) mean \(=k\) for \(k\gt2\). A useful approximate median is \(k\left(1-\frac{2}{9k}\right)^3\), which sits between the two (stated without proof, from the Wilson&ndash;Hilferty approximation).</p>
+</section>
+
+<section id="limit">
+<h2>11 &middot; Large \(k\): the normal limit from the MGF</h2>
+<p>The skewness \(\sqrt{8/k}\) and excess kurtosis \(12/k\) both tend to zero, which suggests a normal limit. We prove it. Standardise \(V\) to \(Y=(V-k)/\sqrt{2k}\) and compute its MGF:</p>
+\[ M_Y(t)=e^{-t\sqrt{k/2}}\;M_V\!\left(\frac{t}{\sqrt{2k}}\right)=e^{-t\sqrt{k/2}}\left(1-t\sqrt{\frac2k}\right)^{-k/2}, \]
+<p>because \(2\cdot\dfrac{t}{\sqrt{2k}}=t\sqrt{2/k}\), and \(\dfrac{k}{\sqrt{2k}}=\sqrt{k/2}\). Take logarithms and put \(u=t\sqrt{2/k}\), which tends to 0 as \(k\to\infty\):</p>
+\[ \ln M_Y(t)=-t\sqrt{\frac k2}-\frac k2\ln(1-u)=-t\sqrt{\frac k2}+\frac k2\left(u+\frac{u^2}{2}+\frac{u^3}{3}+\cdots\right). \]
+<p>Evaluate the pieces: \(\frac k2u=\frac k2\,t\sqrt{\frac2k}=t\sqrt{\frac k2}\), which cancels the first term exactly. Next \(\frac k2\cdot\frac{u^2}{2}=\frac k4\cdot\frac{2t^2}{k}=\frac{t^2}{2}\). The remaining terms are of size \(k\,u^3\propto k^{-1/2}\) and vanish. Therefore</p>
+\[ \ln M_Y(t)\longrightarrow\frac{t^2}{2},\qquad M_Y(t)\longrightarrow e^{t^2/2},\qquad k\to\infty , \]
+<p>the MGF of \(N(0,1)\). By the continuity theorem for MGFs, \((\chi^2_k-k)/\sqrt{2k}\Rightarrow N(0,1)\). The first neglected term, \(\frac k2\cdot\frac{u^3}{3}=\frac{t^3}{3}\sqrt{\frac{2}{k}}\), is \(\frac{\gamma_1}{6}t^3\) with \(\gamma_1=\sqrt{8/k}\), so the leading correction to normality is exactly the skewness.</p>
+</section>
+
+<section id="summary">
+<h2>12 &middot; Summary of results</h2>
+<div class="tw"><table>
+<tr><th>Quantity</th><th>Result</th><th>Condition</th></tr>
+<tr><td>Density</td><td>\(\dfrac{x^{k/2-1}e^{-x/2}}{2^{k/2}\Gamma(k/2)}\)</td><td>\(x\gt0\)</td></tr>
+<tr><td>Raw moment of order \(r\)</td><td>\(2^{r}\,\dfrac{\Gamma(k/2+r)}{\Gamma(k/2)}\); for integer \(n\): \(\displaystyle\prod_{j=0}^{n-1}(k+2j)\)</td><td>\(r\gt-k/2\)</td></tr>
+<tr><td>MGF</td><td>\((1-2t)^{-k/2}\)</td><td>\(t\lt\tfrac12\)</td></tr>
+<tr><td>CGF</td><td>\(-\dfrac k2\ln(1-2t)\)</td><td>\(t\lt\tfrac12\)</td></tr>
+<tr><td>CF</td><td>\((1-2it)^{-k/2}\)</td><td>all real \(t\)</td></tr>
+<tr><td>Cumulants</td><td>\(\kappa_r=k\,2^{r-1}(r-1)!\)</td><td>\(r\ge1\)</td></tr>
+<tr><td>Mean</td><td>\(k\)</td><td>always</td></tr>
+<tr><td>Variance</td><td>\(2k\)</td><td>always</td></tr>
+<tr><td>Skewness</td><td>\(\sqrt{8/k}\)</td><td>always</td></tr>
+<tr><td>Kurtosis (excess)</td><td>\(3+\dfrac{12}{k}\) (\(\dfrac{12}{k}\))</td><td>always</td></tr>
+<tr><td>Mode</td><td>\(\max(k-2,0)\)</td><td>always</td></tr>
+</table></div>
+<div class="box key"><b class="t">The compact route</b>
+All of the above follows from a single line, \(K(t)=-\frac k2\ln(1-2t)\). Its series coefficients give every cumulant, and relations (4) turn them into central moments. The density derivation of Section 2 and the moment integrals of Section 3 serve as the independent check on that one line.</div>
+</section>
+
+<section id="explorer">
+<h2>13 &middot; Chi-squared explorer</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Set the degrees of freedom \(k\). The curve, the mode marker and the exact values from the derivations update at once. The last two cards evaluate the MGF and CF at the chosen \(t\).</p>
+<div class="row">
+<label>Degrees of freedom k<input id="pa" type="number" min="1" step="1" value="5"></label>
+<label>Evaluate at t<input id="pt" type="number" step="0.1" value="0.2"></label>
+<label>Overlay normal \(N(k,2k)\)<select id="ov"><option value="1">On</option><option value="0">Off</option></select></label>
+</div>
+<canvas id="cv"></canvas>
+<p id="note" style="font-size:13px;color:var(--muted);margin:0"></p>
+<div class="row" id="kp"></div>
+</div>
+</section>
+
+<footer>Derivations of the chi-squared distribution: density, moments, MGF, CGF, CF, shape measures and mode</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}draw()}})();
+
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* explorer */
+function $(i){return document.getElementById(i)}
+function lg(z){var c=[676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+ if(z<0.5)return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*z)))-lg(1-z);
+ z-=1;var x=0.99999999999980993;for(var i=0;i<8;i++)x+=c[i]/(z+i+1);var t=z+7.5;
+ return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)}
+function pdf(x,k){if(x<=0)return k<2?Infinity:(k===2?0.5:0);return Math.exp((k/2-1)*Math.log(x)-x/2-(k/2)*Math.LN2-lg(k/2))}
+function fm(x){return typeof x==='number'?(+x.toPrecision(6)).toString():x}
+function draw(){
+ var k=Math.max(1,Math.round(+$('pa').value||1)),t=+$('pt').value;if(isNaN(t))t=0;
+ var cv=$('cv'),w=cv.clientWidth||600,h=260,r=window.devicePixelRatio||1;cv.width=w*r;cv.height=h*r;
+ var g=cv.getContext('2d');g.setTransform(r,0,0,r,0,0);
+ var cs=getComputedStyle(document.documentElement),ink=cs.getPropertyValue('--muted'),ac=cs.getPropertyValue('--accent'),a2=cs.getPropertyValue('--accent2'),ln=cs.getPropertyValue('--line');
+ var x0=0,x1=k+5*Math.sqrt(2*k)+3,N=400,xs=[],ys=[],ymax=0,i,x,y;
+ for(i=0;i<=N;i++){x=x0+(x1-x0)*i/N;if(i===0)x=(x1-x0)/N/4;y=pdf(x,k);xs.push(x);ys.push(y);if(isFinite(y)&&y>ymax&&i>2)ymax=y}
+ var ov=$('ov').value==='1',oy=[];
+ if(ov)for(i=0;i<=N;i++){x=xs[i];var sd=Math.sqrt(2*k);y=Math.exp(-0.5*Math.pow((x-k)/sd,2))/(sd*Math.sqrt(2*Math.PI));oy.push(y);if(y>ymax)ymax=y}
+ ymax*=1.12;var L=40,R=w-12,T=12,B=h-28;
+ function X(v){return L+(v-x0)/(x1-x0)*(R-L)}function Y(v){return B-Math.min(v,ymax)/ymax*(B-T)}
+ g.strokeStyle=ln;g.lineWidth=1;g.beginPath();g.moveTo(L,B);g.lineTo(R,B);g.moveTo(L,T);g.lineTo(L,B);g.stroke();
+ g.fillStyle=ink;g.font='12px Inter,sans-serif';g.textAlign='center';
+ for(i=0;i<=5;i++){var v=x0+(x1-x0)*i/5;g.fillText(v.toFixed(1),X(v),h-10)}
+ g.textAlign='right';for(i=0;i<=3;i++){var yv=ymax*i/3;g.fillText(yv.toFixed(2),L-6,Y(yv)+4)}
+ if(ov){g.strokeStyle=a2;g.setLineDash([5,4]);g.lineWidth=1.6;g.beginPath();for(i=0;i<=N;i++){i?g.lineTo(X(xs[i]),Y(oy[i])):g.moveTo(X(xs[i]),Y(oy[i]))}g.stroke();g.setLineDash([])}
+ g.strokeStyle=ac;g.lineWidth=2.4;g.beginPath();for(i=0;i<=N;i++){var yy=isFinite(ys[i])?ys[i]:ymax;i?g.lineTo(X(xs[i]),Y(yy)):g.moveTo(X(xs[i]),Y(yy))}g.stroke();
+ var mode=Math.max(k-2,0);
+ if(k>=2){g.strokeStyle=ink;g.setLineDash([2,4]);g.lineWidth=1;g.beginPath();g.moveTo(X(mode),B);g.lineTo(X(mode),Y(pdf(mode,k)));g.stroke();g.setLineDash([])}
+ $('note').textContent=(ov?'Dashed curve: normal with the same mean and variance, N(k, 2k). ':'')+(k>=2?'Dotted line: the mode at k \u2212 2 (or 0 for k = 2).':'For k = 1 the density is unbounded at 0, so the mode is taken as 0.');
+ var mg=t<0.5?Math.pow(1-2*t,-k/2):'undefined (t \u2265 1/2)';
+ var rr=Math.sqrt(1+4*t*t),th=Math.atan(2*t),mod=Math.pow(rr,-k/2),ph=k/2*th;
+ var cfs=fm(mod*Math.cos(ph))+(mod*Math.sin(ph)<0?' \u2212 ':' + ')+fm(Math.abs(mod*Math.sin(ph)))+'i';
+ var lab=[['Mean k',k],['Variance 2k',2*k],['Mode',mode],['Skewness \u221A(8/k)',Math.sqrt(8/k)],['Excess kurtosis 12/k',12/k],['Cumulant \u03BA\u2083 = 8k',8*k],['Cumulant \u03BA\u2084 = 48k',48*k],['MGF at t',mg],['CF at t',cfs],['|CF| at t',mod]];
+ $('kp').innerHTML=lab.map(function(p){return '<div class="kpi"><small>'+p[0]+'</small><b>'+fm(p[1])+'</b></div>'}).join('')}
+['pa','pt','ov'].forEach(function(i){$(i).addEventListener('input',draw)});
+addEventListener('resize',draw);draw();
+</script>
+</body>
+</html>

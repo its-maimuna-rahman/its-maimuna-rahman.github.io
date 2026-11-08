@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The F Distribution: Full Derivations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:960px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{margin:14px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:14px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:var(--soft);font-weight:600}
+.tw{overflow-x:auto}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:1em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:10px 0}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.05rem;word-break:break-all}
+canvas{width:100%;height:260px;display:block;margin:10px 0}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#tools">Tools</a><a href="#origin">Origin</a><a href="#dens">Density</a><a href="#moments">Moments</a><a href="#mgf">MGF</a><a href="#cgf">CGF</a><a href="#cf">CF</a><a href="#meanvar">Mean &amp; Variance</a><a href="#skew">Skewness</a><a href="#kurt">Kurtosis</a><a href="#mode">Mode</a><a href="#links">Connections</a><a href="#summary">Summary</a><a href="#explorer">Explorer</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">&#9728;&#9790;</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Distribution Theory &middot; Full Derivations</span>
+<h1>The F Distribution: Derivations from First Principles</h1>
+<p class="lead">The F distribution is the ratio of two independent mean squares. This guide derives the density, the raw moments, the moment generating function (MGF), the cumulant generating function (CGF), the characteristic function (CF), the mean, variance, skewness, kurtosis and mode. The shortcut: <mark>freeze the bottom chi-squared variable at a fixed number</mark>. The ratio is then a rescaled chi-squared variable, and the density follows by averaging over the frozen number. Moments follow even faster, because top and bottom are independent.</p>
+</header>
+
+<section id="tools">
+<h2>1 &middot; Tools used throughout</h2>
+<p>Write \(a=d_1\) and \(b=d_2\) for the two degrees of freedom.</p>
+
+<h3>1.1 The gamma and beta functions</h3>
+<p>For \(s\gt0\), \(\Gamma(s)=\int_0^\infty u^{\,s-1}e^{-u}\,du\).</p>
+<div class="step"><b>Recurrence.</b> Integrating by parts gives \(\Gamma(s+1)=s\,\Gamma(s)\). Since \(\Gamma(1)=1\), \(\Gamma(n)=(n-1)!\).</div>
+<div class="step"><b>Scaled gamma integral.</b> For \(c\gt0\), substituting \(u=cv\):
+\[ \int_0^\infty v^{\,s-1}e^{-cv}\,dv=\frac{\Gamma(s)}{c^{\,s}} . \tag{G} \]</div>
+<div class="step"><b>Beta function and its ratio form.</b> \(B(p,q)=\int_0^1u^{p-1}(1-u)^{q-1}du=\dfrac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}\). Substitute \(u=r/(1+r)\) in the integral below, so \(r=\dfrac{u}{1-u}\), \(1+r=\dfrac{1}{1-u}\) and \(dr=\dfrac{du}{(1-u)^2}\). Then \(r^{p-1}(1+r)^{-(p+q)}dr=u^{p-1}(1-u)^{-(p-1)}(1-u)^{p+q}(1-u)^{-2}du=u^{p-1}(1-u)^{q-1}du\), and the integral equals
+\[ \int_0^\infty\frac{r^{\,p-1}}{(1+r)^{\,p+q}}\,dr=B(p,q) . \tag{B} \]</div>
+
+<h3>1.2 The chi-squared variable</h3>
+<p>\(V\sim\chi^2_k\) has density \(\dfrac{v^{k/2-1}e^{-v/2}}{2^{k/2}\Gamma(k/2)}\), \(v\gt0\). For real \(r\gt-k/2\), (G) with \(s=\frac k2+r\), \(c=\frac12\) gives</p>
+\[ E[V^{\,r}]=2^{\,r}\,\frac{\Gamma\!\left(\frac k2+r\right)}{\Gamma\!\left(\frac k2\right)} . \tag{V} \]
+<p>Two special cases are used repeatedly. For a positive integer \(n\), repeated use of the recurrence gives \(E[V^n]=\prod_{j=0}^{n-1}(k+2j)\). For negative integer powers, apply the recurrence \(n\) times downward from \(\Gamma(k/2)=(\frac k2-1)\cdots(\frac k2-n)\Gamma(\frac k2-n)\):</p>
+\[ E\!\left[V^{-n}\right]=2^{-n}\frac{\Gamma\!\left(\frac k2-n\right)}{\Gamma\!\left(\frac k2\right)}=\prod_{j=1}^{n}\frac{1}{k-2j},\qquad n\lt\frac k2 . \tag{V2} \]
+
+<h3>1.3 A named integral for the transforms</h3>
+<p>The generating functions of F have no elementary closed form. They are written with the function \(U(\alpha,\gamma,z)\), defined by the integral</p>
+\[ U(\alpha,\gamma,z)=\frac{1}{\Gamma(\alpha)}\int_0^\infty e^{-zu}\,u^{\alpha-1}(1+u)^{\gamma-\alpha-1}\,du , \]
+<p>for \(\alpha\gt0\), real \(z\ge0\) or imaginary \(z\), whenever the integral converges. Nothing about it is needed beyond this definition.</p>
+
+<h3>1.4 Generating functions</h3>
+<p>\(M_F(t)=E[e^{tF}]\), \(K_F(t)=\ln M_F(t)\), \(\varphi_F(t)=E[e^{itF}]\). When \(M_F\) is finite on an open interval around 0, \(E[F^n]=M_F^{(n)}(0)\) and \(\kappa_n=K_F^{(n)}(0)\).</p>
+</section>
+
+<section id="origin">
+<h2>2 &middot; Where F comes from</h2>
+<p>Take two independent samples of sizes \(n_1\) and \(n_2\) from normal populations with variances \(\sigma_1^2\) and \(\sigma_2^2\). For each sample, \((n_i-1)S_i^2/\sigma_i^2\sim\chi^2_{n_i-1}\). Call these \(U\) and \(V\), with \(a=n_1-1\) and \(b=n_2-1\). Then</p>
+\[ \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}=\frac{U/a}{V/b} . \]
+<p>If \(\sigma_1=\sigma_2\), the unknown variance cancels and \(S_1^2/S_2^2\) has this distribution.</p>
+<div class="box key"><b class="t">Definition</b>
+Let \(U\sim\chi^2_a\) and \(V\sim\chi^2_b\) be independent. Then
+\[ F=\frac{U/a}{V/b}\sim F_{a,b} . \]
+Each of \(U/a\) and \(V/b\) is an average of squared standard normals, so each has mean 1. The ratio compares two averages that estimate the same quantity.</div>
+</section>
+
+<section id="dens">
+<h2>3 &middot; Deriving the density</h2>
+<p><b>The idea.</b> Work first with the plain ratio \(R=U/V\), then rescale. Fix \(V=v\). Then \(R=U/v\) is the chi-squared variable \(U\) divided by a constant, so its density is easy. Average over \(v\).</p>
+<div class="step"><b>Step 1: the density of \(R\) given \(V=v\).</b> If \(R=U/v\), then \(U=vR\), and a change of scale gives
+\[ f_{R\mid v}(r)=v\,f_U(rv) . \]
+The factor \(v\) is the size of the stretch.</div>
+<div class="step"><b>Step 2: average over \(v\).</b>
+\[ f_R(r)=\int_0^\infty v\,f_U(rv)\,f_V(v)\,dv . \]</div>
+<div class="step"><b>Step 3: substitute and combine.</b> With \(f_U(rv)=\dfrac{(rv)^{a/2-1}e^{-rv/2}}{2^{a/2}\Gamma(a/2)}\) and \(f_V(v)=\dfrac{v^{b/2-1}e^{-v/2}}{2^{b/2}\Gamma(b/2)}\), the powers of \(v\) are \(v\cdot v^{a/2-1}\cdot v^{b/2-1}=v^{\frac{a+b}{2}-1}\), and the exponentials combine to \(e^{-v(1+r)/2}\):
+\[ f_R(r)=\frac{r^{\,a/2-1}}{2^{\frac{a+b}{2}}\,\Gamma\!\left(\frac a2\right)\Gamma\!\left(\frac b2\right)}\int_0^\infty v^{\frac{a+b}{2}-1}\,e^{-\frac{(1+r)}{2}v}\,dv . \]</div>
+<div class="step"><b>Step 4: apply (G)</b> with \(s=\frac{a+b}{2}\) and \(c=\frac{1+r}{2}\):
+\[ \int_0^\infty v^{\frac{a+b}{2}-1}e^{-cv}dv=\Gamma\!\left(\tfrac{a+b}{2}\right)2^{\frac{a+b}{2}}(1+r)^{-\frac{a+b}{2}} . \]
+The powers of 2 cancel, and \(\dfrac{\Gamma\left(\frac{a+b}{2}\right)}{\Gamma\left(\frac a2\right)\Gamma\left(\frac b2\right)}=\dfrac{1}{B\left(\frac a2,\frac b2\right)}\):
+\[ f_R(r)=\frac{1}{B\!\left(\frac a2,\frac b2\right)}\;\frac{r^{\,a/2-1}}{(1+r)^{\frac{a+b}{2}}},\qquad r\gt0 . \]</div>
+<div class="step"><b>Step 5: rescale to \(F\).</b> \(F=\dfrac{U/a}{V/b}=\dfrac{b}{a}R\), so \(R=\dfrac{a}{b}F\) and \(r=\dfrac{ax}{b}\), \(dr=\dfrac ab\,dx\). Then \(f_F(x)=f_R\!\left(\frac{ax}{b}\right)\dfrac ab\):
+\[ f_F(x)=\frac{1}{B\!\left(\frac a2,\frac b2\right)}\cdot\frac ab\left(\frac{ax}{b}\right)^{\frac a2-1}\left(1+\frac{ax}{b}\right)^{-\frac{a+b}{2}}=\frac{1}{B\!\left(\frac a2,\frac b2\right)}\left(\frac ab\right)^{\frac a2}x^{\frac a2-1}\left(1+\frac{ax}{b}\right)^{-\frac{a+b}{2}} . \]</div>
+<div class="sol">\[ f_{a,b}(x)=\frac{1}{B\!\left(\frac a2,\frac b2\right)}\left(\frac ab\right)^{\frac a2}x^{\frac a2-1}\left(1+\frac{ax}{b}\right)^{-\frac{a+b}{2}}=\frac{1}{x\,B\!\left(\frac a2,\frac b2\right)}\sqrt{\frac{(ax)^{a}\,b^{\,b}}{(ax+b)^{a+b}}},\qquad x\gt0 . \]</div>
+<p>The second form follows from the first by writing \(1+\frac{ax}{b}=\frac{b+ax}{b}\): the powers of \(b\) combine to \(b^{-a/2}\cdot b^{\frac{a+b}{2}}=b^{b/2}\), and \(a^{a/2}x^{a/2-1}=(ax)^{a/2}/x\).</p>
+
+<h3>3.1 Check that it integrates to one</h3>
+<p>Because \(f_R\) is built from (B), its total is \(\dfrac{1}{B(a/2,b/2)}\int_0^\infty\dfrac{r^{a/2-1}}{(1+r)^{a/2+b/2}}dr=\dfrac{B(a/2,b/2)}{B(a/2,b/2)}=1\), using \(p=\frac a2\), \(q=\frac b2\). The rescaling to \(F\) preserves total probability.</p>
+
+<h3>3.2 Shape near 0 and in the tail</h3>
+<p>Near \(x=0\), \((1+ax/b)^{-(a+b)/2}\to1\), so \(f_{a,b}(x)\sim C\,x^{a/2-1}\). The density is unbounded at 0 for \(a\lt2\), equals 1 at \(x=0\) for \(a=2\), and vanishes at 0 for \(a\gt2\). For large \(x\), \((1+ax/b)^{-(a+b)/2}\sim(ax/b)^{-(a+b)/2}\), so</p>
+\[ f_{a,b}(x)\sim C'\,x^{\frac a2-1-\frac{a+b}{2}}=C'\,x^{-\frac b2-1} . \tag{T} \]
+<p>The right tail falls like a power, not an exponential. This controls which moments and transforms exist.</p>
+</section>
+
+<section id="moments">
+<h2>4 &middot; Raw moments</h2>
+<h3>4.1 The one idea</h3>
+<p>Write \(F=\dfrac ba\cdot U\cdot\dfrac1V\). \(U\) and \(V\) are independent, so the expectation of the product is the product of the expectations:</p>
+\[ E[F^n]=\left(\frac ba\right)^nE[U^n]\;E[V^{-n}] . \]
+
+<h3>4.2 The two pieces</h3>
+<p>From Section 1.2: \(E[U^n]=\prod_{j=0}^{n-1}(a+2j)\), and \(E[V^{-n}]=\prod_{j=1}^{n}\dfrac{1}{b-2j}\) when \(n\lt\dfrac b2\).</p>
+<div class="sol">\[ \mu'_n=E[F^n]=\left(\frac ba\right)^n\frac{\displaystyle\prod_{j=0}^{n-1}(a+2j)}{\displaystyle\prod_{j=1}^{n}(b-2j)}=\left(\frac ba\right)^n\frac{\Gamma\!\left(\frac a2+n\right)\Gamma\!\left(\frac b2-n\right)}{\Gamma\!\left(\frac a2\right)\Gamma\!\left(\frac b2\right)},\qquad n\lt\frac b2 . \]</div>
+<p>The Gamma form comes from (V): \(E[U^n]E[V^{-n}]=2^n\dfrac{\Gamma(\frac a2+n)}{\Gamma(\frac a2)}\cdot2^{-n}\dfrac{\Gamma(\frac b2-n)}{\Gamma(\frac b2)}\).</p>
+
+<h3>4.3 Second route: from the density</h3>
+<p>\(E[R^n]=\dfrac{1}{B(a/2,b/2)}\displaystyle\int_0^\infty\dfrac{r^{\frac a2+n-1}}{(1+r)^{\frac{a+b}{2}}}dr\). Apply (B) with \(p=\frac a2+n\) and \(q=\frac b2-n\), so that \(p+q=\frac{a+b}{2}\):</p>
+\[ E[R^n]=\frac{B\!\left(\frac a2+n,\frac b2-n\right)}{B\!\left(\frac a2,\frac b2\right)}=\frac{\Gamma\!\left(\frac a2+n\right)\Gamma\!\left(\frac b2-n\right)}{\Gamma\!\left(\frac a2\right)\Gamma\!\left(\frac b2\right)} . \]
+<p>Since \(F=\frac baR\), \(E[F^n]=\left(\frac ba\right)^nE[R^n]\), which is identical to Section 4.2. The route also shows where the condition comes from: (B) needs \(q=\frac b2-n\gt0\).</p>
+
+<h3>4.4 The first four moments</h3>
+<div class="tw"><table>
+<tr><th>\(n\)</th><th>\(\mu'_n\)</th><th>Exists when</th></tr>
+<tr><td>1</td><td>\(\dfrac{b}{b-2}\)</td><td>\(b\gt2\)</td></tr>
+<tr><td>2</td><td>\(\dfrac{b^2(a+2)}{a(b-2)(b-4)}\)</td><td>\(b\gt4\)</td></tr>
+<tr><td>3</td><td>\(\dfrac{b^3(a+2)(a+4)}{a^2(b-2)(b-4)(b-6)}\)</td><td>\(b\gt6\)</td></tr>
+<tr><td>4</td><td>\(\dfrac{b^4(a+2)(a+4)(a+6)}{a^3(b-2)(b-4)(b-6)(b-8)}\)</td><td>\(b\gt8\)</td></tr>
+</table></div>
+<p>For \(n=2\): \(\left(\frac ba\right)^2\dfrac{a(a+2)}{(b-2)(b-4)}=\dfrac{b^2(a+2)}{a(b-2)(b-4)}\). The others follow the same way: the factor \(a^n\) in the denominator loses \(a\) copies against the \(n\) factors of the numerator product.</p>
+
+<h3>4.5 Why moments stop existing</h3>
+<p>From the tail rule (T), \(\int^\infty x^n\,x^{-b/2-1}dx\) converges exactly when \(n-\tfrac b2-1\lt-1\), that is \(n\lt\tfrac b2\). Only the denominator degrees of freedom matter. The numerator \(a\) never causes a moment to fail.</p>
+</section>
+
+<section id="mgf">
+<h2>5 &middot; The moment generating function</h2>
+<div class="box warn"><b class="t">Result</b>
+\(M_F(t)=\infty\) for every \(t\gt0\). For \(t\le0\) it is finite, but it is not finite on any interval around 0.</div>
+<div class="step"><b>Positive \(t\): divergence.</b> By (T), \(f_{a,b}(x)\ge C''x^{-b/2-1}\) for large \(x\). For every integer \(m\), \(e^{tx}\ge(tx)^m/m!\) when \(x\gt0\). Choose \(m\gt\frac b2\). Then \(\int^\infty e^{tx}f_{a,b}(x)dx\ge\text{const}\int^\infty x^{\,m-\frac b2-1}dx=\infty\).</div>
+<div class="step"><b>Nonpositive \(t\): a formula.</b> Substitute \(u=\frac{ax}{b}\) in \(\int_0^\infty e^{tx}f_{a,b}(x)dx\). From Section 3, \(f_{a,b}(x)dx=\dfrac{1}{B(a/2,b/2)}\,u^{\frac a2-1}(1+u)^{-\frac{a+b}{2}}du\), and \(tx=\dfrac{tb}{a}u\):
+\[ M_F(t)=\frac{1}{B\!\left(\frac a2,\frac b2\right)}\int_0^\infty e^{-\left(-\frac{tb}{a}\right)u}\,u^{\frac a2-1}(1+u)^{-\frac{a+b}{2}}du . \]
+Match with the definition of \(U\) in Section 1.3: \(\alpha=\frac a2\), \(\gamma-\alpha-1=-\frac{a+b}{2}\) so \(\gamma=1-\frac b2\), and \(z=-\frac{tb}{a}\ge0\). Also \(\dfrac{\Gamma(a/2)}{B(a/2,b/2)}=\dfrac{\Gamma\left(\frac{a+b}{2}\right)}{\Gamma\left(\frac b2\right)}\).</div>
+<div class="sol">\[ M_F(t)=\frac{\Gamma\!\left(\frac{a+b}{2}\right)}{\Gamma\!\left(\frac b2\right)}\;U\!\left(\frac a2,\ 1-\frac b2,\ -\frac{b\,t}{a}\right),\qquad t\le0 . \]</div>
+<p>Check at \(t=0\): the integral becomes \(\int_0^\infty u^{\frac a2-1}(1+u)^{-\frac{a+b}{2}}du=B(\frac a2,\frac b2)\) by (B), so \(M_F(0)=1\). Since the MGF is infinite for all \(t\gt0\), it cannot be expanded in a power series around 0, and moments cannot be read from its derivatives. Section 4 found them directly.</p>
+</section>
+
+<section id="cgf">
+<h2>6 &middot; The cumulant generating function</h2>
+<p>\(K_F(t)=\ln M_F(t)\) exists only for \(t\le0\), so it has no Taylor series at 0. Cumulants are still defined through the moments that exist, using \(\kappa_1=\mu\), \(\kappa_2=\sigma^2\), \(\kappa_3=\mu_3\) and \(\kappa_4=\mu_4-3\sigma^4\), where \(\mu_n\) are central moments. They exist for order \(r\lt\frac b2\). In terms of the shape measures derived in Sections 8 to 10:</p>
+\[ \kappa_1=\frac{b}{b-2},\qquad\kappa_2=\frac{2b^2(a+b-2)}{a(b-2)^2(b-4)},\qquad\kappa_3=\gamma_1\,\kappa_2^{3/2},\qquad\kappa_4=\gamma_2\,\kappa_2^{2} . \]
+<p>The last two follow because skewness is \(\mu_3/\sigma^3\) and excess kurtosis is \((\mu_4-3\sigma^4)/\sigma^4\).</p>
+</section>
+
+<section id="cf">
+<h2>7 &middot; The characteristic function</h2>
+<p>\(\varphi_F(t)=E[e^{itF}]\) exists for every distribution. The substitution of Section 5 works unchanged, with \(i\) added.</p>
+<div class="step"><b>Step 1: substitute \(u=\frac{ax}{b}\).</b> Then \(itx=i\frac{tb}{a}u\) and
+\[ \varphi_F(t)=\frac{1}{B\!\left(\frac a2,\frac b2\right)}\int_0^\infty e^{-\left(-i\frac{tb}{a}\right)u}\,u^{\frac a2-1}(1+u)^{-\frac{a+b}{2}}du . \]</div>
+<div class="step"><b>Step 2: convergence.</b> \(|e^{iy}|=1\) for real \(y\), so the integrand has the same size as the density, and the integral converges absolutely for every real \(t\).</div>
+<div class="step"><b>Step 3: match \(U\)</b> with \(\alpha=\frac a2\), \(\gamma=1-\frac b2\), \(z=-\dfrac{i\,b\,t}{a}\).</div>
+<div class="sol">\[ \varphi_F(t)=\frac{\Gamma\!\left(\frac{a+b}{2}\right)}{\Gamma\!\left(\frac b2\right)}\;U\!\left(\frac a2,\ 1-\frac b2,\ -\frac{i\,b\,t}{a}\right),\qquad t\in\mathbb R . \]</div>
+<p>At \(t=0\) the value is 1, by the check in Section 5. Also \(|\varphi_F(t)|\le\varphi_F(0)=1\), since the absolute value of the integral is at most the integral of the absolute value, which is the total probability.</p>
+</section>
+
+<section id="meanvar">
+<h2>8 &middot; Mean and variance</h2>
+<h3>Mean</h3>
+<p>\(F=\dfrac Ua\cdot\dfrac bV\) with independent factors. \(E[U/a]=\dfrac aa=1\), and \(E[b/V]=b\,E[1/V]=\dfrac{b}{b-2}\) from (V2) with \(n=1\). So</p>
+\[ E[F]=1\cdot\frac{b}{b-2}=\frac{b}{b-2},\qquad b\gt2 . \]
+<p>The mean does not depend on \(a\). It exceeds 1 because \(E[1/V]\gt1/E[V]\) for a convex function.</p>
+<h3>Variance</h3>
+<p>Start from \(E[F^2]=\dfrac{b^2(a+2)}{a(b-2)(b-4)}\) and subtract the squared mean:</p>
+\[ \operatorname{Var}(F)=\frac{b^2(a+2)}{a(b-2)(b-4)}-\frac{b^2}{(b-2)^2}=\frac{b^2}{b-2}\left[\frac{a+2}{a(b-4)}-\frac{1}{b-2}\right] . \]
+<p>Put the bracket over the common denominator \(a(b-2)(b-4)\). Its numerator is</p>
+\[ (a+2)(b-2)-a(b-4)=ab-2a+2b-4-ab+4a=2a+2b-4=2(a+b-2). \]
+<div class="sol">\[ \operatorname{Var}(F)=\frac{2\,b^2\,(a+b-2)}{a\,(b-2)^2\,(b-4)},\qquad b\gt4 . \]</div>
+</section>
+
+<section id="skew">
+<h2>9 &middot; Skewness</h2>
+<p>Skewness is \(\gamma_1=\mu_3/\sigma^3\), where \(\mu_3=E[(F-m_1)^3]\). To keep the algebra short, write \(s=b-2\). Then \(b-4=s-2\), \(b-6=s-4\), \(a+b-2=a+s\) and \(2a+b-2=2a+s\). The moments are</p>
+\[ m_1=\frac bs,\quad m_2=\frac{b^2(a+2)}{a\,s(s-2)},\quad m_3=\frac{b^3(a+2)(a+4)}{a^2\,s(s-2)(s-4)} . \]
+<div class="step"><b>Step 1: expand the central moment.</b> \((F-m_1)^3=F^3-3m_1F^2+3m_1^2F-m_1^3\). Taking expectations and using \(E[F]=m_1\):
+\[ \mu_3=m_3-3m_1m_2+3m_1^3-m_1^3=m_3-3m_1m_2+2m_1^3 . \]</div>
+<div class="step"><b>Step 2: common denominator.</b> Put every term over \(a^2s^3(s-2)(s-4)\), with \(b^3\) factored out. Multiplying top and bottom of each term:
+\[ m_3\to(a+2)(a+4)s^2,\qquad 3m_1m_2\to3(a+2)\,a\,s\,(s-4),\qquad m_1^3\to a^2(s-2)(s-4). \]
+So
+\[ \mu_3=\frac{b^3\,N}{a^2s^3(s-2)(s-4)},\qquad N=(a+2)(a+4)s^2-3a(a+2)s(s-4)+2a^2(s-2)(s-4). \]</div>
+<div class="step"><b>Step 3: expand \(N\).</b> Use \((a+2)(a+4)=a^2+6a+8\), \(a(a+2)=a^2+2a\) and \((s-2)(s-4)=s^2-6s+8\):
+\[ \begin{aligned} N&=(a^2+6a+8)s^2-3(a^2+2a)(s^2-4s)+2a^2(s^2-6s+8). \end{aligned} \]
+Collect by powers of \(a\):
+\[ \begin{aligned} a^2:&\quad s^2-3(s^2-4s)+2(s^2-6s+8)=s^2-3s^2+12s+2s^2-12s+16=16,\\ a^1:&\quad 6s^2-6(s^2-4s)=24s,\\ a^0:&\quad 8s^2 . \end{aligned} \]
+Therefore
+\[ N=16a^2+24as+8s^2=8\left(2a^2+3as+s^2\right)=8(2a+s)(a+s). \]</div>
+<div class="step"><b>Step 4: the third central moment.</b>
+\[ \mu_3=\frac{8\,b^3\,(2a+s)(a+s)}{a^2s^3(s-2)(s-4)} . \]</div>
+<div class="step"><b>Step 5: divide by \(\sigma^3\).</b> From Section 8, \(\sigma^2=\dfrac{2b^2(a+s)}{a\,s^2(s-2)}\), so \(\sigma^3=\dfrac{2^{3/2}b^3(a+s)^{3/2}}{a^{3/2}s^3(s-2)^{3/2}}\). Then
+\[ \gamma_1=\frac{8\,b^3(2a+s)(a+s)}{a^2s^3(s-2)(s-4)}\cdot\frac{a^{3/2}s^3(s-2)^{3/2}}{2^{3/2}b^3(a+s)^{3/2}}=\frac{8}{2^{3/2}}\cdot\frac{(2a+s)\sqrt{s-2}}{\sqrt a\,(s-4)\sqrt{a+s}} . \]
+Since \(8/2^{3/2}=\sqrt8\), and returning to \(b\):</div>
+<div class="sol">\[ \gamma_1=\frac{(2a+b-2)\sqrt{8(b-4)}}{(b-6)\sqrt{a(a+b-2)}},\qquad b\gt6 . \]</div>
+<p>The skewness is positive for every \(a\) and \(b\). As \(b\to\infty\), \(2a+b-2\approx b\), \(\sqrt{8(b-4)}\approx\sqrt{8b}\), \(b-6\approx b\) and \(\sqrt{a(a+b-2)}\approx\sqrt{ab}\), so \(\gamma_1\to\dfrac{b\sqrt{8b}}{b\sqrt{ab}}=\sqrt{8/a}\), the skewness of \(\chi^2_a/a\).</p>
+</section>
+
+<section id="kurt">
+<h2>10 &middot; Kurtosis</h2>
+<p>Keep the notation of Section 9. Add the fourth moment \(m_4=\dfrac{b^4(a+2)(a+4)(a+6)}{a^3\,s(s-2)(s-4)(s-6)}\), with \(b-8=s-6\).</p>
+<div class="step"><b>Step 1: expand the central moment.</b> \((F-m_1)^4=F^4-4m_1F^3+6m_1^2F^2-4m_1^3F+m_1^4\). Taking expectations:
+\[ \mu_4=m_4-4m_1m_3+6m_1^2m_2-4m_1^4+m_1^4=m_4-4m_1m_3+6m_1^2m_2-3m_1^4 . \]</div>
+<div class="step"><b>Step 2: common denominator.</b> Put every term over \(a^3s^4(s-2)(s-4)(s-6)\), with \(b^4\) factored out:
+\[ \mu_4=\frac{b^4\,N_4}{a^3s^4(s-2)(s-4)(s-6)} , \]
+\[ N_4=(a+2)(a+4)(a+6)\,s^3-4(a+2)(a+4)\,a\,s^2(s-6)+6(a+2)\,a^2\,s(s-4)(s-6)-3a^3(s-2)(s-4)(s-6). \]</div>
+<div class="step"><b>Step 3: expand each product in powers of \(a\).</b>
+\[ \begin{aligned} (a+2)(a+4)(a+6)&=a^3+12a^2+44a+48,\\ (a+2)(a+4)\,a&=a^3+6a^2+8a,\\ (a+2)\,a^2&=a^3+2a^2 . \end{aligned} \]
+Then \(N_4\) has coefficient of \(a^3\) equal to
+\[ s^3-4s^2(s-6)+6s(s-4)(s-6)-3(s-2)(s-4)(s-6) . \]
+The pieces are \(s^3\), \(-4s^3+24s^2\), \(6s^3-60s^2+144s\) and \(-3s^3+36s^2-132s+144\). Adding: the \(s^3\) terms give \(1-4+6-3=0\), the \(s^2\) terms give \(24-60+36=0\), the \(s\) terms give \(144-132=12\), and the constant is 144. So the coefficient is \(12s+144=12(s+12)\).</div>
+<div class="step"><b>Step 4: the other coefficients.</b>
+\[ \begin{aligned} a^2:&\quad 12s^3-24s^2(s-6)+12s(s-4)(s-6)=12s^3-24s^3+144s^2+12s^3-120s^2+288s=24s(s+12),\\ a^1:&\quad 44s^3-32s^2(s-6)=44s^3-32s^3+192s^2=12s^2(s+16),\\ a^0:&\quad 48s^3 . \end{aligned} \]
+Hence
+\[ N_4=12\left[(s+12)a^3+2s(s+12)a^2+s^2(s+16)a+4s^3\right]. \]</div>
+<div class="step"><b>Step 5: factor.</b> The bracket vanishes at \(a=-s\): \(-(s+12)s^3+2s^3(s+12)-s^3(s+16)+4s^3=s^3(-s-12+2s+24-s-16+4)=0\). So \((a+s)\) is a factor, and dividing gives
+\[ N_4=12\,(a+s)\,Q,\qquad Q=(s+12)a^2+s(s+12)a+4s^2 . \]
+Check by multiplying out: \((a+s)Q=(s+12)a^3+2s(s+12)a^2+(s^3+16s^2)a+4s^3\), and \(s^3+16s^2=s^2(s+16)\).</div>
+<div class="step"><b>Step 6: divide by \(\sigma^4\).</b> \(\sigma^4=\dfrac{4b^4(a+s)^2}{a^2s^4(s-2)^2}\), so
+\[ \beta_2=\frac{\mu_4}{\sigma^4}=\frac{12(a+s)Q}{a^3(s-2)(s-4)(s-6)}\cdot\frac{a^2(s-2)^2}{4(a+s)^2}=\frac{3(s-2)\,Q}{a\,(a+s)(s-4)(s-6)} . \]
+Returning to \(b\) (with \(s+12=b+10\)):
+\[ \beta_2=\frac{3(b-4)\left[(b+10)a^2+(b-2)(b+10)a+4(b-2)^2\right]}{a\,(b-6)(b-8)(a+b-2)} . \]</div>
+<div class="step"><b>Step 7: subtract 3.</b> The numerator of \(\beta_2-3\), after putting both terms over \(a(b-6)(b-8)(a+b-2)\), is
+\[ 3\Big\{(b-4)\left[(b+10)a^2+(b-2)(b+10)a+4(b-2)^2\right]-a(b-6)(b-8)(a+b-2)\Big\} . \]
+Collect by powers of \(a\), using \((b-4)(b+10)-(b-6)(b-8)=(b^2+6b-40)-(b^2-14b+48)=20b-88\):
+\[ \begin{aligned} a^2:&\quad 20b-88=4(5b-22),\\ a^1:&\quad (b-2)(20b-88)=4(b-2)(5b-22),\\ a^0:&\quad 4(b-4)(b-2)^2 . \end{aligned} \]
+So the numerator is \(12\left[(5b-22)a^2+(b-2)(5b-22)a+(b-4)(b-2)^2\right]=12\left[a(5b-22)(a+b-2)+(b-4)(b-2)^2\right]\).</div>
+<div class="sol">\[ \gamma_2=\beta_2-3=\frac{12\left[\,a(5b-22)(a+b-2)+(b-4)(b-2)^2\right]}{a\,(b-6)(b-8)(a+b-2)},\qquad b\gt8 . \]</div>
+<p><b>Numerical check</b> with \(a=2\), \(b=10\): \(\beta_2=\dfrac{18\,(20\cdot4+8\cdot20\cdot2+4\cdot64)}{2\cdot4\cdot2\cdot10}=\dfrac{18\cdot656}{160}=73.8\), and \(\gamma_2=\dfrac{12(2\cdot28\cdot10+6\cdot64)}{2\cdot4\cdot2\cdot10}=\dfrac{12\cdot944}{160}=70.8=73.8-3\). Both routes agree. The very large value shows how heavy the right tail is at \(b=10\).</p>
+</section>
+
+<section id="mode">
+<h2>11 &middot; The mode</h2>
+<p>Take the log of the density. Only terms containing \(x\) matter:</p>
+\[ \ln f_{a,b}(x)=\text{const}+\left(\frac a2-1\right)\ln x-\frac{a+b}{2}\ln\!\left(1+\frac{ax}{b}\right) . \]
+<p>Differentiate, using \(\dfrac{d}{dx}\ln\left(1+\frac{ax}{b}\right)=\dfrac{a/b}{1+ax/b}=\dfrac{a}{b+ax}\):</p>
+\[ \frac{d}{dx}\ln f_{a,b}(x)=\frac{a/2-1}{x}-\frac{a(a+b)}{2(b+ax)} . \]
+<p>Multiply by the positive quantity \(2x(b+ax)\). The sign of the derivative equals the sign of</p>
+\[ (a-2)(b+ax)-a(a+b)x=(a-2)b+\left[a(a-2)-a(a+b)\right]x=(a-2)\,b-a(b+2)\,x . \]
+<div class="step"><b>Case \(a\gt2\).</b> The expression is positive for small \(x\), zero at \(x=\dfrac{(a-2)\,b}{a\,(b+2)}\), and negative after. The density rises, then falls, so this is the maximum.</div>
+<div class="step"><b>Case \(a\le2\).</b> The constant \((a-2)b\) is zero or negative and \(-a(b+2)x\) is negative for \(x\gt0\), so the expression is negative everywhere. The density decreases from 0. For \(a=2\) it starts at a finite value, and for \(a=1\) it is unbounded at 0 (Section 3.2). The mode is 0.</div>
+<div class="sol">\[ \text{mode}=\frac{(a-2)\,b}{a\,(b+2)}\ \ (a\gt2),\qquad\text{mode}=0\ \ (a\le2). \]</div>
+<p>The mode is always below 1, and below the mean \(\frac{b}{b-2}\gt1\).</p>
+</section>
+
+<section id="links">
+<h2>12 &middot; Connections to other distributions</h2>
+<h3>12.1 The square of a t variable</h3>
+<p>If \(T=Z/\sqrt{V/\nu}\), then \(T^2=Z^2/(V/\nu)\), and \(Z^2\sim\chi^2_1\) is independent of \(V\). By the definition in Section 2, \(T^2\sim F_{1,\nu}\). Check with a table value: for \(\nu=9\), the two-sided 5% point of \(t_9\) is 2.262, and \(2.262^2=5.117\) is the 5% right-tail point of \(F_{1,9}\).</p>
+
+<h3>12.2 Swapping the degrees of freedom</h3>
+<p>\(1/F=\dfrac{V/b}{U/a}\) is the same construction with the roles reversed, so \(1/F_{a,b}\sim F_{b,a}\). For quantiles: if \(P(F_{a,b}\gt c)=\alpha\), then \(P(F_{b,a}\lt1/c)=\alpha\), so \(1/c\) is the point of \(F_{b,a}\) with area \(1-\alpha\) to its right. Hence</p>
+\[ F_{\alpha;\,a,b}=\frac{1}{F_{1-\alpha;\,b,a}} , \]
+<p>where \(F_{\alpha;\,a,b}\) denotes the point with area \(\alpha\) to its right. Tables usually list only small \(\alpha\) values, and this rule gives the left-tail points.</p>
+
+<h3>12.3 The beta distribution</h3>
+<p>In (B), the substitution \(u=r/(1+r)\) turns \(r^{p-1}(1+r)^{-(p+q)}dr\) into \(u^{p-1}(1-u)^{q-1}du\). Applying it to \(f_R\) shows that</p>
+\[ X=\frac{R}{1+R}=\frac{aF}{aF+b}\sim\text{Beta}\!\left(\tfrac a2,\tfrac b2\right) . \]
+<p>So \(P(F\le x)\) is a beta probability at \(\dfrac{ax}{ax+b}\), which is how software computes F tail areas.</p>
+
+<h3>12.4 Large \(b\)</h3>
+<p>\(V/b\) has mean 1 and variance \(2b/b^2=2/b\to0\), so \(V/b\to1\) and \(F\to U/a\), that is \(aF\to\chi^2_a\). The moments agree: \(\operatorname{Var}(F)=\dfrac{2b^2(a+b-2)}{a(b-2)^2(b-4)}\to\dfrac{2b^3}{a\,b^3}=\dfrac2a=\operatorname{Var}\!\left(\dfrac{\chi^2_a}{a}\right)\), and the skewness tends to \(\sqrt{8/a}\) (Section 9), which is the skewness of \(\chi^2_a/a\).</p>
+
+<h3>12.5 Large \(a\)</h3>
+<p>\(U/a\to1\), so \(F\to b/V\). Then \(E[F]\to E[b/V]=\dfrac{b}{b-2}\), which matches the mean found in Section 8 exactly, since that mean does not depend on \(a\).</p>
+
+<h3>12.6 Use in comparing several means</h3>
+<p>With \(k\) groups and \(N\) observations, the between-group and within-group sums of squares divided by \(\sigma^2\) are independent chi-squared variables with \(k-1\) and \(N-k\) degrees of freedom when all group means are equal. Their mean-square ratio is \(F_{k-1,N-k}\). The denominator estimates \(\sigma^2\) in every case. The numerator grows when the means differ. So only the right tail is used. For \(k=3\), \(N=30\), the 5% point of \(F_{2,27}\) is 3.354.</p>
+</section>
+
+<section id="summary">
+<h2>13 &middot; Summary of results</h2>
+<p>Notation: \(a=d_1\), \(b=d_2\).</p>
+<div class="tw"><table>
+<tr><th>Quantity</th><th>Result</th><th>Condition</th></tr>
+<tr><td>Density</td><td>\(\dfrac{1}{B\left(\frac a2,\frac b2\right)}\left(\dfrac ab\right)^{a/2}x^{\frac a2-1}\left(1+\dfrac{ax}{b}\right)^{-\frac{a+b}{2}}\)</td><td>\(x\gt0\)</td></tr>
+<tr><td>Raw moment of order \(n\)</td><td>\(\left(\dfrac ba\right)^n\dfrac{\prod_{j=0}^{n-1}(a+2j)}{\prod_{j=1}^{n}(b-2j)}\)</td><td>\(n\lt\dfrac b2\)</td></tr>
+<tr><td>MGF</td><td>\(\dfrac{\Gamma\left(\frac{a+b}{2}\right)}{\Gamma\left(\frac b2\right)}U\!\left(\frac a2,1-\frac b2,-\frac{bt}{a}\right)\)</td><td>\(t\le0\) only</td></tr>
+<tr><td>CGF</td><td>defined only for \(t\le0\); cumulants from moments</td><td>order \(r\lt\frac b2\)</td></tr>
+<tr><td>CF</td><td>\(\dfrac{\Gamma\left(\frac{a+b}{2}\right)}{\Gamma\left(\frac b2\right)}U\!\left(\frac a2,1-\frac b2,-\frac{ibt}{a}\right)\)</td><td>all real \(t\)</td></tr>
+<tr><td>Mean</td><td>\(\dfrac{b}{b-2}\)</td><td>\(b\gt2\)</td></tr>
+<tr><td>Variance</td><td>\(\dfrac{2b^2(a+b-2)}{a(b-2)^2(b-4)}\)</td><td>\(b\gt4\)</td></tr>
+<tr><td>Skewness</td><td>\(\dfrac{(2a+b-2)\sqrt{8(b-4)}}{(b-6)\sqrt{a(a+b-2)}}\)</td><td>\(b\gt6\)</td></tr>
+<tr><td>Excess kurtosis</td><td>\(\dfrac{12\left[a(5b-22)(a+b-2)+(b-4)(b-2)^2\right]}{a(b-6)(b-8)(a+b-2)}\)</td><td>\(b\gt8\)</td></tr>
+<tr><td>Mode</td><td>\(\dfrac{(a-2)b}{a(b+2)}\) for \(a\gt2\), else 0</td><td>always</td></tr>
+</table></div>
+<div class="box key"><b class="t">The shortcut in one line</b>
+\(F=\dfrac ba\cdot U\cdot\dfrac1V\) with independent parts. Moments multiply, and the density comes from freezing \(V\) and averaging. Only \(b\) decides which moments exist.</div>
+</section>
+
+<section id="explorer">
+<h2>14 &middot; F explorer</h2>
+<div class="card calc">
+<p style="font-size:14px;color:var(--muted);margin-top:0">Set the two degrees of freedom. The curve, the mode marker and the exact values from the derivations update at once. Values marked undefined or infinite follow the existence conditions in the summary table.</p>
+<div class="row">
+<label>Numerator d&#8321; (a)<input id="pa" type="number" min="1" step="1" value="5"></label>
+<label>Denominator d&#8322; (b)<input id="pb" type="number" min="1" step="1" value="12"></label>
+<label>Plot up to x<input id="pm" type="number" min="1" step="1" value="5"></label>
+<label>Density at x<input id="px" type="number" step="0.1" value="1"></label>
+</div>
+<canvas id="cv"></canvas>
+<p id="note" style="font-size:13px;color:var(--muted);margin:0"></p>
+<div class="row" id="kp"></div>
+</div>
+</section>
+
+<footer>Derivations of the F distribution: density, moments, MGF, CGF, CF, shape measures and mode</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}draw()}})();
+
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.offsetTop<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)})}
+addEventListener('scroll',spy);spy();
+
+/* explorer */
+function $(i){return document.getElementById(i)}
+function lg(z){var c=[676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+ if(z<0.5)return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*z)))-lg(1-z);
+ z-=1;var x=0.99999999999980993;for(var i=0;i<8;i++)x+=c[i]/(z+i+1);var t=z+7.5;
+ return 0.5*Math.log(2*Math.PI)+(z+0.5)*Math.log(t)-t+Math.log(x)}
+function pdf(x,a,b){
+ if(x<=0)return a<2?Infinity:(a===2?1:0);
+ return Math.exp(lg((a+b)/2)-lg(a/2)-lg(b/2)+(a/2)*Math.log(a/b)+(a/2-1)*Math.log(x)-((a+b)/2)*Math.log(1+a*x/b))}
+function stats(a,b){var U='undefined';
+ return{m:b>2?b/(b-2):U,
+  v:b>4?2*b*b*(a+b-2)/(a*Math.pow(b-2,2)*(b-4)):U,
+  o:a>2?(a-2)*b/(a*(b+2)):0,
+  s:b>6?(2*a+b-2)*Math.sqrt(8*(b-4))/((b-6)*Math.sqrt(a*(a+b-2))):U,
+  k:b>8?12*(a*(5*b-22)*(a+b-2)+(b-4)*Math.pow(b-2,2))/(a*(b-6)*(b-8)*(a+b-2)):U}}
+function fm(x){return typeof x==='number'?(isFinite(x)?(+x.toPrecision(6)).toString():'infinite'):x}
+function draw(){
+ var a=Math.max(1,+$('pa').value||1),b=Math.max(1,+$('pb').value||1),x1=Math.max(1,+$('pm').value||5),px=+$('px').value;if(isNaN(px))px=1;
+ var cv=$('cv'),w=cv.clientWidth||600,h=260,r=window.devicePixelRatio||1;cv.width=w*r;cv.height=h*r;
+ var g=cv.getContext('2d');g.setTransform(r,0,0,r,0,0);
+ var cs=getComputedStyle(document.documentElement),ink=cs.getPropertyValue('--muted'),ac=cs.getPropertyValue('--accent'),ln=cs.getPropertyValue('--line');
+ var x0=0,N=400,xs=[],ys=[],ymax=0,i,x,y;
+ for(i=0;i<=N;i++){x=x0+(x1-x0)*i/N;if(i===0)x=(x1-x0)/N/4;y=pdf(x,a,b);xs.push(x);ys.push(y);if(isFinite(y)&&y>ymax&&i>2)ymax=y}
+ ymax*=1.12;var L=40,R=w-12,T=12,B=h-28;
+ function X(v){return L+(v-x0)/(x1-x0)*(R-L)}function Y(v){return B-Math.min(v,ymax)/ymax*(B-T)}
+ g.strokeStyle=ln;g.lineWidth=1;g.beginPath();g.moveTo(L,B);g.lineTo(R,B);g.moveTo(L,T);g.lineTo(L,B);g.stroke();
+ g.fillStyle=ink;g.font='12px Inter,sans-serif';g.textAlign='center';
+ for(i=0;i<=5;i++){var v=x0+(x1-x0)*i/5;g.fillText(v.toFixed(1),X(v),h-10)}
+ g.textAlign='right';for(i=0;i<=3;i++){var yv=ymax*i/3;g.fillText(yv.toFixed(2),L-6,Y(yv)+4)}
+ g.strokeStyle=ac;g.lineWidth=2.4;g.beginPath();for(i=0;i<=N;i++){var yy=isFinite(ys[i])?ys[i]:ymax;i?g.lineTo(X(xs[i]),Y(yy)):g.moveTo(X(xs[i]),Y(yy))}g.stroke();
+ var s=stats(a,b);
+ if(a>2&&s.o<=x1){g.strokeStyle=ink;g.setLineDash([2,4]);g.lineWidth=1;g.beginPath();g.moveTo(X(s.o),B);g.lineTo(X(s.o),Y(pdf(s.o,a,b)));g.stroke();g.setLineDash([])}
+ $('note').textContent=a>2?'Dotted line: the mode at (a - 2)b / (a(b + 2)).':'For a at most 2 the density is highest at 0, so the mode is 0.';
+ var lab=[['Mean',s.m],['Variance',s.v],['Mode',s.o],['Skewness',s.s],['Excess kurtosis',s.k],['Density at x',pdf(px,a,b)]];
+ $('kp').innerHTML=lab.map(function(p){return '<div class="kpi"><small>'+p[0]+'</small><b>'+fm(p[1])+'</b></div>'}).join('')}
+['pa','pb','pm','px'].forEach(function(i){$(i).addEventListener('input',draw)});
+addEventListener('resize',draw);draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blocking &amp; the RCBD – AST204</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F0E4D0;--mut:#B9A68E;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select,textarea{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}
+input[type=number]{width:90px}input[type=range],input[type=checkbox]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem;flex:1;min-width:0}.dv .bd{padding:6px 22px 20px;line-height:1.85;overflow:hidden;font-size:1.08em}
+.dv .bd p{margin:1.1em 0 .4em}.dv .bd mjx-container[display]{font-size:125%;margin:.7em 0!important;padding:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.dv[open]{border-color:var(--ac)}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}mjx-container:not([display]){margin:0 .15em}
+.box mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+main p,main li{line-height:2.1}.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+.tw{overflow-x:auto}.tw table{min-width:520px}
+.stk{display:flex;height:40px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}.stk div.g{background:var(--ok)}.stk div.r{background:var(--bad)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#nui">Blocking</a><a href="#hard">Hardness Example</a><a href="#rcbd">The RCBD</a><a href="#lay">Layouts</a><a href="#model">Model</a><a href="#hyp">Hypotheses</a><a href="#test">Running the Test</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:48px 0 8px"><h1>Experiments with Blocking Factors</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lecture 17 &middot; Nuisance factors, blocking, the randomized complete block design (RCBD), its model and hypotheses. The last section (&ldquo;Running the Test&rdquo;) goes one step past the slides so you can see the hypotheses tested with real numbers.</p></header>
+
+<section id="nui"><h2>Nuisance Factors and Blocking</h2>
+<p>Some variation in the response comes from things you do not care about, such as which batch of material was used or which part of a field a plot sits in. A <b>nuisance factor</b> is a factor that probably affects the response but whose effect is not the goal of the study.</p>
+<p>If the source of this variation is <b>known and can be controlled</b>, we use <b>blocking</b>: group the experimental units so that units within a group are alike, then compare treatments inside each group. The nuisance effect is then taken out of the comparison instead of inflating the error.</p>
+<div class="flow"><div class="pop">Nuisance variation</div><div>&darr; group similar units</div><div class="st"><div>Block 1</div><div>Block 2</div><div>&hellip;</div><div>Block b</div></div><div>&darr; every treatment tried in every block</div><div class="pop">Cleaner treatment comparison</div></div>
+<div class="box ex"><b>Numerical feel.</b> Suppose 8 units have baseline values 10, 11, 20, 21 (two pairs). A treatment adds 2 units to the response. Comparing a unit with baseline 10 against one with 21 mixes the 11-unit baseline gap into the &ldquo;treatment&rdquo; difference. Comparing 10 vs 11 (same pair) leaves a gap of only 1 plus the treatment effect. Blocking makes the second kind of comparison.</div></section>
+
+<section id="hard"><h2>Hardness Testing: CRD vs RCBD</h2>
+<p>We want to know whether 4 tips give different readings on a hardness tester, with 4 observations per tip.</p>
+<p><b>Completely randomized design (CRD).</b> Assign the \(4\times4=16\) runs at random to 16 metal coupons. Problem: coupons may differ in hardness (for example, coupons cut from ingots made in different heats). That coupon-to-coupon variation lands in the experimental error, which becomes large and hides tip differences.</p>
+<p><b>Randomized complete block design (RCBD).</b> Use only 4 coupons and test <b>every tip once on every coupon</b>. Each coupon is a block. Inside a block the coupon is the same material for all four tips, so the tips are compared fairly; the order of the tips on a coupon is randomized.</p>
+<div class="tw"><table><tr><th></th><th>CRD</th><th>RCBD</th></tr><tr><td>Coupons needed</td><td>16 (one per run)</td><td>4 (one per block)</td></tr><tr><td>Runs</td><td>16</td><td>16</td></tr><tr><td>Coupon variation</td><td>inside the error</td><td>removed as a block effect</td></tr><tr><td>Randomization</td><td>all 16 runs together</td><td>tip order inside each coupon</td></tr></table></div>
+<h3>What the numbers say</h3>
+<p>Hardness readings (this is the data used in the calculator below; rows are tips, columns are coupons 1 to 4):</p>
+<div class="tw"><table><tr><th>Tip</th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>Mean</th></tr>
+<tr><td>1</td><td>9.3</td><td>9.4</td><td>9.6</td><td>10.0</td><td>9.575</td></tr><tr><td>2</td><td>9.4</td><td>9.3</td><td>9.8</td><td>9.9</td><td>9.600</td></tr><tr><td>3</td><td>9.2</td><td>9.4</td><td>9.5</td><td>9.7</td><td>9.450</td></tr><tr><td>4</td><td>9.7</td><td>9.6</td><td>10.0</td><td>10.2</td><td>9.875</td></tr>
+<tr><td><b>Coupon mean</b></td><td>9.400</td><td>9.425</td><td>9.725</td><td>9.950</td><td>9.625</td></tr></table></div>
+<p>Coupon means run from 9.400 to 9.950, a spread of 0.55, while tip means run from 9.450 to 9.875, a spread of 0.425. The coupon-to-coupon variation is at least as big as the tip effect we are chasing. A CRD would treat it as noise; the RCBD removes it. The numerical payoff is worked out in &ldquo;Running the Test&rdquo; below.</p>
+<h3>Interactive: draw a CRD and an RCBD</h3>
+<p class="mut">Sixteen coupons come from 4 heats with hardness 9.400, 9.425, 9.725, 9.950 (four coupons per heat, the coupon means from the data). Each draw gives 4 coupons to each tip. A CRD deals the 16 coupons out at random; an RCBD gives each tip one coupon from every heat. Row entries show the heat (H1 to H4) of the coupons a tip received and their mean hardness.</p>
+<div class="row"><button class="p" id="sd">Draw again</button><button id="s1k">Run 1000 draws</button></div>
+<div class="tw" id="so"></div><div class="out" id="sr"></div>
+</section>
+
+<section id="rcbd"><h2>What &ldquo;Randomized Complete Block&rdquo; Means</h2>
+<ul><li><b>Block:</b> a group of similar experimental units.</li><li><b>Complete:</b> each block holds <b>all</b> the treatments, each once.</li><li><b>Randomized:</b> in every block the treatments are assigned to units (or positions in time) at random, independently of other blocks.</li></ul>
+<p>Hardness layout with 4 coupons, each row is the run order inside a coupon:</p>
+<div class="tw"><table><tr><th>Run order</th><th>Coupon 1</th><th>Coupon 2</th><th>Coupon 3</th><th>Coupon 4</th></tr><tr><td>1st</td><td>Tip 3</td><td>Tip 3</td><td>Tip 2</td><td>Tip 1</td></tr><tr><td>2nd</td><td>Tip 1</td><td>Tip 4</td><td>Tip 1</td><td>Tip 4</td></tr><tr><td>3rd</td><td>Tip 4</td><td>Tip 2</td><td>Tip 3</td><td>Tip 2</td></tr><tr><td>4th</td><td>Tip 2</td><td>Tip 1</td><td>Tip 4</td><td>Tip 3</td></tr></table></div>
+<div class="box ex"><b>How many layouts are possible?</b> Each block is an independent shuffle of 4 treatments: \(4!=24\) orders. With 4 blocks, \(24^4=331{,}776\) equally likely layouts. In general \((a!)^b\). A CRD has \(16!/(4!)^4\) ways to split 16 runs into 4 groups of 4, but coupon quality can end up unevenly spread over tips; the RCBD makes that impossible by construction.</div>
+<p>Because every block contains every treatment exactly once, the design is <b>balanced</b>: each treatment is observed \(b\) times and each block holds \(a\) runs, so \(N=ab\).</p></section>
+
+<section id="lay"><h2>Two More Applications</h2>
+<h3>Rice yield with four fertilizers</h3>
+<p>Treatments \(T_1,\dots,T_4\); experimental units are plots; soil fertility changes across the field. Divide the field into 4 uniform-looking strips (blocks) by fertility, put 4 plots in each, and randomize the fertilizers within each strip.</p>
+<div class="tw"><table><tr><th>Plot</th><th>Block 1</th><th>Block 2</th><th>Block 3</th><th>Block 4</th></tr><tr><td>1</td><td>\(T_3\)</td><td>\(T_2\)</td><td>\(T_1\)</td><td>\(T_4\)</td></tr><tr><td>2</td><td>\(T_1\)</td><td>\(T_4\)</td><td>\(T_3\)</td><td>\(T_2\)</td></tr><tr><td>3</td><td>\(T_4\)</td><td>\(T_1\)</td><td>\(T_2\)</td><td>\(T_3\)</td></tr><tr><td>4</td><td>\(T_2\)</td><td>\(T_3\)</td><td>\(T_4\)</td><td>\(T_1\)</td></tr></table></div>
+<div class="box ex"><b>Check by counting.</b> Read down each column: each block has \(T_1,T_2,T_3,T_4\) once, so it is complete. Read across: \(T_1\) appears in plot positions 2, 3, 1, 4 across blocks, i.e. 4 times in total. Plots: \(4\times4=16\). Degrees of freedom: total \(15\), treatments \(3\), blocks \(3\), error \(9\) (see the df derivation).</div>
+<h3>Four blood-pressure drugs</h3>
+<p>Response: drop in systolic pressure (mmHg) after four weeks. The 16 hypertensive patients differ in baseline pressure, which affects how they respond. Sort patients by baseline, cut into 4 groups of 4 similar patients (blocks), and randomize the four drugs inside each group.</p>
+<div class="tw"><table><tr><th>Block</th><th>Patient 1</th><th>Patient 2</th><th>Patient 3</th><th>Patient 4</th></tr><tr><td>1</td><td>\(T_3\)</td><td>\(T_1\)</td><td>\(T_4\)</td><td>\(T_2\)</td></tr><tr><td>2</td><td>\(T_2\)</td><td>\(T_4\)</td><td>\(T_1\)</td><td>\(T_3\)</td></tr><tr><td>3</td><td>\(T_1\)</td><td>\(T_3\)</td><td>\(T_2\)</td><td>\(T_4\)</td></tr><tr><td>4</td><td>\(T_4\)</td><td>\(T_2\)</td><td>\(T_3\)</td><td>\(T_1\)</td></tr></table></div>
+<div class="box ex"><b>Illustration (invented baselines).</b> Blocks by baseline: 140&ndash;149, 150&ndash;159, 160&ndash;169, 170&ndash;179 mmHg. Under a CRD, bad luck could give drug \(T_1\) all four patients from the 170s and \(T_2\) all four from the 140s, so a difference between the drugs would be tangled with baseline. In this layout every drug gets exactly one patient from each baseline group.</div>
+<h3>Interactive: is my layout complete?</h3>
+<p class="mut">One row per run position, one column per block, treatments written as T1, T2, &hellip; (separated by spaces). Edit the rice layout to break it, for example by repeating a treatment inside a block.</p>
+<textarea id="lk" rows="5" style="width:100%;box-sizing:border-box">T3 T2 T1 T4
+T1 T4 T3 T2
+T4 T1 T2 T3
+T2 T3 T4 T1</textarea>
+<div class="out" id="lo"></div>
+</section>
+
+<section id="model"><h2>Statistical Model for the RCBD</h2>
+<p>With \(a\) treatments and \(b\) blocks there is one observation per treatment in each block, \(y_{ij}\) = response of treatment \(i\) in block \(j\).</p>
+<div class="f">\[ y_{ij}=\mu+\tau_i+\beta_j+\epsilon_{ij},\qquad i=1,\dots,a,\ \ j=1,\dots,b \]</div>
+<ul><li>\(\mu\): overall mean &nbsp;&middot;&nbsp; \(\tau_i\): effect of treatment \(i\) &nbsp;&middot;&nbsp; \(\beta_j\): effect of block \(j\)</li><li>\(\epsilon_{ij}\sim NID(0,\sigma^2)\): random error, independent and normal with common variance.</li></ul>
+<p>Effects are deviations from the overall mean, so they add to zero:</p>
+<div class="f">\[ \sum_{i=1}^{a}\tau_i=0,\qquad \sum_{j=1}^{b}\beta_j=0 \]</div>
+<div class="box ex"><b>Estimating the effects (hardness data).</b> \(\hat\mu=\bar y_{\cdot\cdot}=154.0/16=9.625\).<br>
+\(\hat\tau_i=\bar y_{i\cdot}-\bar y_{\cdot\cdot}\): \(9.575-9.625=-0.050\), \(9.600-9.625=-0.025\), \(9.450-9.625=-0.175\), \(9.875-9.625=+0.250\). Sum \(=0\).<br>
+\(\hat\beta_j=\bar y_{\cdot j}-\bar y_{\cdot\cdot}\): \(-0.225,\ -0.200,\ +0.100,\ +0.325\). Sum \(=0\).<br>
+Fitted value, tip 1 on coupon 1: \(9.625-0.050-0.225=9.350\); observed \(9.3\), residual \(-0.05\). Tip 4 on coupon 4: \(9.625+0.250+0.325=10.200\); observed \(10.2\), residual \(0\).</div>
+<p class="mut">The model is <b>additive</b>: the effect of a tip is assumed to be the same on every coupon (no tip&times;coupon interaction). With one observation per cell, the leftover \(y_{ij}-\hat y_{ij}\) is what we use as error.</p>
+<h3>Interactive: build an additive RCBD</h3>
+<p class="mut">3 treatments, 3 blocks, no random error. Move the sliders; the last effect in each set is forced so the effects add to zero. Every cell is \(\mu+\tau_i+\beta_j\).</p>
+<div class="row"><label>&mu; <input type="range" id="am" min="8" max="12" step="0.05" value="9.6"> <b id="amv"></b></label><label>&tau;<sub>1</sub> <input type="range" id="at1" min="-1" max="1" step="0.025" value="-0.1"> <b id="at1v"></b></label><label>&tau;<sub>2</sub> <input type="range" id="at2" min="-1" max="1" step="0.025" value="0"> <b id="at2v"></b></label><label>&beta;<sub>1</sub> <input type="range" id="ab1" min="-1" max="1" step="0.025" value="-0.2"> <b id="ab1v"></b></label><label>&beta;<sub>2</sub> <input type="range" id="ab2" min="-1" max="1" step="0.025" value="0"> <b id="ab2v"></b></label></div>
+<div class="tw" id="ao"></div><div class="out" id="at"></div>
+
+<h3>Interactive: take one observation apart</h3>
+<p class="mut">Pick a tip and a coupon from the hardness data. The observation is split into the overall mean, tip effect, coupon effect and leftover.</p>
+<div class="row"><label>Tip <select id="di"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option></select></label><label>Coupon <select id="dj"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option></select></label></div>
+<div class="out" id="do"></div>
+</section>
+
+<section id="hyp"><h2>Hypotheses in an RCBD</h2>
+<p>The question is about treatments. Blocks are included only to soak up nuisance variation.</p>
+<div class="f">\[ H_0:\mu_1=\mu_2=\cdots=\mu_a\qquad H_1:\ \mu_i\ne\mu_j\ \text{for at least one pair } i\ne j \]</div>
+<p>Since the mean of treatment \(i\) is \(\mu_i=\mu+\tau_i\), the same hypotheses in terms of effects are</p>
+<div class="f">\[ H_0:\tau_1=\tau_2=\cdots=\tau_a=0\qquad H_1:\ \tau_i\ne0\ \text{for at least one } i \]</div>
+<div class="box ex"><b>Hardness data.</b> \(H_0:\) all four tips have the same mean reading, i.e. \(\tau_1=\tau_2=\tau_3=\tau_4=0\). The estimates \(-0.050,-0.025,-0.175,+0.250\) are not zero, but is that more than noise? The next section answers that.</div></section>
+
+<section id="test"><h2>Running the Test <span class="mut" style="font-size:1rem">(beyond the slides)</span></h2>
+<p>The total variation splits into three parts. Each part has its own degrees of freedom:</p>
+<div class="f">\[ SS_T=SS_{Tr}+SS_{Bl}+SS_E,\qquad ab-1=(a-1)+(b-1)+(a-1)(b-1) \]</div>
+<div class="f">\[ SS_{Tr}=b\sum_i(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2,\quad SS_{Bl}=a\sum_j(\bar y_{\cdot j}-\bar y_{\cdot\cdot})^2,\quad F_0=\frac{MS_{Tr}}{MS_E} \]</div>
+<p>Reject \(H_0\) if \(F_0\gt F_{\alpha,\,a-1,\,(a-1)(b-1)}\).</p>
+<div class="box ex"><b>Hardness data, step by step</b> (\(a=b=4\)).
+\[SS_{Tr}=4\big[(-0.05)^2+(-0.025)^2+(-0.175)^2+(0.25)^2\big]=4(0.09625)=0.385\]
+\[SS_{Bl}=4\big[(-0.225)^2+(-0.2)^2+(0.1)^2+(0.325)^2\big]=4(0.20625)=0.825\]
+\[SS_T=\sum(y_{ij}-9.625)^2=0.2975+0.2625+0.2525+0.4775=1.290\]
+\[SS_E=1.290-0.385-0.825=0.080\]
+<div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>\(F_0\)</th></tr><tr><td>Tips</td><td>0.385</td><td>3</td><td>0.1283</td><td>14.44</td></tr><tr><td>Coupons (blocks)</td><td>0.825</td><td>3</td><td>0.2750</td><td>30.94</td></tr><tr><td>Error</td><td>0.080</td><td>9</td><td>0.00889</td><td></td></tr><tr><td>Total</td><td>1.290</td><td>15</td><td></td><td></td></tr></table></div>
+\(F_{0.05,3,9}=3.86\). Since \(14.44\gt3.86\) (\(P\approx0.001\)), reject \(H_0\): the tips do not all give the same mean reading.</div>
+<div class="box nt"><b>What if we had ignored the coupons (CRD analysis of the same data)?</b> The block sum of squares goes into the error: \(SS_E=0.825+0.080=0.905\) with \(12\) df, so \(MS_E=0.0754\) and \(F_0=0.1283/0.0754=1.70\). Compare with \(F_{0.05,3,12}=3.49\): <b>not significant</b>.<div class="stk" style="margin-top:12px"><div class="g" style="flex:0.385">Tips 0.385</div><div class="r" style="flex:0.825">Coupons 0.825</div><div style="flex:0.08;min-width:0"></div></div>
+Blocking shrank the error mean square from 0.0754 to 0.00889, about 8.5 times smaller, and turned a missed effect into a clear one. (Red bar: variation that the RCBD removes from the error. Dark bar: the leftover error, 0.080.)</div>
+<p class="mut">Cost of blocking: it spends \(b-1\) df on blocks. Here error df fell from 12 to 9, which is a small price because the block variation was large. If blocks barely differ, the lost df can make the test slightly weaker.</p>
+<h3>Interactive: how much does blocking help?</h3>
+<p class="mut">Hardness data again. The slider scales the coupon (block) effects by a factor \(k\): \(k=1\) is the real data, \(k=0\) means the coupons are identical, \(k=2\) doubles the coupon differences. Tip effects and the leftover error stay fixed (\(SS_{Tr}=0.385\), \(SS_E=0.080\)).</p>
+<div class="row"><label>k <input type="range" id="bk" min="0" max="2" step="0.05" value="1"></label><b id="bkv"></b></div>
+<div class="stk" id="bst"></div><div class="out" id="bo"></div>
+
+<h3>Interactive: where does \(F_0\) fall?</h3>
+<p class="mut">Density of the \(F\) distribution under \(H_0\). The shaded tail has area \(\alpha\); the vertical line is the observed \(F_0\) from the hardness data.</p>
+<div class="row"><label>Analysis <select id="fs"><option value="r">RCBD (3, 9 df)</option><option value="c">Ignoring blocks, CRD (3, 12 df)</option></select></label><label>&alpha; <select id="fa"><option>0.10</option><option selected>0.05</option><option>0.01</option></select></label></div>
+<svg id="fsv" viewBox="0 0 700 230" style="width:100%;height:auto;display:block"></svg><div class="out" id="fo"></div>
+</section>
+
+<section id="calc"><h2>Calculator</h2>
+<p class="mut">RCBD analysis. One treatment per line; values are the observations in each block (separate by commas or spaces; same number of blocks on every line). The hardness data is preloaded.</p>
+<textarea id="cd" rows="5" style="width:100%;box-sizing:border-box">9.3 9.4 9.6 10.0
+9.4 9.3 9.8 9.9
+9.2 9.4 9.5 9.7
+9.7 9.6 10.0 10.2</textarea>
+<div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><button class="p" id="go">Analyse</button></div>
+<div class="out" id="co"></div>
+<h3>Randomize a layout</h3>
+<div class="row"><label>Treatments <input type="number" id="ra" value="4" min="2" max="10"></label><label>Blocks <input type="number" id="rb" value="4" min="2" max="10"></label><button id="rg">Shuffle</button></div>
+<div class="out tw" id="ro"></div></section>
+
+<section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order.</p><div id="fl"></div>
+<h3>Notation</h3><table class="ft"><tr><td>\(a,\ b\)</td><td>number of treatments, blocks</td><td>\(\tau_i,\ \beta_j\)</td><td>treatment, block effects</td></tr><tr><td>\(\bar y_{i\cdot},\ \bar y_{\cdot j}\)</td><td>treatment mean, block mean</td><td>\(\bar y_{\cdot\cdot}\)</td><td>grand mean</td></tr><tr><td>\(N=ab\)</td><td>total observations</td><td>\(\epsilon_{ij}\)</td><td>random error, \(NID(0,\sigma^2)\)</td></tr></table></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const ts=el=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise&&MathJax.typesetPromise)MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise(el?[el]:undefined)).catch(()=>{})};
+function renderD(D){$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
+document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)))}
+function renderF(F){$('fl').innerHTML=F.map(s=>`<h3>${s[0]}</h3><table class="ft"><tr><th>Formula</th><th>Where / meaning</th></tr>${s[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`).join('')}
+const th=$('th'),R=document.documentElement;th.checked=matchMedia('(prefers-color-scheme:dark)').matches;R.dataset.theme=th.checked?'dark':'light';
+th.addEventListener('change',()=>{const y=scrollY;R.dataset.theme=th.checked?'dark':'light';scrollTo(0,y);requestAnimationFrame(()=>scrollTo(0,y))});
+const D=[
+["D1","Treatment-mean and treatment-effect hypotheses are the same",String.raw`<p>The mean of treatment \(i\) is \(\mu_i=\mu+\tau_i\). Averaging over treatments and using \(\sum\tau_i=0\):</p>
+\[\frac1a\sum_{i=1}^{a}\mu_i=\mu+\frac1a\sum_{i=1}^{a}\tau_i=\mu\]
+<p>If all means equal a common value \(m\), then \(\mu=\frac1a(am)=m\), so</p>
+\[\tau_i=\mu_i-\mu=m-m=0\quad\text{for every } i\]
+<p>Conversely, if every \(\tau_i=0\) then \(\mu_i=\mu\) for all \(i\), so all means are equal. Hence \(H_0:\mu_1=\cdots=\mu_a\iff H_0:\tau_1=\cdots=\tau_a=0\).</p>`],
+["D2","Least squares estimates of \\(\\mu,\\tau_i,\\beta_j\\)",String.raw`<p>Minimise the sum of squared errors</p>
+\[L=\sum_{i=1}^{a}\sum_{j=1}^{b}(y_{ij}-\mu-\tau_i-\beta_j)^2\]
+<p>Differentiate with respect to \(\mu\) and set to zero:</p>
+\[-2\sum_i\sum_j(y_{ij}-\mu-\tau_i-\beta_j)=0\;\Rightarrow\; y_{\cdot\cdot}-ab\mu-b\sum_i\tau_i-a\sum_j\beta_j=0\]
+<p>With \(\sum\tau_i=\sum\beta_j=0\): \(\hat\mu=y_{\cdot\cdot}/(ab)=\bar y_{\cdot\cdot}\). Now differentiate with respect to \(\tau_i\) (one fixed \(i\)):</p>
+\[\sum_{j=1}^{b}(y_{ij}-\mu-\tau_i-\beta_j)=0\;\Rightarrow\; y_{i\cdot}-b\mu-b\tau_i-\sum_j\beta_j=0\]
+<p>Using \(\sum\beta_j=0\) and \(y_{i\cdot}=b\bar y_{i\cdot}\), divide by \(b\):</p>
+\[\hat\tau_i=\bar y_{i\cdot}-\hat\mu=\bar y_{i\cdot}-\bar y_{\cdot\cdot}\]
+<p>The same steps for \(\beta_j\), summing over \(i\) and dividing by \(a\), give</p>
+\[\hat\beta_j=\bar y_{\cdot j}-\bar y_{\cdot\cdot}\]
+<p>Check (hardness): \(\hat\tau_4=9.875-9.625=0.250\), \(\hat\beta_4=9.950-9.625=0.325\).</p>`],
+["D3","Splitting the total sum of squares",String.raw`<p>Add and subtract the row, column and grand means inside each deviation:</p>
+\[y_{ij}-\bar y_{\cdot\cdot}=(\bar y_{i\cdot}-\bar y_{\cdot\cdot})+(\bar y_{\cdot j}-\bar y_{\cdot\cdot})+(y_{ij}-\bar y_{i\cdot}-\bar y_{\cdot j}+\bar y_{\cdot\cdot})\]
+<p>Write the three pieces as \(A_i+B_j+E_{ij}\). Square and sum over all \(i,j\):</p>
+\[\sum\sum(A_i+B_j+E_{ij})^2=\sum\sum A_i^2+\sum\sum B_j^2+\sum\sum E_{ij}^2+2\sum\sum A_iB_j+2\sum\sum A_iE_{ij}+2\sum\sum B_jE_{ij}\]
+<p>Cross term \(A_iB_j\) factors, and each factor is a sum of deviations from a mean:</p>
+\[\sum_i\sum_jA_iB_j=\Big(\sum_iA_i\Big)\Big(\sum_jB_j\Big)=0\cdot0=0\]
+<p>Cross term with \(E_{ij}\): for a fixed \(i\), sum \(E_{ij}\) over \(j\):</p>
+\[\sum_{j=1}^{b}E_{ij}=b\bar y_{i\cdot}-b\bar y_{i\cdot}-b\bar y_{\cdot\cdot}+b\bar y_{\cdot\cdot}=0\]
+<p>so \(\sum_i\sum_jA_iE_{ij}=\sum_iA_i\cdot0=0\). Symmetrically \(\sum_iE_{ij}=0\), so the \(B_jE_{ij}\) term vanishes too. Since \(\sum\sum A_i^2=b\sum_i(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2\) (each \(A_i\) repeats \(b\) times) and likewise for \(B_j\):</p>
+\[SS_T=SS_{Tr}+SS_{Bl}+SS_E\]`],
+["D4","Degrees of freedom",String.raw`<p>Total: \(ab\) observations, one constraint (deviations from the grand mean sum to 0): \(ab-1\).</p>
+<p>Treatments: \(a\) means that sum to \(\bar y_{\cdot\cdot}\) (up to a factor), so \(a-1\) free. Blocks: \(b-1\). Error is what remains:</p>
+\[ab-1-(a-1)-(b-1)=ab-a-b+1=(a-1)(b-1)\]
+<p>Hardness: \(16-1-3-3=9=(3)(3)\). Rice: also \(a=b=4\), so 9. A CRD on the same 16 runs has error df \(a(b-1)=12\).</p>`],
+["D5","What the CRD error contains: why blocking helps",String.raw`<p>If the blocks are ignored, the CRD analysis has only treatments and an error, so it pools the block and RCBD error terms:</p>
+\[SS_{E,CRD}=SS_{Bl}+SS_{E,RCBD},\qquad df=(b-1)+(a-1)(b-1)=a(b-1)\]
+<p>Hardness: \(SS_{E,CRD}=0.825+0.080=0.905\), \(df=12\), so</p>
+\[MS_{E,CRD}=\frac{0.905}{12}=0.0754,\qquad MS_{E,RCBD}=\frac{0.080}{9}=0.00889\]
+<p>The ratio is \(0.0754/0.00889\approx8.5\). Because \(F_0=MS_{Tr}/MS_E\) and \(MS_{Tr}\) is the same in both analyses (0.1283), the RCBD gives an \(F_0\) about 8.5 times larger: \(14.44\) versus \(1.70\).</p>`]];
+const F=[["Design",[["\\(y_{ij}=\\mu+\\tau_i+\\beta_j+\\epsilon_{ij}\\)","model; \\(\\epsilon_{ij}\\sim NID(0,\\sigma^2)\\)"],["\\(\\sum\\tau_i=0,\\ \\sum\\beta_j=0\\)","effects are deviations from \\(\\mu\\)"],["\\((a!)^b\\)","number of possible randomized layouts"]]],
+["Hypotheses",[["\\(H_0:\\mu_1=\\cdots=\\mu_a\\)","\\(\\iff H_0:\\tau_1=\\cdots=\\tau_a=0\\)"],["\\(H_1:\\) some \\(\\mu_i\\ne\\mu_j\\)","\\(\\iff\\) some \\(\\tau_i\\ne0\\)"]]],
+["Estimates",[["\\(\\hat\\mu=\\bar y_{\\cdot\\cdot}\\)","grand mean"],["\\(\\hat\\tau_i=\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot}\\)","treatment effect"],["\\(\\hat\\beta_j=\\bar y_{\\cdot j}-\\bar y_{\\cdot\\cdot}\\)","block effect"]]],
+["ANOVA (beyond slides)",[["\\(SS_T=SS_{Tr}+SS_{Bl}+SS_E\\)","df: \\(ab-1=(a-1)+(b-1)+(a-1)(b-1)\\)"],["\\(F_0=MS_{Tr}/MS_E\\)","reject if \\(F_0\\gt F_{\\alpha,a-1,(a-1)(b-1)}\\)"]]]];
+renderD(D);renderF(F);ts();
+function analyse(){
+ const rows=$('cd').value.trim().split(/\n+/).map(l=>l.trim().split(/[\s,]+/).map(Number));
+ const a=rows.length,b=rows[0].length,al=+$('al').value;
+ if(a<2||b<2||rows.some(r=>r.length!=b||r.some(isNaN))){$('co').textContent='Check the input: every line needs the same number of numeric values (at least 2 lines, 2 columns).';return}
+ const N=a*b,gm=rows.flat().reduce((s,v)=>s+v,0)/N;
+ const tm=rows.map(r=>r.reduce((s,v)=>s+v,0)/b),bm=[...Array(b)].map((_,j)=>rows.reduce((s,r)=>s+r[j],0)/a);
+ const sst=rows.flat().reduce((s,v)=>s+(v-gm)**2,0),ssT=b*tm.reduce((s,m)=>s+(m-gm)**2,0),ssB=a*bm.reduce((s,m)=>s+(m-gm)**2,0),ssE=sst-ssT-ssB;
+ const dT=a-1,dB=b-1,dE=dT*dB,mT=ssT/dT,mB=ssB/dB,mE=ssE/dE,F1=mT/mE,F2=mB/mE;
+ const p=(f,d1,d2)=>1-jStat.centralF.cdf(f,d1,d2),fc=jStat.centralF.inv(1-al,dT,dE);
+ const dC=a*(b-1),mC=(ssB+ssE)/dC,Fc=mT/mC,fcc=jStat.centralF.inv(1-al,dT,dC);
+ $('co').innerHTML=`<div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F<sub>0</sub></th><th>P</th></tr>
+ <tr><td>Treatments</td><td>${g(ssT,4)}</td><td>${dT}</td><td>${g(mT,5)}</td><td>${g(F1,2)}</td><td>${g(p(F1,dT,dE),4)}</td></tr>
+ <tr><td>Blocks</td><td>${g(ssB,4)}</td><td>${dB}</td><td>${g(mB,5)}</td><td>${g(F2,2)}</td><td>${g(p(F2,dB,dE),4)}</td></tr>
+ <tr><td>Error</td><td>${g(ssE,4)}</td><td>${dE}</td><td>${g(mE,5)}</td><td></td><td></td></tr>
+ <tr><td>Total</td><td>${g(sst,4)}</td><td>${N-1}</td><td></td><td></td><td></td></tr></table></div>
+ Critical F<sub>${al},${dT},${dE}</sub> = ${g(fc,2)}: <b>${F1>fc?'reject H<sub>0</sub> (treatments differ)':'fail to reject H<sub>0</sub>'}</b>.<br>
+ Effects: &tau;&#770; = ${tm.map(m=>g(m-gm,3)).join(', ')}; &beta;&#770; = ${bm.map(m=>g(m-gm,3)).join(', ')}.<br>
+ <span class="mut">If blocks were ignored (CRD): MS<sub>E</sub> = ${g(mC,5)} on ${dC} df, F<sub>0</sub> = ${g(Fc,2)}, critical ${g(fcc,2)} &rarr; ${Fc>fcc?'still significant':'not significant'}.</span>`}
+$('go').onclick=analyse;analyse();
+function shuf(n){const x=[...Array(n)].map((_,i)=>i+1);for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function rnd(){const a=Math.max(2,+$('ra').value||4),b=Math.max(2,+$('rb').value||4),cols=[...Array(b)].map(()=>shuf(a));
+ $('ro').innerHTML=`<table><tr><th>Run</th>${cols.map((_,j)=>`<th>Block ${j+1}</th>`).join('')}</tr>`+[...Array(a)].map((_,i)=>`<tr><td>${i+1}</td>${cols.map(c=>`<td>T${c[i]}</td>`).join('')}</tr>`).join('')+'</table>'}
+$('rg').onclick=rnd;rnd();
+function wa(){const v=i=>+$(i).value,m=v('am'),t1=v('at1'),t2=v('at2'),t3=-t1-t2,b1=v('ab1'),b2=v('ab2'),b3=-b1-b2,T=[t1,t2,t3],B=[b1,b2,b3];
+ ['am','at1','at2','ab1','ab2'].forEach(i=>$(i+'v').textContent=g(v(i),3));
+ $('ao').innerHTML='<table><tr><th></th>'+B.map((_,j)=>`<th>Block ${j+1}</th>`).join('')+'<th>&tau;<sub>i</sub></th></tr>'+T.map((t,i)=>`<tr><td>Treatment ${i+1}</td>${B.map(b=>`<td>${g(m+t+b,3)}</td>`).join('')}<td>${g(t,3)}</td></tr>`).join('')+`<tr><td>&beta;<sub>j</sub></td>${B.map(b=>`<td>${g(b,3)}</td>`).join('')}<td></td></tr></table>`;
+ $('at').innerHTML=`&tau;<sub>3</sub> = ${g(t3,3)}, &beta;<sub>3</sub> = ${g(b3,3)}. Treatment 1 minus treatment 2 is ${g(t1-t2,3)} in every block, which is &tau;<sub>1</sub>&minus;&tau;<sub>2</sub>. That constant gap is what &ldquo;additive&rdquo; means.`}
+['am','at1','at2','ab1','ab2'].forEach(i=>$(i).oninput=wa);wa();
+function wb(){const k=+$('bk').value,sT=0.385,sB=0.825*k*k,sE=0.08,mT=sT/3,mR=sE/9,mC=(sB+sE)/12,FR=mT/mR,FC=mT/mC,tot=sT+sB+sE,fr=jStat.centralF.inv(.95,3,9),fc=jStat.centralF.inv(.95,3,12);
+ $('bkv').textContent=g(k,2);
+ $('bst').innerHTML=`<div class="g" style="flex:${sT/tot}">Tips ${g(sT,3)}</div>`+(sB>0.001?`<div class="r" style="flex:${sB/tot}">Coupons ${g(sB,3)}</div>`:'')+`<div style="flex:${sE/tot}"></div>`;
+ $('bo').innerHTML=`<table><tr><th>Analysis</th><th>MS<sub>E</sub></th><th>F<sub>0</sub></th><th>F<sub>0.05</sub></th><th>Decision</th></tr><tr><td>RCBD (error ${g(sE,3)}, 9 df)</td><td>${g(mR,5)}</td><td>${g(FR,2)}</td><td>${g(fr,2)}</td><td>${FR>fr?'<b>reject</b>':'n.s.'}</td></tr><tr><td>CRD (error ${g(sB+sE,3)}, 12 df)</td><td>${g(mC,5)}</td><td>${g(FC,2)}</td><td>${g(fc,2)}</td><td>${FC>fc?'<b>reject</b>':'n.s.'}</td></tr></table><span class="mut">Green: tips. Red: coupon variation (removed by the RCBD, left in the error by the CRD). Plain bar at the end: RCBD error. The RCBD result does not move because the coupon effect is taken out.</span>`}
+$('bk').oninput=wb;wb();
+function wf(){const r=$('fs').value=='r',d2=r?9:12,F0=r?14.44:1.70,al=+$('fa').value,fc=jStat.centralF.inv(1-al,3,d2),X=16,W=[40,680],H=[200,20],N=320,xs=[...Array(N+1)].map((_,i)=>i*X/N),ys=xs.map(x=>x<0.01?0:jStat.centralF.pdf(x,3,d2)),ym=Math.max(...ys.filter(isFinite)),
+ px=x=>W[0]+x/X*(W[1]-W[0]),py=y=>H[0]-y/ym*(H[0]-H[1]);
+ const line=xs.map((x,i)=>`${i?'L':'M'}${px(x).toFixed(1)},${py(Math.min(ys[i],ym)).toFixed(1)}`).join('');
+ const tail=xs.map((x,i)=>x>=fc?`${px(x).toFixed(1)},${py(Math.min(ys[i],ym)).toFixed(1)}`:'').filter(Boolean);
+ $('fsv').innerHTML=`<path d="M${px(fc)},${H[0]} L${tail.join(' L')} L${px(X)},${H[0]}Z" style="fill:var(--bad);opacity:.35"/><path d="${line}" style="fill:none;stroke:var(--ac);stroke-width:2"/><line x1="40" y1="200" x2="680" y2="200" style="stroke:var(--line)"/><line x1="${px(fc)}" y1="${H[1]}" x2="${px(fc)}" y2="200" style="stroke:var(--bad);stroke-dasharray:4 3"/><line x1="${px(F0)}" y1="${H[1]}" x2="${px(F0)}" y2="200" style="stroke:var(--ok);stroke-width:2.5"/><text x="${px(fc)+4}" y="34" style="fill:var(--bad);font-size:13px">critical ${g(fc,2)}</text><text x="${px(F0)+4}" y="56" style="fill:var(--ok);font-size:13px">F&#8320; ${g(F0,2)}</text>`+[0,4,8,12,16].map(x=>`<text x="${px(x)}" y="218" text-anchor="middle" style="fill:var(--mut);font-size:12px">${x}</text>`).join('');
+ $('fo').innerHTML=`F(3, ${d2}), &alpha; = ${al}: critical value ${g(fc,2)}. F<sub>0</sub> = ${F0} is ${F0>fc?'<b>inside the rejection region</b>, so reject H<sub>0</sub>':'<b>outside the rejection region</b>, so fail to reject H<sub>0</sub>'}.`}
+$('fs').onchange=wf;$('fa').onchange=wf;wf();
+function wsim(){const base=[9.4,9.425,9.725,9.95],cp=[...Array(16)].map((_,i)=>Math.floor(i/4)),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+ const crd=()=>{const x=sh(cp);return [0,1,2,3].map(t=>x.slice(4*t,4*t+4))},rc=()=>[0,1,2,3].map(()=>[0,1,2,3]),mn=h=>h.reduce((s,k)=>s+base[k],0)/4,rg=H=>{const m=H.map(mn);return Math.max(...m)-Math.min(...m)};
+ return {crd,rc,mn,rg}}
+const SIM=wsim();
+function drawSim(){const C=SIM.crd(),R=SIM.rc(),row=(H,n)=>H.map((h,t)=>`<tr><td>${n} &ndash; Tip ${t+1}</td><td>${h.map(k=>'H'+(k+1)).sort().join(', ')}</td><td>${g(SIM.mn(h),3)}</td></tr>`).join('');
+ $('so').innerHTML=`<table><tr><th>Design &ndash; tip</th><th>Coupons received</th><th>Mean hardness</th></tr>${row(C,'CRD')}${row(R,'RCBD')}</table>`;
+ $('sr').innerHTML=`Range of the four tip means of coupon hardness: CRD <b>${g(SIM.rg(C),3)}</b>, RCBD <b>${g(SIM.rg(R),3)}</b>. Any such gap in a CRD is coupon luck that looks like a tip effect.`}
+$('sd').onclick=drawSim;drawSim();
+$('s1k').onclick=()=>{let t=0,mx=0;for(let i=0;i<1000;i++){const r=SIM.rg(SIM.crd());t+=r;mx=Math.max(mx,r)}$('sr').innerHTML=`1000 draws. CRD: average range of tip means = <b>${g(t/1000,3)}</b>, largest = ${g(mx,3)}. RCBD: range = <b>0.000</b> every time, because each tip gets the same mix of heats.`};
+const DAT=[[9.3,9.4,9.6,10.0],[9.4,9.3,9.8,9.9],[9.2,9.4,9.5,9.7],[9.7,9.6,10.0,10.2]];
+function wdec(){const i=+$('di').value,j=+$('dj').value,gm=9.625,tm=DAT[i].reduce((s,v)=>s+v,0)/4,bm=DAT.reduce((s,r)=>s+r[j],0)/4,t=tm-gm,b=bm-gm,y=DAT[i][j],e=y-(gm+t+b);
+ $('do').innerHTML=`y<sub>${i+1}${j+1}</sub> = ${y}<br>&mu;&#770; = ${g(gm,3)}, &nbsp; &tau;&#770;<sub>${i+1}</sub> = ${g(tm,3)} &minus; ${g(gm,3)} = ${g(t,3)}, &nbsp; &beta;&#770;<sub>${j+1}</sub> = ${g(bm,3)} &minus; ${g(gm,3)} = ${g(b,3)}<br>Fitted = ${g(gm,3)} + (${g(t,3)}) + (${g(b,3)}) = <b>${g(gm+t+b,3)}</b><br>Leftover (residual) = ${y} &minus; ${g(gm+t+b,3)} = <b>${g(e,3)}</b><br><span class="mut">Squared leftover ${g(e*e,4)}. Add these over all 16 cells to get SS<sub>E</sub> = 0.080.</span>`}
+$('di').onchange=wdec;$('dj').onchange=wdec;wdec();
+function wlay(){const rows=$('lk').value.trim().split(/\n+/).map(l=>l.trim().split(/\s+/).filter(Boolean));const n=rows.length,b=Math.max(...rows.map(r=>r.length));
+ if(!n||rows.some(r=>r.length!=b)){$('lo').textContent='Every row needs the same number of entries.';return}
+ const tr=[...new Set(rows.flat())].sort(),a=tr.length,msg=[];let ok=n==a;
+ if(n!=a){msg.push(`Each block has ${n} runs but there are ${a} different treatments, so blocks cannot be complete.`)}
+ for(let j=0;j<b;j++){const col=rows.map(r=>r[j]);tr.forEach(t=>{const c=col.filter(x=>x==t).length;if(c!=1){ok=false;msg.push(`Block ${j+1}: ${t} appears ${c} time${c==1?'':'s'}.`)}})}
+ const f=k=>{let r=1;for(let i=2;i<=k;i++)r*=i;return r};
+ $('lo').innerHTML=(ok?'<b style="color:var(--ok)">Complete: every treatment appears once in every block.</b>':'<b style="color:var(--bad)">Not a complete block design.</b><br>'+msg.join('<br>'))+`<br>a = ${a} treatments, b = ${b} blocks, N = ${a*b} runs.<br>Possible randomized layouts: (${a}!)<sup>${b}</sup> = ${(f(a)**b).toLocaleString('en-US')}.<br>df: total ${a*b-1} = treatments ${a-1} + blocks ${b-1} + error ${(a-1)*(b-1)}.`}
+$('lk').oninput=wlay;wlay();
+
+
+</script>
+</body></html>
