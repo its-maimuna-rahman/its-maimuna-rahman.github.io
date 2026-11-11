@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Regression Estimator – Using an Auxiliary Variable</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:.9rem 0 .4rem;color:var(--ac)}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0;line-height:2}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:28px 0}.fc .f{background:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}
+input[type=range]{padding:0;border:0;accent-color:var(--ac);width:190px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%;display:block;overflow-x:auto}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}th{background:var(--card)}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative;margin:.5em 0;line-height:2}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.qa{margin:22px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.qa .q{background:var(--card);border-left:4px solid var(--ac);padding:14px 20px}.qa .s{background:var(--card);border-left:4px solid var(--ok);padding:6px 20px 14px;border-top:1px solid var(--line)}.fc .qa .f{background:var(--card)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+.bar{height:22px;background:var(--ac);margin:4px 0 12px;transition:width .2s}.bar.g{background:var(--ok)}.bar.r{background:var(--bad)}
+svg.pl{width:100%;height:auto;display:block;background:var(--card);border:1px solid var(--line)}svg.pl text{fill:var(--mut);font-size:11px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',xb:'\\bar{x}',Xb:'\\bar{X}',Yb:'\\bar{Y}',V:'\\operatorname{Var}',Cv:'\\operatorname{Cov}',Yr:'\\hat{\\bar{Y}}_{\\mathrm{reg}}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">See it</a><a href="#why">Why</a><a href="#diff">Difference estimator</a><a href="#opt">Best weight</a><a href="#ls">Slope</a><a href="#prop">Properties</a><a href="#var">Variance &amp; CI</a><a href="#ex">Example</a><a href="#eff">Efficiency</a><a href="#prac">Practice</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>The Regression Estimator</h1><h2>Sampling Theory · Course 206</h2>
+<p class="mut">The ratio estimator assumes a line through the origin. What if the true line has an intercept? Here we slide the sample mean along a fitted line to a known population mean, and see why that is the best linear correction.</p></header>
+
+<section id="viz"><h2>See it first</h2>
+<p>Ten stores (last year's sales \(x\), this year's \(y\)). We know the population mean of last year's sales, \(\Xb\). Move \(\Xb\) and watch the regression estimate slide along the line while the plain sample mean stays put.</p>
+<div class="box"><div class="row">
+<label>Known \(\Xb\) <input type="range" id="sX" min="15" max="35" step="0.5" value="26"> <b id="vX">26</b></label>
+<label>Pre-assigned slope \(\beta_0\) <input type="range" id="sB" min="0" max="3" step="0.05" value="1.5"> <b id="vB">1.50</b></label></div>
+<svg class="pl" id="svg" viewBox="0 0 420 270"></svg><div class="out" id="vout"></div>
+<p class="mut">Gold-ish dot: \((\bar x,\bar y)\). Vertical line: \(\bar X\). Filled square: the regression estimate (the line's height at \(\bar X\)). Dashed line: the fixed-slope version.</p></div></section>
+
+<section id="why"><h2>Why go beyond the ratio estimator?</h2>
+<div class="three">
+<div><h3>1. Ratio's limit</h3><p>\(\hat{\bar Y}_R=\bar y\,\Xb/\xb\) is the sample mean scaled up or down. It is built for \(Y\approx RX\), a line through the origin.</p></div>
+<div><h3>2. Real data</h3><p>Usually \(Y_i\approx\alpha+\beta X_i\) with \(\alpha\ne0\). Forcing the line through zero wastes precision.</p></div>
+<div><h3>3. The idea</h3><p>Correct \(\bar y\) by the gap \(\Xb-\xb\), using a weight chosen to minimise variance. Requirement: \(\Xb\) must be known.</p></div></div>
+<div class="fc"><h3>Notation (SRSWOR, \(f=n/N\))</h3>
+<div class="f">\[S_{XY}=\frac{1}{N-1}\sum(X_i-\Xb)(Y_i-\Yb),\quad \rho=\frac{S_{XY}}{S_XS_Y},\quad \beta=\frac{S_{XY}}{S_X^2}=\rho\frac{S_Y}{S_X}\]</div>
+<p>Sample versions: \(s_{xx}=\sum(x_i-\xb)^2\), \(s_{xy}=\sum(x_i-\xb)(y_i-\yb)\), \(s_{yy}=\sum(y_i-\yb)^2\). Four facts from simple random sampling are all we need:</p>
+<div class="f">\[E(\yb)=\Yb,\ \ E(\xb)=\Xb,\ \ \V(\yb)=\tfrac{1-f}{n}S_Y^2,\ \ \V(\xb)=\tfrac{1-f}{n}S_X^2,\ \ \Cv(\xb,\yb)=\tfrac{1-f}{n}S_{XY}\]</div>
+<p class="mut">Everything below is algebra on these five lines.</p></div></section>
+
+<section id="diff"><h2>The difference estimator</h2>
+<div class="fc"><h3>Definition and unbiasedness</h3>
+<p>Pick any constant \(\phi\) and adjust the sample mean by the miss in \(\xb\):</p>
+<div class="f">\[\hat{\bar Y}^{*}=\yb+\phi(\Xb-\xb)\]</div>
+<p>Take expectations; \(E(\xb)=\Xb\) kills the correction.</p>
+<div class="f">\[E(\hat{\bar Y}^{*})=E(\yb)+\phi\big(\Xb-E(\xb)\big)=\Yb+\phi(\Xb-\Xb)=\Yb\]</div>
+<p>So it is unbiased for <b>every</b> \(\phi\). Special cases: \(\phi=0\) gives \(\yb\); \(\phi=\yb/\xb\) gives the ratio estimator.</p>
+<h3>Its variance</h3>
+<p>Subtract \(\Yb\) and use \(\Xb=\Xb\): the error is</p>
+<div class="f">\[\hat{\bar Y}^{*}-\Yb=(\yb-\Yb)-\phi(\xb-\Xb)\]</div>
+<p>Square and take expectation (variance of a difference):</p>
+<div class="f">\[\V(\hat{\bar Y}^{*})=\V(\yb)+\phi^2\V(\xb)-2\phi\,\Cv(\xb,\yb)=\frac{1-f}{n}\big[S_Y^2+\phi^2S_X^2-2\phi S_{XY}\big]\]</div>
+<div class="qa"><div class="q"><b>Question.</b> \(S_Y=12,\ S_X=8,\ \rho=0.8,\ n=25,\ N=500\). Find the variance of \(\hat{\bar Y}^*\) for \(\phi=1\).</div><div class="s"><b>Solution.</b>
+<div class="f">\[S_{XY}=\rho S_XS_Y=0.8(8)(12)=76.8,\quad \tfrac{1-f}{n}=\tfrac{0.95}{25}=0.038\]</div>
+<div class="f">\[\V=0.038\,[144+1(64)-2(1)(76.8)]=0.038(54.4)=2.067\]</div>
+<p class="mut">Compare \(\V(\yb)=0.038(144)=5.472\): already a big gain with a crude \(\phi\).</p></div></div></div></section>
+
+<section id="opt"><h2>Choosing the best weight \(\phi\)</h2>
+<div class="fc"><h3>Minimise the variance</h3>
+<p>Differentiate \(\V(\hat{\bar Y}^*)\) with respect to \(\phi\) and set to zero:</p>
+<div class="f">\[\frac{d}{d\phi}\Big[\V(\yb)+\phi^2\V(\xb)-2\phi\Cv(\xb,\yb)\Big]=2\phi\V(\xb)-2\Cv(\xb,\yb)=0\]</div>
+<div class="f">\[\phi_{\rm opt}=\frac{\Cv(\xb,\yb)}{\V(\xb)}=\frac{S_{XY}}{S_X^2}=\beta\]</div>
+<p>The second derivative is \(2\V(\xb)>0\), so this is a minimum. The best weight is the population regression slope.</p>
+<h3>The minimum variance</h3>
+<p>Use \(\beta^2S_X^2=\rho^2S_Y^2\) and \(\beta S_{XY}=\rho^2S_Y^2\):</p>
+<div class="f">\[V_{\min}=\tfrac{1-f}{n}\big[S_Y^2+\rho^2S_Y^2-2\rho^2S_Y^2\big]=\tfrac{1-f}{n}S_Y^2(1-\rho^2)=(1-\rho^2)\V(\yb)\]</div>
+<p>Since \(|\rho|\le1\), this is never worse than \(\yb\). Stronger correlation, bigger gain.</p>
+<div class="qa"><div class="q"><b>Question.</b> Same data as above. Find \(\beta\) and \(V_{\min}\).</div><div class="s"><b>Solution.</b>
+<div class="f">\[\beta=\rho\frac{S_Y}{S_X}=0.8\cdot\frac{12}{8}=1.2\]</div>
+<div class="f">\[V_{\min}=(1-0.64)(5.472)=0.36(5.472)=1.970\]</div>
+<p class="mut">A 64% cut in variance relative to \(\yb\).</p></div></div></div></section>
+
+<section id="ls"><h2>Estimating the slope: the regression estimator</h2>
+<div class="fc"><h3>Least squares</h3>
+<p>\(\beta\) is unknown, so fit \(y_i=b_0+b_1x_i+\varepsilon_i\) to the sample by minimising</p>
+<div class="f">\[S(b_0,b_1)=\sum_{i=1}^n(y_i-b_0-b_1x_i)^2\]</div>
+<p>Setting \(\partial S/\partial b_0=0\) gives \(\sum(y_i-b_0-b_1x_i)=0\), i.e. \(b_0=\yb-b_1\xb\). Substituting into \(\partial S/\partial b_1=0\):</p>
+<div class="f">\[\sum(x_i-\xb)\big[(y_i-\yb)-b_1(x_i-\xb)\big]=0\ \Rightarrow\ s_{xy}-b_1s_{xx}=0\]</div>
+<div class="f">\[b=\frac{s_{xy}}{s_{xx}},\qquad b_0=\yb-b\,\xb\]</div>
+<h3>The estimator</h3>
+<p>Replace \(\phi\) by \(b\):</p>
+<div class="f">\[\Yr=\yb+b(\Xb-\xb)\]</div>
+<p>Insert \(\yb=b_0+b\xb\):</p>
+<div class="f">\[\Yr=b_0+b\xb+b\Xb-b\xb=b_0+b\,\Xb\]</div>
+<p>So it is the fitted line evaluated at the known \(\Xb\). For a total: \(\hat Y_{\rm reg(tot)}=N\,\Yr\).</p>
+<div class="box nt"><b>Geometry.</b> The fitted line always passes through \((\xb,\yb)\). If \(\xb<\Xb\), the sample under-represents large \(X\), so we slide up the line to \(\Xb\). The ratio estimator does the same on a line forced through the origin.</div></div></section>
+
+<section id="prop"><h2>Properties: bias, wrong slopes, and ratio</h2>
+<div class="fc"><h3>Pre-assigned slope \(\beta_0\)</h3>
+<p>If \(\beta_0\) is fixed in advance (say from an earlier survey), the estimator is the difference estimator with \(\phi=\beta_0\), hence <b>exactly unbiased</b>. When \(b\) is estimated, a small bias of order \(1/n\) appears.</p>
+<h3>Cost of a wrong slope</h3>
+<p>From the variance formula with \(\phi=\beta_0\), expand \(\beta_0^2-2\beta_0\beta=(\beta_0-\beta)^2-\beta^2\):</p>
+<div class="f">\[S_Y^2+\beta_0^2S_X^2-2\beta_0\beta S_X^2=S_Y^2-\beta^2S_X^2+(\beta_0-\beta)^2S_X^2\]</div>
+<div class="f">\[\V\big(\Yr(\beta_0)\big)=\underbrace{\tfrac{1-f}{n}S_Y^2(1-\rho^2)}_{V_{\min}}+\tfrac{1-f}{n}S_X^2(\beta_0-\beta)^2\]</div>
+<p>Compared with \(\yb\), the difference is \(\tfrac{1-f}{n}S_X^2\,\beta_0(\beta_0-2\beta)\), negative exactly when \(0<\beta_0<2\beta\).</p>
+<h3>Against the ratio estimator</h3>
+<p>To first order the ratio estimator is the difference estimator with \(\phi=R=\Yb/\Xb\). Putting \(\beta_0=R\):</p>
+<div class="f">\[\V(\hat{\bar Y}_R)\approx V_{\min}+\tfrac{1-f}{n}S_X^2(R-\beta)^2\ \ge V_{\min}\]</div>
+<p>They tie only when \(R=\beta\): the true line has zero intercept.</p>
+<div class="qa"><div class="q"><b>Question.</b> Data as before (\(\beta=1.2\)). For which \(\beta_0\) does the fixed-slope estimator beat \(\yb\)? Find its variance at \(\beta_0=1.5\).</div><div class="s"><b>Solution.</b>
+<div class="f">\[0<\beta_0<2\beta=2.4\]</div>
+<div class="f">\[\V=1.970+0.038(64)(1.5-1.2)^2=1.970+0.038(64)(0.09)=1.970+0.219=2.189\]</div>
+<p class="mut">Still well below 5.472, but above the 1.970 of the optimal slope.</p></div></div></div></section>
+
+<section id="var"><h2>Estimating the variance and confidence intervals</h2>
+<div class="fc"><h3>Fixed slope</h3>
+<div class="f">\[\widehat{\V}(\Yr(\beta_0))=\frac{1-f}{n}\cdot\frac{1}{n-1}\sum\big[(y_i-\yb)-\beta_0(x_i-\xb)\big]^2\]</div>
+<h3>Estimated slope (large-sample)</h3>
+<p>The residual variance estimates \(S_Y^2(1-\rho^2)\):</p>
+<div class="f">\[s_{y\cdot x}^2=\frac{1}{n-2}\sum(y_i-b_0-bx_i)^2=\frac{s_{yy}-b^2s_{xx}}{n-2},\qquad \widehat{\V}(\Yr)\approx\frac{1-f}{n}s_{y\cdot x}^2\]</div>
+<div class="f">\[\Yr\pm z_{\alpha/2}\sqrt{\widehat{\V}(\Yr)},\qquad \widehat{\V}(\hat Y_{\rm reg(tot)})=N^2\widehat{\V}(\Yr)\]</div>
+<p class="mut">For small \(n\), use a \(t\) quantile with \(n-2\) d.f. and treat the interval as approximate.</p></div></section>
+
+<section id="ex"><h2>Full worked example: store sales</h2>
+<p>\(N=200\) stores, known last-year mean \(\Xb=26\) (\$ thousand). Sample of \(n=10\):</p>
+<table><tr><th>x</th><td>12</td><td>18</td><td>25</td><td>31</td><td>22</td><td>40</td><td>15</td><td>28</td><td>35</td><td>20</td></tr><tr><th>y</th><td>30</td><td>38</td><td>47</td><td>52</td><td>43</td><td>66</td><td>34</td><td>49</td><td>58</td><td>41</td></tr></table>
+<div class="fc"><h3>Step 1: sums</h3>
+<div class="f">\[\xb=24.6,\ \yb=45.8,\ s_{xx}=720.4,\ s_{xy}=882.2,\ s_{yy}=1087.6\]</div>
+<h3>Step 2: line and estimate</h3>
+<div class="f">\[b=\tfrac{882.2}{720.4}=1.2246,\quad b_0=45.8-1.2246(24.6)=15.67\]</div>
+<div class="f">\[\Yr=45.8+1.2246(26-24.6)=47.51\ \ (\text{check: }15.67+1.2246\cdot26=47.51)\]</div>
+<h3>Step 3: precision</h3>
+<div class="f">\[s_{y\cdot x}^2=\tfrac{1087.6-1.2246^2(720.4)}{8}=0.9075,\quad f=0.05\]</div>
+<div class="f">\[\widehat{\V}=\tfrac{0.95}{10}(0.9075)=0.0862,\quad se=0.294\]</div>
+<div class="f">\[95\%\ \text{CI}=47.51\pm1.96(0.294)=(46.94,\ 48.09)\]</div>
+<div class="f">\[\hat Y_{\rm reg(tot)}=200\times47.51=9503\ \text{thousand}\]</div>
+<table><tr><th>Estimator</th><th>Estimate</th><th>SE</th></tr><tr><td>Sample mean</td><td>45.80</td><td>3.39</td></tr><tr><td>Ratio (\(\hat R=1.862\))</td><td>48.41</td><td>1.78</td></tr><tr><td>Regression</td><td>47.51</td><td>0.29</td></tr></table>
+<p>The intercept (15.7) is far from zero, so the ratio line is a poor fit; regression is far tighter. With a pre-assigned \(\beta_0=1.5\): \(45.8+1.5(1.4)=47.90\), se \(=0.81\), unbiased but costlier than \(b=1.22\), exactly as the wrong-slope formula predicts.</p></div>
+<details class="ans"><summary>R code</summary><pre style="overflow-x:auto;font-size:.85rem">x&lt;-c(12,18,25,31,22,40,15,28,35,20); y&lt;-c(30,38,47,52,43,66,34,49,58,41)
+N&lt;-200; Xbar&lt;-26; n&lt;-10; f&lt;-n/N
+b&lt;-cov(x,y)/var(x); Yreg&lt;-mean(y)+b*(Xbar-mean(x))
+s2&lt;-sum(resid(lm(y~x))^2)/(n-2); se&lt;-sqrt((1-f)/n*s2)
+c(Yreg, Yreg+c(-1,1)*qnorm(.975)*se, N*Yreg)</pre></details></section>
+
+<section id="eff"><h2>Efficiency against correlation</h2>
+<p>Variance relative to \(\V(\yb)\): regression gives \(1-\rho^2\); the ratio estimator (when \(C_X=C_Y\)) gives \(2-2\rho\). Slide \(\rho\).</p>
+<div class="box"><div class="row"><label>\(\rho\) <input type="range" id="rho" min="0" max="1" step="0.01" value="0.8"> <b id="rv">0.80</b></label></div><div id="eo"></div></div>
+<p class="mut">Check: \(\rho=0.92\) gives \(1-\rho^2=0.154\), roughly an 85% variance reduction, matching the simulation of 20 000 samples (MSE 13.06 for \(\yb\) vs 2.02 for regression).</p>
+<div class="box nt"><b>Pitfalls.</b> Plot \(y\) vs \(x\) first; \(\Xb\) must come from the same frame; use reasonably large \(n\) (bias and normal CI are shaky for small \(n\)); several auxiliaries lead to multiple regression (GREG). The design, not the model, supplies unbiasedness to first order.</div></section>
+
+<section id="prac"><h2>Practice</h2>
+<p class="mut">Try each problem first, then open the dropdown for the complete solution.</p>
+
+<details class="ans"><summary>1. Show that \(\Yr=b_0+b\Xb\).</summary>
+<p><b>Given.</b> \(\Yr=\yb+b(\Xb-\xb)\) with \(b=s_{xy}/s_{xx}\), and the least-squares intercept \(b_0=\yb-b\xb\).</p>
+<p><b>Step 1.</b> Expand the bracket.</p>
+<div class="f">\[\Yr=\yb+b\Xb-b\xb\]</div>
+<p><b>Step 2.</b> Group the terms that do not contain \(\Xb\).</p>
+<div class="f">\[\Yr=(\yb-b\xb)+b\Xb\]</div>
+<p><b>Step 3.</b> The bracket is exactly \(b_0\).</p>
+<div class="f">\[\Yr=b_0+b\,\Xb\]</div>
+<p><b>Numerical check (store data).</b> \(b_0=15.67\), \(b=1.2246\), \(\Xb=26\):</p>
+<div class="f">\[15.67+1.2246(26)=15.67+31.84=47.51\]</div>
+<p class="mut">Same as \(45.8+1.2246(26-24.6)=47.51\). The estimator is the fitted line read at the known \(\Xb\).</p></details>
+
+<details class="ans"><summary>2. \(S_Y=12,\ S_X=8,\ \rho=0.8,\ n=25,\ N=500\): find \(\beta\), \(\V(\yb)\), \(V_{\min}\).</summary>
+<p><b>Step 1: the correction factor.</b></p>
+<div class="f">\[f=\frac{25}{500}=0.05,\qquad \frac{1-f}{n}=\frac{0.95}{25}=0.038\]</div>
+<p><b>Step 2: the slope.</b></p>
+<div class="f">\[\beta=\rho\frac{S_Y}{S_X}=0.8\times\frac{12}{8}=1.2\]</div>
+<p><b>Step 3: variance of the sample mean.</b></p>
+<div class="f">\[\V(\yb)=0.038\times12^2=0.038\times144=5.472\]</div>
+<p><b>Step 4: minimum variance of the regression estimator.</b> Using the full bracket first:</p>
+<div class="f">\[S_{XY}=\rho S_XS_Y=0.8(8)(12)=76.8,\qquad \beta^2S_X^2=1.44(64)=92.16\]</div>
+<div class="f">\[\beta S_{XY}=1.2(76.8)=92.16,\qquad V_{\min}=0.038\,[S_Y^2+\beta^2S_X^2-2\beta S_{XY}]\]</div>
+<div class="f">\[V_{\min}=0.038\,[144+92.16-2(92.16)]=0.038(51.84)=1.970\]</div>
+<p><b>Step 5: shortcut check.</b></p>
+<div class="f">\[V_{\min}=(1-\rho^2)\V(\yb)=0.36\times5.472=1.970\]</div>
+<p class="mut">Standard errors: \(\sqrt{5.472}=2.34\) for \(\yb\) against \(\sqrt{1.970}=1.40\) for regression, a 64% drop in variance.</p></details>
+
+<details class="ans"><summary>3. For which \(\beta_0\) does \(\Yr(\beta_0)\) beat \(\yb\)?</summary>
+<p><b>Step 1: the variance difference.</b> Subtract \(\V(\yb)\) from the fixed-slope variance:</p>
+<div class="f">\[\V(\Yr(\beta_0))-\V(\yb)=\tfrac{1-f}{n}\big[\beta_0^2S_X^2-2\beta_0S_{XY}\big]\]</div>
+<p><b>Step 2.</b> Replace \(S_{XY}=\beta S_X^2\) and factor.</p>
+<div class="f">\[=\tfrac{1-f}{n}S_X^2\,\beta_0(\beta_0-2\beta)\]</div>
+<p><b>Step 3: plug in numbers.</b> \(\tfrac{1-f}{n}S_X^2=0.038(64)=2.432\) and \(2\beta=2.4\):</p>
+<div class="f">\[\text{difference}=2.432\,\beta_0(\beta_0-2.4)\]</div>
+<p><b>Step 4: sign.</b> The estimator wins when the difference is negative. The product \(\beta_0(\beta_0-2.4)\) is negative exactly between its roots:</p>
+<div class="f">\[0<\beta_0<2.4\]</div>
+<table><tr><th>\(\beta_0\)</th><th>Difference</th><th>Variance</th><th>Verdict</th></tr>
+<tr><td>0</td><td>0</td><td>5.472</td><td>equals \(\yb\)</td></tr>
+<tr><td>1.2</td><td>2.432(1.2)(−1.2)=−3.502</td><td>1.970</td><td>best (\(\beta_0=\beta\))</td></tr>
+<tr><td>1.5</td><td>2.432(1.5)(−0.9)=−3.283</td><td>2.189</td><td>beats \(\yb\)</td></tr>
+<tr><td>2.4</td><td>0</td><td>5.472</td><td>ties \(\yb\)</td></tr>
+<tr><td>3.0</td><td>2.432(3)(0.6)=+4.378</td><td>9.850</td><td>worse than \(\yb\)</td></tr></table>
+<p class="mut">Valid for \(\beta>0\). The window is centred at \(\beta\): the best slope sits in the middle, and too large a slope overcorrects.</p></details>
+
+<details class="ans"><summary>4. The ratio estimator as a difference estimator; when do ratio and regression coincide?</summary>
+<p><b>Step 1: exact identity.</b> Take \(\phi=\hat R=\yb/\xb\) in the difference estimator.</p>
+<div class="f">\[\yb+\frac{\yb}{\xb}(\Xb-\xb)=\yb+\frac{\yb\Xb}{\xb}-\yb=\frac{\yb\,\Xb}{\xb}=\hat{\bar Y}_R\]</div>
+<p><b>Step 2: first-order variance.</b> For large \(n\), \(\hat R\approx R=\Yb/\Xb\), so the ratio estimator behaves like \(\phi=R\) fixed. Put \(\beta_0=R\) in the wrong-slope formula:</p>
+<div class="f">\[\V(\hat{\bar Y}_R)\approx V_{\min}+\tfrac{1-f}{n}S_X^2(R-\beta)^2\]</div>
+<p><b>Step 3: when they coincide.</b> The extra term vanishes iff \(R=\beta\). The population line passes through \((\Xb,\Yb)\), so its intercept is \(\alpha=\Yb-\beta\Xb=\Xb(R-\beta)\). Hence</p>
+<div class="f">\[R=\beta\iff\alpha=0\]</div>
+<p>Ratio and regression tie exactly when the line goes through the origin.</p>
+<p><b>Numerical check (store data).</b> \(\hat R=45.8/24.6=1.862\), \(b=1.2246\), \(s_x^2=720.4/9=80.04\), \(\tfrac{1-f}{n}=0.095\), regression variance \(0.0862\):</p>
+<div class="f">\[\text{extra}=0.095(80.04)(1.862-1.2246)^2=7.604(0.4060)=3.088\]</div>
+<div class="f">\[\V(\hat{\bar Y}_R)\approx0.0862+3.088=3.174,\quad se=\sqrt{3.174}=1.78\]</div>
+<p class="mut">This matches the ratio se of 1.78 in the example table. Almost all of the ratio estimator's extra variance comes from the ignored intercept.</p></details>
+
+<details class="ans"><summary>5. R simulation: compare \(\yb\), ratio and regression for \(n=10,25,50\).</summary>
+<p><b>Plan.</b> (a) Build a population with a non-zero intercept. (b) For each \(n\), draw many SRSWOR samples and compute all three estimates. (c) Compute bias and MSE against the true \(\Yb\).</p>
+<pre style="overflow-x:auto;font-size:.85rem">set.seed(2026)
+Np &lt;- 600
+X &lt;- rgamma(Np, shape = 5, scale = 6) + 5
+Y &lt;- 20 + 1.2 * X + rnorm(Np, 0, 6)      # intercept 20, not zero
+Xb &lt;- mean(X); Yb &lt;- mean(Y)
+for (n in c(10, 25, 50)) {
+  est &lt;- replicate(5000, {
+    i  &lt;- sample(Np, n); xs &lt;- X[i]; ys &lt;- Y[i]
+    b  &lt;- cov(xs, ys) / var(xs)
+    c(srs   = mean(ys),
+      ratio = mean(ys) / mean(xs) * Xb,
+      reg   = mean(ys) + b * (Xb - mean(xs)))
+  })
+  cat("n =", n, "\n")
+  print(rowMeans(est) - Yb)               # bias
+  print(rowMeans((est - Yb)^2))           # MSE
+}</pre>
+<p><b>What to expect.</b> The lecture's run (\(n=20\)) gave MSE 13.06 for \(\yb\), 4.97 for ratio and 2.02 for regression, with theory 13.25 and 1.91. From \(\V(\yb)=\tfrac{1-f}{n}S_Y^2\) and the theory value 13.25 we get \(S_Y^2\approx274\), so the rough theoretical MSEs are:</p>
+<table><tr><th>\(n\)</th><th>\(\yb\)</th><th>Regression (\(\times0.144\))</th></tr>
+<tr><td>10</td><td>\(\approx27.0\)</td><td>\(\approx3.9\)</td></tr>
+<tr><td>25</td><td>\(\approx10.5\)</td><td>\(\approx1.5\)</td></tr>
+<tr><td>50</td><td>\(\approx5.0\)</td><td>\(\approx0.7\)</td></tr></table>
+<p><b>Interpretation.</b></p>
+<ul class="pts"><li>All MSEs shrink roughly like \(1/n\), but the ordering regression &lt; ratio &lt; mean stays.</li><li>Regression's MSE sits slightly above theory at \(n=10\), because estimating \(b\) adds a bias of order \(1/n\). The excess fades as \(n\) grows.</li><li>The ratio estimator's gap to regression is the \((R-\beta)^2\) term, driven by the intercept of 20.</li></ul>
+<p class="mut">Exact values depend on the seed and number of replications.</p></details></section>
+
+<section id="form"><h2>Formula sheet</h2>
+<table><tr><th>Estimator</th><th>Formula</th><th>Variance</th></tr>
+<tr><td>Sample mean</td><td>\(\yb\)</td><td>\(\tfrac{1-f}{n}S_Y^2\)</td></tr>
+<tr><td>Ratio</td><td>\(\yb\Xb/\xb\)</td><td>\(\tfrac{1-f}{n}(S_Y^2+R^2S_X^2-2RS_{XY})\)</td></tr>
+<tr><td>Regression</td><td>\(\yb+b(\Xb-\xb)\)</td><td>\(\tfrac{1-f}{n}S_Y^2(1-\rho^2)\)</td></tr>
+<tr><td>Wrong slope \(\beta_0\)</td><td>\(\yb+\beta_0(\Xb-\xb)\)</td><td>\(V_{\min}+\tfrac{1-f}{n}S_X^2(\beta_0-\beta)^2\)</td></tr></table>
+
+<h3>Key results</h3>
+<table><tr><th>Result</th><th>Formula</th></tr>
+<tr><td>Difference estimator (unbiased for any \(\phi\))</td><td>\(\hat{\bar Y}^*=\yb+\phi(\Xb-\xb)\)</td></tr>
+<tr><td>Variance for a given \(\phi\)</td><td>\(\tfrac{1-f}{n}\big[S_Y^2+\phi^2S_X^2-2\phi S_{XY}\big]\)</td></tr>
+<tr><td>Optimal weight</td><td>\(\phi_{\rm opt}=S_{XY}/S_X^2=\beta\)</td></tr>
+<tr><td>Sample slope and intercept</td><td>\(b=s_{xy}/s_{xx},\ \ b_0=\yb-b\xb\)</td></tr>
+<tr><td>Regression estimator</td><td>\(\Yr=\yb+b(\Xb-\xb)=b_0+b\Xb\)</td></tr>
+<tr><td>Total</td><td>\(\hat Y_{\rm reg(tot)}=N\,\Yr\)</td></tr>
+<tr><td>Gain over \(\yb\)</td><td>\(V_{\min}=(1-\rho^2)\V(\yb)\)</td></tr>
+<tr><td>Beats \(\yb\) when</td><td>\(0<\beta_0<2\beta\)</td></tr>
+<tr><td>Estimated variance</td><td>\(\tfrac{1-f}{n}s_{y\cdot x}^2,\ \ s_{y\cdot x}^2=\tfrac{s_{yy}-b^2s_{xx}}{n-2}\)</td></tr>
+<tr><td>Confidence interval</td><td>\(\Yr\pm z_{\alpha/2}\sqrt{\widehat{\V}(\Yr)}\)</td></tr></table>
+
+<h3>Meaning of symbols</h3>
+<table><tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(N,\ n\)</td><td>Population size and sample size</td></tr>
+<tr><td>\(f=n/N\)</td><td>Sampling fraction; \(1-f\) is the finite population correction</td></tr>
+<tr><td>\(X_i,\ Y_i\)</td><td>Auxiliary and study variable for unit \(i\) in the population</td></tr>
+<tr><td>\(x_i,\ y_i\)</td><td>The same variables for unit \(i\) in the sample</td></tr>
+<tr><td>\(\Xb,\ \Yb\)</td><td>Population means; \(\Xb\) is known, \(\Yb\) is the target</td></tr>
+<tr><td>\(\xb,\ \yb\)</td><td>Sample means (unbiased for \(\Xb,\Yb\))</td></tr>
+<tr><td>\(S_X^2,\ S_Y^2\)</td><td>Population variances of \(X\) and \(Y\) (divisor \(N-1\))</td></tr>
+<tr><td>\(S_{XY}\)</td><td>Population covariance of \(X\) and \(Y\)</td></tr>
+<tr><td>\(\rho\)</td><td>Population correlation, \(S_{XY}/(S_XS_Y)\)</td></tr>
+<tr><td>\(\beta,\ \alpha\)</td><td>Population regression slope \(S_{XY}/S_X^2\) and intercept \(\Yb-\beta\Xb\)</td></tr>
+<tr><td>\(R,\ \hat R\)</td><td>Population ratio \(\Yb/\Xb\) and sample ratio \(\yb/\xb\)</td></tr>
+<tr><td>\(s_{xx},\ s_{xy},\ s_{yy}\)</td><td>Sample sums of squares and cross-products about the means</td></tr>
+<tr><td>\(b,\ b_0\)</td><td>Least-squares slope and intercept from the sample</td></tr>
+<tr><td>\(\phi\)</td><td>Weight on the correction \(\Xb-\xb\) in the difference estimator</td></tr>
+<tr><td>\(\beta_0\)</td><td>Pre-assigned (fixed) slope, e.g. from an earlier survey</td></tr>
+<tr><td>\(\hat{\bar Y}^*\)</td><td>Difference estimator of \(\Yb\)</td></tr>
+<tr><td>\(\Yr\)</td><td>Regression estimator of the mean \(\Yb\)</td></tr>
+<tr><td>\(\hat Y_{\rm reg(tot)}\)</td><td>Regression estimator of the total \(N\Yb\)</td></tr>
+<tr><td>\(V_{\min}\)</td><td>Smallest variance, reached when \(\phi=\beta\)</td></tr>
+<tr><td>\(s_{y\cdot x}^2\)</td><td>Residual variance of the sample regression (divisor \(n-2\))</td></tr>
+<tr><td>\(\V,\ \Cv,\ \widehat{\V}\)</td><td>Variance, covariance, and estimated variance</td></tr>
+<tr><td>\(z_{\alpha/2}\)</td><td>Normal quantile (1.96 for a 95% interval)</td></tr>
+<tr><td>\(C_X,\ C_Y\)</td><td>Coefficients of variation \(S_X/\Xb,\ S_Y/\Yb\)</td></tr></table></section>
+</main>
+<script>
+(function(){var r=document.documentElement,t=document.getElementById('th');t.onchange=function(){r.setAttribute('data-theme',t.checked?'dark':'light')};
+t.checked=matchMedia('(prefers-color-scheme:dark)').matches;if(t.checked)r.setAttribute('data-theme','dark');})();
+var X=[12,18,25,31,22,40,15,28,35,20],Y=[30,38,47,52,43,66,34,49,58,41],n=10,N=200,f=n/N;
+function m(a){return a.reduce(function(s,v){return s+v},0)/a.length}
+function viz(){var Xb=+sX.value,b0=+sB.value;vX.textContent=Xb;vB.textContent=b0.toFixed(2);
+var xm=m(X),ym=m(Y),sxx=0,sxy=0,syy=0;for(var i=0;i<n;i++){sxx+=(X[i]-xm)*(X[i]-xm);sxy+=(X[i]-xm)*(Y[i]-ym);syy+=(Y[i]-ym)*(Y[i]-ym)}
+var b=sxy/sxx,a=ym-b*xm,yr=ym+b*(Xb-xm),s2=(syy-b*b*sxx)/(n-2),se=Math.sqrt((1-f)/n*s2),yf=ym+b0*(Xb-xm),q=0;
+for(i=0;i<n;i++){var d=(Y[i]-ym)-b0*(X[i]-xm);q+=d*d}var sf=Math.sqrt((1-f)/n*q/(n-1));
+var px=function(x){return 35+x*8.8},py=function(y){return 245-y*3.1},o='';
+o+='<line x1="35" y1="245" x2="410" y2="245" stroke="var(--line)"/><line x1="35" y1="10" x2="35" y2="245" stroke="var(--line)"/><text x="215" y="262">x (last year)</text><text x="4" y="14">y</text>';
+o+='<line x1="'+px(0)+'" y1="'+py(a)+'" x2="'+px(45)+'" y2="'+py(a+b*45)+'" stroke="var(--ac)" stroke-width="2"/>';
+o+='<line x1="'+px(0)+'" y1="'+py(yf-b0*Xb)+'" x2="'+px(45)+'" y2="'+py(yf-b0*Xb+b0*45)+'" stroke="var(--ok)" stroke-dasharray="5 4"/>';
+o+='<line x1="'+px(Xb)+'" y1="10" x2="'+px(Xb)+'" y2="245" stroke="var(--bad)" stroke-dasharray="3 3"/>';
+for(i=0;i<n;i++)o+='<circle cx="'+px(X[i])+'" cy="'+py(Y[i])+'" r="3.5" fill="var(--mut)"/>';
+o+='<circle cx="'+px(xm)+'" cy="'+py(ym)+'" r="6" fill="none" stroke="var(--ac)" stroke-width="2"/><rect x="'+(px(Xb)-5)+'" y="'+(py(yr)-5)+'" width="10" height="10" fill="var(--ac)"/>';
+svg.innerHTML=o;
+vout.innerHTML='Sample mean \u0233 = '+ym.toFixed(2)+' (se 3.39)<br>Estimated slope b = '+b.toFixed(4)+', intercept '+a.toFixed(2)+'<br><b>Regression estimate = '+yr.toFixed(2)+'</b> (se '+se.toFixed(3)+')<br>Fixed slope '+b0.toFixed(2)+': '+yf.toFixed(2)+' (se '+sf.toFixed(3)+')'}
+sX.oninput=sB.oninput=viz;viz();
+function eff(){var r=+rho.value,a=1-r*r,c=2-2*r;rv.textContent=r.toFixed(2);
+eo.innerHTML='Sample mean: 1.00<div class="bar" style="width:100%"></div>Regression: '+a.toFixed(3)+'<div class="bar g" style="width:'+Math.min(100,a*100)+'%"></div>Ratio (C<sub>X</sub>=C<sub>Y</sub>): '+c.toFixed(3)+'<div class="bar r" style="width:'+Math.min(100,c*100)+'%"></div><span class="mut">Variance reduction vs sample mean: '+(r*r*100).toFixed(1)+'%</span>'}
+rho.oninput=eff;eff();
+</script></body></html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Ratio Estimator: Using Auxiliary Information</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);overflow-anchor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}h3{font-size:1.3rem;margin:2.2rem 0 .6rem}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 12px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:6px 12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.two{grid-template-columns:1fr}}
+.two>div{background:var(--card);border:1px solid var(--line);padding:6px 16px}.two h3{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}input[type=number]{width:110px}
+.out{font-family:Radley,Georgia,serif;font-size:1.1rem;margin-top:14px;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+ul,ol{padding-left:1.4rem}li{margin:.55em 0}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 20px;cursor:pointer;color:var(--ink)}.dv summary::-webkit-details-marker{display:none}
+.dv .cd{color:var(--ac);font-weight:700}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.2rem}.dv .bd{padding:6px 22px 20px;line-height:1.85}.dv .bd li{margin:1.1em 0}.dv .bd mjx-container[display=true]{margin:1em 0!important;overflow-x:auto;max-width:100%}
+.dv[open]{border-color:var(--ac)}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 6px;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+mjx-container{color:inherit}.f mjx-container{margin:0!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.ft td,.ft th{padding:16px;line-height:2.4;vertical-align:middle}.ft th{background:var(--card)}
+main p,main li{line-height:2.1}mjx-container:not([display]){margin:0 .15em}
+.dv .bd{overflow:hidden;box-sizing:border-box}.dv summary .tt{flex:1;min-width:0}.dv .ch{margin-left:auto;align-self:center;flex:none;color:var(--ac);transition:transform .3s ease}.dv.op .ch{transform:rotate(90deg)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0}.flow .pop{background:var(--ac);color:var(--bg);padding:8px 28px;border-radius:4px}
+.flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
+.stk{display:flex;height:36px;margin:6px 0 16px;border:1px solid var(--line)}.stk div{display:flex;align-items:center;justify-content:center;background:var(--ac);color:var(--bg);font-size:.85rem;border-right:2px solid var(--bg);overflow:hidden;min-width:0}
+.lad div.b{height:22px;background:var(--ac);margin:4px 0 14px;transition:width .2s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.dots i{width:13px;height:13px;border-radius:50%;display:block;box-sizing:border-box;border:2px solid var(--c);opacity:.3}.dots i.s{opacity:1;background:var(--c)}
+.c0{--c:var(--ac)}.c1{--c:var(--ok)}.c2{--c:var(--bad)}.grp{margin:12px 0}
+.hist{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);margin:6px 0 20px}.hist div{flex:1;background:var(--ac);min-width:2px}.hist.b2 div{background:var(--ok)}
+.sg{width:100%;height:auto;display:block}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:30px 0}.fc h3{margin:.9rem 0 .3rem;color:var(--ac)}
+.lbl{color:var(--mut);font-size:.9rem;margin:1.2rem 0 0}.fc .f{background:var(--bg)}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}.three h3{margin-top:.9rem;color:var(--ac)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700}
+input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;border:0;padding:0;height:18px;accent-color:var(--ac)}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--ac2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;border-radius:50%;border:0;background:var(--ac)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--ac2)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--ac)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:var(--ac)}
+.qa{margin:22px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.qa .q{background:var(--card);border-left:4px solid var(--ac);padding:14px 20px}.qa .s{background:var(--card);border-left:4px solid var(--ok);border-top:1px dashed var(--line);padding:14px 20px}.qa .f{margin:14px 0}.box .f{margin:14px 0}section{padding:56px 0}main p,main li{line-height:2.1}
+.fc .qa .f{background:var(--card)}
+
+.bar{height:20px;background:var(--ac);margin:3px 0 10px;transition:width .2s;max-width:100%}.bar.g{background:var(--ok)}.bar.r{background:var(--bad)}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',xb:'\\bar{x}',Yb:'\\bar{Y}',Xb:'\\bar{X}',V:'\\operatorname{Var}',E:'\\operatorname{E}',YR:'\\hat{\\bar{Y}}_R'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#viz">See it</a><a href="#idea">Idea</a><a href="#est">Estimator</a><a href="#when">When to use</a><a href="#bias">Bias</a><a href="#mse">MSE</a><a href="#eff">Efficiency</a><a href="#prod">Product</a><a href="#ex">Example</a><a href="#calc">Calculator</a><a href="#prac">Practice</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:40px 0 20px"><h1>The Ratio Estimator</h1><h2>Using a known auxiliary variable to estimate a mean</h2><p class="mut">The sample mean ignores everything we already know about the population. This page shows how one known number, the population mean of a helper variable, can fix an unlucky sample and shrink the error. Each idea has a worked number and a widget.</p></header>
+
+<section id="viz"><h2>See it first</h2>
+<p>Suppose we want the mean yield per plot. We know every plot's area, so we know the true mean area \(\Xb=3.2\) ha. Our sample gave \(\yb=9.37\) t. Drag the sample's mean area \(\xb\) and watch the corrected estimate move.</p>
+<div class="box"><div class="row"><label>Sample mean area \(\xb\) <input type="range" id="v1" min="2" max="5" step="0.01" value="3.28"></label><b id="v1v"></b></div><div id="v1o" class="out"></div><div class="stk"><div id="v1a" style="width:50%">&#363; sample mean</div></div>
+<p class="mut">Large \(\xb\) means the sample grabbed big plots, so \(\yb\) is probably too high and gets scaled down. Small \(\xb\) scales it up.</p></div></section>
+
+<section id="idea"><h2>Why bother? The motivation</h2>
+<p>The sample mean \(\yb\) is unbiased, but a random sample can still be lopsided. If a cheap variable \(X\) moves with \(Y\) and we know its population mean, we can measure how lopsided the sample is and correct for it.</p>
+<div class="three">
+<div><h3>Fruit per plot</h3><p>\(Y\) = fruit on a plot, \(X\) = plot area.</p></div>
+<div><h3>Firm sales</h3><p>\(Y\) = sales now, \(X\) = sales in the last census.</p></div>
+<div><h3>App sessions</h3><p>\(Y\) = sessions this month, \(X\) = sessions last month from logs.</p></div></div>
+<div class="box nt"><b>Requirement.</b> \(\Xb\) (or the total \(X_{tot}\)) must be known for the whole population. Without it there is nothing to correct against.</div></section>
+
+<section id="est"><h2>Setup and the estimator</h2>
+<p>Population of \(N\) units with pairs \((X_i,Y_i)\). We draw an SRSWOR of \(n\) pairs \((x_i,y_i)\). Write \(f=n/N\), so the finite population correction is \(1-f\).</p>
+<table><tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(S_X^2,\ S_Y^2,\ S_{XY}\)</td><td>population variances and covariance (divisor \(N-1\))</td></tr>
+<tr><td>\(\rho=S_{XY}/(S_XS_Y)\)</td><td>population correlation</td></tr>
+<tr><td>\(C_X=S_X/\Xb,\ C_Y=S_Y/\Yb\)</td><td>coefficients of variation</td></tr>
+<tr><td>\(R=\Yb/\Xb\)</td><td>population ratio</td></tr></table>
+<div class="fc"><h3>Three estimators</h3>
+<p>Estimate the ratio from the sample, then multiply by the known \(\Xb\):</p>
+<div class="f">\[\hat R=\frac{\yb}{\xb},\qquad \YR=\hat R\,\Xb=\yb\cdot\frac{\Xb}{\xb},\qquad \hat Y_{R(tot)}=N\,\YR\]</div>
+<p>So \(\YR\) is just \(\yb\) times a correction factor \(\Xb/\xb\).</p>
+<div class="qa"><div class="q"><b>Question.</b> \(N=80\) plots, \(\Xb=3.2\) ha. A sample of \(n=10\) plots has areas 2.1, 3.4, 1.8, 4.2, 2.9, 3.8, 2.5, 5.1, 3.0, 4.0 and yields 6.0, 9.5, 5.2, 12.1, 7.8, 11.0, 7.1, 14.6, 8.9, 11.5. Estimate the mean and total yield.</div>
+<div class="s"><b>Solution.</b><div class="f">\[\sum x=32.8,\quad \sum y=93.7,\quad \xb=3.28,\quad \yb=9.37\]</div>
+<div class="f">\[\hat R=\frac{93.7}{32.8}=2.857\ \text{t/ha}\]</div>
+<div class="f">\[\YR=2.857\times3.2=9.141,\qquad \hat Y_{R(tot)}=80\times9.141=731.3\ \text{t}\]</div>
+<p class="mut">\(\xb=3.28>3.2\), so the sample leaned toward large plots and the estimate (9.141) is below \(\yb=9.37\).</p></div></div></div></section>
+
+<section id="when"><h2>When is it appropriate?</h2>
+<ul class="pts"><li>\(\Xb\) or \(X_{tot}\) is known for the same population.</li><li>\(X\) and \(Y\) are positively related and the relation is roughly a line through the origin, \(Y\approx RX\).</li><li>All \(x_i>0\), so the ratio exists.</li><li>\(n\) is not tiny, because the results are large-sample approximations.</li><li>The sample is SRSWOR.</li></ul>
+<div class="box nt"><b>Watch out.</b> If the fitted line has a big intercept, a regression estimator does better. Always draw the scatterplot first.</div></section>
+
+<section id="bias"><h2>Bias of the ratio estimator</h2>
+<p>\(\YR=\Xb\,\yb/\xb\) is a ratio of random variables, and in general \(\E(\yb/\xb)\ne\E(\yb)/\E(\xb)\). So the estimator is biased, and the exact bias is not tractable. The fix: write each error as a small relative deviation, expand in a series, and keep the first and second order terms (D1 to D3).</p>
+<div class="fc"><h3>Result</h3>
+<p>To first order the bias is 0. To second order:</p>
+<div class="f">\[\text{Bias}(\YR)\approx\frac{1-f}{n}\,\Yb\big(C_X^2-\rho C_XC_Y\big)=\frac{1-f}{n}\cdot\frac{R\,S_X^2-S_{XY}}{\Xb}\]</div>
+<p>It shrinks like \(1/n\). It is zero when \(C_X=\rho C_Y\), equivalently \(R=S_{XY}/S_X^2\): the regression line of \(Y\) on \(X\) passes through the origin (D4).</p>
+<div class="qa"><div class="q"><b>Question.</b> \(N=100,\ n=25,\ \Yb=20,\ C_X=0.4,\ C_Y=0.5,\ \rho=0.6\). Find the bias.</div>
+<div class="s"><b>Solution.</b><div class="f">\[\frac{1-f}{n}=\frac{0.75}{25}=0.03\]</div>
+<div class="f">\[C_X^2-\rho C_XC_Y=0.16-0.6(0.4)(0.5)=0.16-0.12=0.04\]</div>
+<div class="f">\[\text{Bias}\approx0.03\times20\times0.04=0.024\]</div></div></div></div>
+<div class="fc"><h3>Is the bias a problem?</h3>
+<p>Compare it with the standard error. With \(\hat R\) and Cauchy–Schwarz (D7):</p>
+<div class="f">\[\frac{|\text{Bias}(\hat R)|}{\sigma_{\hat R}}\le C_{\xb}=\sqrt{\tfrac{1-f}{n}}\,C_X\]</div>
+<p>If \(C_{\xb}<0.1\) the bias is under about 10% of the standard error and can be ignored. Here \(C_{\xb}=\sqrt{0.03}(0.4)=0.069\), so it is safe to ignore.</p></div></section>
+
+<section id="mse"><h2>Mean squared error</h2>
+<p>Because the bias is tiny, precision is judged by the MSE. Squaring the first-order error gives (D5):</p>
+<div class="f">\[\text{MSE}(\YR)\approx\frac{1-f}{n}\,\Yb^2\big(C_Y^2+C_X^2-2\rho C_XC_Y\big)=\frac{1-f}{n}\,S_U^2,\quad S_U^2=\frac{1}{N-1}\sum(Y_i-RX_i)^2\]</div>
+<p>So the MSE is small when points hug the line \(Y=RX\). The residuals from that line decide precision.</p>
+<div class="box ex"><b>Numbers (same data as the bias example).</b>
+<div class="f">\[\text{MSE}\approx0.03\times400\times(0.25+0.16-2(0.6)(0.2))=12\times0.17=2.04\]</div>
+<div class="f">\[\text{Var}(\yb)=0.03\times400\times0.25=3.00\]</div>
+<p>The ratio estimator has about 32% less MSE. Also \(|\text{Bias}|/\sqrt{\text{MSE}}=0.024/1.428=0.017\).</p></div>
+<div class="fc"><h3>Estimating it from the sample</h3>
+<p>Replace \(R\) by \(\hat R\) and population sums by sample sums. For a total multiply by \(N^2\).</p>
+<div class="f">\[\widehat{\text{MSE}}(\YR)=\frac{1-f}{n}s_u^2,\quad s_u^2=\frac{1}{n-1}\sum(y_i-\hat Rx_i)^2,\qquad \YR\pm z_{\alpha/2}\sqrt{\widehat{\text{MSE}}}\]</div></div></section>
+
+<section id="eff"><h2>When does it beat the sample mean?</h2>
+<p>Subtract \(\text{Var}(\yb)=\frac{1-f}{n}\Yb^2C_Y^2\) from the MSE (D6). The difference is \(\frac{1-f}{n}\Yb^2(C_X^2-2\rho C_XC_Y)\), negative exactly when</p>
+<div class="f">\[\rho>\frac12\,\frac{C_X}{C_Y}\]</div>
+<div class="box ex"><b>Example.</b> \(C_X=0.4,\ C_Y=0.5\): the ratio estimator wins when \(\rho>\tfrac12(0.8)=0.4\). If \(C_X\approx C_Y\), the rule is \(\rho>0.5\).</div>
+<p>Try it. The sliders show each estimator's MSE as a multiple of \(\text{Var}(\yb)\). Below 1 means better than the sample mean.</p>
+<div class="box"><div class="row"><label>\(\rho\) <input type="range" id="e1" min="-1" max="1" step="0.01" value="0.6"></label><b id="e1v"></b><label>\(C_X/C_Y\) <input type="range" id="e2" min="0.2" max="2" step="0.01" value="0.8"></label><b id="e2v"></b></div><div id="eo" class="out"></div></div></section>
+
+<section id="prod"><h2>Negative correlation: the product estimator</h2>
+<p>If \(\rho<0\) the ratio estimator can be worse than \(\yb\). Use the product estimator \(\hat{\bar Y}_P=\yb\,\xb/\Xb\). There is no division by \(\xb\), so no series is needed (D8):</p>
+<div class="f">\[\text{Bias}=\frac{1-f}{n}\frac{S_{XY}}{\Xb},\qquad \text{MSE}\approx\frac{1-f}{n}\Yb^2\big(C_Y^2+C_X^2+2\rho C_XC_Y\big)\]</div>
+<p>It beats \(\yb\) exactly when \(\rho<-\tfrac12 C_X/C_Y\).</p>
+<div class="box ex"><b>Example.</b> \(C_X=C_Y,\ \rho=-0.9\). MSE as a multiple of \(\text{Var}(\yb)\): ratio \(2-2\rho=3.8\); product \(2+2\rho=0.2\); regression \(1-\rho^2=0.19\). Rule of thumb: \(\rho\) clearly positive, ratio; clearly negative, product; unsure or near 0, regression.</div></section>
+
+<section id="ex"><h2>Worked example: precision</h2>
+<p>Back to the plot data. Residuals \(e_i=y_i-\hat Rx_i\) with \(\hat R=2.8567\):</p>
+<table><tr><th>\(i\)</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr><tr><td>\(e_i\)</td><td>0.001</td><td>-0.213</td><td>0.058</td><td>0.102</td><td>-0.484</td><td>0.145</td><td>-0.042</td><td>0.031</td><td>0.330</td><td>0.073</td></tr></table>
+<div class="f">\[s_u^2=\frac{\sum e_i^2}{9}=0.0479,\qquad f=\tfrac{10}{80}=0.125\]</div>
+<div class="f">\[\widehat{\text{MSE}}=\frac{0.875}{10}(0.0479)=0.00419,\quad \text{se}=0.0648\]</div>
+<div class="f">\[\text{95\% CI}=9.141\pm1.96(0.0648)=(9.01,\ 9.27)\]</div>
+<p>The sample mean has \(s_y^2=8.733\), so \(\widehat{\text{Var}}(\yb)=\frac{0.875}{10}(8.733)=0.764\) and se \(=0.874\). The ratio standard error is about 13 times smaller because \(y\approx2.86x\) almost exactly (\(r=0.997\)). Real data are rarely this clean.</p>
+<div class="box nt"><b>Check by simulation (from the lecture).</b> \(N=500,\ n=25\), 20 000 samples: simulated bias \(-0.0017\) vs theory \(-0.0012\); simulated MSE 0.2336 vs theory 0.2371; \(\text{Var}(\yb)=1.611\). The approximations hold, and the ratio estimator cuts MSE about 7 times.</div></section>
+
+<section id="calc"><h2>Calculator</h2>
+<div class="box"><div class="row"><label>\(x\) values <input type="text" id="cx" value="2.1,3.4,1.8,4.2,2.9,3.8,2.5,5.1,3.0,4.0" style="width:300px"></label><label>\(y\) values <input type="text" id="cy" value="6.0,9.5,5.2,12.1,7.8,11.0,7.1,14.6,8.9,11.5" style="width:300px"></label></div>
+<div class="row"><label>\(N\) <input type="number" id="cN" value="80"></label><label>\(\Xb\) <input type="number" id="cX" step="any" value="3.2"></label><label>confidence % <input type="number" id="cc" value="95"></label></div>
+<div class="out" id="co"></div><p class="mut">One \(y\) per \(x\), all \(x>0\). Updates as you type. Change a value and watch the residuals and the standard error react.</p></div></section>
+
+<section id="prac"><h2>Practice</h2>
+<div class="fc"><h3>Exercise 1</h3><p>\(C_X=0.4,\ C_Y=0.5\). For which \(\rho\) is the ratio estimator better than \(\yb\)?</p>
+<details class="ans"><summary>Show answer</summary><div class="f">\[\rho>\frac12\cdot\frac{0.4}{0.5}=0.4\]</div></details></div>
+<div class="fc"><h3>Exercise 2</h3><p>\(N=200,\ n=20,\ \Xb=15,\ \sum x=280,\ \sum y=420\). Find \(\hat R\), \(\YR\), \(\hat Y_{R(tot)}\).</p>
+<details class="ans"><summary>Show answer</summary><div class="f">\[\hat R=\frac{420}{280}=1.5,\quad \YR=1.5(15)=22.5,\quad \hat Y_{R(tot)}=200(22.5)=4500\]</div></details></div>
+<div class="fc"><h3>Exercise 3</h3><p>Show the bias is about 0 when the regression of \(Y\) on \(X\) passes through the origin.</p>
+<details class="ans"><summary>Show answer</summary><p>Set the bias to zero: \(R S_X^2=S_{XY}\), so \(R=S_{XY}/S_X^2\), the regression slope. A line with slope \(R\) and \(\Yb=R\Xb\) has intercept \(\Yb-R\Xb=0\). Full steps in D4.</p></details></div>
+<div class="fc"><h3>Exercise 4 (R)</h3><p>Simulate a population, then compare \(\text{MSE}(\YR)\) with \(\text{Var}(\yb)\) for \(n=10,25,50\). Expect the bias to fade as \(n\) grows.</p></div></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Tap a bar to open it. Every step is shown.</p><div id="dl"></div></section>
+<section id="form"><h2>Formula sheet</h2><div id="fl"></div></section>
+</main>
+<script>
+const D=[
+["D1",String.raw`Relative errors and their moments`,String.raw`<ol>
+<li><b>Define</b>
+\[\varepsilon_0=\frac{\yb-\Yb}{\Yb},\quad \varepsilon_1=\frac{\xb-\Xb}{\Xb}\ \Rightarrow\ \yb=\Yb(1+\varepsilon_0),\ \xb=\Xb(1+\varepsilon_1).\]</li>
+<li><b>Unbiased means.</b> \(\E(\yb)=\Yb,\ \E(\xb)=\Xb\), so
+\[\E(\varepsilon_0)=\E(\varepsilon_1)=0.\]</li>
+<li><b>Zero mean, so \(\E(\varepsilon^2)\) is a variance.</b>
+\[\E(\varepsilon_0^2)=\frac{\V(\yb)}{\Yb^2}=\frac{1-f}{n}\frac{S_Y^2}{\Yb^2}=\frac{1-f}{n}C_Y^2.\]</li>
+<li><b>Same for \(x\).</b>
+\[\E(\varepsilon_1^2)=\frac{1-f}{n}C_X^2.\]</li>
+<li><b>Cross term</b> using \(\text{Cov}(\xb,\yb)=\frac{1-f}{n}S_{XY}\):
+\[\E(\varepsilon_0\varepsilon_1)=\frac{\text{Cov}(\xb,\yb)}{\Xb\Yb}=\frac{1-f}{n}\frac{S_{XY}}{\Xb\Yb}=\frac{1-f}{n}\rho C_XC_Y.\]</li></ol>`],
+["D2",String.raw`Expanding \(\YR\) in a series`,String.raw`<ol>
+<li><b>Substitute</b> D1 into the estimator.
+\[\YR=\Xb\frac{\yb}{\xb}=\Yb\frac{1+\varepsilon_0}{1+\varepsilon_1}=\Yb(1+\varepsilon_0)(1+\varepsilon_1)^{-1}.\]</li>
+<li><b>Geometric series,</b> valid when \(|\varepsilon_1|<1\), i.e. \(0<\xb<2\Xb\):
+\[(1+\varepsilon_1)^{-1}=1-\varepsilon_1+\varepsilon_1^2-\cdots.\]</li>
+<li><b>Multiply out.</b>
+\[(1+\varepsilon_0)(1-\varepsilon_1+\varepsilon_1^2-\cdots)=1+\varepsilon_0-\varepsilon_1+\varepsilon_1^2-\varepsilon_0\varepsilon_1+\cdots.\]</li>
+<li><b>Subtract \(\Yb\).</b>
+\[\YR-\Yb=\Yb\big(\varepsilon_0-\varepsilon_1+\varepsilon_1^2-\varepsilon_0\varepsilon_1+\cdots\big).\]</li>
+<li>The dots hold higher powers of \(\varepsilon_0,\varepsilon_1\), which are negligible when \(n\) is large.</li></ol>`],
+["D3",String.raw`Bias to first and second order`,String.raw`<ol>
+<li><b>First order.</b> Keep \(\Yb(\varepsilon_0-\varepsilon_1)\):
+\[\E(\YR)-\Yb\approx\Yb\big[\E(\varepsilon_0)-\E(\varepsilon_1)\big]=0.\]
+Too crude to see the bias.</li>
+<li><b>Second order.</b> Keep terms up to degree two:
+\[\text{Bias}\approx\Yb\big[\E\varepsilon_0-\E\varepsilon_1+\E\varepsilon_1^2-\E(\varepsilon_0\varepsilon_1)\big].\]</li>
+<li><b>First two terms vanish</b> by D1:
+\[\text{Bias}\approx\Yb\big[\E(\varepsilon_1^2)-\E(\varepsilon_0\varepsilon_1)\big].\]</li>
+<li><b>Insert moments.</b>
+\[\text{Bias}\approx\frac{1-f}{n}\Yb\big(C_X^2-\rho C_XC_Y\big).\]</li>
+<li><b>Rewrite with \(S\).</b> \(\Yb C_X^2=\Yb S_X^2/\Xb^2=R S_X^2/\Xb\) and \(\Yb\rho C_XC_Y=\Yb\frac{S_{XY}}{\Xb\Yb}=S_{XY}/\Xb\). So
+\[\text{Bias}\approx\frac{1-f}{n}\frac{R S_X^2-S_{XY}}{\Xb}.\]</li></ol>`],
+["D4",String.raw`When the bias is zero`,String.raw`<ol>
+<li><b>Set the bracket to 0.</b> \(C_X^2=\rho C_XC_Y\).</li>
+<li><b>Divide by \(C_X\).</b> \(C_X=\rho C_Y\).</li>
+<li><b>Expand.</b>
+\[\frac{S_X}{\Xb}=\rho\frac{S_Y}{\Yb}\ \Rightarrow\ \frac{\Yb}{\Xb}=\rho\frac{S_Y}{S_X}.\]</li>
+<li><b>Use \(\rho=S_{XY}/(S_XS_Y)\).</b>
+\[R=\frac{S_{XY}}{S_XS_Y}\cdot\frac{S_Y}{S_X}=\frac{S_{XY}}{S_X^2}.\]</li>
+<li>\(S_{XY}/S_X^2\) is the slope of the regression of \(Y\) on \(X\). Slope \(R\) and \(\Yb=R\Xb\) means the intercept is \(\Yb-R\Xb=0\): the line passes through the origin.</li></ol>`],
+["D5",String.raw`MSE and the \(S_U^2\) form`,String.raw`<ol>
+<li><b>Square the first-order error.</b>
+\[\text{MSE}\approx\Yb^2\E(\varepsilon_0-\varepsilon_1)^2=\Yb^2\big[\E\varepsilon_0^2+\E\varepsilon_1^2-2\E(\varepsilon_0\varepsilon_1)\big].\]</li>
+<li><b>Insert D1 moments.</b>
+\[\text{MSE}\approx\frac{1-f}{n}\Yb^2\big(C_Y^2+C_X^2-2\rho C_XC_Y\big).\]</li>
+<li><b>Convert.</b> \(\Yb^2C_Y^2=S_Y^2\), \(\Yb^2C_X^2=R^2S_X^2\), \(\Yb^2\rho C_XC_Y=R\,S_{XY}\):
+\[\text{MSE}\approx\frac{1-f}{n}\big(S_Y^2+R^2S_X^2-2RS_{XY}\big).\]</li>
+<li><b>Let \(U_i=Y_i-RX_i\).</b> Since \(\Yb=R\Xb\), \(\bar U=0\) and \(U_i=(Y_i-\Yb)-R(X_i-\Xb)\). Square and average with divisor \(N-1\):
+\[S_U^2=S_Y^2+R^2S_X^2-2RS_{XY}.\]</li>
+<li><b>Therefore</b>
+\[\text{MSE}(\YR)\approx\frac{1-f}{n}S_U^2.\]</li></ol>`],
+["D6",String.raw`When the ratio estimator beats \(\yb\)`,String.raw`<ol>
+<li><b>Subtract</b> \(\V(\yb)=\frac{1-f}{n}\Yb^2C_Y^2\) from D5:
+\[\text{MSE}-\V(\yb)\approx\frac{1-f}{n}\Yb^2\big(C_X^2-2\rho C_XC_Y\big).\]</li>
+<li><b>Negative</b> exactly when \(C_X^2<2\rho C_XC_Y\).</li>
+<li><b>Divide by \(2C_Y C_X>0\).</b>
+\[\rho>\frac{C_X}{2C_Y}.\]</li>
+<li><b>Ratio of MSEs.</b>
+\[\frac{\text{MSE}}{\V(\yb)}\approx1+\frac{C_X^2}{C_Y^2}-2\rho\frac{C_X}{C_Y}.\]</li></ol>`],
+["D7",String.raw`Bias against standard error`,String.raw`<ol>
+<li><b>Use \(\hat R\xb=\yb\)</b> and \(\E(\yb)=\Yb=R\Xb\):
+\[\text{Cov}(\hat R,\xb)=\E(\hat R\xb)-\E(\hat R)\E(\xb)=\Yb-\E(\hat R)\Xb=-\Xb\,\text{Bias}(\hat R).\]</li>
+<li><b>Cauchy–Schwarz.</b> \(|\text{Cov}(\hat R,\xb)|\le\sigma_{\hat R}\sigma_{\xb}\).</li>
+<li><b>Combine.</b>
+\[\frac{|\text{Bias}(\hat R)|}{\sigma_{\hat R}}\le\frac{\sigma_{\xb}}{\Xb}=C_{\xb}=\sqrt{\frac{1-f}{n}}\,C_X.\]</li></ol>`],
+["D8",String.raw`Product estimator: bias and MSE`,String.raw`<ol>
+<li><b>Substitute.</b> \(\hat{\bar Y}_P=\yb\frac{\xb}{\Xb}=\Yb(1+\varepsilon_0)(1+\varepsilon_1)\).</li>
+<li><b>Expand exactly.</b>
+\[\hat{\bar Y}_P-\Yb=\Yb(\varepsilon_0+\varepsilon_1+\varepsilon_0\varepsilon_1).\]</li>
+<li><b>Bias.</b> Take expectations, with \(\E\varepsilon_0=\E\varepsilon_1=0\):
+\[\text{Bias}=\Yb\E(\varepsilon_0\varepsilon_1)=\frac{1-f}{n}\frac{S_{XY}}{\Xb}.\]</li>
+<li><b>MSE.</b> Keep \(\Yb(\varepsilon_0+\varepsilon_1)\) and square:
+\[\text{MSE}\approx\frac{1-f}{n}\Yb^2\big(C_Y^2+C_X^2+2\rho C_XC_Y\big).\]</li>
+<li><b>Beats \(\yb\)</b> when \(C_X^2+2\rho C_XC_Y<0\), i.e. \(\rho<-\frac{C_X}{2C_Y}\).</li></ol>`]];
+document.getElementById('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span></summary><div class="bd">${d[2]}</div></details>`).join('');
+const FT=[["Quantity","Formula"],[
+["Ratio","\\hat R=\\dfrac{\\bar y}{\\bar x}"],["Mean","\\hat{\\bar Y}_R=\\hat R\\bar X"],["Total","\\hat Y_{R(tot)}=N\\hat{\\bar Y}_R"],
+["Bias (2nd order)","\\dfrac{1-f}{n}\\bar Y(C_X^2-\\rho C_XC_Y)=\\dfrac{1-f}{n}\\dfrac{RS_X^2-S_{XY}}{\\bar X}"],
+["MSE","\\dfrac{1-f}{n}\\bar Y^2(C_Y^2+C_X^2-2\\rho C_XC_Y)=\\dfrac{1-f}{n}S_U^2"],
+["Estimated MSE","\\dfrac{1-f}{n}\\dfrac{1}{n-1}\\sum(y_i-\\hat Rx_i)^2"],["CI","\\hat{\\bar Y}_R\\pm z_{\\alpha/2}\\sqrt{\\widehat{\\text{MSE}}}"],
+["Better than \\(\\bar y\\)","\\rho>\\dfrac{C_X}{2C_Y}"],["Bias small if","C_{\\bar x}=\\sqrt{\\tfrac{1-f}{n}}C_X<0.1"],
+["Total","\\text{Bias}\\to N\\,\\text{Bias},\\ \\text{MSE}\\to N^2\\text{MSE}"],
+["Product MSE","\\dfrac{1-f}{n}\\bar Y^2(C_Y^2+C_X^2+2\\rho C_XC_Y)"],["Product better if","\\rho<-\\dfrac{C_X}{2C_Y}"]]];
+document.getElementById('fl').innerHTML='<div style="overflow-x:auto"><table class="ft"><tr>'+FT[0].map(h=>`<th>${h}</th>`).join('')+'</tr>'+FT[1].map(r=>`<tr><td>${r[0]}</td><td>\\(\\displaystyle ${r[1]}\\)</td></tr>`).join('')+'</table></div>';
+const th=document.getElementById('th'),R0=document.documentElement;
+if(matchMedia('(prefers-color-scheme: dark)').matches){th.checked=true;R0.dataset.theme='dark'}
+th.addEventListener('change',()=>{const y=scrollY;R0.dataset.theme=th.checked?'dark':'light';scrollTo(0,y)});
+const $=id=>document.getElementById(id),g=x=>isFinite(x)?String(+x.toFixed(4)):'—',L=s=>String(s).split(/[\s,;]+/).filter(Boolean).map(Number),sum=a=>a.reduce((p,q)=>p+q,0);
+// widget 1
+function w1(){const x=+$('v1').value,yb=9.37,X=3.2,f=X/x;$('v1v').textContent=x.toFixed(2)+' ha';
+$('v1o').innerHTML=`Correction factor X̄/x̄ = ${g(f)}<br>Ratio estimate = ${g(yb)} × ${g(f)} = <b>${g(yb*f)}</b> t<br>${x>X?'Sample leaned to big plots, scaled down.':x<X?'Sample leaned to small plots, scaled up.':'Sample is balanced, no change.'}`;
+$('v1a').style.width=Math.min(100,yb*f/14*100)+'%';$('v1a').textContent='Ŷ_R = '+g(yb*f)}
+$('v1').oninput=w1;w1();
+// widget 2
+function w2(){const p=+$('e1').value,r=+$('e2').value;$('e1v').textContent='ρ = '+p.toFixed(2);$('e2v').textContent='C_X/C_Y = '+r.toFixed(2);
+const a=1+r*r-2*p*r,b=1+r*r+2*p*r,c=1-p*p,bar=(n,v)=>`${n}: <b>${g(v)}</b><div class="bar ${v<1?'g':'r'}" style="width:${Math.min(100,v/3*100)}%"></div>`;
+$('eo').innerHTML=bar('Ratio',a)+bar('Product',b)+bar('Regression',c)+`<span class="mut">Sample mean = 1. Ratio wins when ρ &gt; ${g(r/2)}; product wins when ρ &lt; ${g(-r/2)}. Best here: ${a<b&&a<c?'Ratio':b<a&&b<c?'Product':'Regression'}.</span>`}
+$('e1').oninput=w2;$('e2').oninput=w2;w2();
+// calculator
+function cc(){const x=L($('cx').value),y=L($('cy').value),N=+$('cN').value,X=+$('cX').value,cf=+$('cc').value,n=x.length,o=$('co');
+if(n<3||n!=y.length||x.some(v=>!(v>0))||!(N>=n)||!(X>0)||!(cf>0&&cf<100)){o.innerHTML='Enter equal-length lists (n ≥ 3), all x &gt; 0, N ≥ n, X̄ &gt; 0.';return}
+const xb=sum(x)/n,yb=sum(y)/n,Rh=yb/xb,Y=Rh*X,f=n/N,e=x.map((v,i)=>y[i]-Rh*v),su=sum(e.map(v=>v*v))/(n-1),sy=sum(y.map(v=>(v-yb)**2))/(n-1),m=(1-f)/n*su,mv=(1-f)/n*sy,se=Math.sqrt(m),
+q=1-(1-cf/100)/2,t=Math.sqrt(-2*Math.log(1-q)),z=t-(2.515517+.802853*t+.010328*t*t)/(1+1.432788*t+.189269*t*t+.001308*t*t*t);
+o.innerHTML=`x̄ = ${g(xb)}, ȳ = ${g(yb)}, f = ${g(f)}<br>R̂ = ${g(Rh)}<br>Mean estimate = ${g(Rh)} × ${g(X)} = <b>${g(Y)}</b><br>Total estimate = ${g(N*Y)}<br>Residuals: ${e.map(v=>g(v)).join(', ')}<br>s_u² = ${g(su)}, MSE est = ${g(m)}, se = ${g(se)}<br>${cf}% CI = (${g(Y-z*se)}, ${g(Y+z*se)})<br>Sample mean: se = ${g(Math.sqrt(mv))} (ratio is ${g(Math.sqrt(mv)/se)}× smaller)<br>C_x̄ check needs C_X; ρ must exceed ½C_X/C_Y for the ratio to win.`}
+['cx','cy','cN','cX','cc'].forEach(i=>$(i).oninput=cc);cc();
+</script></body></html>
