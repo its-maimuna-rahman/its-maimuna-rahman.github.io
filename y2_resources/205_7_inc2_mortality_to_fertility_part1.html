@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Measuring Death and Birth – A Demographic Primer</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}
+h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}
+h3{font-size:1.3rem;margin:.9rem 0 .4rem;color:var(--ac)}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}
+section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0;line-height:2}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 10px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:5px 9px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.9rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:28px 0}.fc .f{background:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}
+label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}
+input[type=range]{padding:0;border:0;accent-color:var(--ac);width:190px}
+.out{font-family:Radley,Georgia,serif;font-size:1.08rem;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}th{background:var(--card)}
+table>tbody{display:table;width:100%}table>thead{display:table-header-group}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative;margin:.5em 0;line-height:2}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.qa{margin:22px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.qa .q{background:var(--card);border-left:4px solid var(--ac);padding:14px 20px}.qa .s{background:var(--card);border-left:4px solid var(--ok);padding:6px 20px 14px;border-top:1px solid var(--line)}.fc .qa .f{background:var(--card)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700;line-height:1.6}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+.kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:24px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+.kpi b{display:block;font-family:Radley,Georgia,serif;font-size:1.8rem;font-weight:400;color:var(--ac);line-height:1.15}
+.kpi span{font-size:.9rem;color:var(--mut);line-height:1.4;display:block}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.seg button{padding:5px 12px;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+.chart-wrap{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 8px 6px;margin:18px 0;overflow:hidden}
+.chart-wrap svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.83rem;color:var(--mut);margin:8px 4px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.bars{display:grid;gap:10px;margin:14px 0}
+.bar-row{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center}
+.bar-row label{font-size:.83rem;color:var(--mut);text-align:right}
+.bar-track{background:var(--bg);border:1px solid var(--line);height:22px;border-radius:3px;overflow:hidden;position:relative}
+.bar-fill{height:100%;background:var(--ac);width:0;transition:width .25s}
+.bar-fill.ok{background:var(--ok)}
+.bar-fill.mut{background:var(--ac2)}
+.bar-val{font-size:.78rem;color:var(--mut);margin-left:6px;font-variant-numeric:tabular-nums}
+.agebars{display:flex;align-items:flex-end;gap:7px;height:190px;margin:16px 0 4px;border-bottom:1px solid var(--line);padding-bottom:2px}
+.agebar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
+.agebar i{display:block;width:100%;background:var(--ac2);border:1px solid var(--ac);border-bottom:0;border-radius:2px 2px 0 0;transition:height .25s}
+.agebar em{font-style:normal;font-size:.7rem;color:var(--mut);margin-bottom:3px}
+.agebar b{font-weight:400;font-size:.72rem;color:var(--mut);margin-top:4px;white-space:nowrap}
+.agebar.hi i{background:var(--ac);border-top-color:var(--ac)}
+.gauge{position:relative;height:26px;background:var(--bg);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:12px 0 4px}
+.gauge .fill{height:100%;background:var(--ac);width:0;transition:width .25s}
+.gauge .mark{position:absolute;top:-4px;bottom:-4px;left:40%;width:2px;background:var(--bad)}
+.gauge-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--mut)}
+.pyr{display:grid;gap:3px;margin:18px 0 8px}
+.pyr-head{display:grid;grid-template-columns:52px 1fr 1fr;gap:8px;font-size:.78rem;color:var(--mut);text-align:center;margin-bottom:2px}
+.pyr-row{display:grid;grid-template-columns:52px 1fr 1fr;gap:8px;align-items:center}
+.pyr-row>label{font-size:.78rem;color:var(--mut);text-align:right;padding-right:2px}
+.pyr-side{display:flex;height:17px}
+.pyr-side.left{justify-content:flex-end;border-right:1px solid var(--line)}
+.pyr-side.right{justify-content:flex-start;border-left:1px solid var(--line)}
+.pyr-side i{display:block;height:100%;background:var(--ac)}
+.pyr-side.right i{background:var(--ok)}
+.pyr-val{display:none}
+.caption{font-size:.82rem;color:var(--mut);line-height:1.5;margin:2px 0 18px}
+.tight p{margin:.6em 0}
+.small{font-size:.9rem}
+.center{text-align:center}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em;background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 4px}
+pre{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 16px;overflow-x:auto;font-size:.85rem;line-height:1.6}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{TFR:'\\mathrm{TFR}',GRR:'\\mathrm{GRR}',NRR:'\\mathrm{NRR}',CDR:'\\mathrm{CDR}',CBR:'\\mathrm{CBR}',GFR:'\\mathrm{GFR}',ASFR:'\\mathrm{ASFR}',IMR:'\\mathrm{IMR}',SMR:'\\mathrm{SMR}',AABR:'\\mathrm{AABR}',GMFMR:'\\mathrm{GMFMR}',DSFR:'\\mathrm{DSFR}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><a href="#data">Data</a><a href="#cdr">CDR</a><a href="#ages">Ages</a><a href="#std">Standardize</a><a href="#infants">Infants</a><a href="#births">Births</a><a href="#replace">Replacement</a><a href="#pitfalls">Pitfalls</a><a href="#prac">Practice</a><a href="#form">Formulas</a>
+<label class="sw" title="Light / dark"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:44px 0 22px"><p class="kicker">Demography · Course notes</p><h1>Measuring Death and Birth</h1><h2>From a district register to rates, standards, and replacement</h2>
+<p class="mut">A register gives counts. A rate turns them into a statement about risk. This page starts with one district's register, builds the standard mortality and fertility measures from it, and shows where each measure helps and where it misleads.</p></header>
+
+<section id="data"><h2>The register</h2>
+<p>Bhor is a made-up district with a register that behaves like a real one. The counts are constructed so the arithmetic is exact; the patterns are ordinary. Two neighbouring districts, Bhor and Sur, keep the same kind of register. Bhor is young. Sur is old. That single difference will turn out to explain most of the story.</p>
+
+<div class="kpis">
+<div class="kpi"><b>200,000</b><span>people at mid-year 2021</span></div>
+<div class="kpi"><b>5,200</b><span>live births during 2021</span></div>
+<div class="kpi"><b>1,520</b><span>deaths during 2021</span></div>
+<div class="kpi"><b>208</b><span>of those deaths were infants</span></div>
+</div>
+
+<table><tr><th>Item</th><th class="num">Count</th><th>What it is</th></tr>
+<tr><td>Mid-year population</td><td class="num">200,000</td><td>A stock: people alive on 1 July</td></tr>
+<tr><td>Live births</td><td class="num">5,200</td><td>A flow: deliveries with a live child during the year</td></tr>
+<tr><td>Deaths, all ages</td><td class="num">1,520</td><td>A flow: deaths during the year</td></tr>
+<tr><td>Deaths under 1 year</td><td class="num">208</td><td>Infant deaths: the numerator of the IMR</td></tr>
+<tr><td>Neonatal deaths (0–27 days)</td><td class="num">104</td><td>Infant deaths in the first four weeks</td></tr>
+<tr><td>Post-neonatal deaths (28–364 days)</td><td class="num">104</td><td>Infant deaths after the first four weeks</td></tr>
+<tr><td>Maternal deaths</td><td class="num">8</td><td>Deaths from pregnancy-related causes</td></tr>
+<tr><td>Fetal deaths, all gestation</td><td class="num">96</td><td>Stillbirths before complete expulsion</td></tr>
+<tr><td>Late fetal deaths (28+ weeks)</td><td class="num">78</td><td>The fetal deaths used in perinatal mortality</td></tr>
+<tr><td>Early neonatal deaths (0–6 days)</td><td class="num">70</td><td>Deaths in the first week, used with late fetal deaths</td></tr>
+<tr><td>Women aged 15–49</td><td class="num">49,300</td><td>The population exposed to childbearing</td></tr>
+<tr><td>Married women aged 15–49</td><td class="num">30,000</td><td>The exposed population for marital fertility</td></tr>
+<tr><td>Births to married women</td><td class="num">4,300</td><td>The numerator for marital fertility</td></tr>
+</table>
+<p class="caption">Table 1. The Bhor register, 2021. The distinctions in the third column matter more than the counts themselves.</p>
+
+<div class="box nt"><b>Before using the register, ask what it is.</b> A civil register counts events that were <i>reported</i>, not events that <i>happened</i>. Three things decide how close the two are. First, the <i>target population</i>: does the register cover everyone living in the area, or only residents with a legal claim, or only households the enumerator could reach? Second, <i>completeness</i>: a pilot survey in a sample of blocks suggested the register captures about 90% of deaths and that the population count is about 95% complete, mostly because people who moved in during the year are missed. Third, <i>non-response</i>: households that refused or were absent tend to differ from those that answered—they are often younger and more mobile, which biases the age structure young. The counts below are treated as complete for teaching. In real work, you would adjust them, and you would say so.</div>
+
+<div class="box"><b>Stock, flow, rate, ratio.</b> Population is a <i>stock</i>: a count at a moment. Births and deaths are <i>flows</i>: counts during a period. A <i>rate</i> puts a flow over the stock or person-years that produced it. A <i>ratio</i> puts one count over another count, and the numerator need not be part of the denominator. A <i>proportion</i> is a ratio whose numerator is a subset of the denominator. Much of demographic writing uses "rate" loosely for all three. The arithmetic does not care about the label, but the interpretation does.</div>
+
+<p>The general form of a rate is</p>
+<div class="f">\[\text{rate} = \frac{\text{events in a period}}{\text{person-years at risk}} \times k.\]</div>
+<p>The multiplier \(k\) only sets the size of the number: 1,000 for deaths and births, 100,000 for maternal deaths. In practice, the mid-year population stands in for person-years when the period is one year and migration is small. That approximation is good enough for the measures below, but it is still an approximation.</p>
+</section>
+
+<section id="cdr"><h2>The crude death rate</h2>
+<p>The simplest mortality measure divides all deaths by the mid-year population:</p>
+<div class="f">\[\CDR = \frac{D}{P}\times 1000 = \frac{1{,}520}{200{,}000}\times 1000 = 7.6.\]</div>
+<p>Read it as 7.6 deaths per 1,000 people per year, or 0.76%. It is not 7.6%. The multiplier is a convenience, not a percentage sign.</p>
+<p>The word <i>crude</i> is not an insult. The rate is crude because its denominator includes everyone: infants, old people, men, women, the healthy and the sick. It summarizes the whole population in one number. That is useful for a quick description and dangerous for a comparison.</p>
+
+<h3>Averaging over three years</h3>
+<p>A single year can be distorted by an epidemic, a heat wave, or a registration glitch. A three-year average is common. There are three ways to do it, and they answer slightly different questions.</p>
+<table><tr><th>Year</th><th class="num">Deaths \(D\)</th><th class="num">Population \(P\)</th><th class="num">\(D/P\times1000\)</th></tr>
+<tr><td>2019</td><td class="num">1,480</td><td class="num">196,000</td><td class="num">7.551</td></tr>
+<tr><td>2020</td><td class="num">1,500</td><td class="num">198,000</td><td class="num">7.576</td></tr>
+<tr><td>2021</td><td class="num">1,520</td><td class="num">200,000</td><td class="num">7.600</td></tr>
+</table>
+<div class="f">\[\frac{1}{3}\left[\frac{D_1}{P_1}+\frac{D_2}{P_2}+\frac{D_3}{P_3}\right]\times1000 = 7.576\]</div>
+<div class="f">\[\frac{\frac13(D_1+D_2+D_3)}{\frac13(P_1+P_2+P_3)}\times1000 = \frac{4{,}500}{594{,}000}\times1000 = 7.576\]</div>
+<div class="f">\[\frac{\frac13(D_1+D_2+D_3)}{P_2}\times1000 = \frac{1{,}500}{198{,}000}\times1000 = 7.576\]</div>
+<p>The first average gives each year's <i>rate</i> equal weight. The second gives each year's <i>population</i> equal weight. The third uses the mid-period population as a shortcut. Here they agree to three decimals because the population grows smoothly. When the population changes sharply, or when one year is exceptional, the three versions can differ. Say which one you used.</p>
+<p>Nothing here is specific to deaths. Replace \(D\) with births \(B\) and the same three formulas give an averaged CBR, with the same choice to make.</p>
+
+<h3>When the register is incomplete</h3>
+<p>Death registration and census counts are rarely perfect. If deaths are less completely registered than people are counted, the raw CDR is too low. A simple correction divides each count by its completeness:</p>
+<div class="f">\[\CDR_{\text{adj}} = \frac{D/C_d}{P/C_p}\times1000,\]</div>
+<p>where \(C_d\) is the completeness of death registration and \(C_p\) the completeness of the population count. With \(C_d=0.90\) and \(C_p=0.95\),</p>
+<div class="f">\[\CDR_{\text{adj}} = \frac{1{,}520/0.90}{200{,}000/0.95}\times1000 = \frac{1{,}688.9}{210{,}526}\times1000 = 8.02.\]</div>
+<p>The raw rate was 7.60. The corrected rate is 8.02, about 5.6% higher. The direction is intuitive: if the register misses a larger share of deaths than of people, it understates mortality.</p>
+
+<div class="box"><h3>Try it: adjust for incomplete registration</h3>
+<div class="row"><label>Deaths registered <input type="range" id="cd" min="50" max="100" step="1" value="90"> <b id="cdv">90%</b></label>
+<label>Population counted <input type="range" id="cp" min="50" max="100" step="1" value="95"> <b id="cpv">95%</b></label></div>
+<div class="out" id="cdrOut"></div>
+<p class="mut" style="margin-bottom:0">The raw CDR stays at 7.60. The adjusted CDR moves with the ratio of completeness.</p></div>
+
+<h3>A month is not a year</h3>
+<p>If you only have one month of data, annualize it by the number of days in the month:</p>
+<div class="f">\[\text{annualized monthly rate} = \frac{365}{n_m}\times\frac{D_m}{P_m}\times1000.\]</div>
+<p>For January, with \(n_m=31\), \(D_m=140\), and \(P_m=200{,}000\), the rate is \((365/31)(140/200{,}000)(1000)=8.24\) per 1,000. That is a valid annual estimate only if January is typical. In many populations January deaths are not July deaths, so the annualization can create a seasonal artefact.</p>
+
+<div class="box nt"><b>Three slices of the same numerator.</b> A cause-specific death rate is \(D^c/P\times1000\) (or per 100,000). A death ratio is \(D^c/D\times100\): the percentage of all deaths due to cause \(c\). The first is a rate; the second is a proportion. They answer different questions even though both use the same numerator. A cause can account for a large share of deaths while being rare in the population, and vice versa.</div>
+</section>
+
+<section id="ages"><h2>Age-specific rates</h2>
+<p>The crude rate hides the only thing everyone knows about death: it is concentrated at the end of life. Split the population by age and compute a rate in each group:</p>
+<div class="f">\[M_a = \frac{D_a}{P_a}\times 1000.\]</div>
+<p>\(M_a\) is the age-specific death rate for age group \(a\). \(D_a\) is deaths in that group during the year; \(P_a\) is the mid-year population of the group. The multiplier is still 1,000.</p>
+
+<table><tr><th>Age</th><th class="num">Bhor \(P_a\)</th><th class="num">Bhor \(D_a\)</th><th class="num">Bhor \(M_a\)</th><th class="num">Sur \(P_a\)</th><th class="num">Sur \(D_a\)</th><th class="num">Sur \(M_a\)</th></tr>
+<tr><td>0–4</td><td class="num">26,000</td><td class="num">260</td><td class="num">10.000</td><td class="num">24,058</td><td class="num">217</td><td class="num">9.020</td></tr>
+<tr><td>5–9</td><td class="num">24,000</td><td class="num">10</td><td class="num">0.417</td><td class="num">24,058</td><td class="num">9</td><td class="num">0.374</td></tr>
+<tr><td>10–14</td><td class="num">22,000</td><td class="num">12</td><td class="num">0.545</td><td class="num">23,577</td><td class="num">12</td><td class="num">0.509</td></tr>
+<tr><td>15–19</td><td class="num">20,000</td><td class="num">24</td><td class="num">1.200</td><td class="num">22,855</td><td class="num">25</td><td class="num">1.094</td></tr>
+<tr><td>20–24</td><td class="num">18,000</td><td class="num">30</td><td class="num">1.667</td><td class="num">22,133</td><td class="num">33</td><td class="num">1.491</td></tr>
+<tr><td>25–29</td><td class="num">16,000</td><td class="num">34</td><td class="num">2.125</td><td class="num">21,652</td><td class="num">41</td><td class="num">1.894</td></tr>
+<tr><td>30–34</td><td class="num">14,000</td><td class="num">40</td><td class="num">2.857</td><td class="num">21,171</td><td class="num">54</td><td class="num">2.551</td></tr>
+<tr><td>35–39</td><td class="num">12,000</td><td class="num">48</td><td class="num">4.000</td><td class="num">20,690</td><td class="num">74</td><td class="num">3.577</td></tr>
+<tr><td>40–44</td><td class="num">10,000</td><td class="num">60</td><td class="num">6.000</td><td class="num">19,727</td><td class="num">107</td><td class="num">5.424</td></tr>
+<tr><td>45–49</td><td class="num">9,000</td><td class="num">75</td><td class="num">8.333</td><td class="num">18,765</td><td class="num">141</td><td class="num">7.514</td></tr>
+<tr><td>50–54</td><td class="num">8,000</td><td class="num">95</td><td class="num">11.875</td><td class="num">17,803</td><td class="num">190</td><td class="num">10.672</td></tr>
+<tr><td>55–59</td><td class="num">7,000</td><td class="num">115</td><td class="num">16.429</td><td class="num">16,359</td><td class="num">242</td><td class="num">14.793</td></tr>
+<tr><td>60–64</td><td class="num">5,500</td><td class="num">140</td><td class="num">25.455</td><td class="num">14,435</td><td class="num">331</td><td class="num">22.930</td></tr>
+<tr><td>65–69</td><td class="num">4,000</td><td class="num">150</td><td class="num">37.500</td><td class="num">12,029</td><td class="num">406</td><td class="num">33.752</td></tr>
+<tr><td>70–74</td><td class="num">2,500</td><td class="num">140</td><td class="num">56.000</td><td class="num">9,623</td><td class="num">485</td><td class="num">50.400</td></tr>
+<tr><td>75–79</td><td class="num">1,200</td><td class="num">105</td><td class="num">87.500</td><td class="num">6,736</td><td class="num">530</td><td class="num">78.682</td></tr>
+<tr><td>80+</td><td class="num">800</td><td class="num">182</td><td class="num">227.500</td><td class="num">4,329</td><td class="num">886</td><td class="num">204.666</td></tr>
+<tr><th>Total</th><th class="num">200,000</th><th class="num">1,520</th><th class="num">7.600</th><th class="num">300,000</th><th class="num">3,783</th><th class="num">12.610</th></tr>
+</table>
+<p class="caption">Table 2. Age-specific death rates per 1,000, Bhor and Sur, 2021. Sur's rate is lower than Bhor's in every age group.</p>
+
+<div class="chart-wrap"><svg id="asdrChart" viewBox="0 0 760 350" role="img" aria-label="Age-specific death rates for Bhor and Sur on a logarithmic scale"></svg>
+<div class="legend"><span><i style="background:var(--ac)"></i>Bhor</span><span><i style="background:var(--ok)"></i>Sur</span><span>vertical axis: deaths per 1,000, log scale</span></div></div>
+<p class="caption">Both curves are J-shaped: high in infancy, low in childhood, then rising steeply. Sur's curve sits below Bhor's at every age. Yet Sur's crude rate is higher. The weights, not the rates, are doing that.</p>
+
+<div class="box"><b>Rate is not probability.</b> The 80+ rate is 227.5 per 1,000. That is not a 22.75% chance of dying in the year. A rate divides deaths by the mid-year population; a probability divides deaths by the population at the start of the interval. If the force of mortality were constant, the one-year probability would be \(q=1-e^{-m}\). For \(m=0.2275\), \(q=1-e^{-0.2275}=0.203\), or 20.3%. The gap grows as the rate grows, which is why demographers convert rates to probabilities before building life tables.</div>
+
+<h3>The crude rate is a weighted average</h3>
+<p>Multiply and divide by \(P\):</p>
+<div class="f">\[\CDR = \frac{D}{P}=\frac{\sum_a D_a}{P}=\sum_a \frac{P_a}{P}\frac{D_a}{P_a}=\sum_a \frac{P_a}{P}M_a.\]</div>
+<p>So the CDR is a weighted average of the age-specific rates, with weights equal to each age group's share of the population. Check it on two groups. The 0–4 group is 13% of Bhor and has a rate of 10.0, so it contributes \(0.13\times10.0=1.30\) to the CDR. The 80+ group is 0.4% of Bhor and has a rate of 227.5, so it contributes \(0.004\times227.5=0.91\). The old group has a rate 22 times larger, but a weight 32 times smaller.</p>
+<p>This identity is the hinge of the next section. If you change the weights while holding every \(M_a\) fixed, the CDR changes. A population can have low mortality at every age and a high CDR simply because it has many old people.</p>
+</section>
+
+<section id="std"><h2>Standardization</h2>
+<p>Bhor's CDR is 7.6. Sur's is 12.6. On the face of it, Bhor is the healthier district by about five deaths per 1,000 people. But Table 2 shows the opposite at every single age: Bhor's death rate is higher in the 0–4 group, higher in the 20–24 group, higher at 65–69, higher at 80+. The crude comparison is measuring age structure, not mortality.</p>
+
+<div class="pyr">
+<div class="pyr-head"><span></span><span>Bhor</span><span>Sur</span></div>
+<div class="pyr-row"><label>75+</label><div class="pyr-side left"><i style="width:2.5%"></i></div><div class="pyr-side right"><i style="width:9.3%"></i></div></div>
+<div class="pyr-row"><label>60–74</label><div class="pyr-side left"><i style="width:15%"></i></div><div class="pyr-side right"><i style="width:30%"></i></div></div>
+<div class="pyr-row"><label>45–59</label><div class="pyr-side left"><i style="width:30%"></i></div><div class="pyr-side right"><i style="width:44%"></i></div></div>
+<div class="pyr-row"><label>30–44</label><div class="pyr-side left"><i style="width:45%"></i></div><div class="pyr-side right"><i style="width:51.3%"></i></div></div>
+<div class="pyr-row"><label>15–29</label><div class="pyr-side left"><i style="width:67.5%"></i></div><div class="pyr-side right"><i style="width:55.5%"></i></div></div>
+<div class="pyr-row"><label>0–14</label><div class="pyr-side left"><i style="width:90%"></i></div><div class="pyr-side right"><i style="width:59.8%"></i></div></div>
+</div>
+<p class="caption">Age profile of the two districts, as a share of each district's own population. Bars are scaled to 40% at the outer edge. Bhor has a broad base; Sur has a heavy top.</p>
+
+<table><tr><th>Age</th><th class="num">Bhor share</th><th class="num">Bhor rate</th><th class="num">Sur share</th><th class="num">Sur rate</th></tr>
+<tr><td>0–14</td><td class="num">36.0%</td><td class="num">3.92</td><td class="num">23.9%</td><td class="num">3.32</td></tr>
+<tr><td>15–29</td><td class="num">27.0%</td><td class="num">1.63</td><td class="num">22.2%</td><td class="num">1.49</td></tr>
+<tr><td>30–44</td><td class="num">18.0%</td><td class="num">4.11</td><td class="num">20.5%</td><td class="num">3.82</td></tr>
+<tr><td>45–59</td><td class="num">12.0%</td><td class="num">11.88</td><td class="num">17.6%</td><td class="num">10.83</td></tr>
+<tr><td>60–74</td><td class="num">6.0%</td><td class="num">35.83</td><td class="num">12.0%</td><td class="num">33.86</td></tr>
+<tr><td>75+</td><td class="num">1.0%</td><td class="num">143.50</td><td class="num">3.7%</td><td class="num">127.97</td></tr>
+</table>
+<p class="caption">Table 3. Six broad age groups, used to keep the standardization arithmetic visible. Rates are per 1,000.</p>
+
+<h3>Direct standardization</h3>
+<p>Direct standardization answers a counterfactual: what would Bhor's CDR be if Bhor had the standard age structure but kept its own age-specific rates? Choose a standard population with shares \(P_a^s/P^s\), then</p>
+<div class="f">\[\CDR^{\text{std}}=\sum_a \frac{P_a^s}{P^s}M_a.\]</div>
+<p>Here the standard is the combined population of Bhor and Sur, 500,000 people. Its age shares are in the second column below. The contributions are share times rate; they add to the standardized rate.</p>
+
+<table><tr><th>Age</th><th class="num">Standard share</th><th class="num">Bhor rate</th><th class="num">Bhor contribution</th><th class="num">Sur rate</th><th class="num">Sur contribution</th></tr>
+<tr><td>0–14</td><td class="num">28.74%</td><td class="num">3.917</td><td class="num">1.126</td><td class="num">3.320</td><td class="num">0.954</td></tr>
+<tr><td>15–29</td><td class="num">24.13%</td><td class="num">1.630</td><td class="num">0.393</td><td class="num">1.486</td><td class="num">0.358</td></tr>
+<tr><td>30–44</td><td class="num">19.52%</td><td class="num">4.111</td><td class="num">0.802</td><td class="num">3.816</td><td class="num">0.745</td></tr>
+<tr><td>45–59</td><td class="num">15.39%</td><td class="num">11.875</td><td class="num">1.827</td><td class="num">10.826</td><td class="num">1.666</td></tr>
+<tr><td>60–74</td><td class="num">9.62%</td><td class="num">35.833</td><td class="num">3.446</td><td class="num">33.863</td><td class="num">3.257</td></tr>
+<tr><td>75+</td><td class="num">2.61%</td><td class="num">143.500</td><td class="num">3.750</td><td class="num">127.971</td><td class="num">3.344</td></tr>
+<tr><th>Total</th><th class="num">100.0%</th><th></th><th class="num">11.344</th><th></th><th class="num">10.323</th></tr>
+</table>
+<p class="caption">Table 4. Direct standardization with the combined population as the standard.</p>
+
+<p>The ranking reverses. The crude rates said Bhor was healthier by 5.0 deaths per 1,000. The standardized rates say Bhor is worse by about 1.0 death per 1,000. The crude rate was not lying about the counts; it was answering a different question.</p>
+<p>In percentage terms, standardization moves Bhor's rate up by 49.3% (from 7.600 to 11.344) and Sur's rate down by 18.1% (from 12.610 to 10.323). A shift of that size should make you suspicious of any comparison that stops at the crude rate.</p>
+
+<div class="box"><h3>Try it: change the standard</h3>
+<p style="margin-top:0">The standard is a choice. Switch it and watch the levels move. The comparison should not.</p>
+<div class="seg" role="group" aria-label="Standard population">
+<button data-std="bhor" aria-pressed="false">Bhor's structure</button>
+<button data-std="sur" aria-pressed="false">Sur's structure</button>
+<button data-std="combined" aria-pressed="true">Combined structure</button>
+</div>
+<div class="bars">
+<div class="bar-row"><label>Bhor</label><div style="display:flex;align-items:center;gap:6px"><div class="bar-track" style="flex:1"><div class="bar-fill" id="stdB"></div></div><span class="bar-val" id="stdBv"></span></div></div>
+<div class="bar-row"><label>Sur</label><div style="display:flex;align-items:center;gap:6px"><div class="bar-track" style="flex:1"><div class="bar-fill ok" id="stdS"></div></div><span class="bar-val" id="stdSv"></span></div></div>
+</div>
+<div class="out" id="stdOut"></div>
+<p class="mut" style="margin-bottom:0">Scale: 0 to 15 deaths per 1,000.</p></div>
+
+<p>Under Bhor's young structure, both rates are low: Bhor 7.60, Sur 6.89. Under Sur's old structure, both are high: Bhor 13.84, Sur 12.61. Under the combined structure, Bhor 11.34, Sur 10.32. The levels change by a factor of two. The ordering does not: Bhor is higher under every common standard. That is what standardization buys—a comparison free of the age distribution, not a true level.</p>
+
+<h3>Indirect standardization</h3>
+<p>Direct standardization needs age-specific rates for the study population. When those rates are based on small numbers, or when they are unavailable, indirect standardization works the other way. It takes the standard's age-specific rates and applies them to the study population's age structure:</p>
+<div class="f">\[\text{expected deaths}=\sum_a M_a^s P_a,\qquad \SMR=\frac{\text{observed deaths}}{\text{expected deaths}}\times100.\]</div>
+<p>Using the combined population's rates as the standard, Bhor's expected deaths are 1,426.2 and its observed deaths are 1,520:</p>
+<div class="f">\[\SMR_{\text{Bhor}}=\frac{1{,}520}{1{,}426.2}\times100=106.6.\]</div>
+<p>Sur's expected deaths are 3,876.8 and its observed deaths are 3,783:</p>
+<div class="f">\[\SMR_{\text{Sur}}=\frac{3{,}783}{3{,}876.8}\times100=97.6.\]</div>
+<p>Bhor has 6.6% more deaths than it would have if its people died at the combined age-specific rates. Sur has 2.4% fewer. The SMR is a ratio of observed to expected, not a rate per 1,000. To put it back on a rate scale, multiply by the standard's crude rate:</p>
+<div class="f">\[\text{adjusted rate}=\SMR\times\CDR_{\text{standard}}.\]</div>
+<p>For Bhor, \(1.066\times10.606=11.30\). For Sur, \(0.976\times10.606=10.35\). These are close to the direct standardized rates, as they should be when the same standard is used.</p>
+
+<div class="box ex"><b>Direct vs indirect.</b> Direct standardization needs the study population's age-specific rates and a standard age distribution. It produces a rate. Indirect standardization needs the standard's age-specific rates and the study population's age distribution. It produces a ratio (the SMR) and, after multiplication, an adjusted rate. Indirect is useful when the study rates are thin. Direct is more transparent when the study rates are solid. Neither is "the" truth; both depend on the standard.</div>
+
+<div class="box nt"><b>The standard is a measuring rod, not a fact.</b> A standardized rate is a weighted average with weights you chose. It is not the rate that anyone actually experiences. Do not compare a standardized rate computed with one standard to a crude rate, or to a standardized rate computed with another standard. Use standardization to compare populations on the same weights; use the crude rate, with its age structure, to describe what is happening in a place.</div>
+</section>
+
+<section id="infants"><h2>Infant and perinatal mortality</h2>
+<p>The infant mortality rate is the most quoted measure in demography and one of the most often misread. It is a ratio, not a rate in the person-years sense. The numerator is infant deaths in a year. The denominator is live births in the same year. Those are not the same infants: a child who dies in January 2021 may have been born in 2020.</p>
+<div class="f">\[\IMR=\frac{D_0}{B}\times1000=\frac{208}{5{,}200}\times1000=40.0.\]</div>
+<p>Read it as 40 infant deaths per 1,000 live births, not 40 per 1,000 children. The denominator is a flow of births, not a stock of infants. This is why the measure is conventionally expressed per 1,000 live births.</p>
+
+<table><tr><th>Measure</th><th>Formula</th><th class="num">Bhor 2021</th></tr>
+<tr><td>Infant mortality rate (IMR)</td><td>\(D_0/B\times1000\)</td><td class="num">40.00</td></tr>
+<tr><td>Neonatal mortality rate (NMR)</td><td>\(D_{0-27}/B\times1000\)</td><td class="num">20.00</td></tr>
+<tr><td>Post-neonatal mortality rate (PNMR)</td><td>\(D_{28-364}/B\times1000\)</td><td class="num">20.00</td></tr>
+<tr><td>Maternal mortality ratio (MMR)</td><td>\(D_{\text{mat}}/B\times100{,}000\)</td><td class="num">153.85</td></tr>
+<tr><td>Fetal death ratio</td><td>\(F/B\times1000\)</td><td class="num">18.46</td></tr>
+<tr><td>Fetal death rate</td><td>\(F/(F+B)\times1000\)</td><td class="num">18.13</td></tr>
+<tr><td>Perinatal mortality rate</td><td>\((F_{\text{late}}+D_{\text{early neo}})/(F_{\text{late}}+B)\times1000\)</td><td class="num">28.04</td></tr>
+<tr><td>Perinatal mortality ratio</td><td>\((F_{\text{late}}+D_{\text{early neo}})/B\times1000\)</td><td class="num">28.46</td></tr>
+</table>
+<p class="caption">Table 5. Mortality around birth. The neonatal and post-neonatal rates add to the IMR because the two age ranges partition the first year.</p>
+
+<p>The neonatal and post-neonatal rates add to the IMR:</p>
+<div class="f">\[20.0+20.0=40.0.\]</div>
+<p>That is an accounting identity, not an empirical coincidence. The maternal mortality ratio uses a different multiplier because maternal deaths are rarer: 8 deaths over 5,200 births is 153.85 per 100,000 live births. Strictly, this is a ratio, not a rate; the denominator is births, not women.</p>
+
+<h3>Adjusting the IMR for the birth-cohort mix</h3>
+<p>A period IMR mixes two birth cohorts. In 2021 there were 208 infant deaths. Of those, 156 were to children born in 2021 and 52 to children born in 2020. The 2021 birth cohort had 5,200 births; the 2020 cohort had 5,000.</p>
+<table><tr><th>Quantity</th><th class="num">Value</th></tr>
+<tr><td>Births in 2021, \(B_t\)</td><td class="num">5,200</td></tr>
+<tr><td>Births in 2020, \(B_{t-1}\)</td><td class="num">5,000</td></tr>
+<tr><td>Infant deaths in 2021, \(D_t\)</td><td class="num">208</td></tr>
+<tr><td>Deaths to 2021 births, \(D_t'\)</td><td class="num">156</td></tr>
+<tr><td>Deaths to 2020 births, \(D_t''\)</td><td class="num">52</td></tr>
+<tr><td>Separation factor, \(f=D_t'/(D_t'+D_t'')\)</td><td class="num">0.75</td></tr>
+</table>
+<p>The separation factor is the share of this year's infant deaths that belong to this year's births. It tells you how to weight the two cohorts in the denominator:</p>
+<div class="f">\[\IMR_{\text{adj}}=\frac{D_t}{fB_t+(1-f)B_{t-1}}\times1000=\frac{208}{0.75(5{,}200)+0.25(5{,}000)}\times1000=40.39.\]</div>
+<p>The denominator is a weighted average of the two birth cohorts, weighted by where the deaths came from. Two other versions appear in the literature. The additive version is</p>
+<div class="f">\[\left[\frac{D_t'}{B_t}+\frac{D_t''}{B_{t-1}}\right]\times1000=\left[\frac{156}{5{,}200}+\frac{52}{5{,}000}\right]\times1000=40.40.\]</div>
+<p>The cohort version follows the 2021 births into 2022. If 22 of those children died in 2022 before their first birthday, the completed cohort IMR is</p>
+<div class="f">\[\frac{156+22}{5{,}200}\times1000=34.23.\]</div>
+<p>The period IMR is 40.0, the adjusted period IMR is 40.39, and the cohort IMR is 34.23. They answer different questions. The period rate describes 2021 as a year. The cohort rate describes the 2021 births as a group. The period rate is higher here because the 2021 numerator includes 52 deaths from the 2020 cohort, while the denominator contains only 2021 births. The period rate is a mixture; it is not the experience of any single cohort.</p>
+
+<div class="box"><h3>Try it: the separation factor</h3>
+<div class="row"><label>Separation factor \(f\) <input type="range" id="fsep" min="50" max="100" step="1" value="75"> <b id="fsepv">0.75</b></label></div>
+<div class="out" id="imrOut"></div>
+<p class="mut" style="margin-bottom:0">At \(f=1\), the denominator is all 2021 births and the adjusted rate is the naive rate. At \(f=0.5\), the two cohorts get equal weight.</p></div>
+
+<h3>Fetal, perinatal, and the difference between a rate and a ratio</h3>
+<p>Fetal deaths are classified by gestation. The exact cut-offs vary by country, but the standard three-part split is:</p>
+<table><tr><th>Gestation</th><th>Label</th><th class="num">Bhor 2021</th></tr>
+<tr><td>Under 20 weeks</td><td>Early fetal death</td><td class="num">12</td></tr>
+<tr><td>20–27 weeks</td><td>Intermediate fetal death</td><td class="num">6</td></tr>
+<tr><td>28 weeks or more</td><td>Late fetal death (stillbirth)</td><td class="num">78</td></tr>
+<tr><th>Total</th><th></th><th class="num">96</th></tr>
+</table>
+<p>Only late fetal deaths are used in perinatal mortality, because the measure is aimed at the period around birth. The fetal death ratio puts fetal deaths over live births:</p>
+<div class="f">\[\text{fetal death ratio}=\frac{96}{5{,}200}\times1000=18.46.\]</div>
+<p>The fetal death rate puts fetal deaths over all deliveries at risk, including the stillbirths themselves:</p>
+<div class="f">\[\text{fetal death rate}=\frac{96}{96+5{,}200}\times1000=18.13.\]</div>
+<p>The ratio is larger because its denominator is smaller. The rate answers "what is the risk per delivery?" The ratio answers "how many stillbirths per live birth?" Both are useful; they are not interchangeable. The gap is small here because fetal deaths are 1.8% of deliveries. In a population with many stillbirths, the gap grows.</p>
+<p>Perinatal mortality adds late fetal deaths and early neonatal deaths, then divides by either births or deliveries:</p>
+<div class="f">\[\text{perinatal rate}=\frac{78+70}{78+5{,}200}\times1000=28.04,\qquad \text{perinatal ratio}=\frac{78+70}{5{,}200}\times1000=28.46.\]</div>
+
+<div class="box ex"><b>Endogenous and exogenous infant deaths.</b> Older infant mortality work split deaths into <i>endogenous</i> causes, arising from the pregnancy and birth (congenital anomalies, prematurity, birth injury), and <i>exogenous</i> causes, arising from the environment (infections, accidents, neglect). The ratio was used as a rough index of development: a high exogenous share suggested that environmental causes were still dominant. If 120 of Bhor's 208 infant deaths were endogenous and 88 exogenous, the two rates would be 23.1 and 16.9 per 1,000 births. The split is hard to apply consistently and is less used today, but it explains a common pattern: neonatal mortality, mostly endogenous, falls more slowly than post-neonatal mortality, mostly exogenous, as a population develops.</div>
+</section>
+
+<section id="births"><h2>Fertility</h2>
+<p>Mortality measures count exits. Fertility measures count entries. The logic is the same: put a flow of events over the population that can produce them. The difficulty is deciding who that population is.</p>
+<p>Three words get used as if they were the same, and they are not. <i>Fertility</i> is the actual production of births—a behaviour, measured by counts and rates. <i>Fecundity</i> is the biological capacity to reproduce, whether or not a birth occurs; a woman can be fecund and have no child. <i>Reproductivity</i> is the capacity of a population to replace itself, which depends on fertility and on survival. A population can be fecund and still have low reproductivity if women die young or few of them marry. Keep the three apart: the measures below estimate fertility, and only the last section touches reproductivity.</p>
+
+
+<h3>Crude birth rate and general fertility rate</h3>
+<div class="f">\[\CBR=\frac{B}{P}\times1000=\frac{5{,}200}{200{,}000}\times1000=26.0.\]</div>
+<p>26 births per 1,000 people per year. The denominator includes men, children, and the elderly—people who cannot give birth. The CBR is therefore a summary of both fertility and age structure, not a pure fertility measure.</p>
+<p>The general fertility rate narrows the denominator to women of childbearing age:</p>
+<div class="f">\[\GFR=\frac{B}{P_{f,15-49}}\times1000=\frac{5{,}200}{49{,}300}\times1000=105.48.\]</div>
+<p>105 births per 1,000 women aged 15–49. This removes men, children, and older people, but it still hides the age distribution within 15–49 and the marital distribution. A population with many women in their late thirties will have a lower GFR than one with the same number of women but younger.</p>
+
+<h3>Age-specific fertility and the TFR</h3>
+<table><tr><th>Age of mother</th><th class="num">Women \(P_{f,a}\)</th><th class="num">Births \(B_a\)</th><th class="num">ASFR \(B_a/P_{f,a}\times1000\)</th></tr>
+<tr><td>15–19</td><td class="num">9,800</td><td class="num">392</td><td class="num">40.0</td></tr>
+<tr><td>20–24</td><td class="num">9,000</td><td class="num">1,350</td><td class="num">150.0</td></tr>
+<tr><td>25–29</td><td class="num">8,000</td><td class="num">1,440</td><td class="num">180.0</td></tr>
+<tr><td>30–34</td><td class="num">7,000</td><td class="num">1,050</td><td class="num">150.0</td></tr>
+<tr><td>35–39</td><td class="num">6,000</td><td class="num">630</td><td class="num">105.0</td></tr>
+<tr><td>40–44</td><td class="num">5,000</td><td class="num">300</td><td class="num">60.0</td></tr>
+<tr><td>45–49</td><td class="num">4,500</td><td class="num">38</td><td class="num">8.44</td></tr>
+<tr><th>Total</th><th class="num">49,300</th><th class="num">5,200</th><th class="num">105.48</th></tr>
+</table>
+<p class="caption">Table 6. Age-specific fertility rates per 1,000 women. The total row is the GFR, not the sum of the ASFRs.</p>
+
+<div class="agebars">
+<div class="agebar"><em>40</em><i style="height:33px"></i><b>15–19</b></div>
+<div class="agebar"><em>150</em><i style="height:125px"></i><b>20–24</b></div>
+<div class="agebar hi"><em>180</em><i style="height:150px"></i><b>25–29</b></div>
+<div class="agebar"><em>150</em><i style="height:125px"></i><b>30–34</b></div>
+<div class="agebar"><em>105</em><i style="height:87px"></i><b>35–39</b></div>
+<div class="agebar"><em>60</em><i style="height:50px"></i><b>40–44</b></div>
+<div class="agebar"><em>8</em><i style="height:7px"></i><b>45–49</b></div>
+</div>
+<p class="caption">Bhor's fertility schedule, 2021. The peak is at 25–29, but a large share of births occurs before 25.</p>
+
+<p>The total fertility rate multiplies each ASFR by the width of its age group (five years) and sums:</p>
+<div class="f">\[\TFR=5\sum_a\frac{\ASFR_a}{1000}=5(0.040+0.150+0.180+0.150+0.105+0.060+0.00844)=3.47.\]</div>
+<p>Read it as the number of children a woman would have if she lived to 50 and experienced this year's age-specific rates at every age. That is a synthetic cohort, not a real one. No woman actually lives through 2021's rates for thirty years. The TFR is a summary of one year's schedule, and it is sensitive to timing: if women postpone births, the TFR can fall even when completed family size does not.</p>
+
+<div class="box nt"><b>Two shortcuts, and why they miss.</b> A common rule of thumb is \(\GFR\approx4.5\times\CBR\). Here \(4.5\times26.0=117.0\), against the actual 105.5. The multiplier 4.5 assumes women aged 15–49 are \(1/4.5=22.2\%\) of the population. In Bhor they are 24.65%, so the shortcut overstates the GFR. Another is \(\TFR\approx30\times\GFR/1000\). Here \(30\times105.48/1000=3.16\), against the actual 3.47. The 30 assumes a flat fertility schedule over thirty years; Bhor's schedule is concentrated at 20–34, so the shortcut understates the TFR. Rules of thumb are checks, not substitutes.</div>
+
+<h3>Marital fertility</h3>
+<p>Fertility outside marriage is a small share of Bhor's births, but the distinction matters for interpretation. The general marital fertility rate divides births to married women by married women of childbearing age:</p>
+<div class="f">\[\GMFMR=\frac{B_m}{P_{f,m}}\times1000=\frac{4{,}300}{30{,}000}\times1000=143.33.\]</div>
+<p>The corresponding rate for unmarried women is</p>
+<div class="f">\[\frac{B_u}{P_{f,u}}\times1000=\frac{900}{19{,}300}\times1000=46.63.\]</div>
+<table><tr><th>Group</th><th class="num">Women</th><th class="num">Births</th><th class="num">Rate per 1,000</th></tr>
+<tr><td>Married, 15–49</td><td class="num">30,000</td><td class="num">4,300</td><td class="num">143.3</td></tr>
+<tr><td>Unmarried, 15–49</td><td class="num">19,300</td><td class="num">900</td><td class="num">46.6</td></tr>
+<tr><th>All women, 15–49</th><th class="num">49,300</th><th class="num">5,200</th><th class="num">105.5</th></tr>
+</table>
+<p>The marital birth ratio is a different animal. It puts marital births over all births:</p>
+<div class="f">\[\text{marital birth ratio}=\frac{4{,}300}{5{,}200}\times1000=826.9,\qquad \text{non-marital}=\frac{900}{5{,}200}\times1000=173.1.\]</div>
+<p>These sum to 1,000. They are proportions of births, not rates. A population can have a high marital birth ratio and low marital fertility if almost all births occur within marriage but married women have few children. The ratio tells you about the composition of births; the rate tells you about the behaviour of women.</p>
+
+<h3>Duration-specific marital fertility</h3>
+<p>Marital fertility also depends on how long a woman has been married. The duration-specific marital fertility rate is</p>
+<div class="f">\[\DSFR_i=\frac{B_i^m}{P_{f,m,i}}\times1000.\]</div>
+<table><tr><th>Duration since marriage</th><th class="num">Married women</th><th class="num">Births</th><th class="num">Rate per 1,000</th></tr>
+<tr><td>0–4 years</td><td class="num">7,000</td><td class="num">1,300</td><td class="num">185.7</td></tr>
+<tr><td>5–9 years</td><td class="num">6,500</td><td class="num">1,150</td><td class="num">176.9</td></tr>
+<tr><td>10–14 years</td><td class="num">5,800</td><td class="num">820</td><td class="num">141.4</td></tr>
+<tr><td>15–19 years</td><td class="num">4,500</td><td class="num">560</td><td class="num">124.4</td></tr>
+<tr><td>20–24 years</td><td class="num">3,200</td><td class="num">320</td><td class="num">100.0</td></tr>
+<tr><td>25+ years</td><td class="num">3,000</td><td class="num">150</td><td class="num">50.0</td></tr>
+<tr><th>Total</th><th class="num">30,000</th><th class="num">4,300</th><th class="num">143.3</th></tr>
+</table>
+<p>Fertility falls with duration. That is a duration effect, not an age effect, although the two are correlated: women married longer are also older. Duration-specific rates separate the two only if you control for age as well.</p>
+
+<h3>Age-order specific fertility</h3>
+<p>Births can be split by the woman's age and by the birth order—first, second, third, and so on. The age-order specific rate is</p>
+<div class="f">\[f_a^i=\frac{B_a^i}{P_{f,a}}\times1000.\]</div>
+<table><tr><th>Birth order</th><th class="num">Births to women 25–29</th><th class="num">Rate per 1,000 women</th></tr>
+<tr><td>First</td><td class="num">420</td><td class="num">52.5</td></tr>
+<tr><td>Second</td><td class="num">560</td><td class="num">70.0</td></tr>
+<tr><td>Third</td><td class="num">360</td><td class="num">45.0</td></tr>
+<tr><td>Fourth or higher</td><td class="num">100</td><td class="num">12.5</td></tr>
+<tr><th>All orders</th><th class="num">1,440</th><th class="num">180.0</th></tr>
+</table>
+<p>The order-specific counts add to all births to women 25–29, and the order-specific rates add to the ASFR: \(52.5+70.0+45.0+12.5=180.0\). This is an accounting identity. It tells you whether high fertility is driven by early first births or by large families. Two populations can have the same TFR and very different parity distributions.</p>
+
+<h3>Standardizing a birth rate</h3>
+<p>Fertility can be standardized in the same way as mortality. The direct age-adjusted birth rate applies the study population's age-specific fertility rates to a standard female population:</p>
+<div class="f">\[\AABR=\frac{\sum_a f_a P_a^s}{P^s}\times1000,\]</div>
+<p>where \(f_a\) is the ASFR (per 1,000), \(P_a^s\) is the number of women in age group \(a\) in the standard population, and \(P^s\) is the total standard population. Using a standard population of 200,000 with 50,000 women aged 15–49:</p>
+<table><tr><th>Age</th><th class="num">Bhor ASFR</th><th class="num">Standard women \(P_a^s\)</th><th class="num">\(f_aP_a^s\)</th></tr>
+<tr><td>15–19</td><td class="num">40.0</td><td class="num">9,000</td><td class="num">360,000</td></tr>
+<tr><td>20–24</td><td class="num">150.0</td><td class="num">9,000</td><td class="num">1,350,000</td></tr>
+<tr><td>25–29</td><td class="num">180.0</td><td class="num">8,500</td><td class="num">1,530,000</td></tr>
+<tr><td>30–34</td><td class="num">150.0</td><td class="num">8,000</td><td class="num">1,200,000</td></tr>
+<tr><td>35–39</td><td class="num">105.0</td><td class="num">6,500</td><td class="num">682,500</td></tr>
+<tr><td>40–44</td><td class="num">60.0</td><td class="num">5,500</td><td class="num">330,000</td></tr>
+<tr><td>45–49</td><td class="num">8.44</td><td class="num">3,500</td><td class="num">29,556</td></tr>
+<tr><th>Total</th><th></th><th class="num">50,000</th><th class="num">5,482,056</th></tr>
+</table>
+<div class="f">\[\AABR=\frac{5{,}482{,}056}{200{,}000}=27.41\ \text{per 1,000}.\]</div>
+<p>The crude CBR is 26.0. The standardized rate is 27.4, slightly higher because the standard population has a slightly older and larger share of women in the high-fertility ages. The denominator is the total standard population, not the 50,000 women; dividing by 50,000 would give a fertility rate per woman, not a birth rate per person.</p>
+
+<details class="ans"><summary>The indirect version, step by step</summary>
+<p>Indirect standardization applies a standard age-specific fertility schedule \(F_a\) to the study population's women, compares observed with expected births, and multiplies the ratio by the standard CBR \(F\):</p>
+<div class="f">\[\AABR_{\text{in}}=\frac{b}{\sum_a F_aP_a^f}\times F.\]</div>
+<p>Take the standard ASFR schedule 30, 120, 140, 110, 70, 30, 5 per 1,000. Applied to Bhor's female population:</p>
+<div class="f">\[\text{expected births}=\frac{30(9{,}800)+120(9{,}000)+140(8{,}000)+110(7{,}000)+70(6{,}000)+30(5{,}000)+5(4{,}500)}{1000}=3{,}856.5.\]</div>
+<p>Observed births are 5,200, so the ratio is \(5{,}200/3{,}856.5=1.348\). The standard schedule produces 4,057.5 births in the standard population of 200,000, so the standard CBR is \(4{,}057.5/200{,}000\times1000=20.29\). Therefore</p>
+<div class="f">\[\AABR_{\text{in}}=1.348\times20.29=27.36\ \text{per 1,000}.\]</div>
+<p>The direct and indirect versions agree to two decimal places, which is what you expect when the standard schedule is not too different from Bhor's. Neither is "the" birth rate; both are weighted averages with chosen weights.</p>
+</details>
+</section>
+
+<section id="replace"><h2>Replacement</h2>
+<p>Fertility counts births. Replacement counts daughters who survive to have their own children. The bridge between the two is the sex ratio at birth and the life table.</p>
+
+<h3>Sex ratio at birth and the GRR</h3>
+<p>Bhor's register implies 105 boys for every 100 girls at birth. The share of girls is therefore</p>
+<div class="f">\[\frac{100}{100+105}=0.4878.\]</div>
+<p>Of 5,200 births, about 2,538 are girls. The gross reproduction rate multiplies the TFR by the share of girls:</p>
+<div class="f">\[\GRR=\TFR\times0.488=3.467\times0.488=1.692.\]</div>
+<p>A synthetic cohort of women would have 1.69 daughters each if every girl survived through the childbearing years. The GRR ignores mortality, so it is an upper bound on replacement.</p>
+
+<h3>The life table enters</h3>
+<p>To count daughters who survive, we need the life table's \(L_x\) column: person-years lived in each age interval per 100,000 births. The relevant excerpt for Bhor's females is:</p>
+<table><tr><th>Age</th><th class="num">\(l_x\) at start</th><th class="num">\(l_x\) at end</th><th class="num">\(L_x\)</th><th class="num">\(L_x/l_0\)</th></tr>
+<tr><td>15–19</td><td class="num">94,200</td><td class="num">93,300</td><td class="num">468,750</td><td class="num">4.6875</td></tr>
+<tr><td>20–24</td><td class="num">93,300</td><td class="num">92,100</td><td class="num">463,500</td><td class="num">4.6350</td></tr>
+<tr><td>25–29</td><td class="num">92,100</td><td class="num">90,500</td><td class="num">456,500</td><td class="num">4.5650</td></tr>
+<tr><td>30–34</td><td class="num">90,500</td><td class="num">88,400</td><td class="num">447,250</td><td class="num">4.4725</td></tr>
+<tr><td>35–39</td><td class="num">88,400</td><td class="num">85,600</td><td class="num">435,000</td><td class="num">4.3500</td></tr>
+<tr><td>40–44</td><td class="num">85,600</td><td class="num">81,600</td><td class="num">418,000</td><td class="num">4.1800</td></tr>
+<tr><td>45–49</td><td class="num">81,600</td><td class="num">75,900</td><td class="num">393,750</td><td class="num">3.9375</td></tr>
+</table>
+<p class="caption">Table 7. Female life table excerpt. \(L_x\) is approximated as \(5(l_x+l_{x+5})/2\).</p>
+
+<p>The net reproduction rate multiplies each age-specific fertility rate by the survival ratio for that age interval:</p>
+<div class="f">\[\NRR=\sum_a\frac{\ASFR_a}{1000}\times0.488\times\frac{L_a}{l_0}.\]</div>
+<table><tr><th>Age</th><th class="num">ASFR</th><th class="num">\(f_a=\ASFR/1000\)</th><th class="num">\(L_a/l_0\)</th><th class="num">Contribution</th></tr>
+<tr><td>15–19</td><td class="num">40.0</td><td class="num">0.0400</td><td class="num">4.6875</td><td class="num">0.0915</td></tr>
+<tr><td>20–24</td><td class="num">150.0</td><td class="num">0.1500</td><td class="num">4.6350</td><td class="num">0.3393</td></tr>
+<tr><td>25–29</td><td class="num">180.0</td><td class="num">0.1800</td><td class="num">4.5650</td><td class="num">0.4010</td></tr>
+<tr><td>30–34</td><td class="num">150.0</td><td class="num">0.1500</td><td class="num">4.4725</td><td class="num">0.3274</td></tr>
+<tr><td>35–39</td><td class="num">105.0</td><td class="num">0.1050</td><td class="num">4.3500</td><td class="num">0.2229</td></tr>
+<tr><td>40–44</td><td class="num">60.0</td><td class="num">0.0600</td><td class="num">4.1800</td><td class="num">0.1224</td></tr>
+<tr><td>45–49</td><td class="num">8.44</td><td class="num">0.0084</td><td class="num">3.9375</td><td class="num">0.0162</td></tr>
+<tr><th>Total</th><th></th><th></th><th></th><th class="num">1.5207</th></tr>
+</table>
+<p class="caption">Table 8. Net reproduction rate. Each contribution is \(f_a\times0.488\times L_a/l_0\).</p>
+
+<p>Bhor's NRR is 1.52. A synthetic cohort of women would have 1.52 daughters each after mortality. Since each daughter replaces one mother, the next generation of mothers would be about 52% larger if these rates continued. The ratio \(NRR/GRR=1.5207/1.692=0.899\) is the average survival of women through the childbearing years.</p>
+
+<div class="box"><h3>Try it: fertility, survival, and replacement</h3>
+<div class="row"><label>TFR <input type="range" id="tfr" min="100" max="600" step="1" value="347"> <b id="tfrv">3.47</b></label>
+<label>Average survival \(S\) <input type="range" id="surv" min="50" max="98" step="1" value="90"> <b id="survv">0.90</b></label></div>
+<div class="out" id="nrrOut"></div>
+<div class="gauge"><div class="fill" id="nrrFill"></div><div class="mark"></div></div>
+<div class="gauge-labels"><span>0</span><span>replacement = 1</span><span>2.5</span></div>
+<p class="mut" style="margin-bottom:0">The gauge is scaled from 0 to 2.5. The vertical mark is replacement level.</p></div>
+
+<h3>Replacement-level fertility</h3>
+<p>Set NRR equal to 1 and solve for the TFR:</p>
+<div class="f">\[\TFR_{\text{repl}}=\frac{1}{0.488\times S}=\frac{1}{0.488\times0.899}=2.28.\]</div>
+<p>At Bhor's mortality, women need about 2.28 births each to replace the population, not the familiar 2.1. The extra 0.18 is the toll of mortality before and during the childbearing years. In a population with higher mortality, replacement fertility is higher; in a population where every girl survives to 50, it approaches \(1/0.488=2.05\).</p>
+
+<h3>Natural increase and the vital index</h3>
+<div class="f">\[r_n=\frac{B-D}{P}\times1000=\frac{5{,}200-1{,}520}{200{,}000}\times1000=18.4.\]</div>
+<p>The natural increase rate is 18.4 per 1,000, or 1.84% a year before migration. It is also the difference between the crude birth and death rates: \(26.0-7.6=18.4\). The vital index is a simple ratio of births to deaths:</p>
+<div class="f">\[VI=\frac{B}{D}\times100=\frac{5{,}200}{1{,}520}\times100=342.1.\]</div>
+<p>342 births per 100 deaths. The vital index is easy to read and easy to over-interpret: it ignores the age structure, so a young population can have a high index while its age-specific rates are not especially favourable.</p>
+
+<div class="box ex"><b>Generation length and the annual rate.</b> The mean age at childbearing in Bhor is 30.0 years. If NRR is 1.52 per generation, the implied annual growth rate is approximately \(\ln(1.52)/30=0.0140\), or 1.40% a year. The natural increase rate is 1.84%. The gap is momentum: a young age structure produces more births than deaths even at replacement fertility. NRR is a generational measure; \(r_n\) is an annual one. They are related, not identical.</div>
+</section>
+
+<section id="pitfalls"><h2>What the numbers do not say</h2>
+<p>Every measure on this page is a ratio with a chosen numerator, a chosen denominator, and a chosen multiplier. The arithmetic is exact. The interpretation is where the mistakes live.</p>
+<ul class="pts">
+<li><b>Rate, ratio, proportion.</b> A rate puts events over person-years. A ratio puts one count over another. A proportion is a ratio whose numerator is a subset of the denominator. The IMR, the maternal mortality ratio, and the fetal death ratio are ratios by strict usage, even though everyone calls them rates. The label does not change the arithmetic, but it changes what you can claim.</li>
+<li><b>Period and cohort.</b> A period measure mixes the experience of several birth cohorts in one calendar year. A cohort measure follows one group through time. The period IMR and the cohort IMR can differ substantially when births or mortality are changing. Neither is wrong; they answer different questions.</li>
+<li><b>Denominator mismatch.</b> Infant deaths in a year are not all from that year's births. Maternal deaths are not a subset of live births in the same way that infant deaths are. Fetal deaths are not live births. Always ask who is actually at risk.</li>
+<li><b>Small numbers.</b> A rate computed from eight deaths is unstable. The same is true of a maternal mortality ratio, a cause-specific rate for a rare cause, or an ASFR for a small age group. A confidence interval would show the instability; a single number hides it.</li>
+<li><b>The standard is a choice.</b> Direct and indirect standardization give different numbers, and the choice of standard changes the level. Standardized rates are for comparison, not for description. Do not compare a standardized rate to a crude rate from another population.</li>
+<li><b>Registration completeness.</b> A rate is only as good as its numerator and denominator. If deaths are underregistered, the CDR and the IMR are too low. If the census misses people, the denominators are too small and the rates are too high. The correction in the CDR section is a ratio of completeness, not a guarantee.</li>
+<li><b>Age heaping and age misreporting.</b> Ages ending in 0 and 5 are overrepresented in many censuses. That distorts age-specific rates and any standardization that uses them. The problem is worse in older populations and in self-reported ages.</li>
+<li><b>The synthetic cohort is not a forecast.</b> The TFR and the NRR describe what would happen if one year's rates continued forever. They do not predict what a real cohort will do. Tempo effects—later marriage, later first births—can move the TFR without changing completed family size.</li>
+<li><b>Natural increase is not population growth.</b> \(r_n\) ignores migration. A district can have a healthy natural increase and a falling population if young adults leave. It can also have a low \(r_n\) and a growing population if migrants arrive.</li>
+<li><b>Shortcuts are checks.</b> \(GFR\approx4.5\times CBR\) and \(TFR\approx30\times GFR/1000\) are rules of thumb. They assume a particular age structure and a particular fertility schedule. When those assumptions fail, the shortcuts fail quietly.</li>
+</ul>
+</section>
+
+<section id="prac"><h2>Practice</h2>
+<p class="mut">Work each problem before opening the solution. The numbers come from the Bhor and Sur registers above unless a question says otherwise.</p>
+
+<details class="ans"><summary>1. Compute Bhor's CDR, CBR, natural increase rate, and vital index. Interpret each in one sentence.</summary>
+<p><b>Step 1: CDR.</b></p>
+<div class="f">\[\CDR=\frac{1{,}520}{200{,}000}\times1000=7.60.\]</div>
+<p>Bhor experiences 7.6 deaths per 1,000 people per year.</p>
+<p><b>Step 2: CBR.</b></p>
+<div class="f">\[\CBR=\frac{5{,}200}{200{,}000}\times1000=26.0.\]</div>
+<p>Bhor experiences 26 births per 1,000 people per year.</p>
+<p><b>Step 3: natural increase.</b></p>
+<div class="f">\[r_n=\frac{5{,}200-1{,}520}{200{,}000}\times1000=18.4.\]</div>
+<p>Births exceed deaths by 18.4 per 1,000 people per year, or 1.84% before migration.</p>
+<p><b>Step 4: vital index.</b></p>
+<div class="f">\[VI=\frac{5{,}200}{1{,}520}\times100=342.1.\]</div>
+<p>There are 342 births for every 100 deaths.</p>
+<p class="mut">All four numbers come from the same two counts. They differ because they put the counts over different denominators or express them as ratios.</p></details>
+
+<details class="ans"><summary>2. Compute the three-year CDR for 2019–2021 using the three averaging methods. Why do they agree here?</summary>
+<p><b>The data.</b> Deaths: 1,480; 1,500; 1,520. Populations: 196,000; 198,000; 200,000.</p>
+<p><b>Method 1: average of annual rates.</b></p>
+<div class="f">\[\frac13\left[\frac{1{,}480}{196{,}000}+\frac{1{,}500}{198{,}000}+\frac{1{,}520}{200{,}000}\right]\times1000=7.576.\]</div>
+<p><b>Method 2: total deaths over total population.</b></p>
+<div class="f">\[\frac{4{,}500}{594{,}000}\times1000=7.576.\]</div>
+<p><b>Method 3: average annual deaths over mid-period population.</b></p>
+<div class="f">\[\frac{1{,}500}{198{,}000}\times1000=7.576.\]</div>
+<p><b>Why they agree.</b> The population grows by a constant 2,000 a year and the death rate is nearly constant. When the weights change smoothly, the three versions are nearly identical. They would diverge if one year had a epidemic, a boundary change, or a census adjustment.</p></details>
+
+<details class="ans"><summary>3. Adjust the 2021 CDR for incomplete registration when \(C_d=0.90, C_p=0.95\). Then reverse the two completeness rates and compare.</summary>
+<p><b>Step 1: the formula.</b></p>
+<div class="f">\[\CDR_{\text{adj}}=\frac{D/C_d}{P/C_p}\times1000.\]</div>
+<p><b>Step 2: plug in.</b></p>
+<div class="f">\[\frac{1{,}520/0.90}{200{,}000/0.95}\times1000=\frac{1{,}688.9}{210{,}526}\times1000=8.02.\]</div>
+<p>The raw rate was 7.60, so the correction raises it by about 5.6%.</p>
+<p><b>Step 3: reverse the rates.</b> Now deaths are 95% complete and the population is 90% complete:</p>
+<div class="f">\[\frac{1{,}520/0.95}{200{,}000/0.90}\times1000=\frac{1{,}600}{222{,}222}\times1000=7.20.\]</div>
+<p>The adjusted rate is now lower than the raw rate. What matters is the ratio \(C_p/C_d\). When deaths are undercounted more than people, the rate rises; when people are undercounted more than deaths, it falls.</p></details>
+
+<details class="ans"><summary>4. Compute the 65–69 and 80+ death rates. Then move 4.6% of the population from 0–4 to 80+ and recompute the CDR.</summary>
+<p><b>Step 1: the two rates.</b></p>
+<div class="f">\[M_{65-69}=\frac{150}{4{,}000}\times1000=37.5,\qquad M_{80+}=\frac{182}{800}\times1000=227.5.\]</div>
+<p><b>Step 2: the transfer.</b> The 0–4 share is 13.0%; the 80+ share is 0.4%. Moving 4.6 percentage points gives new shares of 8.4% and 5.0%. The change in the CDR is the change in weights times the rates:</p>
+<div class="f">\[\Delta\CDR=(0.050-0.004)(227.5)+(0.084-0.130)(10.0)=10.465-0.460=10.005.\]</div>
+<div class="f">\[\CDR_{\text{new}}=7.60+10.01=17.61.\]</div>
+<p><b>Step 3: interpretation.</b> Every age-specific rate is unchanged. Only the weights moved. The CDR nearly doubles because the population now has many more people in the age group where death is common. This is exactly why crude rates cannot be compared across populations with different age structures.</p></details>
+
+<details class="ans"><summary>5. Directly standardize Bhor's CDR using the combined population as the standard. Verify the 11.34 in Table 4.</summary>
+<p><b>Step 1: the standard shares.</b> The combined population is 500,000. The six broad groups have shares 28.74%, 24.13%, 19.52%, 15.39%, 9.62%, and 2.61%.</p>
+<p><b>Step 2: multiply each share by Bhor's rate.</b></p>
+<table><tr><th>Age</th><th class="num">Share</th><th class="num">Bhor rate</th><th class="num">Contribution</th></tr>
+<tr><td>0–14</td><td class="num">0.2874</td><td class="num">3.917</td><td class="num">1.126</td></tr>
+<tr><td>15–29</td><td class="num">0.2413</td><td class="num">1.630</td><td class="num">0.393</td></tr>
+<tr><td>30–44</td><td class="num">0.1952</td><td class="num">4.111</td><td class="num">0.802</td></tr>
+<tr><td>45–59</td><td class="num">0.1539</td><td class="num">11.875</td><td class="num">1.827</td></tr>
+<tr><td>60–74</td><td class="num">0.0962</td><td class="num">35.833</td><td class="num">3.446</td></tr>
+<tr><td>75+</td><td class="num">0.0261</td><td class="num">143.500</td><td class="num">3.750</td></tr>
+<tr><th>Total</th><th class="num">1.0000</th><th></th><th class="num">11.344</th></tr></table>
+<p><b>Step 3: compare.</b> The crude CDR is 7.60. The standardized CDR is 11.34, about 49% higher. The difference is the effect of Bhor's young age structure: Bhor's crude rate is low because relatively few people are old, not because its age-specific mortality is low.</p></details>
+
+<details class="ans"><summary>6. Compute Bhor's SMR using the combined rates as the standard. Interpret the number.</summary>
+<p><b>Step 1: expected deaths.</b> Apply the combined age-specific rates to Bhor's population:</p>
+<div class="f">\[\text{expected}=\sum_a M_a^{\text{combined}}P_a^{\text{Bhor}}=1{,}426.2.\]</div>
+<p><b>Step 2: SMR.</b></p>
+<div class="f">\[\SMR=\frac{1{,}520}{1{,}426.2}\times100=106.6.\]</div>
+<p><b>Step 3: adjusted rate.</b> Multiply by the combined crude rate, 10.606:</p>
+<div class="f">\[1.066\times10.606=11.30\ \text{per 1,000}.\]</div>
+<p><b>Interpretation.</b> Bhor has 6.6% more deaths than it would have if its people died at the combined age-specific rates. The SMR is a ratio of observed to expected; it is not a rate per 1,000. The adjusted rate puts it back on a rate scale, using the standard's crude rate as the anchor.</p></details>
+
+<details class="ans"><summary>7. Compute IMR, NMR, PNMR, and MMR. Then adjust the IMR with \(f=0.75\), \(B_t=5,200\), \(B_{t-1}=5,000\).</summary>
+<p><b>Step 1: the four measures.</b></p>
+<div class="f">\[\IMR=\frac{208}{5{,}200}\times1000=40.0,\qquad \text{NMR}=\frac{104}{5{,}200}\times1000=20.0,\]</div>
+<div class="f">\[\text{PNMR}=\frac{104}{5{,}200}\times1000=20.0,\qquad \text{MMR}=\frac{8}{5{,}200}\times100{,}000=153.85.\]</div>
+<p><b>Step 2: adjusted IMR.</b></p>
+<div class="f">\[\IMR_{\text{adj}}=\frac{208}{0.75(5{,}200)+0.25(5{,}000)}\times1000=\frac{208}{5{,}150}\times1000=40.39.\]</div>
+<p><b>Step 3: interpretation.</b> The naive IMR is 40.0; the adjusted IMR is 40.4. The difference is small because the two birth cohorts are similar in size and because three-quarters of infant deaths belong to the current year's births. If the birth cohort had changed sharply, the adjustment would matter more.</p></details>
+
+<details class="ans"><summary>8. Compute the fetal death ratio, fetal death rate, perinatal mortality rate, and perinatal mortality ratio. Why are the rate and ratio different?</summary>
+<p><b>Step 1: fetal measures.</b> Total fetal deaths 96; late fetal deaths 78; births 5,200.</p>
+<div class="f">\[\text{fetal ratio}=\frac{96}{5{,}200}\times1000=18.46,\qquad \text{fetal rate}=\frac{96}{96+5{,}200}\times1000=18.13.\]</div>
+<p><b>Step 2: perinatal measures.</b> Early neonatal deaths 70.</p>
+<div class="f">\[\text{perinatal rate}=\frac{78+70}{78+5{,}200}\times1000=28.04,\]</div>
+<div class="f">\[\text{perinatal ratio}=\frac{78+70}{5{,}200}\times1000=28.46.\]</div>
+<p><b>Step 3: why they differ.</b> The ratio divides by live births only. The rate divides by all deliveries at risk, including the stillbirths. The ratio is larger because its denominator is smaller. Here the gap is 0.33 per 1,000 for fetal deaths and 0.42 for perinatal deaths. The gap grows when fetal deaths are a larger share of deliveries.</p></details>
+
+<details class="ans"><summary>9. Compute GFR, TFR, and GRR. Then check the shortcuts \(GFR\approx4.5\,CBR\) and \(TFR\approx30\,GFR/1000\).</summary>
+<p><b>Step 1: GFR.</b></p>
+<div class="f">\[\GFR=\frac{5{,}200}{49{,}300}\times1000=105.48.\]</div>
+<p><b>Step 2: TFR.</b></p>
+<div class="f">\[\TFR=5(0.040+0.150+0.180+0.150+0.105+0.060+0.00844)=3.467.\]</div>
+<p><b>Step 3: GRR.</b></p>
+<div class="f">\[\GRR=3.467\times0.488=1.692.\]</div>
+<p><b>Step 4: shortcuts.</b></p>
+<div class="f">\[4.5\times26.0=117.0\quad\text{vs}\quad105.48,\qquad 30\times\frac{105.48}{1000}=3.164\quad\text{vs}\quad3.467.\]</div>
+<p>The first overstates GFR by 10.9%. It assumes women 15–49 are 22.2% of the population; in Bhor they are 24.65%. The second understates TFR by 8.7%. It assumes a flat fertility schedule over 30 years; Bhor's schedule is concentrated at 20–34.</p></details>
+
+<details class="ans"><summary>10. Compute NRR from the life table and ASFRs. Then find replacement-level TFR.</summary>
+<p><b>Step 1: the contributions.</b> Each contribution is \((\ASFR/1000)\times0.488\times L_x/l_0\):</p>
+<table><tr><th>Age</th><th class="num">ASFR</th><th class="num">\(L_x/l_0\)</th><th class="num">Contribution</th></tr>
+<tr><td>15–19</td><td class="num">40.0</td><td class="num">4.6875</td><td class="num">0.0915</td></tr>
+<tr><td>20–24</td><td class="num">150.0</td><td class="num">4.6350</td><td class="num">0.3393</td></tr>
+<tr><td>25–29</td><td class="num">180.0</td><td class="num">4.5650</td><td class="num">0.4010</td></tr>
+<tr><td>30–34</td><td class="num">150.0</td><td class="num">4.4725</td><td class="num">0.3274</td></tr>
+<tr><td>35–39</td><td class="num">105.0</td><td class="num">4.3500</td><td class="num">0.2229</td></tr>
+<tr><td>40–44</td><td class="num">60.0</td><td class="num">4.1800</td><td class="num">0.1224</td></tr>
+<tr><td>45–49</td><td class="num">8.44</td><td class="num">3.9375</td><td class="num">0.0162</td></tr>
+<tr><th>Total</th><th></th><th></th><th class="num">1.5207</th></tr></table>
+<p><b>Step 2: survival factor.</b></p>
+<div class="f">\[S=\frac{\NRR}{\GRR}=\frac{1.5207}{1.692}=0.899.\]</div>
+<p><b>Step 3: replacement TFR.</b></p>
+<div class="f">\[\TFR_{\text{repl}}=\frac{1}{0.488\times0.899}=2.28.\]</div>
+<p><b>Interpretation.</b> At Bhor's mortality, 2.28 births per woman is replacement. The current TFR of 3.47 is well above it, so the population would grow about 52% per generation if these rates continued.</p></details>
+
+<details class="ans"><summary>11. Compute the marital and non-marital fertility rates, and the marital and non-marital birth ratios. Explain the difference.</summary>
+<p><b>Step 1: fertility rates.</b></p>
+<div class="f">\[\GMFMR=\frac{4{,}300}{30{,}000}\times1000=143.3,\qquad \frac{900}{19{,}300}\times1000=46.6.\]</div>
+<p><b>Step 2: birth ratios.</b></p>
+<div class="f">\[\text{marital}=\frac{4{,}300}{5{,}200}\times1000=826.9,\qquad \text{non-marital}=\frac{900}{5{,}200}\times1000=173.1.\]</div>
+<p><b>Step 3: the difference.</b> The fertility rate divides births by the women at risk. The birth ratio divides births by all births. The first measures behaviour; the second measures composition. A population can have a high marital birth ratio and low marital fertility if almost all births occur within marriage but married women have few children.</p></details>
+
+<details class="ans"><summary>12. For women aged 25–29, verify that the order-specific births and rates add to the ASFR. What does the parity distribution add?</summary>
+<p><b>Step 1: births.</b></p>
+<div class="f">\[420+560+360+100=1{,}440.\]</div>
+<p><b>Step 2: rates.</b> Divide each by 8,000 women and multiply by 1,000:</p>
+<div class="f">\[52.5+70.0+45.0+12.5=180.0.\]</div>
+<p><b>Step 3: check against the ASFR.</b></p>
+<div class="f">\[\frac{1{,}440}{8{,}000}\times1000=180.0.\]</div>
+<p><b>What it adds.</b> The ASFR says how many births women 25–29 have. The order-specific rates say which births they are. A population with the same ASFR can have mostly first births (early family formation) or mostly third and higher-order births (large families). The parity distribution distinguishes the two, and that matters for projecting future births: first births create new mothers, while higher-order births do not.</p></details>
+</section>
+
+<section id="form"><h2>Formula sheet</h2>
+<table><tr><th>Measure</th><th>Formula</th><th>Note</th></tr>
+<tr><td>Crude death rate</td><td>\(D/P\times1000\)</td><td>All deaths over mid-year population</td></tr>
+<tr><td>Age-specific death rate</td><td>\(D_a/P_a\times1000\)</td><td>Deaths in age group \(a\) over its population</td></tr>
+<tr><td>CDR as weighted average</td><td>\(\sum_a(P_a/P)M_a\)</td><td>Weights are population shares</td></tr>
+<tr><td>Direct standardized rate</td><td>\(\sum_a(P_a^s/P^s)M_a\)</td><td>Study rates, standard weights</td></tr>
+<tr><td>Standardized mortality ratio</td><td>\((\text{observed}/\text{expected})\times100\)</td><td>Expected from standard rates</td></tr>
+<tr><td>Indirect adjusted rate</td><td>\(\SMR\times\CDR_{\text{standard}}\)</td><td>Puts the SMR on a rate scale</td></tr>
+<tr><td>Infant mortality rate</td><td>\(D_0/B\times1000\)</td><td>Deaths under 1 over live births</td></tr>
+<tr><td>Neonatal mortality rate</td><td>\(D_{0-27}/B\times1000\)</td><td>First 28 days</td></tr>
+<tr><td>Post-neonatal mortality rate</td><td>\(D_{28-364}/B\times1000\)</td><td>Days 28–364</td></tr>
+<tr><td>Maternal mortality ratio</td><td>\(D_{\text{mat}}/B\times100{,}000\)</td><td>Per 100,000 live births</td></tr>
+<tr><td>Fetal death ratio</td><td>\(F/B\times1000\)</td><td>Stillbirths per live birth</td></tr>
+<tr><td>Fetal death rate</td><td>\(F/(F+B)\times1000\)</td><td>Stillbirths per delivery</td></tr>
+<tr><td>Perinatal mortality rate</td><td>\((F_{\text{late}}+D_{\text{early neo}})/(F_{\text{late}}+B)\times1000\)</td><td>Late fetal plus early neonatal</td></tr>
+<tr><td>Perinatal mortality ratio</td><td>\((F_{\text{late}}+D_{\text{early neo}})/B\times1000\)</td><td>Same numerator, births only</td></tr>
+<tr><td>Crude birth rate</td><td>\(B/P\times1000\)</td><td>All births over total population</td></tr>
+<tr><td>General fertility rate</td><td>\(B/P_{f,15-49}\times1000\)</td><td>Women of childbearing age</td></tr>
+<tr><td>Age-specific fertility rate</td><td>\(B_a/P_{f,a}\times1000\)</td><td>Births to women in age group \(a\)</td></tr>
+<tr><td>Total fertility rate</td><td>\(5\sum_a\ASFR_a/1000\)</td><td>Synthetic cohort</td></tr>
+<tr><td>Gross reproduction rate</td><td>\(\TFR\times0.488\)</td><td>Daughters before mortality</td></tr>
+<tr><td>Net reproduction rate</td><td>\(\sum_a(\ASFR_a/1000)(0.488)(L_a/l_0)\)</td><td>Daughters after mortality</td></tr>
+<tr><td>Natural increase rate</td><td>\((B-D)/P\times1000\)</td><td>Before migration</td></tr>
+<tr><td>Vital index</td><td>\(B/D\times100\)</td><td>Births per 100 deaths</td></tr>
+<tr><td>General marital fertility rate</td><td>\(B_m/P_{f,m}\times1000\)</td><td>Married women 15–49</td></tr>
+<tr><td>Marital birth ratio</td><td>\(B_m/B\times1000\)</td><td>Share of births, per 1,000</td></tr>
+<tr><td>Duration-specific marital fertility</td><td>\(B_i^m/P_{f,m,i}\times1000\)</td><td>By duration since marriage</td></tr>
+<tr><td>Age-order specific fertility</td><td>\(B_a^i/P_{f,a}\times1000\)</td><td>By age and birth order</td></tr>
+<tr><td>Direct age-adjusted birth rate</td><td>\(\sum_a f_aP_a^s/P^s\times1000\)</td><td>Study ASFRs, standard women</td></tr>
+<tr><td>Indirect age-adjusted birth rate</td><td>\(b/(\sum_aF_aP_a^f)\times F\)</td><td>Standard ASFRs, study women</td></tr>
+</table>
+
+<h3>Symbols</h3>
+<table><tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(P,\ P_a\)</td><td>Mid-year population, total and in age group \(a\)</td></tr>
+<tr><td>\(D,\ D_a\)</td><td>Deaths, total and in age group \(a\)</td></tr>
+<tr><td>\(B,\ B_a\)</td><td>Live births, total and to women in age group \(a\)</td></tr>
+<tr><td>\(M_a\)</td><td>Age-specific death rate \(D_a/P_a\)</td></tr>
+<tr><td>\(P^s,\ P_a^s\)</td><td>Standard population, total and in age group \(a\)</td></tr>
+<tr><td>\(M_a^s\)</td><td>Standard age-specific death rate</td></tr>
+<tr><td>\(D_0\)</td><td>Deaths under one year</td></tr>
+<tr><td>\(F\)</td><td>Fetal deaths (stillbirths)</td></tr>
+<tr><td>\(f\)</td><td>Separation factor; also ASFR per woman-year in the NRR formula</td></tr>
+<tr><td>\(l_x,\ L_x\)</td><td>Life table survivors at age \(x\); person-years lived in the interval</td></tr>
+<tr><td>\(P_{f,15-49}\)</td><td>Women aged 15–49</td></tr>
+<tr><td>\(P_{f,m}\)</td><td>Married women aged 15–49</td></tr>
+<tr><td>\(B_m,\ B_u\)</td><td>Births to married and unmarried women</td></tr>
+<tr><td>\(F_a\)</td><td>Standard age-specific fertility rate</td></tr>
+<tr><td>\(b\)</td><td>Observed births in the study population</td></tr>
+</table>
+
+<div class="box ex"><b>Five identities worth remembering.</b>
+<ul class="pts" style="margin-bottom:0">
+<li>\(\CDR=\CBR-r_n\). The crude rates and the natural increase rate are three views of the same two counts.</li>
+<li>\(\IMR=\text{NMR}+\text{PNMR}\). The two infant age ranges partition the first year.</li>
+<li>\(\TFR=5\sum\ASFR/1000\). The five is the width of each age group, not a constant of nature.</li>
+<li>\(\NRR=\GRR\times S\), where \(S\) is the average survival of women through the childbearing years.</li>
+<li>\(\NRR=1\) at \(\TFR=1/(0.488S)\). At Bhor's mortality, that is 2.28, not 2.10.</li>
+</ul></div>
+</section>
+
+</main>
+<script>
+(function(){
+  var r=document.documentElement,t=document.getElementById('th');
+  t.onchange=function(){r.setAttribute('data-theme',t.checked?'dark':'light')};
+  t.checked=matchMedia('(prefers-color-scheme:dark)').matches;
+  if(t.checked)r.setAttribute('data-theme','dark');
+})();
+
+(function(){
+  var ages=['0–4','5–9','10–14','15–19','20–24','25–29','30–34','35–39','40–44','45–49','50–54','55–59','60–64','65–69','70–74','75–79','80+'];
+  var mb=[10.000,0.417,0.545,1.200,1.667,2.125,2.857,4.000,6.000,8.333,11.875,16.429,25.455,37.500,56.000,87.500,227.500];
+  var ms=[9.020,0.374,0.509,1.094,1.491,1.894,2.551,3.577,5.424,7.514,10.672,14.793,22.930,33.752,50.400,78.682,204.666];
+  var svg=document.getElementById('asdrChart');
+  if(!svg) return;
+  var W=760,H=350,L=46,R=14,T=16,B=58;
+  var pw=W-L-R,ph=H-T-B,ymin=0.3,ymax=300;
+  function x(i){return L+i/(ages.length-1)*pw}
+  function y(v){return T+(Math.log10(ymax)-Math.log10(v))/(Math.log10(ymax)-Math.log10(ymin))*ph}
+  var s='';
+  [1,10,100].forEach(function(g){
+    var yy=y(g);
+    s+='<line x1="'+L+'" y1="'+yy.toFixed(1)+'" x2="'+(W-R)+'" y2="'+yy.toFixed(1)+'" stroke="var(--line)" stroke-width="1"/>';
+    s+='<text x="'+(L-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="var(--mut)">'+g+'</text>';
+  });
+  s+='<line x1="'+L+'" y1="'+(T+ph)+'" x2="'+(W-R)+'" y2="'+(T+ph)+'" stroke="var(--line)"/>';
+  s+='<line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(T+ph)+'" stroke="var(--line)"/>';
+  ages.forEach(function(a,i){
+    if(i%2===0||i===ages.length-1){
+      s+='<text x="'+x(i).toFixed(1)+'" y="'+(T+ph+18)+'" text-anchor="middle" font-size="10" fill="var(--mut)">'+a+'</text>';
+    }
+  });
+  function path(arr){return arr.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' ')}
+  s+='<path d="'+path(mb)+'" fill="none" stroke="var(--ac)" stroke-width="2"/>';
+  s+='<path d="'+path(ms)+'" fill="none" stroke="var(--ok)" stroke-width="2"/>';
+  mb.forEach(function(v,i){s+='<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="2.6" fill="var(--ac)"/>'});
+  ms.forEach(function(v,i){s+='<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="2.6" fill="var(--ok)"/>'});
+  s+='<text x="'+(x(16)-6).toFixed(1)+'" y="'+(y(mb[16])-9).toFixed(1)+'" text-anchor="end" font-size="10" fill="var(--ac)">227.5</text>';
+  s+='<text x="14" y="'+(T+ph/2).toFixed(1)+'" transform="rotate(-90 14 '+(T+ph/2).toFixed(1)+')" text-anchor="middle" font-size="10" fill="var(--mut)">deaths per 1,000</text>';
+  svg.innerHTML=s;
+})();
+
+(function(){
+  var data={
+    bhor:{b:7.60,s:6.89,label:"Bhor's age structure"},
+    sur:{b:13.84,s:12.61,label:"Sur's age structure"},
+    combined:{b:11.34,s:10.32,label:"the combined age structure"}
+  };
+  var bf=document.getElementById('stdB'),sf=document.getElementById('stdS');
+  var bv=document.getElementById('stdBv'),sv=document.getElementById('stdSv'),out=document.getElementById('stdOut');
+  if(!bf) return;
+  function set(key){
+    var d=data[key];
+    bf.style.width=(d.b/15*100)+'%';
+    sf.style.width=(d.s/15*100)+'%';
+    bv.textContent=d.b.toFixed(2);
+    sv.textContent=d.s.toFixed(2);
+    out.innerHTML='Standard: <b>'+d.label+'</b>. Bhor <b>'+d.b.toFixed(2)+'</b>, Sur <b>'+d.s.toFixed(2)+'</b> per 1,000. Difference: <b>'+(d.b-d.s).toFixed(2)+'</b>.';
+    document.querySelectorAll('[data-std]').forEach(function(btn){
+      btn.setAttribute('aria-pressed',btn.getAttribute('data-std')===key?'true':'false');
+    });
+  }
+  document.querySelectorAll('[data-std]').forEach(function(btn){
+    btn.addEventListener('click',function(){set(btn.getAttribute('data-std'))});
+  });
+  set('combined');
+})();
+
+(function(){
+  var cd=document.getElementById('cd'),cp=document.getElementById('cp');
+  var cdv=document.getElementById('cdv'),cpv=document.getElementById('cpv'),out=document.getElementById('cdrOut');
+  if(!cd) return;
+  function upd(){
+    var a=+cd.value/100,b=+cp.value/100;
+    cdv.textContent=Math.round(a*100)+'%';
+    cpv.textContent=Math.round(b*100)+'%';
+    var raw=1520/200000*1000;
+    var adj=(1520/a)/(200000/b)*1000;
+    var chg=(adj/raw-1)*100;
+    out.innerHTML='Raw CDR <b>'+raw.toFixed(2)+'</b>. Adjusted CDR <b>'+adj.toFixed(2)+'</b> ('+(chg>=0?'+':'')+chg.toFixed(1)+'%). The correction is the ratio of completeness, Cp/Cd.';
+  }
+  cd.addEventListener('input',upd);cp.addEventListener('input',upd);upd();
+})();
+
+(function(){
+  var f=document.getElementById('fsep'),fv=document.getElementById('fsepv'),out=document.getElementById('imrOut');
+  if(!f) return;
+  function upd(){
+    var v=+f.value/100;
+    fv.textContent=v.toFixed(2);
+    var den=v*5200+(1-v)*5000;
+    var adj=208/den*1000;
+    out.innerHTML='Denominator: <b>'+den.toFixed(0)+'</b> births. Adjusted IMR <b>'+adj.toFixed(2)+'</b>; naive IMR <b>40.00</b>.';
+  }
+  f.addEventListener('input',upd);upd();
+})();
+
+(function(){
+  var tfr=document.getElementById('tfr'),surv=document.getElementById('surv');
+  var tv=document.getElementById('tfrv'),sv=document.getElementById('survv'),out=document.getElementById('nrrOut');
+  var fill=document.getElementById('nrrFill');
+  if(!tfr) return;
+  function upd(){
+    var t=+tfr.value/100,s=+surv.value/100;
+    tv.textContent=t.toFixed(2);sv.textContent=s.toFixed(2);
+    var grr=t*0.488,nrr=grr*s,repl=1/(0.488*s);
+    out.innerHTML='GRR <b>'+grr.toFixed(2)+'</b>; NRR <b>'+nrr.toFixed(2)+'</b>. Replacement TFR at this survival: <b>'+repl.toFixed(2)+'</b>. A cohort of 100 women would have <b>'+Math.round(nrr*100)+'</b> daughters.';
+    fill.style.width=Math.min(100,nrr/2.5*100)+'%';
+  }
+  tfr.addEventListener('input',upd);surv.addEventListener('input',upd);upd();
+})();
+</script>
+</body></html>

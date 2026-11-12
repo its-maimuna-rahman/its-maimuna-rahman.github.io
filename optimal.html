@@ -21,10 +21,6 @@ a{color:inherit}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px clamp(18px,4vw,56px);background:var(--paper);border-bottom:1px solid var(--rule)}
 .brand{font-family:Radley,serif;font-size:1.25rem;text-decoration:none;margin-right:auto}
-.top nav{display:flex;gap:20px;flex-wrap:wrap}
-.top nav a{text-decoration:none;color:var(--soft)}
-.top nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
-.top nav a[aria-current="page"]{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
 #theme{position:relative;display:block;width:68px;height:36px;padding:0;border:2px solid var(--tc);border-radius:999px;background:color-mix(in srgb,var(--tc) 28%,var(--card));cursor:pointer}
 #theme svg{position:absolute;top:50%;margin-top:-8px;width:16px;height:16px;z-index:1;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #theme svg.sun{left:8px}
@@ -81,8 +77,7 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="index.html">Maimuna Rahman</a>
-  <nav aria-label="Sections"><a href="index.html#home">Home</a><a href="index.html#artifacts">Explorations</a><a href="academics.html">Academics</a><a href="resources.html" aria-current="page">Resources</a><a href="index.html#projects">Projects</a><a href="index.html#contact">Contact</a></nav>
+  <span class="brand">Maimuna Rahman</span>
   <button id="theme" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span class="thumb"></span></button>
 </header>
 
@@ -109,64 +104,66 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">AST201</span><span class="course-name">Sampling Distributions</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/201_0_probability_distributions.html" target="_blank" rel="noopener">Probability Distributions</a></li>
-                                     <li><a href="resources/201_1_central_sampling_distributions.html" target="_blank" rel="noopener">Central Sampling Distributions</a></li>
-                                     <li><a href="resources/201_2_non-central_sampling_dists.html" target="_blank" rel="noopener">Non-Central Sampling Distributions</a></li>
-                                     <li><a href="resources/201_3_chi_squared_derivations.html" target="_blank" rel="noopener">Central Chi-Square Distribution Derivations</a></li>
-                                     <li><a href="resources/201_4_t_distribution_derivations.html" target="_blank" rel="noopener">Central t Distribution Derivations</a></li>
-                                     <li><a href="resources/201_5_f_distribution_derivations.html" target="_blank" rel="noopener">Central F Distribution Derivations</a></li>
+        <div class="course-body"><ul><li><a href="y2_resources/201_0_probability_distributions.html" target="_blank" rel="noopener">Probability Distributions</a></li>
+                                     <li><a href="y2_resources/201_1_central_sampling_distributions.html" target="_blank" rel="noopener">Central Sampling Distributions</a></li>
+                                     <li><a href="y2_resources/201_2_non-central_sampling_distributions.html" target="_blank" rel="noopener">Non-Central Sampling Distributions</a></li>
+                                     <li><a href="y2_resources/201_3_chi_squared_derivations.html" target="_blank" rel="noopener">Central Chi-Square Distribution Derivations</a></li>
+                                     <li><a href="y2_resources/201_4_t_distribution_derivations.html" target="_blank" rel="noopener">Central t Distribution Derivations</a></li>
+                                     <li><a href="y2_resources/201_5_f_distribution_derivations.html" target="_blank" rel="noopener">Central F Distribution Derivations</a></li>
                                  </ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">AST202</span><span class="course-name">Actuarial Statistics</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/202_1_amortization_schedules.html" target="_blank" rel="noopener">Amortization Schedules</a></li>
-                                     <li><a href="resources/202_2_sinking_funds.html" target="_blank" rel="noopener">Sinking Funds</a></li>
-                                     <li><a href="resources/202_3_life_annuities.html" target="_blank" rel="noopener">Life Annuities</a></li>
-                                     <li><a href="resources/202_4_life_assurance.html" target="_blank" rel="noopener">Life Assurance</a></li>
-                                     <li><a href="resources/202_5_premiums.html" target="_blank" rel="noopener">Premiums</a></li>
+        <div class="course-body"><ul><li><a href="y2_resources/202_1_amortization_schedules.html" target="_blank" rel="noopener">Amortization Schedules</a></li>
+                                     <li><a href="y2_resources/202_2_sinking_funds.html" target="_blank" rel="noopener">Sinking Funds</a></li>
+                                     <li><a href="y2_resources/202_3_life_annuities.html" target="_blank" rel="noopener">Life Annuities</a></li>
+                                     <li><a href="y2_resources/202_4_life_assurance.html" target="_blank" rel="noopener">Life Assurance</a></li>
+                                     <li><a href="y2_resources/202_5_premiums.html" target="_blank" rel="noopener">Premiums</a></li>
                                  </ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">AST203</span><span class="course-name">Statistical Inference I</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/203_estimation.html" target="_blank" rel="noopener">Point Estimation</a></li>
-                                     <li><a href="resources/203_interval_estimation.html" target="_blank" rel="noopener">Interval Estimation</a></li>
-                                     <li><a href="resources/203_bayesian_statistics.html" target="_blank" rel="noopener">Bayesian Statistics</a></li>
+        <div class="course-body"><ul><li><a href="y2_resources/203_estimation.html" target="_blank" rel="noopener">Point Estimation</a></li>
+                                     <li><a href="y2_resources/203_interval_estimation.html" target="_blank" rel="noopener">Interval Estimation</a></li>
+                                     <li><a href="y2_resources/203_bayesian_statistics.html" target="_blank" rel="noopener">Bayesian Statistics</a></li>
                                  </ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">AST204</span><span class="course-name">Design and Analysis of Experiments I</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/204_1_doe_foundations_and_statistical_tools.html" target="_blank" rel="noopener">DOE Foundations and Statistical Tools</a></li>
-                                     <li><a href="resources/204_2_one_way_anova_and_crd.html" target="_blank" rel="noopener">One Way ANOVA and CRD</a></li>
-                                     <li><a href="resources/204_3_model_adequacy_checking.html" target="_blank" rel="noopener">Model Adequacy Checking</a></li>
-                                     <li><a href="resources/204_4_contrasts_and_multiple_comparisons.html" target="_blank" rel="noopener">Contrasts and Multiple Comparisons</a></li>
-                                     <li><a href="resources/204_5_sample_size.html" target="_blank" rel="noopener">Sample Size Determination</a></li>
-                                     <li><a href="resources/204_6_blocking_rcbd.html" target="_blank" rel="noopener">Blocking and RCBD</a></li>
+        <div class="course-body"><ul><li><a href="y2_resources/204_1_doe_foundations_and_statistical_tools.html" target="_blank" rel="noopener">DOE Foundations and Statistical Tools</a></li>
+                                     <li><a href="y2_resources/204_2_one_way_anova_and_crd.html" target="_blank" rel="noopener">One Way ANOVA and CRD</a></li>
+                                     <li><a href="y2_resources/204_3_model_adequacy_checking.html" target="_blank" rel="noopener">Model Adequacy Checking</a></li>
+                                     <li><a href="y2_resources/204_4_contrasts_and_multiple_comparisons.html" target="_blank" rel="noopener">Contrasts and Multiple Comparisons</a></li>
+                                     <li><a href="y2_resources/204_5_sample_size.html" target="_blank" rel="noopener">Sample Size Determination</a></li>
+                                     <li><a href="y2_resources/204_6_blocking_rcbd.html" target="_blank" rel="noopener">Blocking and RCBD</a></li>
                                  </ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">AST205</span><span class="course-name">Demography</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/205_1.html" target="_blank" rel="noopener">1</a></li>
-                                     <li><a href="resources/205_2.html" target="_blank" rel="noopener">2</a></li>
-                                     <li><a href="resources/205_3.html" target="_blank" rel="noopener">3</a></li>
-                                     <li><a href="resources/205_4.html" target="_blank" rel="noopener">4</a></li>
-                                     <li><a href="resources/205_5.html" target="_blank" rel="noopener">5</a></li>
+        <div class="course-body"><ul><li><a href="y2_resources/205_1_basic.html" target="_blank" rel="noopener">Demography Basics</a></li>
+                                     <li><a href="y2_resources/205_2_descriptive.html" target="_blank" rel="noopener">Demography Descriptive Concepts</a></li>
+                                     <li><a href="y2_resources/205_3_life_table.html" target="_blank" rel="noopener">Life Table</a></li>
+                                     <li><a href="y2_resources/205_4_fertility_mortality.html" target="_blank" rel="noopener">Fertility and Mortality Measures</a></li>
+                                     <li><a href="y2_resources/205_5_marriage_divorce.html" target="_blank" rel="noopener">Marriage and Divorce Measures</a></li>
+                                     <li><a href="y2_resources/205_7_inc2_mortality_to_fertility_part1.html" target="_blank" rel="noopener">In-course 2: Mortality to Fertility - Part 1</a></li>
+                                     <li><a href="y2_resources/205_8_inc2_fertility_to_mortality_part2.html" target="_blank" rel="noopener">In-course 2: Fertility to Mortality - Part 2</a></li>
                                  </ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">AST206</span><span class="course-name">Sampling Methods I</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/206_1_srs_estimation.html" target="_blank" rel="noopener">SRS Estimation</a></li>
-                                     <li><a href="resources/206_2_stratified_sampling.html" target="_blank" rel="noopener">Stratified Sampling (Full)</a></li>
-                                     <li><a href="resources/206_3_stratified_sampling_part1.html" target="_blank" rel="noopener">Stratified Sampling (Part 1)</a></li>
-                                     <li><a href="resources/206_4_stratified_sampling_part2.html" target="_blank" rel="noopener">Stratified Sampling (Part 2)</a></li>
-                                     <li><a href="resources/206_5_stratified_sampling_part3.html" target="_blank" rel="noopener">Stratified Sampling (Part 3)</a></li>
-                                     <li><a href="resources/206_6_stratified_sampling_part4.html" target="_blank" rel="noopener">Stratified Sampling (Part 4)</a></li>
-                                     <li><a href="resources/206_7_ratio_estimator.html" target="_blank" rel="noopener">Ratio Estimator</a></li>
-                                      <li><a href="resources/206_8_regression_estimator.html" target="_blank" rel="noopener">Regression Estimator</a></li>
+        <div class="course-body"><ul><li><a href="y2_resources/206_1_srs_estimation.html" target="_blank" rel="noopener">SRS Estimation</a></li>
+                                     <li><a href="y2_resources/206_2_stratified_sampling.html" target="_blank" rel="noopener">Stratified Sampling (Full)</a></li>
+                                     <li><a href="y2_resources/206_3_stratified_sampling_part1.html" target="_blank" rel="noopener">Stratified Sampling (Part 1)</a></li>
+                                     <li><a href="y2_resources/206_4_stratified_sampling_part2.html" target="_blank" rel="noopener">Stratified Sampling (Part 2)</a></li>
+                                     <li><a href="y2_resources/206_5_stratified_sampling_part3.html" target="_blank" rel="noopener">Stratified Sampling (Part 3)</a></li>
+                                     <li><a href="y2_resources/206_6_stratified_sampling_part4.html" target="_blank" rel="noopener">Stratified Sampling (Part 4)</a></li>
+                                     <li><a href="y2_resources/206_7_ratio_estimator.html" target="_blank" rel="noopener">Ratio Estimator</a></li>
+                                      <li><a href="y2_resources/206_8_regression_estimator.html" target="_blank" rel="noopener">Regression Estimator</a></li>
                                  </ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">MATH207</span><span class="course-name">Mathematical Methods</span></div></div>
-        <div class="course-body"><ul><li><a href="resources/207_laplace_transformation.html" target="_blank" rel="noopener">Laplace Transformation</a></li><li><a href="resources/207_fourier_transformation.html" target="_blank" rel="noopener">Fourier Transformation</a></li></ul></div>
+        <div class="course-body"><ul><li><a href="y2_resources/207_laplace_transformation.html" target="_blank" rel="noopener">Laplace Transformation</a></li><li><a href="y2_resources/207_fourier_transformation.html" target="_blank" rel="noopener">Fourier Transformation</a></li></ul></div>
       </div>
       <div class="course-card">
         <div class="course-header"><div class="course-title-group"><span class="course-code">MATH208</span><span class="course-name">Mathematical Analysis</span></div></div>
@@ -195,13 +192,13 @@ footer{margin-top:70px;padding:22px clamp(18px,4vw,56px);border-top:1px solid va
 <footer>© 2026 Maimuna Rahman</footer>
 
 <script>
-/* theme (shares the main page's setting) */
+/* theme */
 (function(){
   var r=document.documentElement,b=document.getElementById('theme'),mq=matchMedia('(prefers-color-scheme:dark)');
-  try{var s=localStorage.getItem('theme');if(s)r.setAttribute('data-theme',s)}catch(e){}
+  try{var s=localStorage.getItem('resources-theme');if(s)r.setAttribute('data-theme',s)}catch(e){}
   function isDark(){var t=r.getAttribute('data-theme');return t?t==='dark':mq.matches}
   function sync(){var d=isDark();b.classList.toggle('dark',d);b.setAttribute('aria-checked',d)}
-  b.onclick=function(){var n=isDark()?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}sync()};
+  b.onclick=function(){var n=isDark()?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('resources-theme',n)}catch(e){}sync()};
   mq.addEventListener('change',sync);sync();
 })();
 
