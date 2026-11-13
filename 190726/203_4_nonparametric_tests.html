@@ -85,7 +85,15 @@ Positive ranks add to \(40\), negative to \(15\), and \(40-15=25\). For the sign
 <div class="f">\[E(W)=0,\qquad\operatorname{Var}(W)=\frac{n(n+1)(2n+1)}{6},\qquad Z=\frac{W-0}{\sqrt{n(n+1)(2n+1)/6}}\approx N(0,1)\]</div>
 <p>where \(n\) = number of non-zero differences, and \(Z\) is approximately standard normal when \(H_0\) holds.</p>
 <div class="box ex"><b>Numbers for the sunfish.</b> \(n=10\): \(\operatorname{Var}(W)=\dfrac{10\cdot11\cdot21}{6}=385\), so the standard deviation is \(\sqrt{385}=19.62\). Then \(z=25/19.62=1.27\). For a \(5\%\) one-sided test we need \(z\ge1.645\), i.e. \(W\ge1.645(19.62)\approx32.3\). Since \(25<32.3\), not rejected.</div>
-<div class="box"><b>Try it: run both tests on any data.</b> Pick a lecture dataset or paste your own. The tool drops zero differences, gives tied sizes the average rank, and uses the lecture’s normal approximation with a unit continuity correction.
+<div class="box ex"><b>Example: tied differences.</b> \(n=8\): 4.2, 5.0, 3.1, 4.2, 6.0, 2.5, 5.0, 3.8. Test \(H_0:m=4.0\) vs \(H_1:m\ne4.0\).
+<br>Differences \(x_i-4.0\): \(0.2,\ 1.0,\ -0.9,\ 0.2,\ 2.0,\ -1.5,\ 1.0,\ -0.2\). Sorted by size, the sizes \(0.2\) and \(1.0\) <b>repeat</b>:
+<div class="tw"><table style="margin:8px auto"><tr><th>\(|d|\)</th><td>0.2</td><td>0.2</td><td>0.2</td><td>0.9</td><td>1.0</td><td>1.0</td><td>1.5</td><td>2.0</td></tr><tr><th>positions</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr><tr><th>rank used</th><td>2</td><td>2</td><td>2</td><td>4</td><td>5.5</td><td>5.5</td><td>7</td><td>8</td></tr><tr><th>sign</th><td>+</td><td>+</td><td>−</td><td>−</td><td>+</td><td>+</td><td>−</td><td>+</td></tr></table></div>
+<b>Rule for ties:</b> tied sizes share the <b>average</b> of the positions they occupy. The three \(0.2\)s occupy positions \(1,2,3\), so each gets \(\frac{1+2+3}{3}=2\). The two \(1.0\)s occupy \(5,6\), so each gets \(\frac{5+6}{2}=5.5\). Ranks \(4,7,8\) are unique. Each tied value keeps its <i>own</i> sign. Signed ranks: \(+2,\,+2,\,-2,\,-4,\,+5.5,\,+5.5,\,-7,\,+8\).
+<div class="f">\[W=(2+2+5.5+5.5+8)-(2+4+7)=23-13=10\]</div>
+Without ties, \(\operatorname{Var}(W)=\frac{8\cdot9\cdot17}{6}=204\). Tied ranks make \(W\) less variable, so subtract \(\frac{1}{12}\sum(t^3-t)\) over each tie group of size \(t\): the group of three gives \(3^3-3=24\), the group of two gives \(2^3-2=6\), so \(\operatorname{Var}(W)=204-\frac{24+6}{12}=204-2.5=201.5\). Standard deviation \(\sqrt{201.5}=14.20\), \(z=10/14.20=0.70\). Two-sided with the unit correction: \(p\approx2\,P(Z\ge\frac{10-1}{14.20})=2\,P(Z\ge0.63)\approx0.53\). Do not reject. (Sign test: \(3\) negatives of \(8\), \(p=2P(Y\le3)=0.727\).)
+<br><span class="mut">The lecture does not cover ties; this uses the standard average-rank rule and the standard tie correction to the variance (for \(W=W^+-W^-\), the correction is \(\frac{1}{12}\sum(t^3-t)\), which is \(4\times\) the \(\frac{1}{48}\sum(t^3-t)\) used for \(W^+\)).</span>
+<div class="row"><button id="p3">Load in tool</button></div></div>
+<div class="box"><b>Try it: run both tests on any data.</b> Pick a lecture dataset or paste your own. The tool drops zero differences, gives tied sizes the average rank, applies the tie correction to the variance, and uses the lecture’s normal approximation with a unit continuity correction.
 <div class="row"><label>Data <select id="ps"></select></label><label>\(\mo\) <input type="number" id="m0" step="any" value="3.7"></label><label>\(H_1\) <select id="al"><option value="&gt;">m &gt; m₀</option><option value="&lt;">m &lt; m₀</option><option value="2">m ≠ m₀</option></select></label></div>
 <textarea id="dx" rows="3" style="width:100%"></textarea><div class="out" id="to"></div><div class="tw" id="tt"></div></div></section>
 
@@ -158,6 +166,7 @@ $('#bo').textContent=`n = ${n}, y = ${y}. p-value = ${p.toFixed(4)}. ${p<.05?'Re
 ['#n','#y','#a'].forEach(i=>$(i).oninput=w1);w1();
 const D={
 'Sunfish (m₀ 3.7, >)':['5.0 3.9 5.2 5.5 2.8 6.1 6.4 2.6 1.7 4.3',3.7,'>'],
+'Tied ranks (m₀ 4.0, ≠)':['4.2 5.0 3.1 4.2 6.0 2.5 5.0 3.8',4,'2'],
 'Example 2 (m₀ 160, >)':['176.9 158.3 152.1 158.8 172.4 169.8 159.7 162.7 156.6 174.5 184.4 165.2 147.8 177.8 160.1 160.5',160,'>'],
 'Call center (m₀ 6.2, <)':['6.8 5.7 6.9 5.3 4.1 9.8 1.7 7.0 2.1 19.0 18.9 16.9 10.4 44.1 2.9 2.4 4.8 18.9 4.8 7.9',6.2,'<'],
 'Problem 1 candy (m₀ 40000, <)':['41195 39485 41229 36840 38050 40890 38345 34930 39245 31031 40780 38050 30906',40000,'<'],
@@ -165,13 +174,13 @@ const D={
 $('#ps').innerHTML='<option value="">custom</option>'+Object.keys(D).map(k=>`<option>${k}</option>`).join('');
 function ld(k){const d=D[k];if(!d)return;$('#ps').value=k;$('#dx').value=d[0];$('#m0').value=d[1];$('#al').value=d[2];w2()}
 $('#ps').onchange=()=>ld($('#ps').value);
-$('#p1').onclick=()=>{ld('Problem 1 candy (m₀ 40000, <)');$('#wil').scrollIntoView()};$('#p2').onclick=()=>{ld('Problem 2 Jolly Rancher (m₀ 5.9, >)');$('#wil').scrollIntoView()};
+$('#p1').onclick=()=>{ld('Problem 1 candy (m₀ 40000, <)');$('#wil').scrollIntoView()};$('#p3').onclick=()=>{ld('Tied ranks (m₀ 4.0, ≠)');$('#to').scrollIntoView({block:'center'})};$('#p2').onclick=()=>{ld('Problem 2 Jolly Rancher (m₀ 5.9, >)');$('#wil').scrollIntoView()};
 function w2(){const m=+$('#m0').value,a=$('#al').value,x=$('#dx').value.split(/[\s,]+/).filter(Boolean).map(Number).filter(v=>!isNaN(v));
 const d=x.map(v=>({x:v,d:v-m})).filter(o=>Math.abs(o.d)>1e-9),n=d.length;
 if(n<2){$('#to').textContent='Enter at least 2 values that differ from m₀.';$('#tt').innerHTML='';return}
 const s=[...d].sort((p,q)=>Math.abs(p.d)-Math.abs(q.d));
-for(let i=0;i<n;){let j=i;while(j+1<n&&Math.abs(Math.abs(s[j+1].d)-Math.abs(s[i].d))<1e-7)j++;for(let k=i;k<=j;k++)s[k].r=(i+j)/2+1;i=j+1}
-const W=d.reduce((t,o)=>t+Math.sign(o.d)*o.r,0),ng=d.filter(o=>o.d<0).length,sd=Math.sqrt(n*(n+1)*(2*n+1)/6),
+let tc=0;for(let i=0;i<n;){let j=i;while(j+1<n&&Math.abs(Math.abs(s[j+1].d)-Math.abs(s[i].d))<1e-7)j++;for(let k=i;k<=j;k++)s[k].r=(i+j)/2+1;tc+=(j-i+1)**3-(j-i+1);i=j+1}
+const W=d.reduce((t,o)=>t+Math.sign(o.d)*o.r,0),ng=d.filter(o=>o.d<0).length,sd=Math.sqrt(n*(n+1)*(2*n+1)/6-tc/12),
 pw=a=='>'?1-Phi((W-1)/sd):a=='<'?Phi((W+1)/sd):Math.min(1,2*(W>=0?1-Phi((W-1)/sd):Phi((W+1)/sd))),ps=sp(n,ng,a),f=p=>`${p.toFixed(4)} (${p<.05?'reject':'do not reject'} at 5%)`;
 $('#to').innerHTML=`n = ${n} non-zero differences.<br>Sign test: Y = ${ng} negative, p = ${f(ps)}.<br>Wilcoxon: W = ${W}, σ = ${sd.toFixed(2)}, z = ${(W/sd).toFixed(3)}, p ≈ ${f(pw)}.`;
 $('#tt').innerHTML='<table style="margin-top:8px"><tr><th>x</th><th>x − m₀</th><th>rank of |d|</th><th>signed rank</th></tr>'+d.map(o=>`<tr><td>${o.x}</td><td>${+o.d.toFixed(6)}</td><td>${o.r}</td><td>${o.d<0?'−':'+'}${o.r}</td></tr>`).join('')+'</table>'}
