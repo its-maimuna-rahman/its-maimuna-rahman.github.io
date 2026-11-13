@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Blocking &amp; the RCBD – AST204</title>
+<title>Blocking &amp; the Analysis of the RCBD – AST204</title>
 <link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -41,14 +41,14 @@ main p,main li{line-height:2.1}.ft td,.ft th{padding:16px;line-height:2.4;vertic
 .flow .st{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.flow .st div{background:var(--card);border:1px solid var(--ac);padding:6px 16px;text-align:center;border-radius:4px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}'}},svg:{fontCache:'local'}};</script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{yb:'\\bar{y}',yi:'y_{i\\cdot}',yj:'y_{\\cdot j}',yy:'y_{\\cdot\\cdot}',ybi:'\\bar{y}_{i\\cdot}',ybj:'\\bar{y}_{\\cdot j}',ybb:'\\bar{y}_{\\cdot\\cdot}',SS:['SS_{\\mathrm{#1}}',1],MS:['MS_{\\mathrm{#1}}',1]}},svg:{fontCache:'local'}};</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
 <body>
-<nav><a href="#nui">Blocking</a><a href="#hard">Hardness Example</a><a href="#rcbd">The RCBD</a><a href="#lay">Layouts</a><a href="#model">Model</a><a href="#hyp">Hypotheses</a><a href="#test">Running the Test</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
+<nav><a href="#nui">Blocking</a><a href="#hard">Hardness Example</a><a href="#rcbd">The RCBD</a><a href="#lay">Layouts</a><a href="#model">Model</a><a href="#hyp">Hypotheses</a><a href="#not">Totals &amp; Means</a><a href="#ss">Splitting the SS</a><a href="#df">Degrees of Freedom</a><a href="#ms">Mean Squares</a><a href="#ft">F-tests</a><a href="#cf">Computing Formulas</a><a href="#an">ANOVA Table</a><a href="#test">Running the Test</a><a href="#calc">Calculator</a><a href="#deriv">Derivations</a><a href="#form">Formulas</a>
 <label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
 <main>
-<header style="padding:48px 0 8px"><h1>Experiments with Blocking Factors</h1>
-<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lecture 17 &middot; Nuisance factors, blocking, the randomized complete block design (RCBD), its model and hypotheses. The last section (&ldquo;Running the Test&rdquo;) goes one step past the slides so you can see the hypotheses tested with real numbers.</p></header>
+<header style="padding:48px 0 8px"><h1>Blocking Factors and the Analysis of the RCBD</h1>
+<p class="mut">AST204 Design and Analysis of Experiments I &middot; Lectures 17 and 19. <b>Part 1</b> (Lecture 17): nuisance factors, blocking, the randomized complete block design (RCBD), its model and hypotheses. <b>Part 2</b> (Lecture 19): totals and means, splitting the sum of squares, degrees of freedom, mean squares, F-tests for treatments and blocks, computing formulas and the ANOVA table. Part 2 explains with a separate fertilizer example (3 treatments, 4 plots); the hardness data is tested step by step in &ldquo;Running the Test&rdquo;.</p></header>
 
 <section id="nui"><h2>Nuisance Factors and Blocking</h2>
 <p>Some variation in the response comes from things you do not care about, such as which batch of material was used or which part of a field a plot sits in. A <b>nuisance factor</b> is a factor that probably affects the response but whose effect is not the goal of the study.</p>
@@ -66,7 +66,7 @@ main p,main li{line-height:2.1}.ft td,.ft th{padding:16px;line-height:2.4;vertic
 <div class="tw"><table><tr><th>Tip</th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>Mean</th></tr>
 <tr><td>1</td><td>9.3</td><td>9.4</td><td>9.6</td><td>10.0</td><td>9.575</td></tr><tr><td>2</td><td>9.4</td><td>9.3</td><td>9.8</td><td>9.9</td><td>9.600</td></tr><tr><td>3</td><td>9.2</td><td>9.4</td><td>9.5</td><td>9.7</td><td>9.450</td></tr><tr><td>4</td><td>9.7</td><td>9.6</td><td>10.0</td><td>10.2</td><td>9.875</td></tr>
 <tr><td><b>Coupon mean</b></td><td>9.400</td><td>9.425</td><td>9.725</td><td>9.950</td><td>9.625</td></tr></table></div>
-<p>Coupon means run from 9.400 to 9.950, a spread of 0.55, while tip means run from 9.450 to 9.875, a spread of 0.425. The coupon-to-coupon variation is at least as big as the tip effect we are chasing. A CRD would treat it as noise; the RCBD removes it. The numerical payoff is worked out in &ldquo;Running the Test&rdquo; below.</p>
+<p>Coupon means run from 9.400 to 9.950, a spread of 0.55, while tip means run from 9.450 to 9.875, a spread of 0.425. The coupon-to-coupon variation is at least as big as the tip effect we are chasing. A CRD would treat it as noise; the RCBD removes it. The numerical payoff is worked out in &ldquo;Running the Test&rdquo; after the ANOVA material below.</p>
 <h3>Interactive: draw a CRD and an RCBD</h3>
 <p class="mut">Sixteen coupons come from 4 heats with hardness 9.400, 9.425, 9.725, 9.950 (four coupons per heat, the coupon means from the data). Each draw gives 4 coupons to each tip. A CRD deals the 16 coupons out at random; an RCBD gives each tip one coupon from every heat. Row entries show the heat (H1 to H4) of the coupons a tip received and their mean hardness.</p>
 <div class="row"><button class="p" id="sd">Draw again</button><button id="s1k">Run 1000 draws</button></div>
@@ -125,20 +125,95 @@ Fitted value, tip 1 on coupon 1: \(9.625-0.050-0.225=9.350\); observed \(9.3\), 
 <div class="f">\[ H_0:\mu_1=\mu_2=\cdots=\mu_a\qquad H_1:\ \mu_i\ne\mu_j\ \text{for at least one pair } i\ne j \]</div>
 <p>Since the mean of treatment \(i\) is \(\mu_i=\mu+\tau_i\), the same hypotheses in terms of effects are</p>
 <div class="f">\[ H_0:\tau_1=\tau_2=\cdots=\tau_a=0\qquad H_1:\ \tau_i\ne0\ \text{for at least one } i \]</div>
-<div class="box ex"><b>Hardness data.</b> \(H_0:\) all four tips have the same mean reading, i.e. \(\tau_1=\tau_2=\tau_3=\tau_4=0\). The estimates \(-0.050,-0.025,-0.175,+0.250\) are not zero, but is that more than noise? The next section answers that.</div></section>
+<div class="box ex"><b>Hardness data.</b> \(H_0:\) all four tips have the same mean reading, i.e. \(\tau_1=\tau_2=\tau_3=\tau_4=0\). The estimates \(-0.050,-0.025,-0.175,+0.250\) are not zero, but is that more than noise? The analysis of variance in the sections below answers that, and &ldquo;Running the Test&rdquo; applies it to these data.</div></section>
 
-<section id="test"><h2>Running the Test <span class="mut" style="font-size:1rem">(beyond the slides)</span></h2>
-<p>The total variation splits into three parts. Each part has its own degrees of freedom:</p>
-<div class="f">\[ SS_T=SS_{Tr}+SS_{Bl}+SS_E,\qquad ab-1=(a-1)+(b-1)+(a-1)(b-1) \]</div>
-<div class="f">\[ SS_{Tr}=b\sum_i(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2,\quad SS_{Bl}=a\sum_j(\bar y_{\cdot j}-\bar y_{\cdot\cdot})^2,\quad F_0=\frac{MS_{Tr}}{MS_E} \]</div>
-<p>Reject \(H_0\) if \(F_0\gt F_{\alpha,\,a-1,\,(a-1)(b-1)}\).</p>
+<section id="not"><h2>Totals and Means</h2>
+<p>An RCBD has \(a\) treatments and \(b\) blocks, and every treatment appears once in every block. Let \(y_{ij}\) be the observation of treatment \(i\) in block \(j\). The number of observations is \(N=ab\). The data are summarized by a total for each treatment, each block, and everything together:</p>
+<div class="f">\[\yi=\sum_{j=1}^{b}y_{ij},\qquad \yj=\sum_{i=1}^{a}y_{ij},\qquad \yy=\sum_{i=1}^{a}\sum_{j=1}^{b}y_{ij}\]</div>
+<p>The matching averages divide by the number of values that were added:</p>
+<div class="f">\[\ybi=\frac{\yi}{b},\qquad \ybj=\frac{\yj}{a},\qquad \ybb=\frac{\yy}{N}\]</div>
+<div class="box ex"><b>Running example.</b> Yield (kg per plot) of \(a=3\) fertilizers, each tried once on \(b=4\) plots. Each plot is a block, so \(N=12\).
+<div class="tw"><table><tr><th></th><th>Plot 1</th><th>Plot 2</th><th>Plot 3</th><th>Plot 4</th><th>\(\yi\)</th><th>\(\ybi\)</th></tr>
+<tr><td>Fertilizer 1</td><td>20</td><td>24</td><td>18</td><td>22</td><td>84</td><td>21</td></tr>
+<tr><td>Fertilizer 2</td><td>23</td><td>27</td><td>20</td><td>26</td><td>96</td><td>24</td></tr>
+<tr><td>Fertilizer 3</td><td>25</td><td>29</td><td>24</td><td>30</td><td>108</td><td>27</td></tr>
+<tr><td>\(\yj\)</td><td>68</td><td>80</td><td>62</td><td>78</td><td>\(\yy=288\)</td><td></td></tr>
+<tr><td>\(\ybj\)</td><td>22.67</td><td>26.67</td><td>20.67</td><td>26.00</td><td></td><td>\(\ybb=24\)</td></tr></table></div>
+\(y_{1\cdot}=20+24+18+22=84\), so \(\bar y_{1\cdot}=84/4=21\). \(y_{\cdot1}=20+23+25=68\), so \(\bar y_{\cdot1}=68/3\approx22.67\). The grand total is the same from both directions: \(84+96+108=288=68+80+62+78\), so \(\ybb=288/12=24\).</div></section>
+
+<section id="ss"><h2>Splitting the Total Sum of Squares</h2>
+<p>The total variation is the sum of squared gaps between each observation and the grand mean. In an RCBD this gap has three parts: how far the treatment mean is from the grand mean, how far the block mean is from the grand mean, and what is left over.</p>
+<div class="f">\[\sum_{i=1}^{a}\sum_{j=1}^{b}(y_{ij}-\ybb)^2=\sum_{i=1}^{a}\sum_{j=1}^{b}\Big[(\ybi-\ybb)+(\ybj-\ybb)+(y_{ij}-\ybi-\ybj+\ybb)\Big]^2\]</div>
+<p>After squaring, the three cross-product terms add up to zero, so only the three squared parts remain (every step is in derivation D3):</p>
+<div class="f">\[\SS{T}=\SS{Tr}+\SS{Bl}+\SS{E}\]</div>
+<div class="f">\[\SS{Tr}=b\sum_{i=1}^{a}(\ybi-\ybb)^2,\qquad \SS{Bl}=a\sum_{j=1}^{b}(\ybj-\ybb)^2,\qquad \SS{E}=\sum_{i=1}^{a}\sum_{j=1}^{b}(y_{ij}-\ybi-\ybj+\ybb)^2\]</div>
+<p>The factor \(b\) appears because each treatment gap is shared by its \(b\) observations. The factor \(a\) appears for the same reason in blocks.</p>
+<div class="box ex"><b>Example</b> (\(\ybb=24\)).<br>
+\(\SS{T}\): row gaps squared are \(16+0+36+4=56\), \(1+9+16+4=30\), \(1+25+0+36=62\), so \(\SS{T}=148\).<br>
+\(\SS{Tr}=4[(21-24)^2+(24-24)^2+(27-24)^2]=4(9+0+9)=72\).<br>
+\(\SS{Bl}=3\big[(-\tfrac43)^2+(\tfrac83)^2+(-\tfrac{10}3)^2+2^2\big]=3\cdot\tfrac{16+64+100+36}{9}=3\cdot24=72\).<br>
+\(\SS{E}=148-72-72=4\).
+<div class="stk"><div style="width:48.6%">Treatments 72</div><div class="g" style="width:48.6%">Blocks 72</div><div class="r" style="width:2.8%"></div></div>
+<span class="mut">Treatments and blocks explain almost all of the 148. Only 4 is left as error (the thin red part).</span></div></section>
+
+<section id="df"><h2>Degrees of Freedom</h2>
+<p>Each sum of squares has its own degrees of freedom (df). The total has \(N-1\). Treatments have \(a-1\) and blocks have \(b-1\). Error gets whatever remains:</p>
+<div class="f">\[ab-1-(a-1)-(b-1)=(a-1)(b-1)\]</div>
+<div class="box ex"><b>Example.</b> \(a=3,\ b=4\): total \(=11\), treatments \(=2\), blocks \(=3\), error \(=2\times3=6\). Check: \(2+3+6=11\).</div></section>
+
+<section id="ms"><h2>Mean Squares and What They Estimate</h2>
+<p>A mean square is a sum of squares divided by its df. When treatments and blocks are fixed, their expected values are</p>
+<div class="f">\[E(\MS{Tr})=\sigma^2+\frac{b\sum_{i=1}^{a}\tau_i^2}{a-1},\qquad E(\MS{Bl})=\sigma^2+\frac{a\sum_{j=1}^{b}\beta_j^2}{b-1},\qquad E(\MS{E})=\sigma^2\]</div>
+<p>\(\MS{E}\) always estimates the error variance \(\sigma^2\). \(\MS{Tr}\) estimates \(\sigma^2\) only when every \(\tau_i=0\); any real treatment effect pushes it above \(\sigma^2\). Blocks work the same way with \(\beta_j\).</p>
+<div class="box ex"><b>Example.</b> \(\MS{Tr}=72/2=36\), \(\MS{Bl}=72/3=24\), \(\MS{E}=4/6=0.667\).<br>
+The estimated treatment effects are \(\ybi-\ybb=-3,\ 0,\ 3\), so the effect term is \(\dfrac{4(9+0+9)}{2}=36\), far above \(\hat\sigma^2=0.667\).
+The estimated block effects are \(-\tfrac43,\tfrac83,-\tfrac{10}3,2\), so \(\sum\hat\beta_j^2=24\) and the effect term is \(\dfrac{3(24)}{3}=24\).</div></section>
+
+<section id="ft"><h2>F-tests for Treatments and Blocks</h2>
+<h3>Are the treatments different?</h3>
+<p>The null hypothesis says all treatment means are equal (all \(\tau_i=0\)). Then \(\MS{Tr}\) and \(\MS{E}\) both estimate \(\sigma^2\), so their ratio should be near 1. A large ratio is evidence of a treatment effect.</p>
+<div class="f">\[F_0=\frac{\MS{Tr}}{\MS{E}}\sim F_{a-1,\,(a-1)(b-1)}\ \text{ if } H_0 \text{ is true};\qquad \text{reject } H_0 \text{ if } F_0\gt F_{\alpha,\,a-1,\,(a-1)(b-1)}\]</div>
+<h3>Do the blocks differ?</h3>
+<p>If block means barely differ, blocking may not be needed in later experiments, so it is worth checking.</p>
+<div class="f">\[H_0:\beta_1=\beta_2=\cdots=\beta_b=0,\qquad F_0=\frac{\MS{Bl}}{\MS{E}},\qquad \text{reject if } F_0\gt F_{\alpha,\,b-1,\,(a-1)(b-1)}\]</div>
+<div class="box ex"><b>Example</b> (\(\alpha=0.05\)).<br>Treatments: \(F_0=36/0.667=54\) against \(F_{0.05,2,6}=5.14\). Reject \(H_0\); the fertilizers differ.<br>Blocks: \(F_0=24/0.667=36\) against \(F_{0.05,3,6}=4.76\). Reject \(H_0\); the plots differ, so blocking was useful.</div>
+<h3>F-test explorer</h3>
+<p class="mut">Choose the design size, the test and \(\alpha\), then slide \(F_0\). The shaded tail is the rejection region. The preloaded values match the example.</p>
+<div class="row"><label>a <input type="number" id="xa" value="3" min="2" max="12"></label><label>b <input type="number" id="xb" value="4" min="2" max="12"></label>
+<label>Test <select id="xt"><option value="a">Treatments</option><option value="b">Blocks</option></select></label>
+<label>&alpha; <select id="xal"><option>0.10</option><option selected>0.05</option><option>0.01</option></select></label></div>
+<div class="row"><label>F<sub>0</sub> = <b id="xv">54</b> <input type="range" id="xf" min="0" max="80" step="0.5" value="54"></label></div>
+<svg id="xsv" viewBox="0 0 700 210" style="width:100%;height:auto;display:block"></svg><div class="out" id="xo"></div></section>
+
+<section id="cf"><h2>Computing Formulas</h2>
+<p>For hand calculation, the sums of squares are easier from totals. The term \(y_{\cdot\cdot}^2/N\) is the same in all of them (call it the correction term).</p>
+<div class="f">\[\SS{T}=\sum_{i=1}^{a}\sum_{j=1}^{b}y_{ij}^2-\frac{y_{\cdot\cdot}^2}{N},\qquad \SS{Tr}=\frac1b\sum_{i=1}^{a}y_{i\cdot}^2-\frac{y_{\cdot\cdot}^2}{N}\]</div>
+<div class="f">\[\SS{Bl}=\frac1a\sum_{j=1}^{b}y_{\cdot j}^2-\frac{y_{\cdot\cdot}^2}{N},\qquad \SS{E}=\SS{T}-\SS{Tr}-\SS{Bl}\]</div>
+<div class="box ex"><b>Example.</b> Correction term: \(288^2/12=82944/12=6912\).<br>
+\(\sum y_{ij}^2=(400+576+324+484)+(529+729+400+676)+(625+841+576+900)=1784+2334+2942=7060\), so \(\SS{T}=7060-6912=148\).<br>
+\(\sum y_{i\cdot}^2=84^2+96^2+108^2=7056+9216+11664=27936\), so \(\SS{Tr}=27936/4-6912=6984-6912=72\).<br>
+\(\sum y_{\cdot j}^2=68^2+80^2+62^2+78^2=4624+6400+3844+6084=20952\), so \(\SS{Bl}=20952/3-6912=6984-6912=72\).<br>
+\(\SS{E}=148-72-72=4\). Same answers as the definition formulas.</div></section>
+
+<section id="an"><h2>ANOVA Table for the RCBD</h2>
+<div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>\(F_0\)</th></tr>
+<tr><td>Treatments</td><td>\(\SS{Tr}\)</td><td>\(a-1\)</td><td>\(\SS{Tr}/(a-1)\)</td><td>\(\MS{Tr}/\MS{E}\)</td></tr>
+<tr><td>Blocks</td><td>\(\SS{Bl}\)</td><td>\(b-1\)</td><td>\(\SS{Bl}/(b-1)\)</td><td>\(\MS{Bl}/\MS{E}\)</td></tr>
+<tr><td>Error</td><td>\(\SS{E}\)</td><td>\((a-1)(b-1)\)</td><td>\(\SS{E}/[(a-1)(b-1)]\)</td><td></td></tr>
+<tr><td>Total</td><td>\(\SS{T}\)</td><td>\(N-1\)</td><td></td><td></td></tr></table></div>
+<div class="box ex"><b>Example table.</b><div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>\(F_0\)</th></tr>
+<tr><td>Fertilizers</td><td>72</td><td>2</td><td>36</td><td>54</td></tr><tr><td>Plots (blocks)</td><td>72</td><td>3</td><td>24</td><td>36</td></tr>
+<tr><td>Error</td><td>4</td><td>6</td><td>0.667</td><td></td></tr><tr><td>Total</td><td>148</td><td>11</td><td></td><td></td></tr></table></div></div></section>
+
+<section id="test"><h2>Running the Test on the Hardness Data</h2>
+<p>Now apply the formulas from the sections above (sums of squares, degrees of freedom, mean squares and the F-test) to the hardness data. Reject \(H_0\) if \(F_0\gt F_{\alpha,\,a-1,\,(a-1)(b-1)}\).</p>
 <div class="box ex"><b>Hardness data, step by step</b> (\(a=b=4\)).
 \[SS_{Tr}=4\big[(-0.05)^2+(-0.025)^2+(-0.175)^2+(0.25)^2\big]=4(0.09625)=0.385\]
 \[SS_{Bl}=4\big[(-0.225)^2+(-0.2)^2+(0.1)^2+(0.325)^2\big]=4(0.20625)=0.825\]
 \[SS_T=\sum(y_{ij}-9.625)^2=0.2975+0.2625+0.2525+0.4775=1.290\]
 \[SS_E=1.290-0.385-0.825=0.080\]
 <div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>\(F_0\)</th></tr><tr><td>Tips</td><td>0.385</td><td>3</td><td>0.1283</td><td>14.44</td></tr><tr><td>Coupons (blocks)</td><td>0.825</td><td>3</td><td>0.2750</td><td>30.94</td></tr><tr><td>Error</td><td>0.080</td><td>9</td><td>0.00889</td><td></td></tr><tr><td>Total</td><td>1.290</td><td>15</td><td></td><td></td></tr></table></div>
-\(F_{0.05,3,9}=3.86\). Since \(14.44\gt3.86\) (\(P\approx0.001\)), reject \(H_0\): the tips do not all give the same mean reading.</div>
+\(F_{0.05,3,9}=3.86\). Since \(14.44\gt3.86\) (\(P\approx0.001\)), reject \(H_0\): the tips do not all give the same mean reading. For blocks, \(F_0=0.2750/0.00889=30.94\gt3.86\), so the coupons differ as well and blocking was worthwhile.</div>
 <div class="box nt"><b>What if we had ignored the coupons (CRD analysis of the same data)?</b> The block sum of squares goes into the error: \(SS_E=0.825+0.080=0.905\) with \(12\) df, so \(MS_E=0.0754\) and \(F_0=0.1283/0.0754=1.70\). Compare with \(F_{0.05,3,12}=3.49\): <b>not significant</b>.<div class="stk" style="margin-top:12px"><div class="g" style="flex:0.385">Tips 0.385</div><div class="r" style="flex:0.825">Coupons 0.825</div><div style="flex:0.08;min-width:0"></div></div>
 Blocking shrank the error mean square from 0.0754 to 0.00889, about 8.5 times smaller, and turned a missed effect into a clear one. (Red bar: variation that the RCBD removes from the error. Dark bar: the leftover error, 0.080.)</div>
 <p class="mut">Cost of blocking: it spends \(b-1\) df on blocks. Here error df fell from 12 to 9, which is a small price because the block variation was large. If blocks barely differ, the lost df can make the test slightly weaker.</p>
@@ -154,12 +229,12 @@ Blocking shrank the error mean square from 0.0754 to 0.00889, about 8.5 times sm
 </section>
 
 <section id="calc"><h2>Calculator</h2>
-<p class="mut">RCBD analysis. One treatment per line; values are the observations in each block (separate by commas or spaces; same number of blocks on every line). The hardness data is preloaded.</p>
+<p class="mut">RCBD analysis. One treatment per line; values are the observations in each block (separate by commas or spaces; same number of blocks on every line). The hardness data is preloaded; the buttons load the hardness data or the fertilizer example from Part 2.</p>
 <textarea id="cd" rows="5" style="width:100%;box-sizing:border-box">9.3 9.4 9.6 10.0
 9.4 9.3 9.8 9.9
 9.2 9.4 9.5 9.7
 9.7 9.6 10.0 10.2</textarea>
-<div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><button class="p" id="go">Analyse</button></div>
+<div class="row"><label>&alpha; <input type="number" id="al" value="0.05" step="0.01" min="0.001" max="0.5"></label><button class="p" id="go">Analyse</button><button id="l1">Hardness data</button><button id="l2">Fertilizer example</button></div>
 <div class="out" id="co"></div>
 <h3>Randomize a layout</h3>
 <div class="row"><label>Treatments <input type="number" id="ra" value="4" min="2" max="10"></label><label>Blocks <input type="number" id="rb" value="4" min="2" max="10"></label><button id="rg">Shuffle</button></div>
@@ -167,11 +242,11 @@ Blocking shrank the error mean square from 0.0754 to 0.00889, about 8.5 times sm
 
 <section id="deriv"><h2>Derivations &amp; Proofs</h2><p class="mut">Tap a bar to open.</p><div id="dl"></div></section>
 <section id="form"><h2>Formula Sheet</h2><p class="mut">Memorise in this order.</p><div id="fl"></div>
-<h3>Notation</h3><table class="ft"><tr><td>\(a,\ b\)</td><td>number of treatments, blocks</td><td>\(\tau_i,\ \beta_j\)</td><td>treatment, block effects</td></tr><tr><td>\(\bar y_{i\cdot},\ \bar y_{\cdot j}\)</td><td>treatment mean, block mean</td><td>\(\bar y_{\cdot\cdot}\)</td><td>grand mean</td></tr><tr><td>\(N=ab\)</td><td>total observations</td><td>\(\epsilon_{ij}\)</td><td>random error, \(NID(0,\sigma^2)\)</td></tr></table></section>
+<h3>Notation</h3><table class="ft"><tr><td>\(a,\ b\)</td><td>number of treatments, blocks</td><td>\(\tau_i,\ \beta_j\)</td><td>treatment, block effects</td></tr><tr><td>\(\bar y_{i\cdot},\ \bar y_{\cdot j}\)</td><td>treatment mean, block mean</td><td>\(\bar y_{\cdot\cdot}\)</td><td>grand mean</td></tr><tr><td>\(N=ab\)</td><td>total observations</td><td>\(\epsilon_{ij}\)</td><td>random error, \(NID(0,\sigma^2)\)</td></tr><tr><td>\(y_{i\cdot},\ y_{\cdot j},\ y_{\cdot\cdot}\)</td><td>treatment, block, grand totals</td><td>\(\sigma^2\)</td><td>error variance</td></tr></table></section>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
 <script>
-const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d);
+const $=i=>document.getElementById(i),g=(v,d=3)=>(+v).toFixed(d),sum=a=>a.reduce((s,v)=>s+v,0),pf=p=>p<1e-4?p.toExponential(2):g(p,4);
 const ts=el=>{if(window.MathJax&&MathJax.startup&&MathJax.startup.promise&&MathJax.typesetPromise)MathJax.startup.promise=MathJax.startup.promise.then(()=>MathJax.typesetPromise(el?[el]:undefined)).catch(()=>{})};
 function renderD(D){$('dl').innerHTML=D.map(d=>`<details class="dv"><summary><span class="cd">${d[0]}</span><span class="tt">${d[1]}</span><svg class="ch" width="16" height="16" viewBox="0 0 14 14"><path d="M4 2l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></summary><div class="bd">${d[2]}</div></details>`).join('');
 document.querySelectorAll('.dv').forEach(d=>d.addEventListener('toggle',()=>d.classList.toggle('op',d.open)))}
@@ -197,6 +272,8 @@ const D=[
 <p>Check (hardness): \(\hat\tau_4=9.875-9.625=0.250\), \(\hat\beta_4=9.950-9.625=0.325\).</p>`],
 ["D3","Splitting the total sum of squares",String.raw`<p>Add and subtract the row, column and grand means inside each deviation:</p>
 \[y_{ij}-\bar y_{\cdot\cdot}=(\bar y_{i\cdot}-\bar y_{\cdot\cdot})+(\bar y_{\cdot j}-\bar y_{\cdot\cdot})+(y_{ij}-\bar y_{i\cdot}-\bar y_{\cdot j}+\bar y_{\cdot\cdot})\]
+<p>The three pieces add back to the gap, because the means cancel:</p>
+\[(\bar y_{i\cdot}-\bar y_{\cdot\cdot})+(\bar y_{\cdot j}-\bar y_{\cdot\cdot})+(y_{ij}-\bar y_{i\cdot}-\bar y_{\cdot j}+\bar y_{\cdot\cdot})=y_{ij}-\bar y_{\cdot\cdot}\]
 <p>Write the three pieces as \(A_i+B_j+E_{ij}\). Square and sum over all \(i,j\):</p>
 \[\sum\sum(A_i+B_j+E_{ij})^2=\sum\sum A_i^2+\sum\sum B_j^2+\sum\sum E_{ij}^2+2\sum\sum A_iB_j+2\sum\sum A_iE_{ij}+2\sum\sum B_jE_{ij}\]
 <p>Cross term \(A_iB_j\) factors, and each factor is a sum of deviations from a mean:</p>
@@ -204,11 +281,14 @@ const D=[
 <p>Cross term with \(E_{ij}\): for a fixed \(i\), sum \(E_{ij}\) over \(j\):</p>
 \[\sum_{j=1}^{b}E_{ij}=b\bar y_{i\cdot}-b\bar y_{i\cdot}-b\bar y_{\cdot\cdot}+b\bar y_{\cdot\cdot}=0\]
 <p>so \(\sum_i\sum_jA_iE_{ij}=\sum_iA_i\cdot0=0\). Symmetrically \(\sum_iE_{ij}=0\), so the \(B_jE_{ij}\) term vanishes too. Since \(\sum\sum A_i^2=b\sum_i(\bar y_{i\cdot}-\bar y_{\cdot\cdot})^2\) (each \(A_i\) repeats \(b\) times) and likewise for \(B_j\):</p>
-\[SS_T=SS_{Tr}+SS_{Bl}+SS_E\]`],
+\[SS_T=SS_{Tr}+SS_{Bl}+SS_E\]
+<p>Check (fertilizer example of Part 2): \(148=72+72+4\). The calculator prints all three cross sums for any data you enter.</p>`],
 ["D4","Degrees of freedom",String.raw`<p>Total: \(ab\) observations, one constraint (deviations from the grand mean sum to 0): \(ab-1\).</p>
 <p>Treatments: \(a\) means that sum to \(\bar y_{\cdot\cdot}\) (up to a factor), so \(a-1\) free. Blocks: \(b-1\). Error is what remains:</p>
-\[ab-1-(a-1)-(b-1)=ab-a-b+1=(a-1)(b-1)\]
-<p>Hardness: \(16-1-3-3=9=(3)(3)\). Rice: also \(a=b=4\), so 9. A CRD on the same 16 runs has error df \(a(b-1)=12\).</p>`],
+\[ab-1-(a-1)-(b-1)=ab-1-a+1-b+1=ab-a-b+1\]
+<p>Factor the result:</p>
+\[ab-a-b+1=(a-1)(b-1)\]
+<p>Hardness: \(16-1-3-3=9=(3)(3)\). Fertilizer example of Part 2 (\(a=3,b=4\)): \(12-1-2-3=6=(2)(3)\). Rice: also \(a=b=4\), so 9. A CRD on the same 16 runs has error df \(a(b-1)=12\).</p>`],
 ["D5","What the CRD error contains: why blocking helps",String.raw`<p>If the blocks are ignored, the CRD analysis has only treatments and an error, so it pools the block and RCBD error terms:</p>
 \[SS_{E,CRD}=SS_{Bl}+SS_{E,RCBD},\qquad df=(b-1)+(a-1)(b-1)=a(b-1)\]
 <p>Hardness: \(SS_{E,CRD}=0.825+0.080=0.905\), \(df=12\), so</p>
@@ -216,27 +296,50 @@ const D=[
 <p>The ratio is \(0.0754/0.00889\approx8.5\). Because \(F_0=MS_{Tr}/MS_E\) and \(MS_{Tr}\) is the same in both analyses (0.1283), the RCBD gives an \(F_0\) about 8.5 times larger: \(14.44\) versus \(1.70\).</p>`]];
 const F=[["Design",[["\\(y_{ij}=\\mu+\\tau_i+\\beta_j+\\epsilon_{ij}\\)","model; \\(\\epsilon_{ij}\\sim NID(0,\\sigma^2)\\)"],["\\(\\sum\\tau_i=0,\\ \\sum\\beta_j=0\\)","effects are deviations from \\(\\mu\\)"],["\\((a!)^b\\)","number of possible randomized layouts"]]],
 ["Hypotheses",[["\\(H_0:\\mu_1=\\cdots=\\mu_a\\)","\\(\\iff H_0:\\tau_1=\\cdots=\\tau_a=0\\)"],["\\(H_1:\\) some \\(\\mu_i\\ne\\mu_j\\)","\\(\\iff\\) some \\(\\tau_i\\ne0\\)"]]],
-["Estimates",[["\\(\\hat\\mu=\\bar y_{\\cdot\\cdot}\\)","grand mean"],["\\(\\hat\\tau_i=\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot}\\)","treatment effect"],["\\(\\hat\\beta_j=\\bar y_{\\cdot j}-\\bar y_{\\cdot\\cdot}\\)","block effect"]]],
-["ANOVA (beyond slides)",[["\\(SS_T=SS_{Tr}+SS_{Bl}+SS_E\\)","df: \\(ab-1=(a-1)+(b-1)+(a-1)(b-1)\\)"],["\\(F_0=MS_{Tr}/MS_E\\)","reject if \\(F_0\\gt F_{\\alpha,a-1,(a-1)(b-1)}\\)"]]]];
+["Estimates",[["\\(\\hat\\mu=\\bar y_{\\cdot\\cdot}\\)","grand mean"],["\\(\\hat\\tau_i=\\bar y_{i\\cdot}-\\bar y_{\\cdot\\cdot}\\)","treatment effect"],["\\(\\hat\\beta_j=\\bar y_{\\cdot j}-\\bar y_{\\cdot\\cdot}\\)","block effect"]]]].concat(String.raw`@Setup and totals
+\(\yi=\sum_j y_{ij},\ \yj=\sum_i y_{ij}\)|treatment total, block total
+\(\yy=\sum_i\sum_j y_{ij}\)|grand total; \(N=ab\)
+\(\ybi=\yi/b,\ \ybj=\yj/a,\ \ybb=\yy/N\)|treatment, block and grand means
+@Sums of squares
+\(\SS{T}=\SS{Tr}+\SS{Bl}+\SS{E}\)|\(N-1=(a-1)+(b-1)+(a-1)(b-1)\)
+\(\SS{Tr}=b\sum_i(\ybi-\ybb)^2\)|treatments
+\(\SS{Bl}=a\sum_j(\ybj-\ybb)^2\)|blocks
+\(\SS{E}=\sum\sum(y_{ij}-\ybi-\ybj+\ybb)^2\)|error
+@Computing formulas
+\(\SS{T}=\sum\sum y_{ij}^2-\yy^2/N\)|total
+\(\SS{Tr}=\frac1b\sum_i\yi^2-\yy^2/N\)|treatments
+\(\SS{Bl}=\frac1a\sum_j\yj^2-\yy^2/N\)|blocks; \(\SS{E}=\SS{T}-\SS{Tr}-\SS{Bl}\)
+@Expected mean squares (fixed effects)
+\(E(\MS{Tr})=\sigma^2+b\sum\tau_i^2/(a-1)\)|equals \(\sigma^2\) when all \(\tau_i=0\)
+\(E(\MS{Bl})=\sigma^2+a\sum\beta_j^2/(b-1)\)|equals \(\sigma^2\) when all \(\beta_j=0\)
+\(E(\MS{E})=\sigma^2\)|always
+@F-tests
+\(F_0=\MS{Tr}/\MS{E}\)|reject if \(F_0\gt F_{\alpha,a-1,(a-1)(b-1)}\)
+\(F_0=\MS{Bl}/\MS{E}\)|reject \(H_0:\beta_j=0\) if \(F_0\gt F_{\alpha,b-1,(a-1)(b-1)}\)`.split('@').slice(1).map(s=>{const l=s.trim().split('\n');return[l[0],l.slice(1).map(x=>x.split('|'))]}));
 renderD(D);renderF(F);ts();
 function analyse(){
  const rows=$('cd').value.trim().split(/\n+/).map(l=>l.trim().split(/[\s,]+/).map(Number));
  const a=rows.length,b=rows[0].length,al=+$('al').value;
  if(a<2||b<2||rows.some(r=>r.length!=b||r.some(isNaN))){$('co').textContent='Check the input: every line needs the same number of numeric values (at least 2 lines, 2 columns).';return}
- const N=a*b,gm=rows.flat().reduce((s,v)=>s+v,0)/N;
- const tm=rows.map(r=>r.reduce((s,v)=>s+v,0)/b),bm=[...Array(b)].map((_,j)=>rows.reduce((s,r)=>s+r[j],0)/a);
- const sst=rows.flat().reduce((s,v)=>s+(v-gm)**2,0),ssT=b*tm.reduce((s,m)=>s+(m-gm)**2,0),ssB=a*bm.reduce((s,m)=>s+(m-gm)**2,0),ssE=sst-ssT-ssB;
- const dT=a-1,dB=b-1,dE=dT*dB,mT=ssT/dT,mB=ssB/dB,mE=ssE/dE,F1=mT/mE,F2=mB/mE;
- const p=(f,d1,d2)=>1-jStat.centralF.cdf(f,d1,d2),fc=jStat.centralF.inv(1-al,dT,dE);
+ const N=a*b,G=sum(rows.flat()),C=G*G/N,gm=G/N,t=rows.map(sum),bl=[...Array(b)].map((_,j)=>sum(rows.map(r=>r[j]))),tm=t.map(v=>v/b),bm=bl.map(v=>v/a);
+ const sst=sum(rows.flat().map(v=>v*v))-C,ssT=sum(t.map(v=>v*v))/b-C,ssB=sum(bl.map(v=>v*v))/a-C,ssE=sst-ssT-ssB;
+ const dT=a-1,dB=b-1,dE=dT*dB,mT=ssT/dT,mB=ssB/dB,mE=ssE/dE,ok=mE>1e-12,F1=mT/mE,F2=mB/mE;
+ let x1=0,x2=0,x3=0;rows.forEach((r,i)=>r.forEach((v,j)=>{const A=tm[i]-gm,B=bm[j]-gm,e=v-tm[i]-bm[j]+gm;x1+=A*B;x2+=B*e;x3+=A*e}));
+ const p=(f,d1,d2)=>1-jStat.centralF.cdf(f,d1,d2),fT=jStat.centralF.inv(1-al,dT,dE),fB=jStat.centralF.inv(1-al,dB,dE);
  const dC=a*(b-1),mC=(ssB+ssE)/dC,Fc=mT/mC,fcc=jStat.centralF.inv(1-al,dT,dC);
- $('co').innerHTML=`<div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F<sub>0</sub></th><th>P</th></tr>
- <tr><td>Treatments</td><td>${g(ssT,4)}</td><td>${dT}</td><td>${g(mT,5)}</td><td>${g(F1,2)}</td><td>${g(p(F1,dT,dE),4)}</td></tr>
- <tr><td>Blocks</td><td>${g(ssB,4)}</td><td>${dB}</td><td>${g(mB,5)}</td><td>${g(F2,2)}</td><td>${g(p(F2,dB,dE),4)}</td></tr>
+ const w=v=>Math.max(0,100*v/sst),dec=(f,c,d1,n)=>ok?`${n}: F<sub>${al},${d1},${dE}</sub> = ${g(c,2)}, F<sub>0</sub> = ${g(f,2)}, P = ${pf(p(f,d1,dE))} &rarr; <b>${f>c?'reject':'fail to reject'} H<sub>0</sub></b>.`:`${n}: error is about 0, so F<sub>0</sub> is not defined.`;
+ $('co').innerHTML=`Correction term y<sub>..</sub><sup>2</sup>/N = ${g(C)}; grand total = ${g(G,2)}, N = ${N}.<br>Treatment totals: ${t.map(v=>g(v,2)).join(', ')}; block totals: ${bl.map(v=>g(v,2)).join(', ')}.
+ <div class="tw"><table><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F<sub>0</sub></th><th>P</th></tr>
+ <tr><td>Treatments</td><td>${g(ssT,4)}</td><td>${dT}</td><td>${g(mT,5)}</td><td>${ok?g(F1,2):'-'}</td><td>${ok?pf(p(F1,dT,dE)):'-'}</td></tr>
+ <tr><td>Blocks</td><td>${g(ssB,4)}</td><td>${dB}</td><td>${g(mB,5)}</td><td>${ok?g(F2,2):'-'}</td><td>${ok?pf(p(F2,dB,dE)):'-'}</td></tr>
  <tr><td>Error</td><td>${g(ssE,4)}</td><td>${dE}</td><td>${g(mE,5)}</td><td></td><td></td></tr>
  <tr><td>Total</td><td>${g(sst,4)}</td><td>${N-1}</td><td></td><td></td><td></td></tr></table></div>
- Critical F<sub>${al},${dT},${dE}</sub> = ${g(fc,2)}: <b>${F1>fc?'reject H<sub>0</sub> (treatments differ)':'fail to reject H<sub>0</sub>'}</b>.<br>
+ <div class="stk"><div style="width:${w(ssT)}%">Treatments</div><div class="g" style="width:${w(ssB)}%">Blocks</div><div class="r" style="width:${w(ssE)}%"></div></div>
+ ${dec(F1,fT,dT,'Treatments')}<br>${dec(F2,fB,dB,'Blocks')}<br>
  Effects: &tau;&#770; = ${tm.map(m=>g(m-gm,3)).join(', ')}; &beta;&#770; = ${bm.map(m=>g(m-gm,3)).join(', ')}.<br>
- <span class="mut">If blocks were ignored (CRD): MS<sub>E</sub> = ${g(mC,5)} on ${dC} df, F<sub>0</sub> = ${g(Fc,2)}, critical ${g(fcc,2)} &rarr; ${Fc>fcc?'still significant':'not significant'}.</span>`}
+ <span class="mut">If blocks were ignored (CRD): MS<sub>E</sub> = ${g(mC,5)} on ${dC} df${ok?`, F<sub>0</sub> = ${g(Fc,2)}, critical ${g(fcc,2)} &rarr; ${Fc>fcc?'still significant':'not significant'}`:''}.<br>Cross-product sums (should be 0): ${g(x1,6)}, ${g(x2,6)}, ${g(x3,6)}.</span>`}
+const HD='9.3 9.4 9.6 10.0\n9.4 9.3 9.8 9.9\n9.2 9.4 9.5 9.7\n9.7 9.6 10.0 10.2',FE='20 24 18 22\n23 27 20 26\n25 29 24 30';
+$('l1').onclick=()=>{$('cd').value=HD;analyse()};$('l2').onclick=()=>{$('cd').value=FE;analyse()};
 $('go').onclick=analyse;analyse();
 function shuf(n){const x=[...Array(n)].map((_,i)=>i+1);for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
 function rnd(){const a=Math.max(2,+$('ra').value||4),b=Math.max(2,+$('rb').value||4),cols=[...Array(b)].map(()=>shuf(a));
@@ -282,5 +385,17 @@ function wlay(){const rows=$('lk').value.trim().split(/\n+/).map(l=>l.trim().spl
 $('lk').oninput=wlay;wlay();
 
 
+function fx(){
+ const a=+$('xa').value,b=+$('xb').value,al=+$('xal').value,F0=+$('xf').value,tb=$('xt').value=='b';$('xv').textContent=F0;
+ if(!(a>=2&&b>=2))return;
+ const d1=tb?b-1:a-1,d2=(a-1)*(b-1),fc=jStat.centralF.inv(1-al,d1,d2),p=1-jStat.centralF.cdf(F0,d1,d2);
+ const xm=Math.max(fc*2.2,F0*1.1,5),n=160,X=i=>xm*(i+1)/n,pts=[...Array(n)].map((_,i)=>jStat.centralF.pdf(X(i),d1,d2));
+ const ym=Math.max(...pts.slice(4))*1.1,px=x=>30+640*x/xm,py=y=>180-165*Math.min(y,ym)/ym;
+ const line=pts.map((y,i)=>px(X(i)).toFixed(1)+','+py(y).toFixed(1)).join(' '),tail=pts.map((y,i)=>[X(i),y]).filter(q=>q[0]>=fc).map(q=>px(q[0]).toFixed(1)+','+py(q[1]).toFixed(1));
+ $('xsv').innerHTML=`<line x1="30" y1="180" x2="680" y2="180" stroke="var(--mut)"/><polygon points="${px(fc)},180 ${tail.join(' ')} ${tail.length?tail[tail.length-1].split(',')[0]:px(fc)},180" fill="var(--bad)" opacity=".35"/><polyline points="${line}" fill="none" stroke="var(--ac)" stroke-width="2"/>
+ <line x1="${px(fc)}" y1="15" x2="${px(fc)}" y2="180" stroke="var(--bad)" stroke-dasharray="5 4"/><text x="${px(fc)+4}" y="28" font-size="13" fill="var(--bad)">F crit ${g(fc,2)}</text>
+ <line x1="${px(Math.min(F0,xm))}" y1="15" x2="${px(Math.min(F0,xm))}" y2="180" stroke="var(--ok)" stroke-width="2"/><text x="${Math.min(px(F0)+4,610)}" y="48" font-size="13" fill="var(--ok)">F0 ${F0}</text>`;
+ $('xo').innerHTML=`df: N&minus;1 = ${a*b-1} = ${a-1} + ${b-1} + ${d2} (treatments + blocks + error).<br>Testing ${tb?'blocks':'treatments'}: F<sub>${al},${d1},${d2}</sub> = ${g(fc)}, p = ${pf(p)} &rarr; ${F0>fc?'reject':'fail to reject'} H<sub>0</sub>.`}
+['xa','xb','xt','xal','xf'].forEach(i=>$(i).addEventListener('input',fx));fx();
 </script>
 </body></html>

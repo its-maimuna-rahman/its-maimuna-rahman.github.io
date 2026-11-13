@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nonparametric Tests – AST 203</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 50px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.2}
+h1{font-size:clamp(2.2rem,7vw,3.6rem);margin:0 0 .3rem}h2{font-size:1.9rem;margin:0 0 .6rem;color:var(--ac)}h3{font-size:1.25rem;margin:1.1rem 0 .3rem}
+main{max-width:860px;margin:0 auto;padding:0 16px 60px}section{padding:26px 0;border-top:1px solid var(--line)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:6px 12px;z-index:5}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:5px 11px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.95rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}button.p{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:12px 16px;margin:12px 0}
+.ex{border-left-color:var(--ok)}.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:10px 6px;margin:10px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:620px){.two{grid-template-columns:1fr}}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:8px 0}label{font-size:.95rem;color:var(--mut)}
+input,select,textarea{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 7px;border-radius:3px;max-width:100%}input[type=number]{width:90px}input[type=range]{accent-color:var(--ac)}
+.out{font-family:Radley,Georgia,serif;font-size:1.15rem;margin-top:8px}.mut{color:var(--mut);font-size:.95rem}
+svg.ch{width:100%;height:auto;display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:12px}.cards .box{margin:0}.cards h3{margin-top:0;font-size:1.1rem}.cards .f{font-size:.95rem;margin:6px 0;overflow-x:visible}
+summary{cursor:pointer;color:var(--ac)}ol,ul{padding-left:1.3rem}td,th{border:1px solid var(--line);padding:3px 8px;text-align:center}table{border-collapse:collapse;font-size:.95rem}.tw{overflow-x:auto}
+mjx-container{color:inherit}.f mjx-container,.f mjx-container[display=true]{margin:0!important}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;padding:0 4px;position:relative}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block;transition:background .2s}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}
+.sw input:checked+i:before{transform:translateX(24px)}.sw input:focus-visible+i{outline:2px solid var(--ac);outline-offset:2px}
+.dv{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0}.dv summary{list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:16px 20px}.dv summary::-webkit-details-marker{display:none}.dv summary:after{content:"\25BE";margin-left:auto}.dv[open] summary:after{content:"\25B4"}
+.dv .cd{color:var(--mut);font-size:1.15rem}.dv .tt{font-family:Radley,Georgia,serif;font-size:1.3rem}.dv .bd{padding:8px 22px 18px;border-top:1px solid var(--line);line-height:1.75}.dv .bd li{margin:.9em 0}.dv .bd mjx-container[display=true]{margin:1.1em 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{mo:'m_0',Wp:'W'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head><body>
+<nav><a href="#basics">Basics</a><a href="#sign">Sign test</a><a href="#wil">Wilcoxon</a><a href="#ex2">Example 2</a><a href="#cmp">Compare</a><a href="#prac">Practice</a><a href="#deriv">Derivations</a><a href="#sum">Summary</a><label class="sw" title="Light / dark mode"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:30px 0 10px"><h1>Nonparametric Tests</h1><p class="mut">AST 203: Statistical Inference. The sign test and the Wilcoxon signed-rank test, with widgets.</p>
+<div class="box"><b>Try it: sign test p-value.</b> Suppose \(Y\) is the number of observations below the hypothesized median \(\mo\). If \(H_0:m=\mo\) is true, \(Y\sim b(n,\tfrac12)\). Choose \(n\), the observed \(y\) and the alternative. The red bars are the outcomes at least as extreme as yours; their total probability is the p-value.
+<div class="row"><label>\(n\) <input type="range" id="n" min="4" max="40" value="20"> <b id="nv"></b></label><label>\(y\) <input type="range" id="y" min="0" max="20" value="9"> <b id="yv"></b></label><label>\(H_1\) <select id="a"><option value="&lt;">m &lt; m₀ (large Y rejects)</option><option value="&gt;">m &gt; m₀ (small Y rejects)</option><option value="2">m ≠ m₀</option></select></label></div>
+<svg class="ch" id="bs" viewBox="0 0 600 190" role="img" aria-label="Binomial bars"></svg><div class="out" id="bo"></div></div></header>
+
+<section id="basics"><h2>Why nonparametric tests?</h2>
+<ul><li>Many familiar tests (such as the \(t\) test) assume the data come from a particular distribution, usually normal. <b>Nonparametric tests do not assume a specific distribution.</b></li>
+<li>They are useful when normality is doubtful, when the data are only ordered (ranks, ratings), or when the sample is small.</li>
+<li>This lecture covers two tests for a <b>median</b>: the <b>sign test</b> and the <b>Wilcoxon signed-rank test</b>.</li></ul>
+<div class="two"><div class="box"><h3>Sign test</h3>Uses only the <i>direction</i> of each difference (plus or minus). Simple, but throws away sizes.</div><div class="box"><h3>Wilcoxon signed-rank</h3>Uses direction <i>and</i> size (through ranks). More informative and more powerful, but needs a symmetric distribution.</div></div></section>
+
+<section id="sign"><h2>The sign test</h2>
+<p>Let \(X\) be a continuous random variable with median \(m\). We test</p>
+<div class="f">\[H_0:m=\mo\quad\text{against}\quad H_1:m\ne\mo\ \ (\text{or }m<\mo,\ m>\mo)\]</div>
+<p>It works for one sample (compare with \(\mo\)) or for paired data (the differences are the sample, and \(\mo=0\)).</p>
+<h3>Procedure</h3>
+<ol><li>Find the differences (pair differences, or \(X_i-\mo\)).</li><li>Give each a sign, \(+\) or \(-\). Drop zeros.</li><li>Count the plus and minus signs.</li><li>Use the binomial distribution to get the p-value.</li><li>Compare the p-value with \(\alpha\).</li></ol>
+<h3>The test statistic</h3>
+<p>Let \(Y\) be the number of <b>negative</b> differences among \(X_1-\mo,\dots,X_n-\mo\). Under \(H_0\) each observation is below \(\mo\) with probability \(\tfrac12\), so</p>
+<div class="f">\[Y\sim b\!\left(n,\tfrac12\right)\quad\text{under }H_0\]</div>
+<div class="tw"><table><tr><th>Alternative</th><th>Reject \(H_0\) when</th></tr><tr><td>\(m<\mo\)</td><td>\(Y\) is too large (many below \(\mo\))</td></tr><tr><td>\(m>\mo\)</td><td>\(Y\) is too small</td></tr><tr><td>\(m\ne\mo\)</td><td>\(Y\) is too large or too small</td></tr></table></div>
+<p class="mut">Link to intervals: if you build a \(100(1-\alpha)\%\) confidence interval for \(m\) and \(\mo\) falls outside it, you would reject \(H_0\) at level \(\alpha\).</p>
+<div class="box ex"><b>Example A: paired data.</b> Pairs \((5,7),(8,6),(10,12),(9,9),(11,15)\). Differences (first minus second): \(-2,\ +2,\ -2,\ 0,\ -4\). Drop the zero, so \(n=4\), with \(3\) minus signs and \(1\) plus sign. Two-sided p-value, using \(Y\sim b(4,\tfrac12)\):
+<div class="f">\[P(Y\ge3)=\tfrac{4}{16}+\tfrac1{16}=0.3125,\qquad p=2(0.3125)=0.625\]</div>Far above \(0.05\), so no evidence of a difference (with only 4 usable pairs the test could hardly find one).</div>
+<div class="box ex"><b>Example B: time between calls.</b> \(X\) is the time (seconds) between two calls at a call center, and \(m\) its median. Test \(H_0:m=6.2\) against \(H_1:m<6.2\) with \(n=20\). \(Y\) counts times below \(6.2\). The binomial table for \(n=20,\ p=0.5\) gives \(P(Y\le13)=0.9423\), so the region \(C=\{y\ge14\}\) has
+<div class="f">\[\alpha=P(Y\ge14)=1-P(Y\le13)=1-0.9423=0.0577\]</div>
+Sample: 6.8 5.7 6.9 5.3 4.1 9.8 1.7 7.0 2.1 19.0 18.9 16.9 10.4 44.1 2.9 2.4 4.8 18.9 4.8 7.9. The values below \(6.2\) are 5.7, 5.3, 4.1, 1.7, 2.1, 2.9, 2.4, 4.8, 4.8, so \(y=9\). Since \(9<14\), <b>do not reject</b> \(H_0\). Equivalently, \(p=P(Y\ge9)=1-P(Y\le8)=1-0.2517=0.7483\). Nine of twenty is close to the \(10\) we expect under \(H_0\). Set the widget at the top to \(n=20,\ y=9\) to see it.</div>
+<div class="box"><b>Limitation.</b> A difference of \(0.1\) and a difference of \(100\) both count as one sign. The sign test ignores how large the differences are. The next test fixes this.</div></section>
+
+<section id="wil"><h2>The Wilcoxon signed-rank test</h2>
+<ul><li>A nonparametric alternative to the paired \(t\) test.</li><li>It uses the <b>size</b> of \(|X_i-\mo|\) as well as the sign, so it is more powerful than the sign test.</li><li>To find the distribution of its statistic, assume the pdf of \(X\) is <b>symmetric about the median</b>.</li></ul>
+<h3>Procedure</h3>
+<ol><li>Compute \(X_i-\mo\) (or paired differences).</li><li>Rank \(|X_i-\mo|\) from smallest (1) to largest (\(n\)).</li><li>Attach to each rank the sign of its original difference.</li><li>Add the signed ranks to get \(\Wp\) (the sum of positive ranks minus the sum of negative ranks).</li><li>Compare \(\Wp\) with critical values, or find a p-value.</li></ol>
+<div class="f">\[W=\sum_{i=1}^{n}\operatorname{sign}(X_i-\mo)\,R_i,\qquad R_i=\text{rank of }|X_i-\mo|\]</div>
+<h3>Which direction rejects?</h3>
+<div class="tw"><table><tr><th>\(H_1\)</th><th>Critical region</th><th>Reason</th></tr><tr><td>\(m>\mo\)</td><td>\(w\ge c_1\)</td><td>big gaps tend to be above \(\mo\)</td></tr><tr><td>\(m<\mo\)</td><td>\(w\le c_2\)</td><td>big gaps tend to be below \(\mo\)</td></tr><tr><td>\(m\ne\mo\)</td><td>\(w\le c_3\) or \(w\ge c_4\)</td><td>either of the above</td></tr></table></div>
+<p class="mut">If \(H_0\) is true, about half the differences are negative, so positive and negative ranks roughly cancel and \(W\) is near \(0\).</p>
+<div class="box ex"><b>Example: sunfish lengths.</b> \(n=10\): 5.0, 3.9, 5.2, 5.5, 2.8, 6.1, 6.4, 2.6, 1.7, 4.3. Test \(H_0:m=3.7\) vs \(H_1:m>3.7\).
+<br>Differences \(x_i-3.7\): 1.3, 0.2, 1.5, 1.8, \(-0.9\), 2.4, 2.7, \(-1.1\), \(-2.0\), 0.6. Sorted by size:
+<div class="tw"><table style="margin:8px auto"><tr><th>\(|d|\)</th><td>0.2</td><td>0.6</td><td>0.9</td><td>1.1</td><td>1.3</td><td>1.5</td><td>1.8</td><td>2.0</td><td>2.4</td><td>2.7</td></tr><tr><th>rank</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr><tr><th>sign</th><td>+</td><td>+</td><td>−</td><td>−</td><td>+</td><td>+</td><td>+</td><td>−</td><td>+</td><td>+</td></tr></table></div>
+<div class="f">\[W=5+1+6+7-3+9+10-4-8+2=25\]</div>
+Positive ranks add to \(40\), negative to \(15\), and \(40-15=25\). For the sign test the same data give \(y=3\) below \(3.7\). <b>Is \(25\) large enough?</b> Use the null distribution below.
+<br><span class="mut">Note: the slide says \(W=25\) is “large enough” to reject. Using the normal approximation (below), \(z\approx1.27\) and the p-value is about \(0.11\), so at \(\alpha=0.05\) we do <i>not</i> reject. Treat the slide’s wording as loose.</span></div>
+<h3>Distribution of \(W\) under \(H_0\)</h3>
+<p>With \(H_0\) true, \(W\) behaves like a sum of the integers \(1,\dots,n\), each with a random \(\pm\) sign. This gives (see D2 to D4)</p>
+<div class="f">\[E(W)=0,\qquad\operatorname{Var}(W)=\frac{n(n+1)(2n+1)}{6},\qquad Z=\frac{W-0}{\sqrt{n(n+1)(2n+1)/6}}\approx N(0,1)\]</div>
+<p>where \(n\) = number of non-zero differences, and \(Z\) is approximately standard normal when \(H_0\) holds.</p>
+<div class="box ex"><b>Numbers for the sunfish.</b> \(n=10\): \(\operatorname{Var}(W)=\dfrac{10\cdot11\cdot21}{6}=385\), so the standard deviation is \(\sqrt{385}=19.62\). Then \(z=25/19.62=1.27\). For a \(5\%\) one-sided test we need \(z\ge1.645\), i.e. \(W\ge1.645(19.62)\approx32.3\). Since \(25<32.3\), not rejected.</div>
+<div class="box"><b>Try it: run both tests on any data.</b> Pick a lecture dataset or paste your own. The tool drops zero differences, gives tied sizes the average rank, and uses the lecture’s normal approximation with a unit continuity correction.
+<div class="row"><label>Data <select id="ps"></select></label><label>\(\mo\) <input type="number" id="m0" step="any" value="3.7"></label><label>\(H_1\) <select id="al"><option value="&gt;">m &gt; m₀</option><option value="&lt;">m &lt; m₀</option><option value="2">m ≠ m₀</option></select></label></div>
+<textarea id="dx" rows="3" style="width:100%"></textarea><div class="out" id="to"></div><div class="tw" id="tt"></div></div></section>
+
+<section id="ex2"><h2>Example 2: a larger sample</h2>
+<p>Let \(m\) be the median of a symmetric continuous distribution. Test \(H_0:m=160\) against \(H_1:m>160\) with \(n=16\): 176.9, 158.3, 152.1, 158.8, 172.4, 169.8, 159.7, 162.7, 156.6, 174.5, 184.4, 165.2, 147.8, 177.8, 160.1, 160.5.</p>
+<div class="tw"><table><tr><th>\(|x-160|\)</th><td>0.1</td><td>0.3</td><td>0.5</td><td>1.2</td><td>1.7</td><td>2.7</td><td>3.4</td><td>5.2</td><td>7.9</td><td>9.8</td><td>12.2</td><td>12.4</td><td>14.5</td><td>16.9</td><td>17.8</td><td>24.4</td></tr>
+<tr><th>signed rank</th><td>+1</td><td>−2</td><td>+3</td><td>−4</td><td>−5</td><td>+6</td><td>−7</td><td>+8</td><td>−9</td><td>+10</td><td>−11</td><td>+12</td><td>+13</td><td>+14</td><td>+15</td><td>+16</td></tr></table></div>
+<p>Positive ranks: \(1+3+6+8+10+12+13+14+15+16=98\). Negative ranks: \(2+4+5+7+9+11=38\). So \(w=98-38=60\). Now \(\operatorname{Var}(W)=\frac{16\cdot17\cdot33}{6}=1496\) and the standard deviation is \(\sqrt{1496}=38.68\). With the unit correction for continuity (see D5):</p>
+<div class="f">\[p=P(W\ge60)\approx P\!\left(Z\ge\frac{60-1-0}{38.68}\right)=P(Z\ge1.525)=0.0636\]</div>
+<p>\(0.0636>0.05\), so \(H_0\) is <b>not rejected</b>. A larger sample might give stronger evidence.</p></section>
+
+<section id="cmp"><h2>Sign test vs Wilcoxon</h2>
+<div class="tw"><table><tr><th></th><th>Sign test</th><th>Wilcoxon signed-rank</th></tr><tr><th>Uses</th><td>signs only</td><td>signs and ranks of sizes</td></tr><tr><th>Statistic</th><td>\(Y\sim b(n,\tfrac12)\)</td><td>\(W\), \(\approx N(0,\,n(n+1)(2n+1)/6)\)</td></tr><tr><th>Needs symmetry?</th><td>no</td><td>yes</td></tr><tr><th>Power</th><td>lower</td><td>higher</td></tr></table></div>
+<div class="box ex"><b>Same data, two answers.</b> Jolly Rancher weights (Problem 2 below), \(H_1:m>5.900\): sign test \(p=0.0539\) (not rejected at \(5\%\)), Wilcoxon \(p\approx0.0111\) (rejected). The Wilcoxon test noticed that the large gaps lay mostly above \(5.9\). For the sunfish, sign \(p=0.1719\) and Wilcoxon \(p\approx0.1106\): neither rejects, but Wilcoxon is again smaller.</div>
+<p>Choose by the data: use the sign test when symmetry is doubtful or only signs are available; use Wilcoxon when the distribution is roughly symmetric and sizes carry information.</p></section>
+
+<section id="prac"><h2>Practice problems</h2>
+<div class="box"><b>Problem 1.</b> Median candy load weight claimed to be \(40{,}000\) lb. 13 loads: 41195 39485 41229 36840 38050 40890 38345 34930 39245 31031 40780 38050 30906. Test \(H_0:m=40000\) vs \(H_1:m<40000\) at about \(5\%\): (a) Wilcoxon test, (b) its approximate p-value, (c) sign test, (d) compare the two p-values.
+<div class="row"><button id="p1">Load in tool</button></div></div>
+<div class="box"><b>Problem 2.</b> Jolly Rancher weight (g), \(n=25\). Test \(H_0:m=5.900\) vs \(H_1:m>5.900\) at about \(5\%\) with (a) the sign test, (b) the Wilcoxon test.
+<div class="row"><button id="p2">Load in tool</button></div></div>
+<details class="box"><summary>Check your answers</summary><ul><li>Problem 1: \(W=-55\), \(z\approx-1.92\), Wilcoxon \(p\approx0.030\): reject. Sign test: \(y=9\) of \(13\) below, \(p=0.1334\): do not reject. The two tests disagree because the sign test ignores size (the two lightest loads are far below \(40000\)).</li><li>Problem 2: sign test: \(y=8\) below, \(p=P(Y\le8)=0.0539\): borderline, not rejected. Wilcoxon: \(W=171\), \(z\approx2.30\), \(p\approx0.011\): reject.</li></ul></details></section>
+
+<section id="deriv"><h2>Derivations</h2><p class="mut">Every derivation from the lecture, step by step. Tap one to open it.</p>
+<details class="dv"><summary><span class="cd">D1</span><span class="tt">Distribution of the sign-test statistic</span></summary><div class="bd"><ol>
+<li>\(m\) is the median, so \(P(X_i<m)=P(X_i>m)=\tfrac12\). Under \(H_0:m=\mo\): \[P(X_i-\mo<0)=\tfrac12.\]</li>
+<li>\(X_1,\dots,X_n\) are independent, so each difference is an independent trial with success probability \(\tfrac12\) (“negative”).</li>
+<li>\(Y\) counts the negatives among \(n\) such trials, hence \[Y\sim b\!\left(n,\tfrac12\right).\]</li>
+<li>If \(Y\) is too large or too small, reject \(H_0\). Example B: \(n=20\), \(C=\{y\ge14\}\), \(\alpha=1-0.9423=0.0577\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D2</span><span class="tt">Signs are random: \(W\) and \(V\)</span></summary><div class="bd"><ol>
+<li>Under \(H_0\), \(P(X_i<\mo)=P(X_i>\mo)=\tfrac12\), so the sign on rank \(R_i\) is negative with probability \(\tfrac12\).</li>
+<li>The \(X_i\) are independent, so the \(n\) sign assignments are independent.</li>
+<li>\(W\) is a sum of the integers \(1,2,\dots,n\), each with a \(+\) or \(-\) sign. Because the distribution is symmetric, \(W\) has the same distribution as \[V=\sum_{i=1}^{n}V_i,\qquad P(V_i=i)=P(V_i=-i)=\tfrac12,\ \ V_i\text{ independent.}\]</li>
+<li>Same distribution means same mean and variance, so we compute those for \(V\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D3</span><span class="tt">Mean and variance of \(W\)</span></summary><div class="bd"><ol>
+<li>Mean of one term: \[E(V_i)=(-i)\left(\tfrac12\right)+i\left(\tfrac12\right)=0.\]</li>
+<li>So \[E(W)=E(V)=\sum_{i=1}^{n}E(V_i)=0.\]</li>
+<li>Variance of one term (mean is \(0\)): \[\operatorname{Var}(V_i)=E(V_i^2)=(-i)^2\left(\tfrac12\right)+i^2\left(\tfrac12\right)=i^2.\]</li>
+<li>Independence lets variances add: \[\operatorname{Var}(W)=\operatorname{Var}(V)=\sum_{i=1}^{n}i^2=\frac{n(n+1)(2n+1)}{6}.\]</li>
+<li>Check, \(n=3\): \(1+4+9=14\) and \(\frac{3\cdot4\cdot7}{6}=14\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D4</span><span class="tt">Normal approximation and critical regions</span></summary><div class="bd"><ol>
+<li>\(W\) is a sum of independent terms, so the central limit theorem gives \[Z=\frac{W-0}{\sqrt{n(n+1)(2n+1)/6}}\approx N(0,1)\quad\text{when }H_0\text{ is true.}\]</li>
+<li>\(H_1:m>\mo\): reject if \(w\) is large, \(\{w\ge c_1\}\). \(H_1:m<\mo\): \(\{w\le c_2\}\). \(H_1:m\ne\mo\): \(\{w\le c_3\text{ or }w\ge c_4\}\).</li>
+<li>Choose each \(c\) so that the tail probability under \(H_0\) equals the desired significance level. Sunfish: \(c_1\approx1.645\sqrt{385}\approx32.3\).</li></ol></div></details>
+<details class="dv"><summary><span class="cd">D5</span><span class="tt">Approximate p-value for Example 2</span></summary><div class="bd"><ol>
+<li>\(n=16\), so \[\operatorname{Var}(W)=\frac{16\cdot17\cdot33}{6}=1496,\qquad\sqrt{1496}=38.68.\]</li>
+<li>Observed \(w=60\); \(H_1:m>160\), so \(p=P(W\ge60)\).</li>
+<li>Standardize with a unit correction for continuity: \[P(W\ge60)\approx P\!\left(\frac{W-0}{\sqrt{1496}}\ge\frac{60-1-0}{\sqrt{1496}}\right)\]</li>
+<li>\[\frac{59}{38.68}=1.525,\qquad P(Z\ge1.525)=0.0636.\]</li>
+<li>\(0.0636>0.05\): do not reject \(H_0\).</li></ol></div></details></section>
+
+<section id="sum"><h2>Summary cards</h2><div class="cards" id="cards"></div><h3>Meaning of symbols</h3><div class="tw"><table><tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(m,\ \mo\)</td><td>population median, hypothesized median</td></tr><tr><td>\(n\)</td><td>number of non-zero differences</td></tr><tr><td>\(Y\)</td><td>number of negative differences (sign test statistic)</td></tr><tr><td>\(R_i\)</td><td>rank of \(|X_i-\mo|\)</td></tr><tr><td>\(W,\ w\)</td><td>signed-rank sum (random variable, observed value)</td></tr><tr><td>\(Z\)</td><td>standardized \(W\), approximately \(N(0,1)\)</td></tr><tr><td>\(\alpha\)</td><td>significance level</td></tr></table></div></section>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+$('#th').onchange=e=>document.documentElement.dataset.theme=e.target.checked?'dark':'light';
+const lf=[0];for(let i=1;i<=400;i++)lf[i]=lf[i-1]+Math.log(i);
+const pm=(n,k)=>Math.exp(lf[n]-lf[k]-lf[n-k]-n*Math.LN2),bs=(n,a,b)=>{let s=0;for(let k=a;k<=b;k++)s+=pm(n,k);return s};
+const erf=x=>{const t=1/(1+.3275911*Math.abs(x)),y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-.284496736)*t+.254829592)*t*Math.exp(-x*x);return x>=0?y:-y},Phi=z=>.5*(1+erf(z/Math.SQRT2));
+const sp=(n,y,a)=>{const hi=bs(n,y,n),lo=bs(n,0,y);return a=='<'?hi:a=='>'?lo:Math.min(1,2*Math.min(hi,lo))};
+function w1(){const n=+$('#n').value;$('#y').max=n;const y=Math.min(+$('#y').value,n),a=$('#a').value,p=sp(n,y,a),bw=600/(n+1);let mx=0,s='';
+for(let k=0;k<=n;k++)mx=Math.max(mx,pm(n,k));
+const tl=k=>a=='<'?k>=y:a=='>'?k<=y:(k<=Math.min(y,n-y)||k>=Math.max(y,n-y));
+for(let k=0;k<=n;k++){const h=140*pm(n,k)/mx;s+=`<rect x="${(k*bw+1).toFixed(1)}" y="${(150-h).toFixed(1)}" width="${(bw-2).toFixed(1)}" height="${h.toFixed(1)}" fill="var(${tl(k)?'--bad':'--ac2'})" stroke="${k==y?'var(--ink)':'none'}" stroke-width="2"/>`;
+if(n<=20||k%5==0)s+=`<text x="${(k*bw+bw/2).toFixed(1)}" y="170" text-anchor="middle" font-size="12" fill="var(--mut)">${k}</text>`}
+$('#bs').innerHTML=s+'<line x1="0" x2="600" y1="150" y2="150" stroke="var(--ink)"/>';
+$('#nv').textContent=n;$('#yv').textContent=y;
+$('#bo').textContent=`n = ${n}, y = ${y}. p-value = ${p.toFixed(4)}. ${p<.05?'Reject':'Do not reject'} H₀ at α = 0.05.`}
+['#n','#y','#a'].forEach(i=>$(i).oninput=w1);w1();
+const D={
+'Sunfish (m₀ 3.7, >)':['5.0 3.9 5.2 5.5 2.8 6.1 6.4 2.6 1.7 4.3',3.7,'>'],
+'Example 2 (m₀ 160, >)':['176.9 158.3 152.1 158.8 172.4 169.8 159.7 162.7 156.6 174.5 184.4 165.2 147.8 177.8 160.1 160.5',160,'>'],
+'Call center (m₀ 6.2, <)':['6.8 5.7 6.9 5.3 4.1 9.8 1.7 7.0 2.1 19.0 18.9 16.9 10.4 44.1 2.9 2.4 4.8 18.9 4.8 7.9',6.2,'<'],
+'Problem 1 candy (m₀ 40000, <)':['41195 39485 41229 36840 38050 40890 38345 34930 39245 31031 40780 38050 30906',40000,'<'],
+'Problem 2 Jolly Rancher (m₀ 5.9, >)':['5.625 5.665 5.697 5.837 5.863 5.870 5.878 5.884 5.908 5.967 6.019 6.020 6.029 6.032 6.037 6.045 6.049 6.050 6.079 6.116 6.159 6.186 6.189 6.307 6.387',5.9,'>']};
+$('#ps').innerHTML='<option value="">custom</option>'+Object.keys(D).map(k=>`<option>${k}</option>`).join('');
+function ld(k){const d=D[k];if(!d)return;$('#ps').value=k;$('#dx').value=d[0];$('#m0').value=d[1];$('#al').value=d[2];w2()}
+$('#ps').onchange=()=>ld($('#ps').value);
+$('#p1').onclick=()=>{ld('Problem 1 candy (m₀ 40000, <)');$('#wil').scrollIntoView()};$('#p2').onclick=()=>{ld('Problem 2 Jolly Rancher (m₀ 5.9, >)');$('#wil').scrollIntoView()};
+function w2(){const m=+$('#m0').value,a=$('#al').value,x=$('#dx').value.split(/[\s,]+/).filter(Boolean).map(Number).filter(v=>!isNaN(v));
+const d=x.map(v=>({x:v,d:v-m})).filter(o=>Math.abs(o.d)>1e-9),n=d.length;
+if(n<2){$('#to').textContent='Enter at least 2 values that differ from m₀.';$('#tt').innerHTML='';return}
+const s=[...d].sort((p,q)=>Math.abs(p.d)-Math.abs(q.d));
+for(let i=0;i<n;){let j=i;while(j+1<n&&Math.abs(Math.abs(s[j+1].d)-Math.abs(s[i].d))<1e-7)j++;for(let k=i;k<=j;k++)s[k].r=(i+j)/2+1;i=j+1}
+const W=d.reduce((t,o)=>t+Math.sign(o.d)*o.r,0),ng=d.filter(o=>o.d<0).length,sd=Math.sqrt(n*(n+1)*(2*n+1)/6),
+pw=a=='>'?1-Phi((W-1)/sd):a=='<'?Phi((W+1)/sd):Math.min(1,2*(W>=0?1-Phi((W-1)/sd):Phi((W+1)/sd))),ps=sp(n,ng,a),f=p=>`${p.toFixed(4)} (${p<.05?'reject':'do not reject'} at 5%)`;
+$('#to').innerHTML=`n = ${n} non-zero differences.<br>Sign test: Y = ${ng} negative, p = ${f(ps)}.<br>Wilcoxon: W = ${W}, σ = ${sd.toFixed(2)}, z = ${(W/sd).toFixed(3)}, p ≈ ${f(pw)}.`;
+$('#tt').innerHTML='<table style="margin-top:8px"><tr><th>x</th><th>x − m₀</th><th>rank of |d|</th><th>signed rank</th></tr>'+d.map(o=>`<tr><td>${o.x}</td><td>${+o.d.toFixed(6)}</td><td>${o.r}</td><td>${o.d<0?'−':'+'}${o.r}</td></tr>`).join('')+'</table>'}
+['#dx','#m0','#al'].forEach(i=>$(i).oninput=()=>{$('#ps').value='';w2()});ld('Sunfish (m₀ 3.7, >)');
+const C=[['Sign test','\\(Y\\sim b(n,\\tfrac12)\\)','Count the minus signs; the binomial gives the p-value. Only directions are used.'],
+['Wilcoxon signed-rank','\\(W=\\sum\\operatorname{sign}(d_i)R_i\\)','Rank the sizes, attach signs, add. Needs a symmetric distribution.'],
+['Null distribution of W','\\(E(W)=0,\\ \\operatorname{Var}(W)=\\frac{n(n+1)(2n+1)}{6}\\)','Then \\(Z=W/\\sqrt{\\operatorname{Var}(W)}\\approx N(0,1)\\).'],
+['p-value (\\(H_1:m>\\mo\\))','\\(P(W\\ge w)\\approx P\\!\\left(Z\\ge\\frac{w-1}{\\sqrt{\\operatorname{Var}(W)}}\\right)\\)','Unit continuity correction. Example 2: \\(p=0.0636\\).']];
+$('#cards').innerHTML=C.map(c=>`<div class="box"><h3>${c[0]}</h3><div class="f">${c[1]}</div>${c[2]}</div>`).join('');
+</script></body></html>
