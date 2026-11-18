@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 Strings – R for Data Science (AST230)</title>
+<style>
+:root{--bg:#fff;--fg:#1f2328;--mut:#59636e;--card:#f6f8fa;--bd:#d1d9e0;--ac:#0969da}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1117;--fg:#e6edf3;--mut:#9198a1;--card:#161b22;--bd:#30363d;--ac:#4493f8}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+h1{margin:0 0 4px}h2{margin-top:48px;padding-bottom:6px;border-bottom:2px solid var(--ac)}
+h3{margin:28px 0 6px;font-size:1.05rem}h4{margin:18px 0 4px;color:var(--mut);font-size:.95rem}
+p{margin:4px 0 8px}.mut{color:var(--mut)}
+nav a{color:var(--ac);margin-right:14px;text-decoration:none;font-weight:600}
+pre{margin:6px 0 12px;padding:10px 12px;background:var(--card);border:1px solid var(--bd);border-radius:6px;overflow-x:auto;font:13.5px/1.5 ui-monospace,Consolas,monospace}
+code{font-family:ui-monospace,Consolas,monospace;font-size:.9em;background:var(--card);padding:1px 5px;border-radius:4px}
+table{border-collapse:collapse;margin:8px 0 14px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--bd);padding:5px 10px;text-align:left}th{background:var(--card)}
+</style>
+</head>
+<body>
+<main>
+<h1>12 Strings</h1>
+<p class="mut">R for Data Science · AST230 · Md Rasel Biswas, IASDS, University of Dhaka</p>
+<nav><a href="#part1">Part 1: Concepts</a><a href="#part2">Part 2: All code &amp; solved exercises</a></nav>
+
+<!-- ===================== PART 1 ===================== -->
+<h2 id="part1">Part 1: Concepts (with one-line examples)</h2>
+
+<h3>1. Getting started</h3>
+<p>A <b>string</b> is the generic word for character-type variables. Useful for cleaning names, survey responses and labels. The <code>stringr</code> package (core tidyverse) provides consistent functions, most beginning with <code>str_</code>.</p>
+<pre>library(tidyverse)</pre>
+
+<h3>1.1 Creating strings</h3>
+<p>Use single or double quotes; both work the same. Choose whichever makes the string easier to write.</p>
+<pre>x &lt;- "R for Data Science"</pre>
+<p>If both quote types occur, escape the quote with a backslash <code>\</code>. R’s printed form shows escapes; <code>cat()</code> shows the text as it really appears.</p>
+<pre>cat("It's good to say, \"Welcome!\"")</pre>
+
+<h3>1.2 Special characters</h3>
+<table><tr><th>Code</th><th>Meaning</th></tr>
+<tr><td><code>\n</code></td><td>New line</td></tr><tr><td><code>\t</code></td><td>Tab</td></tr>
+<tr><td><code>\\</code></td><td>A backslash</td></tr><tr><td><code>\"</code></td><td>A double quotation mark</td></tr>
+<tr><td><code>\'</code></td><td>A single quotation mark</td></tr></table>
+<pre>cat("First line\nSecond line")</pre>
+
+<h3>1.3 Character vectors and built-in constants</h3>
+<p>A character vector holds one or more strings.</p>
+<pre>students &lt;- c("Anika", "Rafi", "Nusrat")</pre>
+<p>R provides <code>letters</code>, <code>LETTERS</code>, <code>month.name</code>, <code>month.abb</code>; <code>stringr</code> provides <code>words</code>, <code>sentences</code>, <code>fruit</code>.</p>
+<pre>month.abb[1:4]</pre>
+
+<h3>2. Basic stringr functions</h3>
+<table><tr><th>Task</th><th>Functions</th></tr>
+<tr><td>Change case</td><td><code>str_to_lower()</code>, <code>str_to_upper()</code>, <code>str_to_title()</code></td></tr>
+<tr><td>Measure and extract</td><td><code>str_length()</code>, <code>str_sub()</code>, <code>str_locate()</code></td></tr>
+<tr><td>Clean or format</td><td><code>str_trim()</code>, <code>str_squish()</code>, <code>str_pad()</code>, <code>str_dup()</code></td></tr>
+<tr><td>Combine or split</td><td><code>str_c()</code>, <code>str_split()</code>, <code>word()</code></td></tr>
+<tr><td>Sort</td><td><code>str_sort()</code></td></tr>
+<tr><td>Find matches</td><td><code>str_detect()</code>, <code>str_count()</code></td></tr>
+<tr><td>Replace matches</td><td><code>str_replace()</code>, <code>str_replace_all()</code></td></tr></table>
+
+<h3>3.1 Change the case</h3>
+<p>Convert to lower, upper or title case; works on vectors. <code>str_to_title()</code> capitalises each word and doesn’t know about acronyms or special name styles.</p>
+<pre>str_to_title("r for DATA science")</pre>
+
+<h3>3.2 Count characters</h3>
+<p><code>length()</code> gives the number of elements; <code>str_length()</code> gives the number of characters. A space counts as 1; an empty string is 0.</p>
+<pre>str_length("Data Science")</pre>
+
+<h3>3.3 Substrings with str_sub()</h3>
+<p>Extract by start and end position (positions start at 1; negative positions count from the end). An end beyond the string returns what is available. Assigning to <code>str_sub()</code> replaces characters.</p>
+<pre>str_sub("AST230", 1, 3)</pre>
+
+<h3>3.4 Locate a match with str_locate()</h3>
+<p>Returns the start and end positions of the first match (<code>NA</code> if no match).</p>
+<pre>str_locate("Welcome to the AST230 lab", "AST230")</pre>
+
+<h3>4.1 Remove whitespace</h3>
+<p><code>str_trim()</code> removes spaces at the start and end (<code>side = "left"/"right"</code> available). <code>str_squish()</code> also reduces repeated internal spaces to one. Often combined with case conversion.</p>
+<pre>str_to_title(str_squish("  anika  RAHMAN"))</pre>
+
+<h3>4.2 Pad a string to minimum width</h3>
+<p><code>str_pad()</code> adds characters until the string reaches a total width (<code>side</code>, <code>pad</code> arguments). Ideal for fixed-width IDs; it never shortens longer strings.</p>
+<pre>str_pad("7", width = 3, pad = "0")</pre>
+
+<h3>4.3 Duplicate a string</h3>
+<p><code>str_dup()</code> joins repeated copies into a <i>single string</i>; <code>rep()</code> repeats elements of a <i>vector</i>.</p>
+<pre>str_dup("R", 4)</pre>
+
+<h3>5.1 Combine strings with str_c()</h3>
+<p><code>sep</code> goes between arguments (element by element for vectors); <code>collapse</code> joins all elements of the result into one string.</p>
+<pre>str_c("AST", "230", sep = "-")</pre>
+<pre>str_c(c("AST230", "AST305", "PSY206"), collapse = ", ")</pre>
+
+<h3>5.2 Split strings with str_split()</h3>
+<p>Divides text at a separator and returns a <b>list</b> of character vectors (one element per input string). Use <code>[[1]]</code> for a single input. Splitting on <code>""</code> gives individual characters.</p>
+<pre>str_split("AST_230_Lab_2026", "_")[[1]]</pre>
+
+<h3>5.3 Extract words with word()</h3>
+<p>Extracts words by position; negative positions count from the end; a start and end give a range.</p>
+<pre>word("Institute of Applied Statistics and Data Science", -1)</pre>
+
+<h3>6.1 Sort alphabetically</h3>
+<p><code>str_sort()</code> sorts a character vector; use <code>decreasing = TRUE</code> for reverse order.</p>
+<pre>str_sort(c("Sylhet", "Dhaka", "Rajshahi", "Barishal"))</pre>
+
+<h3>6.2 Comparing strings</h3>
+<p>R is case-sensitive and extra spaces matter. Clean both sides before comparing.</p>
+<pre>str_to_lower(str_trim("  DHAKA ")) == str_to_lower(str_trim("dhaka"))</pre>
+
+<h3>7.1 Detect a match</h3>
+<p>A <b>pattern</b> is the text to find. <code>str_detect()</code> returns <code>TRUE</code>/<code>FALSE</code> per string. For case-insensitive search, convert to a common case first (note <code>"agree"</code> also occurs inside <code>"disagree"</code>).</p>
+<pre>str_detect(c("AST230", "AST305", "PSY206", "CSE331"), "AST")</pre>
+
+<h3>7.2 Match the beginning or end</h3>
+<p><code>^</code> means start of string and <code>$</code> means end of string. Use both to match the whole string. These are basic regular expressions.</p>
+<pre>str_detect(c("AST230", "PSY206"), "^AST")</pre>
+
+<h3>7.3 Count matches</h3>
+<p>Since <code>TRUE</code>=1 and <code>FALSE</code>=0, <code>sum()</code> and <code>mean()</code> give the number and proportion of matches. <code>str_count()</code> counts occurrences <i>within</i> each string. <code>NA</code> input gives <code>NA</code>; use <code>na.rm = TRUE</code>.</p>
+<pre>mean(str_detect(c("Dhaka", "Gazipur", "Dhaka"), "^Dhaka$"))</pre>
+<pre>str_count("banana", "a")</pre>
+
+<h3>8. Replacing text</h3>
+<p><code>str_replace()</code> replaces the first match in each string; <code>str_replace_all()</code> replaces every match. The original is unchanged unless you assign the result.</p>
+<pre>str_replace_all("banana", "a", "-")</pre>
+
+<h3>9. Working with character columns</h3>
+<p><code>stringr</code> functions are vectorised, so they work naturally inside <code>mutate()</code> and, with <code>str_detect()</code>, inside <code>filter()</code>.</p>
+<pre>students |&gt; mutate(name = str_to_title(str_squish(name)))</pre>
+<pre>students_clean |&gt; filter(str_detect(course, "^AST230$"))</pre>
+
+<h3>10. Summary</h3>
+<table><tr><th>If you want to…</th><th>Use…</th></tr>
+<tr><td>Change character case</td><td><code>str_to_lower()</code>, <code>str_to_upper()</code>, <code>str_to_title()</code></td></tr>
+<tr><td>Count characters or extract part of a string</td><td><code>str_length()</code>, <code>str_sub()</code></td></tr>
+<tr><td>Find the location of a substring</td><td><code>str_locate()</code></td></tr>
+<tr><td>Remove unnecessary spaces</td><td><code>str_trim()</code>, <code>str_squish()</code></td></tr>
+<tr><td>Format IDs with a fixed width</td><td><code>str_pad()</code></td></tr>
+<tr><td>Join strings or split them</td><td><code>str_c()</code>, <code>str_split()</code></td></tr>
+<tr><td>Extract words</td><td><code>word()</code></td></tr>
+<tr><td>Sort strings</td><td><code>str_sort()</code></td></tr>
+<tr><td>Test or count matches</td><td><code>str_detect()</code>, <code>str_count()</code></td></tr>
+<tr><td>Replace text</td><td><code>str_replace()</code>, <code>str_replace_all()</code></td></tr></table>
+
+<!-- ===================== PART 2 ===================== -->
+<h2 id="part2">Part 2: All code &amp; solved exercises</h2>
+
+<h3>1 Getting started</h3>
+<pre>library(tidyverse)</pre>
+
+<h4>1.1 Creating strings</h4>
+<pre>x &lt;- "R for Data Science"
+y &lt;- 'AST230'
+
+x
+y
+class(x)
+
+"It's time for the lab."
+'I said, "Welcome to AST230!"'
+"It's good to say, \"Welcome!\""
+cat("It's good to say, \"Welcome!\"")</pre>
+
+<h4>1.2 Special characters</h4>
+<pre>cat("First line\nSecond line")
+cat("Name\tRoll")
+cat("C:\\Data\\AST230")</pre>
+
+<h4>1.3 Character vectors and built-in constants</h4>
+<pre>students &lt;- c("Anika", "Rafi", "Nusrat")
+students
+length(students)
+
+head(letters)
+head(LETTERS)
+head(month.name)
+month.abb[1:4]
+
+head(words)
+head(fruit)</pre>
+
+<h3>3 Changing and measuring strings</h3>
+<h4>3.1 Change the case</h4>
+<pre>x &lt;- "r for DATA science"
+
+str_to_lower(x)
+str_to_upper(x)
+str_to_title(x)
+
+names &lt;- c("anika rahman", "RAFI AHMED", "Nusrat jahan")
+str_to_title(names)</pre>
+
+<h4>3.2 Count characters</h4>
+<pre>x &lt;- "Data Science"
+
+length(x)      # Number of elements in the vector
+str_length(x)  # Number of characters in the string
+
+str_length("AST230")
+str_length(" ")
+str_length("")
+str_length(c("R", "AST230", "Statistics"))</pre>
+
+<h4>3.3 Get substrings with str_sub()</h4>
+<pre>course &lt;- "AST230"
+
+str_sub(course, 1, 3)   # First three characters
+str_sub(course, 4, 6)   # Characters 4 to 6
+str_sub(course, -3, -1) # Last three characters
+
+str_sub("AST230", 1, 20)
+
+x &lt;- "ast230"
+str_sub(x, 1, 3) &lt;- "AST"
+x</pre>
+
+<h4>3.4 Find location of match with str_locate()</h4>
+<pre>x &lt;- "Welcome to the AST230 lab"
+
+position &lt;- str_locate(x, "AST230")
+position
+
+str_sub(x, position[1, "start"], position[1, "end"])</pre>
+
+<h4>3.5 Exercise 1: case, length, and extraction — Solution</h4>
+<pre># 1. Number of characters
+x &lt;- "Institute of Applied Statistics and Data Science"
+str_length(x)
+
+# 2. Lower case and title case
+str_to_lower("uNIVERSITY OF dHAKA")
+str_to_title("uNIVERSITY OF dHAKA")
+
+# 3. Extract "AST" and "230"
+str_sub("AST230", 1, 3)
+str_sub("AST230", 4, 6)
+
+# 4. Last four characters of "Bangladesh"
+str_sub("Bangladesh", -4, -1)
+
+# 5. Start and end positions of "Data"
+str_locate("R for Data Science", "Data")</pre>
+
+<h3>4 Cleaning and formatting strings</h3>
+<h4>4.1 Remove whitespace</h4>
+<pre>x &lt;- "   Dhaka   "
+
+str_trim(x)
+str_trim(x, side = "left")
+str_trim(x, side = "right")
+
+names &lt;- c("  Anika  Rahman ", " Rafi   Ahmed ", "Nusrat Jahan")
+
+str_trim(names)
+str_squish(names)
+
+raw_names &lt;- c("  anika  RAHMAN", "RAFI   ahmed ")
+
+clean_names &lt;- str_to_title(str_squish(raw_names))
+clean_names</pre>
+
+<h4>4.2 Pad a string to minimum width</h4>
+<pre>str_pad("R", width = 5)
+str_pad("R", width = 5, side = "right")
+str_pad("R", width = 5, side = "both", pad = "-")
+
+roll &lt;- c("7", "24", "105")
+str_pad(roll, width = 3, pad = "0")
+
+str_pad("AST230", width = 3)</pre>
+
+<h4>4.3 Duplicate a string</h4>
+<pre>str_dup("R", 4)
+rep("R", 4)</pre>
+
+<h4>4.4 Exercise 2: cleaning student records — Solution</h4>
+<pre>student_names &lt;- c("  aNika   rahman ", "RAFI  ahmed", " nusrat JAHAN  ")
+rolls &lt;- c("3", "18", "102")
+
+# 1. Remove unnecessary spaces
+squished &lt;- str_squish(student_names)
+
+# 2. Title case
+clean_names &lt;- str_to_title(squished)
+clean_names
+
+# 3. Three-digit roll numbers
+str_pad(rolls, width = 3, pad = "0")
+
+# 4. Number of characters in each cleaned name
+str_length(clean_names)</pre>
+
+<h3>5 Combining and splitting strings</h3>
+<h4>5.1 Combine strings with str_c()</h4>
+<pre>str_c("AST", "230")
+str_c("AST", "230", sep = "-")
+str_c("R", "for", "Data", "Science", sep = " ")
+
+first_name &lt;- c("Anika", "Rafi", "Nusrat")
+last_name &lt;- c("Rahman", "Ahmed", "Jahan")
+
+str_c(first_name, last_name, sep = " ")
+
+courses &lt;- c("AST230", "AST305", "PSY206")
+
+str_c(courses, collapse = ", ")
+str_c(letters[1:5], collapse = "-")</pre>
+
+<h4>5.2 Split strings with str_split()</h4>
+<pre>course_label &lt;- "AST_230_Lab_2026"
+
+str_split(course_label, "_")
+
+parts &lt;- str_split(course_label, "_")[[1]]
+parts
+parts[1]
+parts[2]
+
+labels &lt;- c("AST-230-Lab", "AST-305-Theory", "PSY-206-Lab")
+str_split(labels, "-")
+
+str_split("AST230", "")[[1]]</pre>
+
+<h4>5.3 Extract words from a sentence</h4>
+<pre>sentence &lt;- "Institute of Applied Statistics and Data Science"
+
+word(sentence, 1)      # First word
+word(sentence, 3)      # Third word
+word(sentence, -1)     # Last word
+word(sentence, 3, 4)   # Third through fourth words</pre>
+
+<h4>5.4 Exercise 3: course labels — Solution</h4>
+<pre>courses &lt;- c("AST230", "AST305", "PSY206", "CSE331")
+label &lt;- "IASDS_University_of_Dhaka"
+rolls &lt;- c("3", "18", "102")
+
+# 1. Combine course codes separated by " | "
+str_c(courses, collapse = " | ")
+
+# 2. Split label into separate words
+parts &lt;- str_split(label, "_")[[1]]
+parts
+
+# 3. Extract "University"
+parts[2]
+
+# 4. "Course: AST230", "Course: AST305", ...
+str_c("Course: ", courses)
+
+# 5. IDs "AST230-003", "AST230-018", "AST230-102"
+str_c("AST230", str_pad(rolls, width = 3, pad = "0"), sep = "-")
+
+# 6. Last word of "R for Data Science"
+word("R for Data Science", -1)</pre>
+
+<h3>6 Sorting and comparing strings</h3>
+<h4>6.1 Sort a vector alphabetically</h4>
+<pre>districts &lt;- c("Sylhet", "Dhaka", "Rajshahi", "Barishal")
+
+str_sort(districts)
+str_sort(districts, decreasing = TRUE)</pre>
+
+<h4>6.2 Comparing strings</h4>
+<pre>"Dhaka" == "dhaka"
+"Dhaka" == " Dhaka "
+
+a &lt;- "  DHAKA "
+b &lt;- "dhaka"
+
+str_to_lower(str_trim(a)) == str_to_lower(str_trim(b))</pre>
+
+<h3>7 Finding patterns in strings</h3>
+<h4>7.1 Detect a match</h4>
+<pre>courses &lt;- c("AST230", "AST305", "PSY206", "CSE331")
+
+str_detect(courses, "AST")
+str_detect(courses, "230")
+
+responses &lt;- c("Agree", "agree", "DISAGREE", "Neutral")
+str_detect(str_to_lower(responses), "agree")</pre>
+
+<h4>7.2 Match the beginning or end</h4>
+<pre>courses &lt;- c("AST230", "AST305", "PSY206", "CSE331", "AST230-Lab")
+
+str_detect(courses, "^AST")  # Starts with AST
+str_detect(courses, "230$")  # Ends with 230
+
+responses &lt;- c("Agree", "Disagree", "Agree strongly", "agree")
+
+str_detect(str_to_lower(responses), "agree")
+str_detect(str_to_lower(responses), "^agree$")</pre>
+
+<h4>7.3 Count matches</h4>
+<pre>districts &lt;- c("Dhaka", "Gazipur", "Dhaka", "Sylhet", "Dhaka")
+
+matches &lt;- str_detect(districts, "^Dhaka$")
+matches
+
+sum(matches)   # Number of matching observations
+mean(matches)  # Proportion of matching observations
+
+str_count(c("banana", "papaya", "apple"), "a")
+
+x &lt;- c("Dhaka", NA, "Gazipur")
+
+str_detect(x, "a")
+sum(str_detect(x, "a"), na.rm = TRUE)</pre>
+
+<h4>7.4 Exercise 4: matching survey responses — Solution</h4>
+<pre>responses &lt;- c("Agree", "Disagree", "Neutral", "agree", "Strongly agree", "Agree")
+
+# 1. Responses containing "agree", ignoring case
+str_detect(str_to_lower(responses), "agree")
+responses[str_detect(str_to_lower(responses), "agree")]
+
+# 2. Responses that are exactly "Agree", ignoring case
+exact &lt;- str_detect(str_to_lower(responses), "^agree$")
+exact
+responses[exact]
+
+# 3. Number and proportion of exact "Agree" responses
+sum(exact)
+mean(exact)
+
+# 4. Course codes that start with "AST"
+codes &lt;- c("AST230", "PSY206", "AST305", "CSE331")
+str_detect(codes, "^AST")
+codes[str_detect(codes, "^AST")]</pre>
+
+<h3>8 Replacing text</h3>
+<pre>x &lt;- c("banana", "papaya", "apple")
+
+str_replace(x, "a", "-")
+str_replace_all(x, "a", "-")
+
+labels &lt;- c("AST230_Lab", "AST305_Theory", "PSY206_Lab")
+
+str_replace_all(labels, "_", "-")
+
+labels &lt;- str_replace_all(labels, "_", "-")
+labels</pre>
+
+<h4>8.1 Exercise 5: standardising text — Solution</h4>
+<pre>items &lt;- c("Data-Science", "R-Programming", "Statistical-Computing")
+
+# 1. Replace the first hyphen with a space
+str_replace(items, "-", " ")
+
+# 2. Replace all hyphens with spaces
+str_replace_all(items, "-", " ")
+
+# 3. Convert to lower case
+str_to_lower(str_replace_all(items, "-", " "))</pre>
+
+<h3>9 Working with character columns</h3>
+<pre>library(dplyr)
+
+students &lt;- tibble::tibble(
+  name = c("  anika RAHMAN", "RAFI  ahmed ", "nusrat jahan"),
+  roll = c("7", "24", "105"),
+  course = c("AST230", "AST230", "AST305")
+)
+
+students
+
+students_clean &lt;- students |&gt;
+  mutate(
+    name = str_to_title(str_squish(name)),
+    student_id = str_c(course, str_pad(roll, 3, pad = "0"), sep = "-")
+  )
+
+students_clean
+
+students_clean |&gt;
+  filter(str_detect(course, "^AST230$"))</pre>
+
+<h4>9.1 Exercise 6: a small survey dataset — Solution</h4>
+<pre>survey &lt;- tibble::tibble(
+  id = c("1", "2", "3", "4", "5"),
+  district = c(" dhaka", "GAZIPUR ", "Dhaka", " sylhet  ", "gazipur"),
+  response = c("Agree", "agree ", "Disagree", "Neutral", "AGREE")
+)
+
+survey
+
+# 1-3. Clean district, clean response, create ID
+survey_clean &lt;- survey |&gt;
+  mutate(
+    district_clean = str_to_title(str_squish(district)),
+    response_clean = str_to_title(str_squish(response)),
+    id_clean = str_c("S-", str_pad(id, 3, pad = "0"))
+  )
+
+survey_clean
+
+# 4. Keep only rows where district_clean is "Dhaka"
+survey_clean |&gt;
+  filter(str_detect(district_clean, "^Dhaka$"))
+
+# 5. Number and proportion of responses exactly "Agree"
+is_agree &lt;- str_detect(survey_clean$response_clean, "^Agree$")
+sum(is_agree)
+mean(is_agree)</pre>
+
+<h3>11 References</h3>
+<p><a href="https://r4ds.hadley.nz/strings.html" style="color:var(--ac)">R for Data Science (2e): Strings</a> ·
+<a href="https://stringr.tidyverse.org/articles/stringr.html" style="color:var(--ac)">Introduction to stringr</a> ·
+<a href="https://stringr.tidyverse.org/reference/index.html" style="color:var(--ac)">stringr reference</a></p>
+</main>
+</body>
+</html>

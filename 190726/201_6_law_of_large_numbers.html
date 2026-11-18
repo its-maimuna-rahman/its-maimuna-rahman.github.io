@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Law of Large Numbers – Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}svg text{fill:var(--muted);font-size:11px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+/* ===== polish: overflow, spacing, consistency ===== */
+html{-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+p,li,td,th,summary,h1,h2,h3{overflow-wrap:break-word}
+main>section,header.hero{min-width:0}
+h2{margin:2.4em 0 .6em}
+h3{margin:1.7em 0 .5em}h2+h3,section>h3:first-child{margin-top:1em}
+h3+.card,h3+.box,h3+.tw{margin-top:8px}
+.card>:first-child,.box>:first-child,.sol>:first-child{margin-top:0}
+.card>:last-child,.box>:last-child,.sol>:last-child,details>p:last-child{margin-bottom:0}
+nav{scrollbar-width:thin;gap:2px}
+nav a{flex:0 0 auto}
+nav button{position:sticky;right:0;flex:0 0 auto;box-shadow:-10px 0 8px -4px var(--nav)}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.grid>.card{margin:0;overflow-x:auto;overflow-y:hidden}
+.grid>.card mjx-container:not([display=true]){display:inline-block;max-width:none}
+.step,.sol,.box{overflow-x:auto;overflow-y:hidden}
+.step mjx-container:not([display=true]),.sol mjx-container:not([display=true]){max-width:none}
+.card,.box,.step,.sol,details{min-width:0}
+.step{margin:12px 0}
+.sol{line-height:1.6}
+mjx-container,mjx-container *{overflow-wrap:normal!important;word-break:normal!important;white-space:nowrap}
+mjx-container:not([display=true]){display:inline-block;max-width:none;vertical-align:baseline}
+mjx-container[display=true]{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:.2em 0;margin:.8em 0!important}
+.tw{-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:10px;margin:12px 0}
+.tw table{margin:0;min-width:520px}
+.tw table.l{min-width:640px}
+.tw tr:last-child td{border-bottom:0}
+table.l td,table.l th{vertical-align:top;text-align:left}
+table.l td:first-child{font-weight:600;min-width:130px}
+td,th{overflow-wrap:normal}
+details>summary{outline:0}details[open]>summary{margin-bottom:6px}
+.calc input,.calc select{width:100%;min-width:0;font-size:16px}
+.calc .row{grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))}
+.calc h3{margin-bottom:.6em}
+.row>*{min-width:0}
+.kpi b{overflow-wrap:anywhere;display:block}
+button.b{min-height:40px}
+svg{max-width:100%;height:auto;display:block}
+footer{border-top:1px solid var(--line);margin-top:48px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:600px){main{padding:0 14px 60px}header.hero{padding-top:28px}nav{padding:6px 10px}table{font-size:13.5px}th,td{padding:6px 8px}button.b{width:100%;margin:4px 0}.card{padding:14px 14px}}
+@media print{nav{display:none}.card,.box,details{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Scenario</a><a href="#def">Definition</a><a href="#concept">Concept</a><a href="#wlln">Weak LLN</a><a href="#slln">Strong LLN</a><a href="#clt">LLN vs CLT</a><a href="#dist">Sample mean</a><a href="#practice">Practice</a><a href="#deriv">Derivations</a><a href="#formulas">Formulas</a><a href="#calc">Simulator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Probability · Mathematical Statistics</span>
+<h1>Law of Large Numbers</h1>
+<p class="lead">Why averages settle down as the sample grows. One page: a real case, the definition, the intuition, both versions of the law, the link to the CLT, solved problems, derivations and a live simulator.</p>
+</header>
+
+<!-- ================= 1. SCENARIO ================= -->
+<section id="scen">
+<h2>1 · A real-life case, solved</h2>
+<div class="card">
+<p>A student draws <b>n = 10,000</b> values from a process whose true mean is <b>μ = 5</b> (and standard deviation <b>σ = 2</b>). The sample average comes out as <b>4.998</b>. The student says: <i>"The Law of Large Numbers is violated, because the average isn't exactly 5."</i></p>
+<p><b>Question:</b> what is wrong with this statement, and how big a gap should we normally expect?</p>
+
+<div class="step"><b>Step 1 · What the law really says.</b> The LLN never promises that \(\bar X_n=\mu\) exactly for any fixed \(n\). It only says that \(\bar X_n\to\mu\) <i>in the limit</i> (in probability, or almost surely). So a small gap is not a contradiction.</div>
+<div class="step"><b>Step 2 · Typical size of the gap.</b> The Central Limit Theorem tells us how large the random wobble usually is. The standard deviation of \(\bar X_n\) is
+\[\frac{\sigma}{\sqrt n}=\frac{2}{\sqrt{10{,}000}}=\frac{2}{100}=0.02\]</div>
+<div class="step"><b>Step 3 · Compare.</b> The observed gap is \(|4.998-5|=0.002\), which is
+\[\frac{0.002}{0.02}=0.1\ \text{standard deviations.}\]</div>
+<div class="sol">A gap of 0.002 is only 0.1 standard deviations from μ: well within ordinary sampling fluctuation. It is not a contradiction of the LLN.</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · Definition</h2>
+<p>The key phrases from the case were <mark>i.i.d. random variables</mark>, <mark>finite mean</mark>, <mark>sample mean</mark> and <mark>as the sample size grows</mark>. Put together:</p>
+<div class="box"><b class="t">Law of Large Numbers (LLN)</b>
+A fundamental pillar of probability theory and mathematical statistics. It is the formal bridge between <b>theoretical expectations</b> and <b>empirical observations</b>: it describes what happens to the <b>sample mean</b> of i.i.d. random variables as the sample size grows.</div>
+<div class="grid">
+<div class="card"><b>Setup</b><br>Let \(X_1,X_2,\dots,X_n\) be i.i.d. random variables with finite mean \(E[X_i]=\mu\).</div>
+<div class="card"><b>Sample mean</b><br>\(\displaystyle\bar X_n=\frac1n\sum_{i=1}^{n}X_i\)</div>
+<div class="card"><b>Two versions</b><br>The <b>Weak</b> LLN (convergence in probability) and the <b>Strong</b> LLN (almost sure convergence).</div>
+</div>
+</section>
+
+<!-- ================= 3. CONCEPT ================= -->
+<section id="concept">
+<h2>3 · The idea in plain words</h2>
+<div class="card">
+<p>Think of it as <b>"the average calms down as you collect more data."</b> One observation can be far from the true mean. The average of ten is usually closer. The average of ten thousand is closer still.</p>
+<ol>
+<li><b>Small samples are noisy:</b> a single value, or a handful, can land far from μ.</li>
+<li><b>Large samples are steady:</b> unusual values get diluted by the rest, so the average hugs μ.</li>
+</ol>
+<p>What the law does <i>not</i> say: it does not guarantee \(\bar X_n\) equals μ for a fixed \(n\). It only says that <b>large deviations become increasingly unlikely</b>.</p>
+</div>
+<div class="box key"><b class="t">Big picture</b>
+The LLN answers <i>"where does the average end up?"</i> (at μ). It says nothing about the shape of the wobble along the way; that is the job of the Central Limit Theorem (§6).</div>
+</section>
+
+<!-- ================= 4. WLLN ================= -->
+<section id="wlln">
+<h2>4 · Weak Law of Large Numbers (WLLN)</h2>
+<div class="box"><b class="t">Statement</b>
+The sample mean converges <b>in probability</b> to the true mean μ, written \(\bar X_n\xrightarrow{P}\mu\). Formally, for every \(\epsilon>0\):
+\[\lim_{n\to\infty}P\big(|\bar X_n-\mu|>\epsilon\big)=0\qquad\text{or equivalently}\qquad\lim_{n\to\infty}P\big(|\bar X_n-\mu|<\epsilon\big)=1\]</div>
+<p><b>In words:</b> as \(n\) grows, the probability that the sample mean strays more than \(\epsilon\) away from μ shrinks toward zero. It does not guarantee that \(\bar X_n=\mu\) for a fixed \(n\); only that large deviations become increasingly unlikely.</p>
+
+<h3>Proof (when the variance is finite)</h3>
+<div class="card">
+<div class="step"><b>Step 1 · Variance of the mean.</b> If \(\mathrm{Var}(X_i)=\sigma^2<\infty\), then
+\[\mathrm{Var}(\bar X_n)=\frac{\sigma^2}{n}\]</div>
+<div class="step"><b>Step 2 · Chebyshev's inequality.</b>
+\[P(|\bar X_n-\mu|\ge\epsilon)\le\frac{\mathrm{Var}(\bar X_n)}{\epsilon^2}=\frac{\sigma^2}{n\epsilon^2}\]</div>
+<div class="step"><b>Step 3 · Let \(n\to\infty\).</b>
+\[\lim_{n\to\infty}P(|\bar X_n-\mu|\ge\epsilon)\le\lim_{n\to\infty}\frac{\sigma^2}{n\epsilon^2}=0\]
+Therefore \(\displaystyle\lim_{n\to\infty}P(|\bar X_n-\mu|>\epsilon)=0\). ∎</div>
+</div>
+<div class="box key"><b class="t">Historical note</b>
+In 1929, <b>Aleksandr Khinchin</b> removed the finite-variance requirement, proving that a finite \(E[X]\) is necessary and sufficient for the WLLN.</div>
+</section>
+
+<!-- ================= 5. SLLN ================= -->
+<section id="slln">
+<h2>5 · Strong Law of Large Numbers (SLLN)</h2>
+<div class="box"><b class="t">Statement</b>
+The SLLN strengthens the mode of convergence to <b>almost sure convergence</b>, written \(\bar X_n\xrightarrow{a.s.}\mu\). Formally:
+\[P\Big(\lim_{n\to\infty}\bar X_n=\mu\Big)=1\]</div>
+<p><b>In words:</b> for almost every possible infinite sequence of outcomes, the running average converges to μ as a real (ordinary) limit.</p>
+
+<h3>Historical development</h3>
+<div class="card">
+<ul>
+<li><b>Émile Borel (1909)</b> proved the first SLLN, for independent Bernoulli trials, using measure-theoretic arguments on the unit interval.</li>
+<li><b>A. N. Kolmogorov (1930/33)</b> established the definitive SLLN for i.i.d. sequences, proving that \(E[|X_1|]<\infty\) is both necessary and sufficient for almost sure convergence.</li>
+<li><b>Nasrollah Etemadi (1981)</b> relaxed the condition to pairwise independence.</li>
+</ul>
+</div>
+
+<h3>Comparison: WLLN vs SLLN</h3>
+<div class="tw"><table class="l">
+<tr><th>Aspect</th><th>WLLN</th><th>SLLN</th></tr>
+<tr><td>Mode of convergence</td><td>In probability</td><td>Almost sure</td></tr>
+<tr><td>Probability form</td><td>\(\lim_{n\to\infty}P(|\bar X_n-\mu|>\epsilon)=0\)</td><td>\(P(\lim_{n\to\infty}\bar X_n=\mu)=1\)</td></tr>
+<tr><td>Strength</td><td>Weaker: allows infinitely many (rare) large excursions</td><td>Stronger: implies excursions eventually stop entirely</td></tr>
+<tr><td>Requirement</td><td>Finite variance (via Chebyshev)</td><td>Finite mean suffices</td></tr>
+</table></div>
+<div class="box key"><b class="t">Reading the table</b>
+With the weak law, big swings away from μ get rarer but may still happen forever, occasionally. With the strong law, from some point on the running average stays near μ for good.</div>
+</section>
+
+<!-- ================= 6. CLT ================= -->
+<section id="clt">
+<h2>6 · LLN vs CLT</h2>
+<p>The two results are partners: the LLN finds the destination; the CLT describes the wobble around it.</p>
+<div class="tw"><table class="l">
+<tr><th>Aspect</th><th>LLN</th><th>CLT</th></tr>
+<tr><td>Core question answered</td><td>Where does \(\bar X_n\) converge as \(n\to\infty\)?</td><td>What shape and size do the random fluctuations around that limit take?</td></tr>
+<tr><td>Target quantity</td><td>Sample mean \(\bar X_n=\frac1n\sum_{i=1}^n X_i\)</td><td>The standardized fluctuation \(Z_n=\dfrac{\bar X_n-\mu}{\sigma/\sqrt n}\)</td></tr>
+<tr><td>End result</td><td>\(\bar X_n\to\mu\): convergence to a single deterministic point</td><td>\(Z_n\xrightarrow{d}N(0,1)\): convergence to a bell-curve distribution</td></tr>
+<tr><td>Mode of convergence</td><td>In probability / almost sure</td><td>In distribution</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 7. SAMPLE MEAN DISTRIBUTION ================= -->
+<section id="dist">
+<h2>7 · Exact distribution of the sample mean</h2>
+<p>The exact distribution of \(\bar X=\frac1n\sum X_i\) depends fundamentally on the <b>parent distribution</b> the sample \(X_1,\dots,X_n\) is drawn from. But regardless of the parent distribution, if the population has finite mean μ and finite variance \(\sigma^2\):</p>
+<div class="box"><b class="t">Always true</b>
+\[E[\bar X]=\mu\qquad\text{and}\qquad\mathrm{Var}(\bar X)=\frac{\sigma^2}{n}\]</div>
+
+<h3>Exact sampling distributions for specific populations</h3>
+<div class="card">
+<p><b>1 · Normal population</b> \((X_i\sim N(\mu,\sigma^2))\)</p>
+<p>A linear combination of independent normal variables is itself exactly normal: if \(X_i\sim N(\mu_i,\sigma_i^2)\) independently, then \(\sum a_iX_i\sim N\big(\sum a_i\mu_i,\ \sum a_i^2\sigma_i^2\big)\). The sample mean is such a combination, with \(a_i=\frac1n\):
+\[\bar X=\frac1n\sum_{i=1}^nX_i=\sum_{i=1}^n\Big(\frac1n\Big)X_i\]
+This implies the sample mean is <b>exactly normally distributed for every \(n\ge1\)</b>:
+\[\bar X\sim N\Big(\mu,\frac{\sigma^2}{n}\Big)\]
+<b>When σ is known:</b> the standardized sample mean follows a standard normal distribution,
+\[Z=\frac{\bar X-\mu}{\sigma/\sqrt n}\sim N(0,1)\]
+<b>When σ is unknown:</b> replacing σ with the sample standard deviation \(S\) gives Student's t-distribution with \(n-1\) degrees of freedom,
+\[T=\frac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\]</p>
+</div>
+<div class="card">
+<p><b>2 · Cauchy population</b> \((X_i\sim\text{Cauchy}(\mu,a))\)</p>
+<p>The Cauchy distribution lacks a finite mean or variance, so averaging \(n\) observations gives <b>zero variance reduction</b>. Hence \(\bar X\) is exactly Cauchy distributed with the same parameters:
+\[\bar X\sim\text{Cauchy}(\mu,a)\]</p>
+<div class="box warn"><b class="t">Why this matters</b>The LLN needs a finite mean. The Cauchy has none, so its sample mean never settles down. Try it in the simulator (§11).</div>
+</div>
+<div class="grid">
+<div class="card"><b>3 · Gamma population</b><br>\(X_i\sim\text{Gamma}(\alpha,\lambda)\)<br>\(\bar X\sim\text{Gamma}(n\alpha,\,n\lambda)\)</div>
+<div class="card"><b>4 · Exponential population</b><br>\(X_i\sim\text{Exp}(\lambda)\)<br>\(\bar X\sim\text{Gamma}(n,\,n\lambda)\)</div>
+<div class="card"><b>5 · Bernoulli population</b><br>\(X_i\sim\text{Bernoulli}(p)\)<br>\(P\big(\bar X=\tfrac kn\big)=\binom nk p^k(1-p)^{n-k},\ k=0,1,\dots,n\)</div>
+<div class="card"><b>6 · Poisson population</b><br>\(X_i\sim\text{Poisson}(\lambda)\)<br>\(P\big(\bar X=\tfrac kn\big)=\dfrac{e^{-n\lambda}(n\lambda)^k}{k!},\ k=0,1,2,\dots\)</div>
+</div>
+<p style="font-size:13px;color:var(--muted)">Notes: in the Gamma cases \(\alpha\) is the shape and \(\lambda\) the rate. In cases 5 and 6, \(\bar X=k/n\) means the sum equals \(k\): a Binomial\((n,p)\) and a Poisson\((n\lambda)\) respectively.</p>
+</section>
+
+<!-- ================= 8. PRACTICE ================= -->
+<section id="practice">
+<h2>8 · Solved problems</h2>
+
+<h3>Problem 1 · How many dice rolls?</h3>
+<div class="card">
+<p>A fair die is rolled repeatedly. Let \(X_i\) be the outcome of roll \(i\); we know \(\mu=E[X_i]=3.5\) and \(\sigma^2=\mathrm{Var}(X_i)=2.917\). How many rolls guarantee
+\[P(|\bar X_n-3.5|>0.1)\le0.05\ ?\]</p>
+<div class="step"><b>Step 1 · Chebyshev bound.</b> \(P(|\bar X_n-\mu|>\epsilon)\le\dfrac{\sigma^2}{n\epsilon^2}\).</div>
+<div class="step"><b>Step 2 · Force the bound below 0.05.</b>
+\[\frac{\sigma^2}{n\epsilon^2}\le0.05\ \Rightarrow\ n\ge\frac{\sigma^2}{\epsilon^2(0.05)}=\frac{2.917}{(0.1)^2(0.05)}=5834\]</div>
+<div class="sol">n<sub>min</sub> = 5,834 rolls.</div>
+</div>
+
+<h3>Problem 2 · Component lifetimes</h3>
+<div class="card">
+<p>Component lifetimes (hours) are i.i.d. with \(\mu=500\) and \(\sigma=40\). For a sample of \(n=64\) components, approximate \(P(\bar X_{64}>510)\).</p>
+<div class="step"><b>Standardize</b> (CLT):
+\[P(\bar X_{64}>510)=P\Big(\frac{\bar X_{64}-\mu}{\sigma/\sqrt n}>\frac{510-500}{40/\sqrt{64}}\Big)=P(Z>2)\]</div>
+<div class="step"><b>Look up</b> \(=1-P(Z<2)=1-0.9772=0.0228\)</div>
+<div class="sol">P ≈ 0.0228 (about 2.3%).</div>
+</div>
+
+<h3>Problem 3 · Insurance claims</h3>
+<div class="card">
+<p>An insurer expects to process \(n=900\) independent claims next year. Each claim has mean \(\mu=\$2000\) and \(\sigma=\$500\). Approximate the probability that the total claim \(S_{900}\) exceeds \$1,830,000.</p>
+<div class="step"><b>Step 1 · Turn the total into an average.</b>
+\[S_{900}>1{,}830{,}000\iff\bar X_n>\frac{1{,}830{,}000}{900}=2033.33\]</div>
+<div class="step"><b>Step 2 · Standardize.</b>
+\[P(\bar X_n>2033.33)=P\Big(\frac{\bar X_n-\mu}{\sigma/\sqrt n}>\frac{2033.33-2000}{500/\sqrt{900}}\Big)=P(Z>2)\]</div>
+<div class="sol">P(Z > 2) = 0.0228</div>
+<p style="font-size:13px;color:var(--muted)">The handwritten notes show "0.228" at the end; the correct value for \(P(Z>2)\) is 0.0228, the same as Problem 2.</p>
+</div>
+
+<h3>Problem 4 · "The LLN is violated!"</h3>
+<div class="card">
+<p>Solved in full in §1: with \(n=10{,}000\), \(\bar X_n=4.998\), \(\mu=5\), \(\sigma=2\), the standard deviation of \(\bar X_n\) is 0.02 and the gap of 0.002 is just 0.1 standard deviations. Not a contradiction.</p>
+</div>
+</section>
+
+<!-- ================= 10. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>9 · Derivations</h2>
+
+<details open><summary>D1 · WLLN via Chebyshev</summary>
+<p>Assume \(\mathrm{Var}(X_i)=\sigma^2<\infty\). Then \(\mathrm{Var}(\bar X_n)=\sigma^2/n\). Chebyshev's inequality gives, for any \(\epsilon>0\),
+\[P(|\bar X_n-\mu|\ge\epsilon)\le\frac{\mathrm{Var}(\bar X_n)}{\epsilon^2}=\frac{\sigma^2}{n\epsilon^2}.\]
+The right-hand side tends to 0 as \(n\to\infty\), and probabilities are never negative, so \(\lim P(|\bar X_n-\mu|\ge\epsilon)=0\). This is exactly \(\bar X_n\xrightarrow{P}\mu\).</p></details>
+
+<details><summary>D2 · Sample size needed (used in Problem 1)</summary>
+<p>To guarantee \(P(|\bar X_n-\mu|>\epsilon)\le\delta\), it is enough that the Chebyshev bound is at most δ:
+\[\frac{\sigma^2}{n\epsilon^2}\le\delta\ \Longrightarrow\ \boxed{n\ge\frac{\sigma^2}{\epsilon^2\,\delta}}\]
+With \(\sigma^2=2.917,\ \epsilon=0.1,\ \delta=0.05\) this gives \(n\ge5834\).</p></details>
+
+<details><summary>D3 · Exact normality of \(\bar X\) for a normal population</summary>
+<p>If \(X_i\sim N(\mu_i,\sigma_i^2)\) are independent, then \(\sum a_iX_i\sim N\big(\sum a_i\mu_i,\sum a_i^2\sigma_i^2\big)\). With \(a_i=1/n\), \(\mu_i=\mu\), \(\sigma_i^2=\sigma^2\):
+\[\text{mean}=\sum\frac1n\mu=\mu,\qquad\text{variance}=\sum\frac1{n^2}\sigma^2=\frac{n\sigma^2}{n^2}=\frac{\sigma^2}{n}.\]
+So \(\bar X\sim N(\mu,\sigma^2/n)\) for every \(n\ge1\), and \(Z=(\bar X-\mu)/(\sigma/\sqrt n)\sim N(0,1)\).</p></details>
+
+<details><summary>D4 · Probabilities for totals via the CLT (Problems 2 and 3)</summary>
+<p>A total \(S_n=\sum X_i\) exceeds a value \(s\) exactly when \(\bar X_n>s/n\). Standardizing \(\bar X_n\) with mean μ and standard deviation \(\sigma/\sqrt n\) and using \(Z_n\xrightarrow{d}N(0,1)\):
+\[P(\bar X_n>x)\approx P\Big(Z>\frac{x-\mu}{\sigma/\sqrt n}\Big)=1-\Phi\Big(\frac{x-\mu}{\sigma/\sqrt n}\Big).\]</p></details>
+
+<h2 id="formulas">10 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Meaning of symbols</th></tr>
+<tr><td>Sample mean</td><td>\(\bar X_n=\dfrac1n\sum_{i=1}^nX_i\)</td><td>\(X_i\) i.i.d., \(E[X_i]=\mu\)</td></tr>
+<tr><td>Mean and variance of \(\bar X\)</td><td>\(E[\bar X]=\mu,\ \ \mathrm{Var}(\bar X)=\dfrac{\sigma^2}{n}\)</td><td>needs finite \(\sigma^2\)</td></tr>
+<tr><td>WLLN</td><td>\(\lim_{n\to\infty}P(|\bar X_n-\mu|>\epsilon)=0\)</td><td>\(\bar X_n\xrightarrow{P}\mu\)</td></tr>
+<tr><td>SLLN</td><td>\(P(\lim_{n\to\infty}\bar X_n=\mu)=1\)</td><td>\(\bar X_n\xrightarrow{a.s.}\mu\)</td></tr>
+<tr><td>Chebyshev bound</td><td>\(P(|\bar X_n-\mu|\ge\epsilon)\le\dfrac{\sigma^2}{n\epsilon^2}\)</td><td>\(\epsilon\) tolerance</td></tr>
+<tr><td>Sample size for guarantee</td><td>\(n\ge\dfrac{\sigma^2}{\epsilon^2\delta}\)</td><td>\(\delta\) allowed probability</td></tr>
+<tr><td>CLT standardization</td><td>\(Z_n=\dfrac{\bar X_n-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1)\)</td><td></td></tr>
+<tr><td>Normal population, σ unknown</td><td>\(T=\dfrac{\bar X-\mu}{S/\sqrt n}\sim t_{n-1}\)</td><td>\(S\) sample st. dev.</td></tr>
+<tr><td>Cauchy population</td><td>\(\bar X\sim\text{Cauchy}(\mu,a)\)</td><td>no LLN (no finite mean)</td></tr>
+<tr><td>Gamma / Exponential</td><td>\(\text{Gamma}(\alpha,\lambda)\to\text{Gamma}(n\alpha,n\lambda);\ \text{Exp}(\lambda)\to\text{Gamma}(n,n\lambda)\)</td><td></td></tr>
+<tr><td>Bernoulli / Poisson</td><td>\(\binom nkp^k(1-p)^{n-k}\ ;\ \dfrac{e^{-n\lambda}(n\lambda)^k}{k!}\)</td><td>\(P(\bar X=k/n)\)</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 12. SIMULATOR ================= -->
+<section id="calc">
+<h2>11 · Simulator and calculators</h2>
+<div class="card calc">
+<h3 style="margin-top:0">Watch the running average</h3>
+<div class="row">
+<label>Population<select id="dist_sel"><option value="die">Fair die (μ = 3.5)</option><option value="bern">Bernoulli p = 0.3 (μ = 0.3)</option><option value="exp">Exponential λ = 1 (μ = 1)</option><option value="cauchy">Cauchy (no mean)</option></select></label>
+<label>Sample size \(n\)<input id="N" type="number" value="2000" min="10" max="50000" step="1"></label>
+</div>
+<button class="b" onclick="sim()">New run</button>
+<button class="b alt" onclick="document.getElementById('dist_sel').value='cauchy';sim()">Try Cauchy</button>
+<div class="row" id="skpis"></div>
+<div id="schart"></div>
+<p style="font-size:13px;color:var(--muted)">For the first three populations the running mean tightens around the dashed line (the LLN). For the Cauchy it keeps jumping: no finite mean, no LLN.</p>
+</div>
+
+<div class="card calc">
+<h3 style="margin-top:0">How many observations? (Chebyshev)</h3>
+<div class="row">
+<label>Variance \(\sigma^2\)<input id="c_v" type="number" value="2.917" step="any"></label>
+<label>Tolerance \(\epsilon\)<input id="c_e" type="number" value="0.1" step="any"></label>
+<label>Max probability \(\delta\)<input id="c_d" type="number" value="0.05" step="any"></label>
+</div>
+<div class="row" id="ckpi"></div>
+</div>
+
+<div class="card calc">
+<h3 style="margin-top:0">Probability that the mean (or total) exceeds a value (CLT)</h3>
+<div class="row">
+<label>Mean \(\mu\)<input id="z_m" type="number" value="500" step="any"></label>
+<label>Std. dev. \(\sigma\)<input id="z_s" type="number" value="40" step="any"></label>
+<label>Sample size \(n\)<input id="z_n" type="number" value="64" min="1" step="1"></label>
+<label>Threshold for \(\bar X\)<input id="z_x" type="number" value="510" step="any"></label>
+</div>
+<div class="row" id="zkpi"></div>
+<p style="font-size:13px;color:var(--muted)">For a total \(S_n\) exceeding \(s\), enter \(s/n\) as the threshold (Problem 3: 1830000/900 = 2033.33).</p>
+</div>
+</section>
+<footer>Study guide on the Law of Large Numbers · scope follows the handwritten lecture notes (WLLN, SLLN, history, LLN vs CLT, distribution of the sample mean, worked problems).</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+var lastC=-1;
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.getBoundingClientRect().top+scrollY<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)});
+if(c!==lastC){lastC=c;var n=document.getElementById('nav'),a=links[c];if(a)n.scrollTo({left:a.offsetLeft-n.clientWidth/2+a.offsetWidth/2,behavior:'smooth'})}}
+addEventListener('scroll',spy);spy();
+/* helpers */
+function f(x,d){return x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function Phi(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p}
+/* simulator */
+var sel=document.getElementById('dist_sel'),Ni=document.getElementById('N');
+var D={die:{mu:3.5,sd:Math.sqrt(35/12),g:function(){return 1+Math.floor(Math.random()*6)}},
+bern:{mu:.3,sd:Math.sqrt(.21),g:function(){return Math.random()<.3?1:0}},
+exp:{mu:1,sd:1,g:function(){return -Math.log(1-Math.random())}},
+cauchy:{mu:null,sd:null,g:function(){return Math.tan(Math.PI*(Math.random()-.5))}}};
+function sim(){var d=D[sel.value],n=Math.max(10,Math.min(50000,Math.round(+Ni.value)||2000)),s=0,m=[];
+for(var t=1;t<=n;t++){s+=d.g();m.push(s/t)}
+var lo=Infinity,hi=-Infinity,st=Math.min(5,n-1);for(var t=st;t<n;t++){lo=Math.min(lo,m[t]);hi=Math.max(hi,m[t])}
+if(d.mu!==null){lo=Math.min(lo,d.mu);hi=Math.max(hi,d.mu)}
+if(hi-lo<1e-9){hi+=1;lo-=1}
+var W=640,H=240,p=48,pts=[],step=Math.max(1,Math.floor(n/600));
+for(var t=0;t<n;t+=step){pts.push((p+(W-2*p)*t/(n-1)).toFixed(1)+','+(H-p-(H-2*p)*(m[t]-lo)/(hi-lo)).toFixed(1))}
+var sv='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Running sample mean"><line x1="'+p+'" y1="'+(H-p)+'" x2="'+(W-p)+'" y2="'+(H-p)+'" stroke="currentColor" opacity=".3"/>';
+if(d.mu!==null){var y=H-p-(H-2*p)*(d.mu-lo)/(hi-lo);sv+='<line x1="'+p+'" y1="'+y+'" x2="'+(W-p)+'" y2="'+y+'" stroke="#8b1a1a" stroke-dasharray="5 4"/><text x="'+(W-p)+'" y="'+(y-4)+'" text-anchor="end">μ = '+d.mu+'</text>'}
+sv+='<polyline fill="none" stroke="#2e7d5b" stroke-width="1.6" points="'+pts.join(' ')+'"/><text x="'+p+'" y="'+(H-p+16)+'">1</text><text x="'+(W-p)+'" y="'+(H-p+16)+'" text-anchor="end">n = '+n+'</text><text x="'+(p-6)+'" y="'+(p+4)+'" text-anchor="end">'+f(hi,2)+'</text><text x="'+(p-6)+'" y="'+(H-p+4)+'" text-anchor="end">'+f(lo,2)+'</text></svg>';
+document.getElementById('schart').innerHTML=sv;
+var fin=m[n-1],k=[['Final mean \u0058\u0304',f(fin,4)]];
+if(d.mu!==null){k.push(['True mean μ',String(d.mu)],['Gap',f(Math.abs(fin-d.mu),4)],['Typical gap σ/√n',f(d.sd/Math.sqrt(n),4)])}else k.push(['True mean','does not exist']);
+document.getElementById('skpis').innerHTML=k.map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('')}
+sel.addEventListener('change',sim);Ni.addEventListener('change',sim);
+/* chebyshev */
+function cheb(){var v=+c_v.value,e=+c_e.value,d=+c_d.value,o=document.getElementById('ckpi');
+if(!(v>0&&e>0&&d>0)){o.innerHTML='<p>Enter positive values.</p>';return}
+var n=Math.ceil(v/(e*e*d)-1e-9);o.innerHTML=[['Minimum n',f(n,0)],['Bound at that n',f(v/(n*e*e),4)]].map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('')}
+var c_v=document.getElementById('c_v'),c_e=document.getElementById('c_e'),c_d=document.getElementById('c_d');
+[c_v,c_e,c_d].forEach(function(e){e.addEventListener('input',cheb)});cheb();
+/* clt tail */
+function zt(){var m=+z_m.value,s=+z_s.value,n=+z_n.value,x=+z_x.value,o=document.getElementById('zkpi');
+if(!(s>0&&n>=1)){o.innerHTML='<p>Enter σ&gt;0, n≥1.</p>';return}
+var se=s/Math.sqrt(n),z=(x-m)/se;
+o.innerHTML=[['Std. error σ/√n',f(se,4)],['z',f(z,4)],['P(\u0058\u0304 > x)',f(1-Phi(z),4)]].map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('')}
+var z_m=document.getElementById('z_m'),z_s=document.getElementById('z_s'),z_n=document.getElementById('z_n'),z_x=document.getElementById('z_x');
+[z_m,z_s,z_n,z_x].forEach(function(e){e.addEventListener('input',zt)});zt();sim();
+</script>
+</body>
+</html>

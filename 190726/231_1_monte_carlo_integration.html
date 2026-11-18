@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monte Carlo Integration – A Simulation Course Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8EBDB;--card:#FCF3E9;--ink:#25050B;--mut:#7D5A55;--ac:#8A3026;--ac2:#E0C4B6;--line:#E0C4B6;--ok:#4F7A4A;--bad:#A4452F;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#231A13;--card:#2E231A;--ink:#F8EBDB;--mut:#A18D76;--ac:#D9A56F;--ac2:#5A4632;--line:#4A3A2B;--ok:#8FBF88;--bad:#E08A70}}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Carlito,Calibri,sans-serif}
+h1,h2,h3{font-family:Radley,Georgia,serif;font-weight:400;line-height:1.25}
+h1{font-size:clamp(2.2rem,7vw,3.4rem);margin:0 0 .5rem}
+h2{font-size:1.9rem;margin:0 0 1rem;color:var(--ac)}
+h3{font-size:1.3rem;margin:.9rem 0 .4rem;color:var(--ac)}
+main{max-width:880px;margin:0 auto;padding:0 18px 80px}
+section{padding:48px 0;border-top:1px solid var(--line)}
+p{margin:.9em 0;line-height:2}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 10px;z-index:5;align-items:center}
+nav a,button{color:var(--ink);text-decoration:none;white-space:nowrap;padding:5px 9px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.9rem;cursor:pointer;border-radius:3px}
+nav a:hover,button:hover{border-color:var(--ac)}
+.navlinks{display:flex;gap:6px;flex:1;overflow-x:auto;scrollbar-width:none;padding:0}
+.navlinks::-webkit-scrollbar{display:none}
+nav .sw{background:var(--bg);padding-left:8px}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);padding:14px 20px;margin:22px 0}
+.ex{border-left-color:var(--ok)}.nt{border-left-color:var(--bad)}
+.f{font-family:Radley,Georgia,serif;font-size:1.2rem;text-align:center;padding:16px 8px;margin:20px 0;background:var(--card);border:1px dashed var(--ac2);overflow-x:auto}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 26px 16px;margin:28px 0}.fc .f{background:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:14px 0}
+label{font-size:.95rem;color:var(--mut)}
+input,select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:4px 8px;border-radius:3px;max-width:100%}
+input[type=range]{padding:0;border:0;accent-color:var(--ac);width:190px}
+.out{font-family:Radley,Georgia,serif;font-size:1.08rem;line-height:1.9}.mut{color:var(--mut);font-size:.95rem}
+table{border-collapse:collapse;font-size:.95rem;margin:14px 0;width:100%;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:6px 10px;text-align:left}th{background:var(--card)}
+table>tbody{display:table;width:100%}table>thead{display:table-header-group}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pts{list-style:none;padding:0}.pts li{padding-left:1.4rem;position:relative;margin:.5em 0;line-height:2}.pts li:before{content:"";position:absolute;left:2px;top:1.15em;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+.qa{margin:22px 0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.qa .q{background:var(--card);border-left:4px solid var(--ac);padding:14px 20px}.qa .s{background:var(--card);border-left:4px solid var(--ok);padding:6px 20px 14px;border-top:1px solid var(--line)}.fc .qa .f{background:var(--card)}
+details.ans{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px;margin:14px 0}details.ans summary{cursor:pointer;color:var(--ac);font-weight:700;line-height:1.6}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:24px 0}.three>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px 14px}
+.sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex:none;position:relative;margin-left:auto}.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{position:relative;width:50px;height:26px;border:1px solid var(--line);border-radius:13px;background:var(--card);display:block}
+.sw i:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--ac);transition:transform .2s}.sw input:checked+i:before{transform:translateX(24px)}
+.kicker{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:24px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+.kpi b{display:block;font-family:Radley,Georgia,serif;font-size:1.8rem;font-weight:400;color:var(--ac);line-height:1.15}
+.kpi span{font-size:.9rem;color:var(--mut);line-height:1.4;display:block}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.seg button{padding:5px 12px;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+.chart-wrap{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 8px 6px;margin:18px 0;overflow:hidden}
+.chart-wrap svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.83rem;color:var(--mut);margin:8px 4px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.bars{display:grid;gap:10px;margin:14px 0}
+.bar-row{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center}
+.bar-row label{font-size:.83rem;color:var(--mut);text-align:right}
+.bar-track{background:var(--bg);border:1px solid var(--line);height:22px;border-radius:3px;overflow:hidden;position:relative}
+.bar-fill{height:100%;background:var(--ac);width:0;transition:width .25s}
+.bar-fill.ok{background:var(--ok)}
+.bar-fill.mut{background:var(--ac2)}
+.bar-val{font-size:.78rem;color:var(--mut);margin-left:6px;font-variant-numeric:tabular-nums}
+.agebars{display:flex;align-items:flex-end;gap:7px;height:190px;margin:16px 0 4px;border-bottom:1px solid var(--line);padding-bottom:2px}
+.agebar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
+.agebar i{display:block;width:100%;background:var(--ac2);border:1px solid var(--ac);border-bottom:0;border-radius:2px 2px 0 0;transition:height .25s}
+.agebar em{font-style:normal;font-size:.7rem;color:var(--mut);margin-bottom:3px}
+.agebar b{font-weight:400;font-size:.72rem;color:var(--mut);margin-top:4px;white-space:nowrap}
+.agebar.hi i{background:var(--ac);border-top-color:var(--ac)}
+.gauge{position:relative;height:26px;background:var(--bg);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:12px 0 4px}
+.gauge .fill{height:100%;background:var(--ac);width:0;transition:width .25s}
+.gauge .mark{position:absolute;top:-4px;bottom:-4px;left:40%;width:2px;background:var(--bad)}
+.gauge-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--mut)}
+.pyr{display:grid;gap:3px;margin:18px 0 8px}
+.pyr-head{display:grid;grid-template-columns:52px 1fr 1fr;gap:8px;font-size:.78rem;color:var(--mut);text-align:center;margin-bottom:2px}
+.pyr-row{display:grid;grid-template-columns:52px 1fr 1fr;gap:8px;align-items:center}
+.pyr-row>label{font-size:.78rem;color:var(--mut);text-align:right;padding-right:2px}
+.pyr-side{display:flex;height:17px}
+.pyr-side.left{justify-content:flex-end;border-right:1px solid var(--line)}
+.pyr-side.right{justify-content:flex-start;border-left:1px solid var(--line)}
+.pyr-side i{display:block;height:100%;background:var(--ac)}
+.pyr-side.right i{background:var(--ok)}
+.pyr-val{display:none}
+.caption{font-size:.82rem;color:var(--mut);line-height:1.5;margin:2px 0 18px}
+.tight p{margin:.6em 0}
+.small{font-size:.9rem}
+.center{text-align:center}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em;background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 4px}
+pre{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 16px;overflow-x:auto;font-size:.85rem;line-height:1.6}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* additions for this guide */
+.toc{list-style:none;padding:0;margin:26px 0;display:grid;gap:8px}
+.toc li{display:flex;gap:13px;align-items:flex-start;padding:5px 0}
+.toc .num{flex:none;width:29px;height:29px;border-radius:50%;background:var(--ac);color:var(--bg);display:grid;place-items:center;font:700 .8rem/1 Carlito,Calibri,sans-serif;margin-top:1px}
+.toc a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ac2)}
+.toc a:hover{border-bottom-color:var(--ac)}
+.toc small{display:block;color:var(--mut);font-size:.88rem;line-height:1.5}
+.codeblock{position:relative;margin:20px 0}
+.codeblock pre{margin:0;padding:38px 16px 14px;font-size:.84rem;line-height:1.65}
+.codeblock .lang{position:absolute;top:9px;left:14px;font:700 .68rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.codeblock button{position:absolute;top:6px;right:8px;padding:3px 9px;font-size:.75rem}
+.codeblock code{background:none;border:0;padding:0;font-size:1em}
+.methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:22px 0}
+.methods>div{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--ac);border-radius:8px;padding:10px 18px 14px}
+.methods h3{margin:.5rem 0 .3rem;font-size:1.15rem}
+.methods p{font-size:.92rem;line-height:1.7;margin:.4em 0}
+.methods b{color:var(--ac);font-weight:700}
+.smalltable table{font-size:.88rem}
+footer{padding:30px 0 0;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],macros:{E:'\\mathbb{E}',Var:'\\operatorname{Var}',Cov:'\\operatorname{Cov}',dd:'\\mathrm{d}',ind:'\\mathbf{1}'}},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script></head>
+<body>
+<nav><div class="navlinks"><a href="#what">Idea</a><a href="#hit">Hit-and-miss</a><a href="#mc">Improved MC</a><a href="#error">Error</a><a href="#anti">Antithetic</a><a href="#control">Control</a><a href="#is">Importance</a><a href="#rare">Rare event</a><a href="#exp">Known integral</a><a href="#logistic">Logistic</a><a href="#traps">Traps</a><a href="#prac">Practice</a><a href="#cheat">Cheat sheet</a></div>
+<label class="sw" title="Light / dark"><span aria-hidden="true">&#9728;</span><input type="checkbox" id="th" role="switch" aria-label="Dark mode"><i></i><span aria-hidden="true">&#9790;</span></label></nav>
+<main>
+<header style="padding:44px 0 22px"><p class="kicker">Simulation · Course notes</p><h1>Monte Carlo Integration</h1><h2>From hit-and-miss to importance sampling</h2>
+<p class="mut">These notes follow the three lecture decks: Monte Carlo integration, importance sampling, and variance reduction. The running example is \(f(x)=x^3-7x^2+1\) on \([0,1]\), whose integral is \(-13/12\). The R code uses vectors and simple loops only. There are no matrices, no lists, and no clever shortcuts.</p></header>
+
+<div class="kpis">
+<div class="kpi"><b>−1.0833</b><span>exact value of \(\int_0^1 f(x)\,\dd x\)</span></div>
+<div class="kpi"><b>10⁴ vs 10⁶</b><span>samples for similar accuracy: improved MC vs hit-and-miss</span></div>
+<div class="kpi"><b>2.87e−7</b><span>the rare probability \(\mathbb{P}(Z&gt;5)\)</span></div>
+<div class="kpi"><b>60%</b><span>variance cut by antithetic sampling on the Beta example</span></div>
+</div>
+
+<p class="mut">How to read: a formula says what is true; a code block says what to do. Run the code before trusting the number below it. Set a seed once and the output will not move.</p>
+
+<h3>Contents</h3>
+<ol class="toc">
+<li><span class="num">1</span><div><a href="#what">What Monte Carlo integration is</a><small>Random sampling, the law of large numbers, and when it beats a grid.</small></div></li>
+<li><span class="num">2</span><div><a href="#hit">Hit-and-miss</a><small>Count the points under the curve. Simple, but slow.</small></div></li>
+<li><span class="num">3</span><div><a href="#mc">Improved Monte Carlo</a><small>Average the function values. Lower variance, same idea.</small></div></li>
+<li><span class="num">4</span><div><a href="#error">The estimation problem</a><small>Standard error, confidence intervals, and efficiency.</small></div></li>
+<li><span class="num">5</span><div><a href="#anti">Antithetic variates</a><small>Mirror each sample and let the errors cancel.</small></div></li>
+<li><span class="num">6</span><div><a href="#control">Control variates</a><small>Use a quantity whose mean you already know.</small></div></li>
+<li><span class="num">7</span><div><a href="#is">Importance sampling</a><small>Sample where the integrand matters, then reweight.</small></div></li>
+<li><span class="num">8</span><div><a href="#rare">Example 1: a rare event</a><small>\(\mathbb{P}(Z&gt;5)\) without waiting for a miracle.</small></div></li>
+<li><span class="num">9</span><div><a href="#exp">Example 2: a known integral</a><small>\(\int_0^\infty x^2e^{-x}\dd x=2\), with a heavier-tailed proposal.</small></div></li>
+<li><span class="num">10</span><div><a href="#logistic">Example 3: logistic-normal</a><small>A good formula, a poor proposal, and a better one.</small></div></li>
+<li><span class="num">11</span><div><a href="#traps">When it goes wrong</a><small>Support, tails, weights that explode, and honest checks.</small></div></li>
+<li><span class="num">12</span><div><a href="#prac">Practice</a><small>Seven problems with worked solutions.</small></div></li>
+<li><span class="num">13</span><div><a href="#cheat">Cheat sheet</a><small>The estimators and their variances in one place.</small></div></li>
+</ol>
+
+<section id="what"><h2>What Monte Carlo integration is</h2>
+<p>Monte Carlo integration is numerical integration by random sampling. The name comes from the casino in Monaco; the method uses randomness the way a gambler does, but the guarantee is the law of large numbers, not luck. If you take many independent samples, their average settles near the expected value.</p>
+<p>It is useful in three situations. The antiderivative is unknown or too messy. The integral is in many dimensions, where a grid becomes impossible. The function is not a formula at all; it is a computer model that can only be run, not integrated by hand.</p>
+<p>There are two standard approaches. <b>Hit-and-miss</b> puts random points in a box around the curve and counts how many land under it. <b>Improved Monte Carlo</b> averages the function values themselves. Both converge to the true integral as the sample grows, but at different speeds. Improved Monte Carlo has the smaller variance, so it is the one used in practice and the one the rest of these notes build on.</p>
+<div class="f">\[\int_a^b f(x)\,\dd x=(b-a)\,\E[f(U)],\qquad U\sim\mathrm{Unif}(a,b).\]</div>
+<p>That identity is the whole engine. The right side is an average, and averages can be estimated by sampling. The left side is the integral we want.</p>
+<div class="box"><b>Why randomness helps in high dimensions.</b> In one dimension, Simpson's rule is excellent. In ten dimensions, a grid with 10 points per axis needs \(10^{10}\) points. Monte Carlo needs only a few thousand for a few percent error, and the error rate \(1/\sqrt n\) does not depend on the dimension. The price is that the answer is random, so it comes with a standard error.</div>
+<p>Traditional quadrature is still the right tool for smooth one-dimensional integrals. Monte Carlo is the right tool when the dimension is high, the region is awkward, or the function is only available through simulation. The two are complements, not rivals.</p>
+</section>
+
+<section id="hit"><h2>Hit-and-miss</h2>
+<p>The idea is geometric. Put a rectangle around the curve. Throw points uniformly into the rectangle. The fraction that lands below the curve estimates the fraction of the rectangle occupied by the area under the curve.</p>
+<p>Let the rectangle be \([a,b]\times[c,d]\), with \(c\le f(x)\le d\) for all \(x\) in \([a,b]\). Generate \(X\sim\mathrm{Unif}(a,b)\) and \(Y\sim\mathrm{Unif}(c,d)\). Count a hit when \(Y\le f(X)\). Then</p>
+<div class="f">\[\hat I_{\mathrm{hit}}=(b-a)\left[c+\frac{\text{hits}}{n}(d-c)\right].\]</div>
+<p>The bracket is the average height of the box that is filled: the bottom \(c\) plus the hit fraction times the box height. Multiply by the width \(b-a\). If \(c=0\), the formula reduces to the familiar “fraction of hits times rectangle area.”</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>hit_miss &lt;- function(f, a, b, lo, hi, n) {
+  x &lt;- runif(n, a, b)
+  y &lt;- runif(n, lo, hi)
+  hit &lt;- mean(y &lt;= f(x))
+  (b - a) * (lo + hit * (hi - lo))
+}
+f &lt;- function(x) x^3 - 7*x^2 + 1
+set.seed(1)
+hit_miss(f, 0, 1, -6, 2, 10000)   # -1.1072</code></pre></div>
+<p>The code uses vectors, not a loop over points. <code>runif(n, a, b)</code> makes all the \(X\) values at once; <code>runif(n, lo, hi)</code> makes all the \(Y\) values. The comparison <code>y &lt;= f(x)</code> is a vector of TRUE and FALSE, and <code>mean</code> turns it into a proportion. That is simpler and faster than a <code>for</code> loop.</p>
+
+<table><tr><th class="num">n</th><th class="num">Hit-and-miss</th><th class="num">Improved MC</th></tr>
+<tr><td class="num">10</td><td class="num">−2.000</td><td class="num">−1.445</td></tr>
+<tr><td class="num">100</td><td class="num">−0.800</td><td class="num">−1.126</td></tr>
+<tr><td class="num">1,000</td><td class="num">−0.976</td><td class="num">−1.079</td></tr>
+<tr><td class="num">10,000</td><td class="num">−1.107</td><td class="num">−1.092</td></tr>
+<tr><td class="num">100,000</td><td class="num">−1.085</td><td class="num">−1.084</td></tr>
+<tr><th>Truth</th><th class="num">−1.0833</th><th class="num">−1.0833</th></tr>
+</table>
+<p class="caption">Table 1. Each row restarts the seed at 1, for \(f(x)=x^3-7x^2+1\) on \([0,1]\). Your numbers will differ if you change the seed. The improved estimator is closer in every row here, but the gap closes slowly and a single row can reverse by chance.</p>
+
+<p>The method is intuitive, and it is unbiased when the box really contains the function. It is also wasteful. Each sample produces only a yes or no, so the estimate moves slowly. The slide reports that hit-and-miss needs about \(10^6\) samples for two decimal places, while improved Monte Carlo needs about \(10^4\).</p>
+
+<div class="box nt"><b>The box must contain the function.</b> The same \(f\) on \([0,3]\) has integral \(-39.75\), and its values fall far below \(-6\). If you keep the box \([-6,2]\), the method estimates only the part inside the box and returns roughly \(-13\), no matter how many samples you take. With the correct box \([-60,20]\) and \(10^6\) samples, the estimate approaches \(-39.75\). Bounds are part of the model, not a detail.</div>
+</section>
+
+<section id="mc"><h2>Improved Monte Carlo</h2>
+<p>Instead of asking whether a point is under the curve, ask how high the curve is. That single change removes most of the noise. The identity is</p>
+<div class="f">\[\int_a^b f(x)\,\dd x=(b-a)\,\E[f(U)],\qquad U\sim\mathrm{Unif}(a,b),\]</div>
+<p>so the estimator is the sample average of \(f(U)\), times the width:</p>
+<div class="f">\[\hat I_{\mathrm{MC}}=\frac{b-a}{n}\sum_{i=1}^n f(U_i).\]</div>
+<p>It is unbiased: the average of many estimates centers on the true integral. Its variance is \((b-a)^2\Var(f(U))/n\). Because it uses the size of \(f\), not just a yes/no, it is quieter than hit-and-miss at the same \(n\).</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>mc_integral &lt;- function(f, a, b, n) {
+  u &lt;- runif(n, a, b)
+  (b - a) * mean(f(u))
+}
+f &lt;- function(x) x^3 - 7*x^2 + 1
+set.seed(1)
+mc_integral(f, 0, 1, 10000)   # -1.0916</code></pre></div>
+<p>This is the “improved Monte Carlo” method from the slides. The function <code>f</code> must accept a vector. Most simple formulas in R do: <code>x^3 - 7*x^2 + 1</code> works on a vector <code>x</code>. If your function only accepts one number, wrap it with <code>Vectorize</code>, but for the examples here it is already vectorized.</p>
+<p>The code has no loop over samples and no matrix. It makes one vector of uniforms, evaluates the function on the whole vector, and takes one mean. That is the style used throughout these notes.</p>
+
+<div class="box ex"><b>Why it is better.</b> Hit-and-miss records only whether \(Y\le f(X)\). Improved Monte Carlo records the value \(f(X)\). The second uses more information from each sample, so the estimate has lower variance. The gain grows when \(f\) varies a lot inside the box. In one dimension, a good quadrature rule can still beat both; in high dimensions, improved Monte Carlo is often the only practical choice.</div>
+</section>
+
+<section id="error"><h2>The estimation problem</h2>
+<p>A Monte Carlo estimate is a random number. It has a center and a spread. “Unbiased” means the center is the truth. The spread is measured by the variance, and the standard error is the square root of the estimated variance of the average:</p>
+<div class="f">\[\mathrm{SE}=\frac{s}{\sqrt n},\qquad \hat I\pm1.96\,\mathrm{SE}\ \text{is a 95 percent interval.}\]</div>
+<p>The interval is approximate. It relies on the central limit theorem and on a stable estimate of \(s\). With heavy tails or very small \(n\), the interval can be too narrow. Always report the SE, not just the estimate.</p>
+<p>Efficiency compares methods at the same cost. If method A has variance \(v_A\) and method B has variance \(v_B\) using the same number of evaluations, the gain of B over A is \(v_A/v_B\). A gain of 8 means B needs one eighth of the samples for the same precision.</p>
+
+<table><tr><th>Method</th><th class="num">Estimate</th><th class="num">SE</th><th class="num">Variance vs MC</th><th class="num">Gain</th></tr>
+<tr><td>Improved MC</td><td class="num">0.6666</td><td class="num">0.00094</td><td class="num">1.000</td><td class="num">1×</td></tr>
+<tr><td>Antithetic</td><td class="num">0.6666</td><td class="num">0.00033</td><td class="num">0.125</td><td class="num">8×</td></tr>
+<tr><td>Control, \(g(U)=U\)</td><td class="num">0.6662</td><td class="num">0.00024</td><td class="num">0.063</td><td class="num">16×</td></tr>
+<tr><td>Importance, \(q(x)=2(1-x)\)</td><td class="num">0.6666</td><td class="num">0.00037</td><td class="num">0.157</td><td class="num">6×</td></tr>
+<tr><th>Truth</th><th class="num">0.6667</th><th class="num">—</th><th class="num">—</th><th class="num">—</th></tr>
+</table>
+<p class="caption">Table 2. Four ways to estimate \(\int_0^1(1-x^2)\dd x=2/3\), each with \(n=100{,}000\) evaluations and a fresh seed of 1. All four intervals cover the truth. The ranking is stable; the last digit is not.</p>
+
+<div class="bars">
+<div class="bar-row"><label>Improved</label><div style="display:flex;align-items:center;gap:6px"><div class="bar-track" style="flex:1"><div class="bar-fill mut" style="width:6.2%"></div></div><span class="bar-val">1×</span></div></div>
+<div class="bar-row"><label>Antithetic</label><div style="display:flex;align-items:center;gap:6px"><div class="bar-track" style="flex:1"><div class="bar-fill ok" style="width:50%"></div></div><span class="bar-val">8×</span></div></div>
+<div class="bar-row"><label>Control</label><div style="display:flex;align-items:center;gap:6px"><div class="bar-track" style="flex:1"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">16×</span></div></div>
+<div class="bar-row"><label>Importance</label><div style="display:flex;align-items:center;gap:6px"><div class="bar-track" style="flex:1"><div class="bar-fill ok" style="width:37.5%"></div></div><span class="bar-val">6×</span></div></div>
+</div>
+<p class="caption">Variance reduction at equal cost on the same integral. Longer is better. The control variate wins because \(g(U)=U\) is almost a perfect stand-in for \(1-U^2\).</p>
+
+<div class="box"><h3>Try it: what does \(n\) buy?</h3>
+<div class="row"><label>Sample size \(n\) <input type="range" id="nrange" min="2" max="6" step="0.05" value="5"> <b id="nv">100,000</b></label></div>
+<div class="out" id="nOut"></div>
+<p class="mut" style="margin-bottom:0">The standard errors use the variances from Table 2. Move the slider to see the \(1/\sqrt n\) wall.</p></div>
+
+<p>The comparison must be at equal cost. Antithetic sampling uses two evaluations per pair, so it is compared with improved Monte Carlo at the same total number of evaluations. Control variates use one extra evaluation of \(g\) per sample; if \(g\) is expensive, the gain shrinks. Importance sampling may need a proposal that is itself costly to sample. Count the work, not the lines of code.</p>
+</section>
+
+<section id="anti"><h2>Antithetic variates</h2>
+<p>If \(U\) is uniform on \([0,1]\), then \(1-U\) is also uniform. The two move in opposite directions. Evaluate the function at both and average the pair:</p>
+<div class="f">\[\hat I_{\mathrm{anti}}=\frac1m\sum_{i=1}^m\frac{h(U_i)+h(1-U_i)}2.\]</div>
+<p>The pair average costs two evaluations. If the two evaluations are negatively correlated, their average is quieter than two independent evaluations. The slide states the general result. If \(X\) and \(Y\) are unbiased estimators with the same variance \(\sigma^2\), then</p>
+<div class="f">\[\Var\!\left(\frac{X+Y}{2}\right)=\frac{\sigma^2}{2}(1+\rho_{XY}).\]</div>
+<p>The sign of \(\rho\) decides everything. If \(\rho=0\), the pair is no better than independent sampling. If \(\rho<0\), the variance falls. If \(\rho>0\), the variance rises. For a monotone \(h\), \(h(U)\) and \(h(1-U)\) are negatively correlated, so antithetic sampling helps. For a symmetric \(h\), the mirror is identical and the correlation is \(+1\), so it hurts at equal cost.</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+n &lt;- 1e5
+u &lt;- runif(n / 2)
+pair &lt;- (1 - u^2 + 1 - (1 - u)^2) / 2
+mean(pair)                 # 0.6666
+sd(pair) / sqrt(n / 2)     # 0.00033</code></pre></div>
+<p>For \(h(u)=1-u^2\), the ordinary variance is \(4/45\), the covariance is \(-7/90\), and the pair-average variance is \(1/180\). At equal cost the variance ratio is \(1+\rho=1/8\), an 8× gain. The code’s standard error agrees with that calculation.</p>
+
+<p>To see the variance of the estimator across repeated runs, use a simple loop. No matrix and no list are needed: a numeric vector holds the results.</p>
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+R &lt;- 1000
+v1 &lt;- numeric(R)
+v2 &lt;- numeric(R)
+for (r in 1:R) {
+  u &lt;- runif(50)
+  v1[r] &lt;- mean(1 - u^2)
+  u &lt;- runif(25)
+  v2[r] &lt;- mean((1 - u^2 + 1 - (1 - u)^2) / 2)
+}
+var(v1)   # 0.001653
+var(v2)   # 0.000225</code></pre></div>
+<p>Each standard estimate uses 50 evaluations; each antithetic estimate uses 50 evaluations (25 pairs). The variance falls by about 86%, close to the theoretical 87.5%. The remaining difference is Monte Carlo noise in the variance estimate itself.</p>
+
+<div class="box ex"><b>The Beta exercise from the slides.</b> For \(B(0.5,2)=\int_0^1x^{-0.5}(1-x)\dd x\), the slide reports a standard variance of 0.01412 and an antithetic variance of 0.00562, a 60% reduction. The integrand shoots up near zero, so a few samples can be large. Those numbers are a finite-run summary, not a guarantee; the theoretical variance is infinite. Antithetic sampling helps, but it does not cure a singularity.</div>
+
+<h3>Antithetic normal samples</h3>
+<p>For a normal distribution, use the inverse transform. If \(U\) is uniform, \(X_1=\Phi^{-1}(U)\) and \(X_2=\Phi^{-1}(1-U)\) are both standard normal, and they are perfectly negatively correlated. In R, <code>qnorm</code> is \(\Phi^{-1}\).</p>
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+n &lt;- 1e5
+u &lt;- runif(n / 2)
+x1 &lt;- qnorm(u)
+x2 &lt;- qnorm(1 - u)
+cor(x1, x2)                # -1
+mean((x1 + x2) / 2)        # 0
+var((x1 + x2) / 2)         # 0</code></pre></div>
+<p>The marginal variance of the normal sample is still about 1; that is not where the gain lives. The gain is in the pair average, which is exactly zero here because <code>qnorm(1 - u) = -qnorm(u)</code>. The slide’s comparison of marginal variances, about 1.02 versus 0.985, is a comparison of two samples, not a comparison of the two estimators. Look at the pair average, or at the variance of the mean, to see the real effect.</p>
+
+<div class="box nt"><b>Antithetic is not automatic.</b> Take \(h(u)=\cos(2\pi u)\). Then \(h(1-u)=h(u)\), so the correlation is \(+1\) and the variance ratio at equal cost is 2. Antithetic sampling is twice as variable as independent sampling. A symmetric function gains nothing from mirroring. Check the sign of the correlation with a pilot run before committing.</div>
+</section>
+
+<section id="control"><h2>Control variates</h2>
+<p>A control variate uses a second function \(g(U)\) whose mean you know exactly. The difference between its sample average and its known mean is a correction. If \(g\) is correlated with \(h\), the correction removes part of the noise:</p>
+<div class="f">\[\hat I_{\mathrm{cv}}=\frac1n\sum_{i=1}^n\left[h(U_i)-c\bigl(g(U_i)-\E[g]\bigr)\right].\]</div>
+<p>The estimator is unbiased for any constant \(c\), because the correction has mean zero. Its variance is</p>
+<div class="f">\[\Var(\hat I_{\mathrm{cv}})=\frac{\sigma_h^2-2c\,\Cov(h,g)+c^2\sigma_g^2}{n}.\]</div>
+<p>Minimize over \(c\). The best choice is</p>
+<div class="f">\[c^*=\frac{\Cov(h,g)}{\Var(g)},\qquad \Var(\hat I_{\mathrm{cv}})=\frac{\sigma_h^2(1-\rho^2)}{n}.\]</div>
+<p>If the correlation is 0.9, the variance falls by 81%. If it is 0.5, it falls by only 25%. The control must be cheap and its mean must be known exactly. A control with an estimated mean is just another random variable.</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+n &lt;- 1e5
+u &lt;- runif(n)
+h &lt;- 1 - u^2
+g &lt;- u
+c &lt;- cov(h, g) / var(g)     # -0.9991
+y &lt;- h - c * (g - 0.5)
+mean(y)                    # 0.6662
+sd(y) / sqrt(n)            # 0.00024</code></pre></div>
+<p>For this pair, \(c^*=-1\) exactly; the code estimates \(-0.999\). The estimator is then \(1-U^2+U-\tfrac12=\tfrac12+U-U^2\). Its variance is \(1/180\), one sixteenth of the variance of \(1-U^2\). That is the 16× in Table 2. The control is not just correlated; it is the missing linear part of the integrand.</p>
+
+<div class="box nt"><b>Two warnings.</b> If you estimate \(c\) on the same sample you use for the estimate, the estimator is slightly biased. The bias is small, but the confidence interval is not exact. Split the sample or use a pilot run when the interval matters. And always check the sign of the covariance. A control with the wrong sign is worse than no control.</div>
+</section>
+
+<section id="is"><h2>Importance sampling</h2>
+<p>Importance sampling is a variance reduction method for expectations and probabilities, especially rare events. Instead of sampling from the target density \(f\), sample from a different density \(g\) that puts more points in the important region. Then correct the answer with a weight.</p>
+
+<table><tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>\(X\)</td><td>the random variable</td></tr>
+<tr><td>\(f(x)\)</td><td>the target density (what we want to sample from)</td></tr>
+<tr><td>\(g(x)\)</td><td>the proposal density (what we actually sample from)</td></tr>
+<tr><td>\(h(x)\)</td><td>the function whose average we want</td></tr>
+<tr><td>\(\E_f[\cdot]\)</td><td>the average when sampling from \(f\)</td></tr>
+<tr><td>\(w(x)=f(x)/g(x)\)</td><td>the importance weight</td></tr>
+</table>
+<p class="caption">Table 3. The notation used in the importance sampling slides.</p>
+
+<p>Plain Monte Carlo samples \(X_1,\dots,X_n\) from \(f\) and uses the average of \(h(X_i)\). That is the improved Monte Carlo estimator applied to a random variable. It is unbiased, but it is inefficient when \(h\) is large in a region where \(f\) is small. Rare events are the extreme case: most samples see nothing.</p>
+<p>The fix is one line of algebra:</p>
+<div class="f">\[I=\E_f[h(X)]=\int h(x)f(x)\,\dd x=\int h(x)\frac{f(x)}{g(x)}g(x)\,\dd x=\E_g[h(X)w(X)].\]</div>
+<p>So if \(X_1,\dots,X_n\) are sampled from \(g\), the estimator is</p>
+<div class="f">\[\hat I_{\mathrm{IS}}=\frac1n\sum_{i=1}^n h(X_i)w(X_i).\]</div>
+<p>It is unbiased whenever \(g(x)&gt;0\) wherever \(h(x)f(x)\neq0\). The weight corrects the change of distribution: where \(g\) oversamples, \(w\) is small; where \(g\) undersamples, \(w\) is large.</p>
+
+<h3>What makes a good proposal</h3>
+<p>The slides give three requirements. The proposal must be easy to sample from. It must be positive wherever the target is positive. It must put more probability in the important region. A fourth requirement is just as important: its tails must not be lighter than the target’s, or the weights can explode.</p>
+<p>The best possible proposal is proportional to the absolute value of the integrand times the target density:</p>
+<div class="f">\[g^*(x)=\frac{|h(x)|f(x)}{\int |h(y)|f(y)\,\dd y}.\]</div>
+<p>If \(h\ge0\), then \(h(x)f(x)/g^*(x)=I\) is constant, so the estimator has zero variance. One sample would be enough. This is the ideal, not a practical recipe: the normalizing constant is the integral we are trying to compute. But it tells you what a good proposal looks like. Put samples where \(h(x)f(x)\) is large, not merely where \(f\) is large.</p>
+
+<h3>A quick check on a familiar integral</h3>
+<p>Take \(\int_0^1(1-x^2)\dd x=2/3\), the integral used in Table 2. The integrand is largest near \(0\), so sample from \(q(x)=2(1-x)\), which also concentrates near \(0\). The inverse transform is \(x=1-\sqrt{1-u}\). The target is uniform, \(f(x)=1\), so the weight is \(w(x)=1/[2(1-x)]\).</p>
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+n &lt;- 1e5
+u &lt;- runif(n)
+x &lt;- 1 - sqrt(1 - u)          # sample from q(x) = 2(1-x)
+w &lt;- 1 / (2 * (1 - x))        # f(x) / q(x), with f(x) = 1
+mean((1 - x^2) * w)           # 0.6666
+sd((1 - x^2) * w) / sqrt(n)   # 0.00037</code></pre></div>
+<p>The answer matches improved Monte Carlo, and the standard error is 0.00037 against 0.00094: about a 6× variance reduction, the figure in Table 2. The gain is modest because \(1-x^2\) is bounded and the uniform sample already covers the important region. Importance sampling pays off far more when the interesting region is rare.</p>
+
+<h3>Self-normalized importance sampling</h3>
+<p>Sometimes the densities are known only up to constants. Then the weights are known only up to a common factor, and the ordinary estimator cannot be formed. Divide by the sum of the weights instead:</p>
+<div class="f">\[\hat I_{\mathrm{SN}}=\frac{\sum_{i=1}^n h(X_i)w_i}{\sum_{i=1}^n w_i}.\]</div>
+<p>It is consistent and usually stable, but it is biased for finite \(n\). The bias is small and disappears as the sample grows. It is common in Bayesian work, where the normalizing constant is unknown.</p>
+
+<h3>Effective sample size</h3>
+<p>If a few weights are much larger than the rest, the estimate is effectively based on a few samples. The effective sample size is</p>
+<div class="f">\[\mathrm{ESS}=\frac{\left(\sum_{i=1}^n w_i\right)^2}{\sum_{i=1}^n w_i^2}.\]</div>
+<p>It lies between 1 and \(n\). If it is a small fraction of \(n\), the proposal is poor. A rough rule: investigate when ESS is below a few hundred, or below 1% of \(n\). ESS is a warning light, not a proof of accuracy.</p>
+
+<div class="box"><b>The one-line summary.</b> Importance sampling is a change of distribution plus a correction. The change buys samples in the important region; the correction keeps the answer honest. If the correction is wild, the change was too aggressive.</div>
+</section>
+
+<section id="rare"><h2>Example 1: a rare event</h2>
+<p>Let \(Z\sim\mathcal N(0,1)\) and estimate \(p=\mathbb{P}(Z&gt;5)\). The true value is \(2.8665\times10^{-7}\). Plain Monte Carlo draws \(Z\) and counts how many exceed 5. The expected number of hits in \(n\) draws is \(np\). To see one hit on average, you need \(n\approx3.5\times10^6\) draws. At \(n=10^5\), the expected count is 0.029; most runs see zero.</p>
+<p>Sample from \(\mathcal N(5,1)\) instead. About half of the proposal samples land above 5, so the event is common in the simulated world. The weight is</p>
+<div class="f">\[w(y)=\frac{\varphi(y)}{\varphi(y-5)}=\exp\!\left(-\frac{y^2}{2}+\frac{(y-5)^2}{2}\right)=\exp\!\left(-5y+\frac{25}{2}\right).\]</div>
+<p>Then \(\hat p=\frac1n\sum \ind\{Y_i&gt;5\}w(Y_i)\) with \(Y_i\sim\mathcal N(5,1)\). Half of the samples fall in the interesting region, against almost none under the target. The weight corrects for the shift.</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(123)
+n &lt;- 1e5
+z &lt;- rnorm(n)
+mean(z &gt; 5)                # 0
+
+y &lt;- rnorm(n, mean = 5, sd = 1)
+f_y &lt;- dnorm(y, mean = 0, sd = 1)
+g_y &lt;- dnorm(y, mean = 5, sd = 1)
+w &lt;- f_y / g_y
+mean((y &gt; 5) * w)          # 2.876e-07
+sd((y &gt; 5) * w) / sqrt(n)  # 2.164e-09
+1 - pnorm(5)               # 2.8665e-07</code></pre></div>
+<p>The estimate is \(2.876\times10^{-7}\) with standard error \(2.16\times10^{-9}\), a relative error of 0.75%. The plain run returns zero. That zero is not an estimate of a small probability; it is a report that the event was not seen.</p>
+
+<table><tr><th>Method</th><th class="num">n</th><th class="num">Estimate</th><th class="num">True value</th></tr>
+<tr><td>Plain MC</td><td class="num">100,000</td><td class="num">0</td><td class="num">2.8665e−07</td></tr>
+<tr><td>Importance, \(g=\mathcal N(5,1)\)</td><td class="num">100,000</td><td class="num">2.876e−07</td><td class="num">2.8665e−07</td></tr>
+</table>
+<p class="caption">Table 4. The rare-event example with seed 123. The plain estimator has no chance of seeing the event at this sample size.</p>
+
+<div class="box ex"><b>The ideal proposal is the conditional distribution.</b> If \(g\) were \(f\) conditioned on \(\{y&gt;5\}\), then \(w(y)=\mathbb{P}(Z&gt;5)\) would be constant and the variance would be zero. We cannot use that proposal without already knowing the answer. The shifted normal is a simple approximation to the conditional world. It is not optimal, but it turns an impossible simulation into a routine one.</div>
+</section>
+
+<section id="exp"><h2>Example 2: a known integral</h2>
+<p>Consider</p>
+<div class="f">\[I=\int_0^\infty x^2e^{-x}\,\dd x=\E[X^2],\qquad X\sim\mathrm{Exp}(1).\]</div>
+<p>The exact value is 2. Plain Monte Carlo draws \(X\sim\mathrm{Exp}(1)\) and averages \(X^2\). To improve it, use a proposal from the same family, \(g(y)=\lambda e^{-\lambda y}\), with \(y\ge0\). The weight is</p>
+<div class="f">\[w(y)=\frac{e^{-y}}{\lambda e^{-\lambda y}}=\frac1\lambda e^{-(1-\lambda)y}.\]</div>
+<p>The estimator is \(\frac1n\sum Y_i^2w(Y_i)\) with \(Y_i\sim\mathrm{Exp}(\lambda)\). The slides use \(\lambda=0.5\): the proposal has mean 2, heavier than the target’s mean 1, which helps because \(y^2\) emphasizes large values.</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(2025)
+n &lt;- 1e5
+x &lt;- rexp(n, rate = 1)
+mean(x^2)                  # crude: 2.0025
+var(x^2) / n               # 0.000194
+
+lambda &lt;- 0.5
+y &lt;- rexp(n, rate = lambda)
+w &lt;- dexp(y, rate = 1) / dexp(y, rate = lambda)
+mean(y^2 * w)              # IS: 1.9997
+var(y^2 * w) / n           # 0.0000232</code></pre></div>
+
+<table><tr><th>Quantity</th><th class="num">Plain MC</th><th class="num">Importance, \(\lambda=0.5\)</th></tr>
+<tr><td>Estimate</td><td class="num">2.0025</td><td class="num">1.9997</td></tr>
+<tr><td>Variance of estimate</td><td class="num">1.94e−04</td><td class="num">2.32e−05</td></tr>
+<tr><td>Standard error</td><td class="num">0.0139</td><td class="num">0.0048</td></tr>
+</table>
+<p class="caption">Table 5. Seed 2025, \(n=100{,}000\). The variance falls by about 8.4×. The proposal is not a guess; it is the same exponential family with a heavier tail.</p>
+
+<p>Why does \(\lambda=0.5\) help? The target decays like \(e^{-y}\), while the proposal decays like \(e^{-0.5y}\). The proposal has more mass in the far tail, where \(y^2\) is large. The weight \(2e^{-0.5y}\) is small there, but the samples are there to be seen. A proposal with \(\lambda=2\) would decay faster than the target. Its weight \(0.5e^{y}\) grows without bound, and the variance is infinite. The estimator would still be unbiased in theory, but no finite run could be trusted.</p>
+
+<div class="box nt"><b>The tail condition in one example.</b> A proposal with a lighter tail than the target is not “close enough.” It can make the variance infinite, even though the formula is correct. Always check that the proposal’s tail is at least as heavy as the target’s where the integrand is non-negligible.</div>
+</section>
+
+<section id="logistic"><h2>Example 3: logistic-normal expectation</h2>
+<p>The target is</p>
+<div class="f">\[\theta=\E[h(X)],\qquad h(x)=\frac{1}{1+e^{-x}},\qquad X\sim\mathcal N(0,1).\]</div>
+<p>The slides use the proposal \(g=\mathcal N(2,1)\), so the weight is</p>
+<div class="f">\[w(y)=\frac{\varphi(y)}{\varphi(y-2)}=\exp(-2y+2).\]</div>
+<p>The estimator is the average of \(h(Y)w(Y)\) with \(Y\sim\mathcal N(2,1)\). This is a correct importance sampling estimator. It is also a useful warning: correct does not mean efficient.</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(777)
+n &lt;- 1e5
+h &lt;- function(x) 1 / (1 + exp(-x))
+
+y &lt;- rnorm(n, mean = 2, sd = 1)
+w &lt;- dnorm(y, mean = 0, sd = 1) / dnorm(y, mean = 2, sd = 1)
+mean(h(y) * w)             # 0.4997
+sd(h(y) * w) / sqrt(n)     # 0.00445
+ess &lt;- sum(w)^2 / sum(w^2) # 1,504
+
+z &lt;- rnorm(n, mean = 0, sd = 1)
+mean(h(z))                 # crude: 0.5009</code></pre></div>
+<p>The estimate is close to the truth \(0.5\), but the standard error is 0.00445, while plain Monte Carlo has standard error 0.00066 at the same \(n\). The proposal \(\mathcal N(2,1)\) is worse than doing nothing. The effective sample size is only 1,504 out of 100,000: a few weights dominate.</p>
+
+<p>The problem is that the logistic saturates. At \(y=2\), \(h(y)\approx0.88\), but the weight is \(e^{-2}\approx0.135\). At \(y\) near 0, \(h\approx0.5\) and the weight is \(e^{2}\approx7.4\). The proposal oversamples the region where \(h\) is already near 1 and undersamples the region where the weight is large. A smaller shift works better.</p>
+
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(777)
+n &lt;- 1e5
+h &lt;- function(x) 1 / (1 + exp(-x))
+
+y &lt;- rnorm(n, mean = 0.5, sd = 1)
+w &lt;- dnorm(y, mean = 0, sd = 1) / dnorm(y, mean = 0.5, sd = 1)
+mean(h(y) * w)             # 0.5000
+sd(h(y) * w) / sqrt(n)     # 0.00023</code></pre></div>
+
+<table><tr><th class="num">Proposal mean \(\mu\)</th><th class="num">Estimate</th><th class="num">SE</th><th class="num">ESS</th><th>Comment</th></tr>
+<tr><td class="num">0.0</td><td class="num">0.5003</td><td class="num">0.00066</td><td class="num">100,000</td><td>plain MC</td></tr>
+<tr><td class="num">0.5</td><td class="num">0.5000</td><td class="num">0.00023</td><td class="num">77,858</td><td>good shift</td></tr>
+<tr><td class="num">1.0</td><td class="num">0.4995</td><td class="num">0.00095</td><td class="num">36,441</td><td>starting to hurt</td></tr>
+<tr><td class="num">1.5</td><td class="num">0.4994</td><td class="num">0.00211</td><td class="num">9,632</td><td>poor</td></tr>
+<tr><td class="num">2.0</td><td class="num">0.4997</td><td class="num">0.00445</td><td class="num">1,504</td><td>the slide’s proposal</td></tr>
+<tr><td class="num">3.0</td><td class="num">0.5130</td><td class="num">0.03133</td><td class="num">44</td><td>useless</td></tr>
+</table>
+<p class="caption">Table 6. One run per row, seed 777, \(n=100{,}000\). The truth is 0.5. A small shift helps; a large shift destroys the estimator.</p>
+
+<div class="box ex"><b>What the optimal proposal looks like.</b> The best \(g\) is proportional to \(h(x)\varphi(x)\). That product is skewed to the right: the logistic is near 0 on the left, so the product is small there, while on the right it is close to \(\varphi(x)\). Its mode is near 0.4, not 0. A small positive shift approximates that shape. The slide’s \(\mathcal N(2,1)\) sits far to the right of the mode: it samples where \(h\) is already near 1, and the weight is tiny there. The table shows why tuning matters.</div>
+</section>
+
+<section id="traps"><h2>When it goes wrong</h2>
+<p>All of these methods are unbiased or nearly so, and all of them can fail. The failures usually leave a diagnostic trail. Look for it before you trust the estimate.</p>
+
+<ul class="pts">
+<li><b>The proposal misses part of the target.</b> If \(g(x)=0\) where \(h(x)f(x)&gt;0\), the estimator is biased or the variance is infinite. The proposal must cover the region that matters.</li>
+<li><b>The proposal has a lighter tail.</b> If \(g\) decays faster than \(f\), the weight \(f/g\) grows. The \(\lambda=2\) proposal in Example 2 is the simple case: the variance is infinite.</li>
+<li><b>A few weights dominate.</b> Compute ESS, look at the largest weight, and plot the weights if you can. If one weight carries most of the total, the estimate is fragile.</li>
+<li><b>Unbiased is not accurate.</b> An estimator can be correct on average and still be far from the truth in a given run. The logistic proposal \(\mathcal N(2,1)\) is unbiased and worse than plain Monte Carlo.</li>
+<li><b>The control coefficient is estimated.</b> A control variate with \(c\) estimated on the same sample is slightly biased. The bias is small, but the interval is not exact. Split the sample or use a pilot.</li>
+<li><b>The cost is ignored.</b> Compare methods at equal cost. A control that needs an expensive \(g\), or a proposal that is slow to sample, may lose to more samples from the target.</li>
+<li><b>One seed is an anecdote.</b> Repeat with several seeds, or report the standard error. If the estimate moves more than the SE suggests, the variance estimate is not trustworthy.</li>
+</ul>
+
+<div class="box"><h3>A checklist before trusting an importance estimate</h3>
+<ul class="pts" style="margin-bottom:0">
+<li>Does \(g\) cover the region where \(h f\) is positive?</li>
+<li>Are the tails of \(g\) at least as heavy as those of \(f\)?</li>
+<li>What is the ESS? Is it a reasonable fraction of \(n\)?</li>
+<li>What is the largest weight, and how much of the total does it carry?</li>
+<li>Does the estimate agree with plain Monte Carlo on a smaller, safer version of the problem?</li>
+<li>Does it agree across seeds, within the reported standard error?</li>
+</ul></div>
+</section>
+
+<section id="prac"><h2>Practice</h2>
+<p class="mut">Work each problem before opening the solution. The code is base R and uses only vectors and simple loops.</p>
+
+<details class="ans"><summary>1. Estimate \(\int_0^1x^2\dd x\) by hit-and-miss and by improved Monte Carlo. The truth is \(1/3\).</summary>
+<p>Use the box \([0,1]\times[0,1]\). A point \((X,Y)\) is a hit when \(Y\le X^2\). The hit fraction estimates the area; improved Monte Carlo averages \(X^2\).</p>
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+n &lt;- 1e4
+x &lt;- runif(n)
+y &lt;- runif(n)
+mean(y &lt;= x^2)             # hit-and-miss: 0.3345
+mean(x^2)                  # improved MC: 0.3349</code></pre></div>
+<p>Both are close here because the box is tight and \(n\) is large. The improved estimator has the smaller variance: it uses the height \(X^2\), not just a yes or no. In a box with a lot of empty space, the difference is much larger.</p></details>
+
+<details class="ans"><summary>2. Estimate \(\int_0^2x^3\dd x\) by improved Monte Carlo. Report the estimate, SE, and a 95% interval. The truth is 4.</summary>
+<p>The interval has length 2, so \(I=2\,\E[U^3]\) with \(U\sim\mathrm{Unif}(0,2)\).</p>
+<div class="codeblock"><span class="lang">R</span><button type="button" aria-label="Copy R code">Copy</button><pre><code>set.seed(1)
+n &lt;- 1e4
+u &lt;- runif(n, 0, 2)
+2 * mean(u^3)              # 4.0387
+2 * sd(u^3) / sqrt(n)      # 0.0460
+2 * mean(u^3) + c(-1, 1) * 1.96 * 2 * sd(u^3) / sqrt(n)</code></pre></div>
+<p>The estimator is unbiased. The variance of \(U^3\) is \(36/7\), so the SE is \(\sqrt{4(36/7)/10^4}=0.0454\). The interval covers 4. If it did not, that would be a bad draw, not a broken method; repeat with another seed.</p></details>
+
+<details class="ans"><summary>3. Show that antithetic sampling is exact for \(h(u)=u\) on \([0,1]\).</summary>
+<p>Each pair average is</p>
+<div class="f">\[\frac{h(u)+h(1-u)}2=\frac{u+(1-u)}2=\frac12.\]</div>
+<p>Every pair gives the same value, so the sample average is \(1/2\) with zero variance. This is the \(\rho=-1\) case. It is also the reason antithetic sampling works: for a linear function, the mirror cancels the noise exactly.</p></details>
+
+<details class="ans"><summary>4. Use \(g(U)=U\) as a control for \(\int_0^1(1-x^2)\dd x\). Find \(c^*\), the variance ratio, and the estimator.</summary>
+<p>Here \(\sigma_h^2=\Var(1-U^2)=4/45\), \(\Cov(1-U^2,U)=-1/12\), and \(\Var(U)=1/12\). Therefore</p>
+<div class="f">\[c^*=\frac{-1/12}{1/12}=-1,\qquad \Var_{\mathrm{cv}}=\frac{4}{45}-\frac{1}{12}=\frac{1}{180}.\]</div>
+<p>The variance ratio is \((1/180)/(4/45)=1/16\), a 16× gain. The estimator is</p>
+<div class="f">\[\frac1n\sum\left(1-U_i^2+U_i-\frac12\right)=\frac1n\sum\left(\frac12+U_i-U_i^2\right).\]</div>
+<p>The control has removed the linear part and left a small quadratic residual.</p></details>
+
+<details class="ans"><summary>5. For \(\mathbb{P}(Z&gt;5)\), derive the importance weight with \(g=\mathcal N(5,1)\). Why is the conditional distribution even better?</summary>
+<p>The ratio of the two normal densities is</p>
+<div class="f">\[w(y)=\frac{\varphi(y)}{\varphi(y-5)}=\exp\!\left(-\frac{y^2}{2}+\frac{(y-5)^2}{2}\right)=\exp(-5y+25/2).\]</div>
+<p>If \(g\) is \(f\) conditioned on \(y&gt;5\), then \(w(y)=\mathbb{P}(Z&gt;5)\) for every \(y\) in the region. The estimator is constant, so the variance is zero. We cannot build that proposal without knowing the answer, but it shows what importance sampling is trying to do.</p></details>
+
+<details class="ans"><summary>6. Four importance weights are \(1,1,1,7\). Compute the ESS and interpret it.</summary>
+<p>\(\sum w=10\) and \(\sum w^2=1+1+1+49=52\). Therefore</p>
+<div class="f">\[\mathrm{ESS}=\frac{10^2}{52}=1.92.\]</div>
+<p>Four samples are doing the work of about two. The weight 7 carries 70% of the total. The estimate is effectively based on that one sample, so its variance is much larger than a naive count of four suggests.</p></details>
+
+<details class="ans"><summary>7. In the logistic example, why is \(\mu=2\) worse than \(\mu=0.5\), even though both estimators are unbiased?</summary>
+<p>Both are correct on average, but their variances differ. At \(\mu=0.5\), the proposal is close to the shape of \(h(x)\varphi(x)\), the weights are mild, and the ESS is 77,858. At \(\mu=2\), the proposal sits in the right tail. Most samples land where the logistic is near 1, but the weights are tiny and variable; the few samples near 0 carry enormous weight. The ESS collapses to 1,504, and the SE rises from 0.00023 to 0.00445. Unbiasedness controls the center of the sampling distribution, not its spread.</p></details>
+</section>
+
+<section id="cheat"><h2>Cheat sheet</h2>
+<table class="smalltable"><tr><th>Method</th><th>Estimator</th><th>Variance</th><th>Use when</th></tr>
+<tr><td>Hit-and-miss</td><td>\((b-a)[c+\hat p(d-c)]\)</td><td>Bernoulli, high</td><td>Teaching; a quick picture; a bounded function in a box.</td></tr>
+<tr><td>Improved MC</td><td>\(\frac{b-a}{n}\sum f(U_i)\)</td><td>\((b-a)^2\sigma^2/n\)</td><td>General integration; high dimension; no structure to exploit.</td></tr>
+<tr><td>Antithetic</td><td>\(\frac1m\sum\frac{h(U_i)+h(1-U_i)}2\)</td><td>\(\frac{\sigma^2(1+\rho)}{2m}\)</td><td>\(h\) monotone; cheap; no tuning.</td></tr>
+<tr><td>Control</td><td>\(\frac1n\sum[h-c(g-\E g)]\)</td><td>\(\frac{\sigma_h^2(1-\rho^2)}{n}\)</td><td>Known \(\E g\); \(g\) cheap and correlated with \(h\).</td></tr>
+<tr><td>Importance</td><td>\(\frac1n\sum h(X_i)w_i\)</td><td>\(\frac1n(\int h^2f^2/g-I^2)\)</td><td>Rare event, tail, or concentrated integrand.</td></tr>
+<tr><td>Self-normalized</td><td>\(\frac{\sum h w}{\sum w}\)</td><td>Approx. same; biased \(O(1/n)\)</td><td>Weights known only up to a constant.</td></tr>
+</table>
+<p class="caption">Table 7. The estimators side by side. \(w=f/g\); \(\rho=\Corr(h,g)\); ESS \(=(\sum w)^2/\sum w^2\).</p>
+
+<div class="box ex"><h3>The order of operations</h3>
+<ol class="pts" style="margin-bottom:0">
+<li><b>Simplify first.</b> Symmetry, a known integral, or a change of variable can remove work that no variance reduction can beat.</li>
+<li><b>Try antithetic.</b> It is nearly free and often gives 2× to 30× on monotone problems.</li>
+<li><b>Try a control.</b> If you know a correlated mean, the gain can be larger, but check the sign and the cost.</li>
+<li><b>Use importance sampling</b> when the problem is rare, tail-heavy, or concentrated. Choose \(g\) close to \(|h|f\), with heavier tails, and check ESS.</li>
+<li><b>Only then add samples.</b> More \(n\) is the last resort, not the first.</li>
+</ol></div>
+
+<p>Monte Carlo integration is simple arithmetic wrapped in a probability statement. The arithmetic gives an estimate; the probability statement gives the error. Variance reduction is the art of making the error smaller without pretending it is zero. The tools are the standard first line: mirror the sample, subtract what you know, and sample where it matters.</p>
+</section>
+
+<footer><p>Monte Carlo integration · course notes. Based on the lectures by Mohammad Lutfor Rahman (ISRT and IASDS, University of Dhaka). Base R only; set a seed to reproduce. Further reading: Robert &amp; Casella (2004), <i>Monte Carlo Statistical Methods</i>; Liu (2008), <i>Monte Carlo Strategies in Scientific Computing</i>.</p></footer>
+</main>
+<script>
+// theme
+const th=document.getElementById('th'), root=document.documentElement;
+try{const saved=localStorage.getItem('mc-theme'); if(saved) root.dataset.theme=saved;
+th.checked=root.dataset.theme==='dark'||(!root.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);}catch(e){}
+th.addEventListener('change',()=>{root.dataset.theme=th.checked?'dark':'light';try{localStorage.setItem('mc-theme',root.dataset.theme)}catch(e){}});
+
+// copy buttons
+document.querySelectorAll('.codeblock').forEach(b=>{
+  const btn=b.querySelector('button'), code=b.querySelector('code');
+  btn.addEventListener('click',async()=>{
+    try{await navigator.clipboard.writeText(code.textContent);btn.textContent='Copied';}
+    catch(e){const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Select';}
+    setTimeout(()=>btn.textContent='Copy',1400);
+  });
+});
+
+// sample-size explorer
+const vr={mc:0.08921,anti:0.011126,control:0.005585,is:0.013965};
+const nrange=document.getElementById('nrange'), nv=document.getElementById('nv'), nOut=document.getElementById('nOut');
+function fmt(x){return x>=0.001?x.toFixed(5):x.toExponential(2);}
+function updateN(){
+  const n=Math.pow(10,+nrange.value);
+  nv.textContent=Math.round(n).toLocaleString();
+  const rows=[['Improved MC','mc'],['Antithetic','anti'],['Control','control'],['Importance','is']];
+  nOut.innerHTML=rows.map(([lab,k])=>{
+    const se=Math.sqrt(vr[k]/n);
+    return `<div>${lab}: SE = ${fmt(se)} &nbsp; <span class="mut">(relative ${(100*se/0.666667).toFixed(2)}%)</span></div>`;
+  }).join('');
+}
+nrange.addEventListener('input',updateN);updateN();
+</script>
+</body></html>

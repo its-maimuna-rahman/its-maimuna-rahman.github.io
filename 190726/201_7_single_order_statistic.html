@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Single Order Statistic – Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d2433;--muted:#5d6678;--line:#e3e0d8;--accent:#8b1a1a;--accent2:#1f3a8a;--soft:#f4efe9;--def:#eef3ff;--key:#fff6e0;--ok:#e8f6ec;--bad:#fdeaea;--nav:#fffffff2;--shadow:0 1px 3px rgba(20,25,40,.08)}
+:root[data-theme=dark]{--bg:#12151c;--card:#1a1f2b;--ink:#e8eaf0;--muted:#9aa3b5;--line:#2c3446;--accent:#ff8a80;--accent2:#8fb0ff;--soft:#222839;--def:#1b2540;--key:#2e2915;--ok:#16301f;--bad:#3a1b1b;--nav:#12151cf2;--shadow:none}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Inter,system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:50;background:var(--nav);backdrop-filter:blur(8px);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 11px;border-radius:7px}
+nav a:hover{background:var(--soft);color:var(--ink)}nav a.on{background:var(--accent);color:#fff}
+nav button{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:0 18px 80px}
+header.hero{padding:44px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,serif;line-height:1.25}
+h1{font-size:2.3rem;margin:.2em 0}h2{font-size:1.65rem;margin:2.4em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--accent)}h3{font-size:1.2rem;margin:1.6em 0 .4em;color:var(--accent2)}
+p{margin:.6em 0}.lead{color:var(--muted);font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+.box{border-left:4px solid var(--accent2);background:var(--def);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.box.key{border-color:#d49a00;background:var(--key)}.box.warn{border-color:var(--accent);background:var(--bad)}.box b.t{display:block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.step{margin:10px 0;padding-left:14px;border-left:3px solid var(--line)}.step>b:first-child{color:var(--accent2)}
+.sol{background:var(--ok);border-radius:10px;padding:10px 16px;margin:12px 0;font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}th{background:var(--soft);font-weight:600}td:first-child,th:first-child{text-align:center}
+.tw{overflow-x:auto}table.l td,table.l th{text-align:left}
+mark{background:#ffe27a66;color:inherit;padding:0 3px;border-radius:3px;font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0;background:var(--card)}summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.mjx-chtml{outline:0}mjx-container[display=true]{overflow-x:auto;overflow-y:hidden;margin:.9em 0!important}
+.calc label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:3px}.calc input,.calc select{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:10px 0}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit;font-weight:600;margin:4px 6px 4px 0}button.b.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.kpi{background:var(--soft);border-radius:10px;padding:10px 12px}.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:1.15rem}
+.opt{display:block;width:100%;text-align:left;margin:5px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}.opt:hover{background:var(--soft)}.opt.right{background:var(--ok);border-color:#2e9e57}.opt.wrong{background:var(--bad);border-color:var(--accent)}
+.q p.fb{font-weight:600}svg text{fill:var(--muted);font-size:11px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:30px 0}
+@media(max-width:600px){h1{font-size:1.7rem}h2{font-size:1.35rem}.card{padding:14px}}
+/* ===== polish: overflow, spacing, consistency ===== */
+html{-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+p,li,td,th,summary,h1,h2,h3{overflow-wrap:break-word}
+main>section,header.hero{min-width:0}
+h2{margin:2.4em 0 .6em}
+h3{margin:1.7em 0 .5em}h2+h3,section>h3:first-child{margin-top:1em}
+h3+.card,h3+.box,h3+.tw{margin-top:8px}
+.card>:first-child,.box>:first-child,.sol>:first-child{margin-top:0}
+.card>:last-child,.box>:last-child,.sol>:last-child,details>p:last-child{margin-bottom:0}
+nav{scrollbar-width:thin;gap:2px}
+nav a{flex:0 0 auto}
+nav button{position:sticky;right:0;flex:0 0 auto;box-shadow:-10px 0 8px -4px var(--nav)}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.grid>.card{margin:0;overflow-x:auto;overflow-y:hidden}
+.grid>.card mjx-container:not([display=true]){display:inline-block;max-width:none}
+.step,.sol,.box{overflow-x:auto;overflow-y:hidden}
+.step mjx-container:not([display=true]),.sol mjx-container:not([display=true]){max-width:none}
+.card,.box,.step,.sol,details{min-width:0}
+.step{margin:12px 0}
+.sol{line-height:1.6}
+mjx-container,mjx-container *{overflow-wrap:normal!important;word-break:normal!important;white-space:nowrap}
+mjx-container:not([display=true]){display:inline-block;max-width:none;vertical-align:baseline}
+mjx-container[display=true]{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:.2em 0;margin:.8em 0!important}
+.tw{-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:10px;margin:12px 0}
+.tw table{margin:0;min-width:520px}
+.tw table.l{min-width:640px}
+.tw tr:last-child td{border-bottom:0}
+table.l td,table.l th{vertical-align:top;text-align:left}
+table.l td:first-child{font-weight:600;min-width:130px}
+td,th{overflow-wrap:normal}
+details>summary{outline:0}details[open]>summary{margin-bottom:6px}
+.calc input,.calc select{width:100%;min-width:0;font-size:16px}
+.calc .row{grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))}
+.calc h3{margin-bottom:.6em}
+.row>*{min-width:0}
+.kpi b{overflow-wrap:anywhere;display:block}
+button.b{min-height:40px}
+svg{max-width:100%;height:auto;display:block}
+footer{border-top:1px solid var(--line);margin-top:48px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:600px){main{padding:0 14px 60px}header.hero{padding-top:28px}nav{padding:6px 10px}table{font-size:13.5px}th,td{padding:6px 8px}button.b{width:100%;margin:4px 0}.card{padding:14px 14px}}
+@media print{nav{display:none}.card,.box,details{break-inside:avoid;box-shadow:none}}
+
+.added{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent2);border:1px solid var(--accent2);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:middle;line-height:1.6}
+td[colspan]{text-align:left}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#scen">Example</a><a href="#def">Definition</a><a href="#maxmin">Largest &amp; smallest</a><a href="#cdf">r-th smallest</a><a href="#beta">Beta form</a><a href="#pdf">Density</a><a href="#special">Special cases</a><a href="#practice">Problems</a><a href="#deriv">Derivations</a><a href="#formulas">Formulas</a><a href="#calc">Simulator</a>
+<button id="th" title="Toggle theme" aria-label="Toggle theme">☀☾</button>
+</nav>
+<main>
+<header class="hero">
+<span class="tag">Probability · Mathematical Statistics</span>
+<h1>Single Order Statistic</h1>
+<p class="lead">Sort a random sample and look at the value sitting in position <i>r</i>. This page finds the chance distribution of that one value: first the smallest and the largest, then any position, with the Beta-function form and two ways to get its density.</p>
+</header>
+
+<!-- ================= 1. EXAMPLE ================= -->
+<section id="scen">
+<h2>1 · Start with a small example</h2>
+<div class="card">
+<p>Five numbers are drawn independently, each equally likely to land anywhere between 0 and 1. Sort them from smallest to largest. The <b>middle one</b> (the 3rd smallest) is called \(X_{(3)}\).</p>
+<p><b>Question:</b> how likely is the middle number to be at most 0.4? What is its density? And how do the largest and smallest numbers compare?</p>
+
+<div class="step"><b>Step 1 · One number.</b> For a number drawn between 0 and 1, the chance of being at most \(x\) is \(F(x)=x\). So each number is at most 0.4 with probability \(p=0.4\).</div>
+<div class="step"><b>Step 2 · When is the middle number at most 0.4?</b> Exactly when <b>at least 3 of the 5</b> numbers are at most 0.4. The count of such numbers follows a binomial distribution with \(n=5,\ p=0.4\):
+\[P(X_{(3)}\le0.4)=\sum_{j=3}^{5}\binom5j(0.4)^j(0.6)^{5-j}\]</div>
+<div class="tw"><table>
+<tr><th>Numbers ≤ 0.4 (j)</th><th>Ways</th><th>\((0.4)^j(0.6)^{5-j}\)</th><th>Probability</th></tr>
+<tr><td>3</td><td>10</td><td>0.064 × 0.36</td><td>0.23040</td></tr>
+<tr><td>4</td><td>5</td><td>0.0256 × 0.6</td><td>0.07680</td></tr>
+<tr><td>5</td><td>1</td><td>0.01024</td><td>0.01024</td></tr>
+<tr><td colspan="3"><b>Total</b></td><td><b>0.31744</b></td></tr>
+</table></div>
+<div class="step"><b>Step 3 · Same answer from the density.</b> The density of the 3rd smallest of 5 is (§6)
+\[f_{(3)}(x)=\frac{5!}{2!\,2!}\,x^2(1-x)^2=30\,x^2(1-x)^2\]
+and
+\[\int_0^{0.4}30\,x^2(1-x)^2\,dx=30\Big(\tfrac{0.4^3}{3}-\tfrac{0.4^4}{2}+\tfrac{0.4^5}{5}\Big)=0.31744\ \checkmark\]</div>
+<div class="step"><b>Step 4 · Largest and smallest.</b> The largest is at most 0.4 only if all five are: \(0.4^5=0.01024\). The smallest is at most 0.4 unless all five are above it: \(1-0.6^5=0.92224\).</div>
+<div class="sol">P(middle ≤ 0.4) = 0.31744 · P(largest ≤ 0.4) = 0.01024 · P(smallest ≤ 0.4) = 0.92224. The middle number is above 0.4 about 68% of the time, the largest almost always (99%), and the smallest is below 0.4 about 92% of the time.</div>
+</div>
+</section>
+
+<!-- ================= 2. DEFINITION ================= -->
+<section id="def">
+<h2>2 · Definition</h2>
+<p>Let \(X_1,X_2,\dots,X_n\) be a random sample of size \(n\) from a continuous population with density \(f(x)\) and cumulative distribution function \(F(x)\). That is, the \(X_i\) are <mark>independent</mark> and all come from the <mark>same distribution</mark> (i.i.d.). Here \(F(x)\) is the chance that one observation is at most \(x\).</p>
+<div class="box"><b class="t">Order statistics</b>
+The sample values arranged in non-decreasing order. Sorting the sample gives
+\[X_{(1)}\le X_{(2)}\le\dots\le X_{(n)}\]
+\(X_{(r)}\), also written \(X_{r:n}\), is the <b>r-th order statistic</b>, for \(r=1,2,\dots,n\).</div>
+<div class="grid">
+<div class="card"><b>Sample minimum</b><br>\(X_{(1)}=\min(X_1,\dots,X_n)\)</div>
+<div class="card"><b>Sample maximum</b><br>\(X_{(n)}=\max(X_1,\dots,X_n)\)</div>
+<div class="card"><b>Any position</b><br>\(X_{(r)}\) is the \(r\)-th smallest value.</div>
+</div>
+<div class="card">
+<ul>
+<li>The general definition needs neither independence, identical distributions, nor continuity. Classical theory works with i.i.d. samples from one common distribution function.</li>
+<li>When \(F\) is continuous, \(P(X_i=X_j)=0\) for \(i\ne j\), so ties happen with probability zero and the strict inequalities
+\[X_{(1)}\lt X_{(2)}\lt\dots\lt X_{(n)}\]
+hold with probability 1.</li>
+<li>Even when the original \(X_i\) are independent, the order statistics are <b>necessarily dependent</b>, because each one is squeezed between its neighbours.</li>
+<li>\(X_{(r)}\) is not one fixed original variable: which \(X_i\) lands in position \(r\) changes from sample to sample. <span class="added">Added</span></li>
+</ul>
+</div>
+</section>
+
+<!-- ================= 3. LARGEST AND SMALLEST ================= -->
+<section id="maxmin">
+<h2>3 · The largest and the smallest</h2>
+<h3>(a) Largest, \(X_{(n)}\)</h3>
+<div class="card">
+<p>If the largest value is at most \(x\), then every value is at most \(x\), and the other way round.</p>
+\[F_n(x)=P(X_{(n)}\le x)=P(X_i\le x\ \text{for all } i)=P(X_1\le x\cap\dots\cap X_n\le x)\]
+<p>The \(X_i\) are independent and identically distributed, so the probabilities multiply:</p>
+\[=P(X_1\le x)\,P(X_2\le x)\cdots P(X_n\le x)=\big[F(x)\big]^n\]
+</div>
+<h3>(b) Smallest, \(X_{(1)}\)</h3>
+<div class="card">
+<p>It is easier to ask the opposite question: the smallest value is above \(x\) only if every value is above \(x\).</p>
+\[F_1(x)=P(X_{(1)}\le x)=1-P(X_{(1)}\gt x)=1-P(X_1\gt x)\cdots P(X_n\gt x)\]
+\[=1-\prod_{i=1}^{n}P(X_i\gt x)=1-\prod_{i=1}^{n}\big[1-P(X_i\le x)\big]=1-\big[1-F(x)\big]^n\]
+</div>
+<div class="box key"><b class="t">Result</b>
+\[F_{(n)}(x)=\big[F(x)\big]^n\qquad\qquad F_{(1)}(x)=1-\big[1-F(x)\big]^n\]</div>
+</section>
+
+<!-- ================= 4. r-th SMALLEST: CDF ================= -->
+<section id="cdf">
+<h2>4 · The r-th smallest: its distribution function</h2>
+<div class="card">
+<p>The \(r\)-th smallest value is at most \(x\) exactly when <b>at least \(r\)</b> of the \(n\) observations are at most \(x\). Call "\(X_i\le x\)" a <b>success</b>; each observation is a success with probability \(p=F(x)\), independently. The number of successes is therefore binomial, and
+\[F_r(x)=P(X_{(r)}\le x)=P(\text{at least } r\ \text{of the } X_i\ \text{are}\le x)=\sum_{j=r}^{n}P(\text{exactly } j\ \text{of the } n\ X_i\ \text{are}\le x)\]
+\[\boxed{F_r(x)=\sum_{j=r}^{n}\binom nj\big[F(x)\big]^j\big[1-F(x)\big]^{n-j}}\]</p>
+</div>
+<p style="font-size:13px;color:var(--muted)">Check <span class="added">Added</span>: with \(r=n\) only the \(j=n\) term remains, giving \([F(x)]^n\). With \(r=1\) the sum is everything except \(j=0\), giving \(1-[1-F(x)]^n\). Both match §3.</p>
+</section>
+
+<!-- ================= 5. BETA FORM ================= -->
+<section id="beta">
+<h2>5 · The same thing as a Beta-function integral</h2>
+<p>The binomial sum is awkward to differentiate. It can be rewritten as an integral, which makes the density easy to find.</p>
+<div class="box"><b class="t">Incomplete Beta function</b>
+For \(0\le p\le1\) and parameters \(a,b\gt0\):
+\[I_p(a,b)=\frac{1}{\beta(a,b)}\int_0^{p}t^{a-1}(1-t)^{b-1}\,dt,\qquad \beta(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}=\frac{(a-1)!\,(b-1)!}{(a+b-1)!}\]
+Note that the upper limit \(p\) is what makes it "incomplete": at \(p=1\) the integral is the full Beta function and \(I_1(a,b)=1\).</div>
+<div class="box key"><b class="t">Result</b>
+\[F_r(x)=I_{F(x)}(r,\ n-r+1)\]</div>
+
+<h3>Proof</h3>
+<div class="card">
+<p>Put \(p=F(x)\). We need to show that for every \(p\) in \([0,1]\),
+\[\sum_{j=r}^{n}\binom nj p^j(1-p)^{n-j}=\frac{1}{\beta(r,n-r+1)}\int_0^p t^{r-1}(1-t)^{n-r}\,dt\]
+The plan: show that both sides have the same derivative in \(p\) and the same starting value.</p>
+<div class="step"><b>Step 1 · Differentiate the left side.</b> Using the product rule on each term (the \(j=n\) part of the second sum is zero):
+\[\frac{\partial}{\partial p}\sum_{j=r}^{n}\binom nj p^j(1-p)^{n-j}=\sum_{j=r}^{n}j\binom nj p^{j-1}(1-p)^{n-j}-\sum_{j=r}^{n-1}(n-j)\binom nj p^{j}(1-p)^{n-j-1}\]</div>
+<div class="step"><b>Step 2 · Two identities.</b>
+\[j\binom nj=\frac{n!}{j!\,(n-j)!}\,j=n\,\frac{(n-1)!}{(j-1)!\,[(n-1)-(j-1)]!}=n\binom{n-1}{j-1}\]
+\[(n-j)\binom nj=\frac{n!}{(n-j)!\,j!}(n-j)=n\,\frac{(n-1)!}{j!\,[(n-1)-j]!}=n\binom{n-1}{j}\quad(0\le j\le n-1)\]
+So the derivative becomes
+\[n\sum_{j=r}^{n}\binom{n-1}{j-1}p^{j-1}(1-p)^{n-j}-n\sum_{j=r}^{n-1}\binom{n-1}{j}p^{j}(1-p)^{n-1-j}\]</div>
+<div class="step"><b>Step 3 · Shift the second sum.</b> Let \(k=j+1\), so \(k\) runs from \(r+1\) to \(n\). The index name does not matter, so the second sum equals \(n\sum_{j=r+1}^{n}\binom{n-1}{j-1}p^{j-1}(1-p)^{n-j}\), which is the first sum without its \(j=r\) term. Everything cancels except that term:
+\[\frac{\partial}{\partial p}\sum_{j=r}^{n}\binom nj p^j(1-p)^{n-j}=n\binom{n-1}{r-1}p^{r-1}(1-p)^{n-r}=\frac{n!}{(r-1)!\,(n-r)!}\,p^{r-1}(1-p)^{n-r}\]</div>
+<div class="step"><b>Step 4 · Differentiate the right side.</b> By the fundamental theorem of calculus, and since \(\beta(r,n-r+1)=\dfrac{(r-1)!\,(n-r)!}{n!}\):
+\[\frac{\partial}{\partial p}\Big[\frac{1}{\beta(r,n-r+1)}\int_0^p t^{r-1}(1-t)^{n-r}dt\Big]=\frac{n!}{(r-1)!\,(n-r)!}\,p^{r-1}(1-p)^{n-r}\]</div>
+<div class="step"><b>Step 5 · Conclude.</b> Both sides have identical derivatives for all \(p\in[0,1]\). Both are also 0 at \(p=0\) (every term on the left contains \(p^j\) with \(j\ge r\ge1\); the integral on the right starts at 0), so they are equal everywhere. Substituting \(p=F(x)\) gives
+\[F_r(x)=I_{F(x)}(r,\ n-r+1)\ \ ∎\]</div>
+</div>
+</section>
+
+<!-- ================= 6. DENSITY ================= -->
+<section id="pdf">
+<h2>6 · Density of the r-th smallest</h2>
+<div class="box key"><b class="t">Result</b>
+\[f_r(x)=\frac{n!}{(r-1)!\,(n-r)!}\,\big[F(x)\big]^{r-1}\big[1-F(x)\big]^{n-r}f(x),\qquad -\infty\lt x\lt\infty\]</div>
+<p>Two ways to get it.</p>
+
+<h3>Method 1 · Differentiate the distribution function</h3>
+<div class="card">
+<p>The density is the derivative of the distribution function, and the Beta form from §5 is easy to differentiate. Let
+\[c=\frac{1}{\beta(r,n-r+1)},\qquad g(t)=t^{r-1}(1-t)^{n-r},\qquad G(u)=\int_0^u g(t)\,dt\]</p>
+<div class="step"><b>Step 1.</b> \(\displaystyle f_r(x)=\frac{d}{dx}F_r(x)=\frac{d}{dx}\Big[c\int_0^{F(x)}g(t)\,dt\Big]=\frac{d}{dx}\big[c\,G(F(x))\big]\)</div>
+<div class="step"><b>Step 2 · Chain rule.</b> \(G'=g\), so \(\displaystyle f_r(x)=c\,G'(F(x))\,\frac{d}{dx}F(x)=c\,g(F(x))\,f(x)\).
+<p style="font-size:13px;color:var(--muted)">This step can be done directly with the Leibniz integral rule.</p></div>
+<div class="step"><b>Step 3 · Substitute back.</b>
+\[f_r(x)=\frac{n!}{(r-1)!\,(n-r)!}\,[F(x)]^{r-1}\,[1-F(x)]^{n-r}\,f(x)\]</div>
+</div>
+
+<h3>Method 2 · A tiny interval and counting</h3>
+<div class="card">
+<p><b>The idea behind a density.</b> The density at \(x\) is the chance of landing in a very small interval just after \(x\), divided by the interval's length:
+\[f(x)=\lim_{\delta x\to0}\frac{P(x\lt X\le x+\delta x)}{\delta x}\]
+Why: \(P(x\lt X\le x+\delta x)=\int_x^{x+\delta x}f(u)\,du\). If \(\delta x\) is tiny, the area under the curve is almost a thin rectangle of height \(f(x)\) and width \(\delta x\), so \(P\approx f(x)\,\delta x\), and the approximation becomes exact as \(\delta x\to0\).</p>
+<p>Apply this to \(X_{(r)}\):
+\[f_r(x)=\lim_{\delta x\to0}\frac{P(x\lt X_{(r)}\le x+\delta x)}{\delta x}\]
+For the \(r\)-th smallest observation to fall inside the tiny interval \((x,x+\delta x]\), the number line splits into three non-overlapping pieces that together cover everything:</p>
+<div class="tw"><table class="l">
+<tr><th>Interval</th><th>Condition on \(X_i\)</th><th>Observations needed</th><th>Chance for one observation</th></tr>
+<tr><td>\((-\infty,x]\)</td><td>\(X_i\le x\)</td><td>\(r-1\)</td><td>\(P_1=F(x)\)</td></tr>
+<tr><td>\((x,x+\delta x]\)</td><td>\(x\lt X_i\le x+\delta x\)</td><td>\(1\) (only one point fits in the tiny interval)</td><td>\(P_2=F(x+\delta x)-F(x)\)</td></tr>
+<tr><td>\((x+\delta x,\infty)\)</td><td>\(X_i\gt x+\delta x\)</td><td>\(n-r\)</td><td>\(P_3=1-F(x+\delta x)\)</td></tr>
+</table></div>
+<p>The \(n\) observations are independent and identically distributed, so how they are shared among these three intervals follows the <b>multinomial</b> law \(\dfrac{n!}{x_1!\,x_2!\,x_3!}P_1^{x_1}P_2^{x_2}P_3^{x_3}\). With counts \(r-1,\ 1,\ n-r\):
+\[P(x\lt X_{(r)}\le x+\delta x)=\frac{n!}{(r-1)!\,1!\,(n-r)!}\,[F(x)]^{r-1}\,[F(x+\delta x)-F(x)]\,[1-F(x+\delta x)]^{n-r}+O\big((\delta x)^2\big)\]
+The \(O((\delta x)^2)\) term covers two or more observations falling inside the tiny interval; it shrinks faster than \(\delta x\) and vanishes in the limit.</p>
+<div class="step"><b>Step 1 · Divide by \(\delta x\) and let \(\delta x\to0\).</b>
+\[f_r(x)=\frac{n!}{(r-1)!\,(n-r)!}\,[F(x)]^{r-1}\Big[\lim_{\delta x\to0}\frac{F(x+\delta x)-F(x)}{\delta x}\Big]\Big[\lim_{\delta x\to0}\big(1-F(x+\delta x)\big)^{n-r}\Big]\]</div>
+<div class="step"><b>Step 2 · Evaluate the limits.</b> The first limit is the derivative of \(F\), which is \(f(x)\). Since \(F\) is continuous, \(F(x+\delta x)\to F(x)\), so the second limit is \([1-F(x)]^{n-r}\).</div>
+<div class="step"><b>Step 3 · Result.</b>
+\[f_r(x)=\frac{n!}{(n-r)!\,(r-1)!}\,[F(x)]^{r-1}\,[1-F(x)]^{n-r}\,f(x)\]</div>
+<p style="font-size:13px;color:var(--muted)">In words: \(r-1\) observations fall below \(x\), one sits at \(x\), and \(n-r\) fall above. The factor \(\frac{n!}{(r-1)!(n-r)!}\) counts the ways to choose which observation plays which role.</p>
+</div>
+</section>
+
+<!-- ================= 7. SPECIAL CASES ================= -->
+<section id="special">
+<h2>7 · Special cases <span class="added">Added</span></h2>
+<p>These are not in your notes; they follow directly from the results above and make good checks.</p>
+<div class="card">
+<p><b>Largest and smallest.</b> Setting \(r=n\) and \(r=1\) in the density formula (or differentiating the results of §3):
+\[f_{(n)}(x)=n\,[F(x)]^{n-1}f(x)\qquad\qquad f_{(1)}(x)=n\,[1-F(x)]^{n-1}f(x)\]</p>
+</div>
+<div class="card">
+<p><b>Uniform on (0,1).</b> Here \(F(x)=x\) and \(f(x)=1\), so
+\[f_r(x)=\frac{n!}{(r-1)!\,(n-r)!}\,x^{r-1}(1-x)^{n-r},\qquad 0\lt x\lt1\]
+This is the Beta\((r,\,n-r+1)\) density, whose mean is \(\dfrac{r}{n+1}\). For the example in §1 (\(n=5,\ r=3\)) this gives \(30x^2(1-x)^2\), with mean \(0.5\).</p>
+</div>
+<div class="card">
+<p><b>Exponential with rate \(\lambda\).</b> \(F(x)=1-e^{-\lambda x}\), so \(1-F(x)=e^{-\lambda x}\) and
+\[F_{(1)}(x)=1-\big(e^{-\lambda x}\big)^n=1-e^{-n\lambda x}\]
+The smallest of \(n\) such values is again exponential, with the larger rate \(n\lambda\).</p>
+</div>
+</section>
+
+<!-- ================= 8. PROBLEMS ================= -->
+<section id="practice">
+<h2>8 · Solved problems</h2>
+<p>Problem 1 is the example in §1. Two more follow.</p>
+
+<h3>Problem 2 · First failure</h3>
+<div class="card">
+<p>A system has \(n=4\) components and stops when the first one fails. Each lifetime is independent and exponential with mean 100 hours (rate \(\lambda=0.01\) per hour). Find the chance the system lasts more than 30 hours, and its average lifetime.</p>
+<div class="step"><b>Step 1.</b> The system lifetime is \(X_{(1)}\). One component lasts beyond 30 hours with probability \(1-F(30)=e^{-0.01\times30}=e^{-0.3}\).</div>
+<div class="step"><b>Step 2.</b> The smallest exceeds 30 only if all four do:
+\[P(X_{(1)}\gt30)=\big[1-F(30)\big]^4=e^{-1.2}=0.3012\]</div>
+<div class="step"><b>Step 3.</b> By §7, \(X_{(1)}\) is exponential with rate \(4\lambda=0.04\), so its mean is \(1/0.04=25\) hours.</div>
+<div class="sol">P ≈ 0.3012 · average system lifetime = 25 hours (a quarter of one component's 100).</div>
+</div>
+
+<h3>Problem 3 · Second smallest of four</h3>
+<div class="card">
+<p>Four independent numbers are drawn between 0 and 1. Find the density of the second smallest, \(X_{(2)}\), and \(P(X_{(2)}\le0.5)\).</p>
+<div class="step"><b>Density.</b> With \(n=4,\ r=2\), \(F(x)=x\), \(f(x)=1\):
+\[f_2(x)=\frac{4!}{1!\,2!}\,x\,(1-x)^2=12\,x(1-x)^2,\qquad 0\lt x\lt1\]</div>
+<div class="step"><b>Probability, by the binomial sum</b> (at least 2 of 4 numbers at most 0.5):
+\[\sum_{j=2}^{4}\binom4j(0.5)^4=\frac{6+4+1}{16}=0.6875\]</div>
+<div class="step"><b>Check by integrating.</b>
+\[12\int_0^{0.5}x(1-x)^2dx=12\Big(\tfrac{0.5^2}{2}-\tfrac{2\cdot0.5^3}{3}+\tfrac{0.5^4}{4}\Big)=12(0.057292)=0.6875\ \checkmark\]</div>
+<div class="sol">f<sub>2</sub>(x) = 12x(1 − x)² · P(X<sub>(2)</sub> ≤ 0.5) = 0.6875.</div>
+</div>
+</section>
+
+<!-- ================= 9. DERIVATIONS ================= -->
+<section id="deriv">
+<h2>9 · Extra derivations</h2>
+
+<details open><summary>D1 · Densities of the largest and smallest from their distribution functions</summary>
+<p>Differentiate \(F_{(n)}(x)=[F(x)]^n\) with the chain rule:
+\[f_{(n)}(x)=n\,[F(x)]^{n-1}f(x).\]
+Differentiate \(F_{(1)}(x)=1-[1-F(x)]^n\):
+\[f_{(1)}(x)=-n\,[1-F(x)]^{n-1}\cdot\big(-f(x)\big)=n\,[1-F(x)]^{n-1}f(x).\]
+These agree with the general formula at \(r=n\) and \(r=1\), because \(\frac{n!}{(n-1)!\,0!}=n\).</p></details>
+
+<details><summary>D2 · Why the constant is \(\dfrac{n!}{(r-1)!\,(n-r)!}\)</summary>
+<p>It is the number of ways to split \(n\) distinguishable observations into three groups of sizes \(r-1\) (below \(x\)), \(1\) (at \(x\)) and \(n-r\) (above \(x\)). Choose which \(r-1\) are below: \(\binom{n}{r-1}\). From the remaining \(n-r+1\), choose the one at \(x\): \(n-r+1\) ways. The rest go above:
+\[\binom{n}{r-1}(n-r+1)=\frac{n!}{(r-1)!\,(n-r+1)!}(n-r+1)=\frac{n!}{(r-1)!\,(n-r)!}.\]
+It also equals \(1/\beta(r,n-r+1)\), which links the two methods in §6.</p></details>
+
+<details><summary>D3 · The density integrates to 1</summary>
+<p>Substitute \(t=F(x)\), \(dt=f(x)\,dx\):
+\[\int_{-\infty}^{\infty}f_r(x)\,dx=\frac{1}{\beta(r,n-r+1)}\int_0^1t^{r-1}(1-t)^{n-r}\,dt=\frac{\beta(r,n-r+1)}{\beta(r,n-r+1)}=1.\]
+This is the same as \(I_1(r,n-r+1)=1\), or \(F_r(\infty)=1\).</p></details>
+
+<details><summary>D4 · The Uniform case reduces to a Beta density</summary>
+<p>For \(F(x)=x,\ f(x)=1\) on \((0,1)\) the general density becomes \(\dfrac{1}{\beta(r,n-r+1)}x^{r-1}(1-x)^{n-r}\), which is exactly the Beta\((r,n-r+1)\) density. Its mean is
+\[\frac{\beta(r+1,n-r+1)}{\beta(r,n-r+1)}=\frac{r!\,(n-r)!/(n+1)!}{(r-1)!\,(n-r)!/n!}=\frac{r}{n+1}.\]
+The \(n\) sample points cut \((0,1)\) into \(n+1\) pieces that are equal on average, so the \(r\)-th point sits about \(r/(n+1)\) of the way along.</p></details>
+
+<h2 id="formulas" style="margin-top:2.4em">10 · Formula sheet</h2>
+<div class="tw"><table class="l">
+<tr><th>Quantity</th><th>Formula</th><th>Meaning of symbols</th></tr>
+<tr><td>Order statistics</td><td>\(X_{(1)}\le X_{(2)}\le\dots\le X_{(n)}\)</td><td>sample sorted; \(X_{(r)}=X_{r:n}\)</td></tr>
+<tr><td>Largest: distribution</td><td>\(F_{(n)}(x)=[F(x)]^n\)</td><td>all \(n\) values at most \(x\)</td></tr>
+<tr><td>Smallest: distribution</td><td>\(F_{(1)}(x)=1-[1-F(x)]^n\)</td><td>not all \(n\) values above \(x\)</td></tr>
+<tr><td>r-th smallest: distribution</td><td>\(F_r(x)=\displaystyle\sum_{j=r}^{n}\binom nj[F(x)]^j[1-F(x)]^{n-j}\)</td><td>at least \(r\) values at most \(x\)</td></tr>
+<tr><td>Incomplete Beta</td><td>\(I_p(a,b)=\dfrac{1}{\beta(a,b)}\displaystyle\int_0^p t^{a-1}(1-t)^{b-1}dt\)</td><td>\(\beta(a,b)=\dfrac{(a-1)!(b-1)!}{(a+b-1)!}\)</td></tr>
+<tr><td>Beta form</td><td>\(F_r(x)=I_{F(x)}(r,\,n-r+1)\)</td><td>same as the binomial sum</td></tr>
+<tr><td>r-th smallest: density</td><td>\(f_r(x)=\dfrac{n!}{(r-1)!(n-r)!}[F(x)]^{r-1}[1-F(x)]^{n-r}f(x)\)</td><td>\(f\) density, \(F\) distribution function</td></tr>
+<tr><td>Largest: density</td><td>\(f_{(n)}(x)=n[F(x)]^{n-1}f(x)\)</td><td>\(r=n\)</td></tr>
+<tr><td>Smallest: density</td><td>\(f_{(1)}(x)=n[1-F(x)]^{n-1}f(x)\)</td><td>\(r=1\)</td></tr>
+<tr><td>Uniform(0,1)</td><td>\(X_{(r)}\sim\text{Beta}(r,\,n-r+1)\), mean \(\dfrac{r}{n+1}\)</td><td>\(F(x)=x\)</td></tr>
+<tr><td>Tiny-interval definition</td><td>\(f(x)=\lim_{\delta x\to0}\dfrac{P(x\lt X\le x+\delta x)}{\delta x}\)</td><td>used in Method 2</td></tr>
+</table></div>
+</section>
+
+<!-- ================= 11. SIMULATOR ================= -->
+<section id="calc">
+<h2>11 · Simulator and calculator</h2>
+<div class="card calc">
+<h3 style="margin-top:0">Check the density by simulation</h3>
+<p style="font-size:14px;color:var(--muted)">Draws 5,000 samples of size \(n\), sorts each, keeps the \(r\)-th smallest, and compares the histogram of those values with the density formula.</p>
+<div class="row">
+<label>Population<select id="dist_sel"><option value="unif">Uniform (0, 1)</option><option value="exp">Exponential (rate 1)</option><option value="norm">Normal (0, 1)</option></select></label>
+<label>Sample size \(n\)<input id="S_n" type="number" value="5" min="1" max="60" step="1"></label>
+<label>Position \(r\)<input id="S_r" type="number" value="3" min="1" max="60" step="1"></label>
+<label>Test value \(x_0\)<input id="S_x" type="number" value="0.4" step="any"></label>
+</div>
+<button class="b" onclick="sim()">New run</button>
+<button class="b alt" onclick="presetS('unif',5,3,0.4)">Example of §1</button>
+<button class="b alt" onclick="presetS('unif',4,2,0.5)">Problem 3</button>
+<button class="b alt" onclick="presetS('exp',4,1,0.3)">Problem 2 (rate 1)</button>
+<div class="row" id="skpis"></div>
+<div id="schart"></div>
+<p style="font-size:13px;color:var(--muted)">Bars: simulated. Curve: the formula in §6.</p>
+</div>
+
+<div class="card calc">
+<h3 style="margin-top:0">Distribution function calculator</h3>
+<div class="row">
+<label>\(p=F(x)\)<input id="k_p" type="number" value="0.4" min="0" max="1" step="any"></label>
+<label>Sample size \(n\)<input id="k_n" type="number" value="5" min="1" max="200" step="1"></label>
+<label>Position \(r\)<input id="k_r" type="number" value="3" min="1" max="200" step="1"></label>
+</div>
+<div class="row" id="kkpi"></div>
+<p style="font-size:13px;color:var(--muted)">Enter the chance \(p\) that a single observation is at most \(x\). The results are the chances that the \(r\)-th smallest, the largest and the smallest value are at most \(x\).</p>
+</div>
+</section>
+<footer>Study guide on single order statistics · scope follows the handwritten lecture notes (definition, largest, smallest, r-th smallest, Beta form, density by two methods). Items marked “Added” are not in the notes.</footer>
+</main>
+
+<script>
+/* theme */
+(function(){var r=document.documentElement,s=null;try{s=localStorage.getItem('th')}catch(e){}
+if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';r.dataset.theme=s;
+document.getElementById('th').onclick=function(){var t=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}}})();
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+var lastC=-1;
+function spy(){var y=scrollY+120,c=0;secs.forEach(function(s,k){if(s&&s.getBoundingClientRect().top+scrollY<=y)c=k});links.forEach(function(a,k){a.classList.toggle('on',k===c)});
+if(c!==lastC){lastC=c;var n=document.getElementById('nav'),a=links[c];if(a)n.scrollTo({left:a.offsetLeft-n.clientWidth/2+a.offsetWidth/2,behavior:'smooth'})}}
+addEventListener('scroll',spy);spy();
+/* helpers */
+function f(x,d){return x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function Phi(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p}
+function phi(z){return Math.exp(-z*z/2)/Math.sqrt(2*Math.PI)}
+function C(n,k){var c=1;for(var i=1;i<=k;i++)c=c*(n-k+i)/i;return c}
+function tail(n,r,p){var s=0;for(var j=r;j<=n;j++)s+=C(n,j)*Math.pow(p,j)*Math.pow(1-p,n-j);return Math.min(1,Math.max(0,s))}
+var DS={unif:{F:function(x){return x<=0?0:x>=1?1:x},f:function(x){return x>0&&x<1?1:0},g:function(){return Math.random()}},
+exp:{F:function(x){return x<=0?0:1-Math.exp(-x)},f:function(x){return x>0?Math.exp(-x):0},g:function(){return -Math.log(1-Math.random())}},
+norm:{F:Phi,f:phi,g:function(){return Math.sqrt(-2*Math.log(1-Math.random()))*Math.cos(2*Math.PI*Math.random())}}};
+var sel=document.getElementById('dist_sel'),Sn=document.getElementById('S_n'),Sr=document.getElementById('S_r'),Sx=document.getElementById('S_x');
+function presetS(d,n,r,x){sel.value=d;Sn.value=n;Sr.value=r;Sx.value=x;sim()}
+function sim(){
+var d=DS[sel.value],n=Math.max(1,Math.min(60,Math.round(+Sn.value)||1)),r=Math.max(1,Math.min(n,Math.round(+Sr.value)||1)),x0=+Sx.value,R=5000;
+Sn.value=n;Sr.value=r;
+var v=[],cnt=0,sum=0;
+for(var i=0;i<R;i++){var a=[];for(var k=0;k<n;k++)a.push(d.g());a.sort(function(p,q){return p-q});var y=a[r-1];v.push(y);sum+=y;if(y<=x0)cnt++}
+var lo=Infinity,hi=-Infinity;v.forEach(function(y){if(y<lo)lo=y;if(y>hi)hi=y});
+if(hi-lo<1e-9){hi+=1;lo-=1}
+var pad=(hi-lo)*.03;lo-=pad;hi+=pad;
+if(sel.value==='unif'){lo=Math.max(lo,0);hi=Math.min(hi,1)}
+if(sel.value==='exp'){lo=Math.max(lo,0)}
+var B=32,bw=(hi-lo)/B,h=[];for(var b=0;b<B;b++)h.push(0);
+v.forEach(function(y){var b=Math.floor((y-lo)/bw);if(b>=0&&b<B)h[b]++});
+var co=n*C(n-1,r-1);
+function fr(x){var F=d.F(x);return co*Math.pow(F,r-1)*Math.pow(1-F,n-r)*d.f(x)}
+var dens=h.map(function(c){return c/(R*bw)}),curve=[],ym=0;
+for(var i=0;i<=200;i++){var x=lo+(hi-lo)*i/200,y=fr(x);curve.push([x,y]);if(y>ym)ym=y}
+dens.forEach(function(y){if(y>ym)ym=y});ym*=1.1;if(!(ym>0))ym=1;
+var W=640,H=250,pl=44,pr=16,pt=14,pb=30,iw=W-pl-pr,ih=H-pt-pb;
+function X(x){return pl+iw*(x-lo)/(hi-lo)}function Y(y){return pt+ih-ih*y/ym}
+var sv='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Histogram of simulated values with the density curve"><line x1="'+pl+'" y1="'+(pt+ih)+'" x2="'+(W-pr)+'" y2="'+(pt+ih)+'" stroke="currentColor" opacity=".3"/>';
+dens.forEach(function(y,b){sv+='<rect x="'+(X(lo+b*bw)+.5).toFixed(1)+'" y="'+Y(y).toFixed(1)+'" width="'+Math.max(1,iw/B-1).toFixed(1)+'" height="'+(ih*y/ym).toFixed(1)+'" fill="#2e7d5b" opacity=".55"/>'});
+sv+='<polyline fill="none" stroke="#8b1a1a" stroke-width="2" points="'+curve.map(function(p){return X(p[0]).toFixed(1)+','+Y(p[1]).toFixed(1)}).join(' ')+'"/>';
+sv+='<text x="'+pl+'" y="'+(H-10)+'">'+f(lo,2)+'</text><text x="'+(W-pr)+'" y="'+(H-10)+'" text-anchor="end">'+f(hi,2)+'</text><text x="'+(pl-6)+'" y="'+(pt+8)+'" text-anchor="end">'+f(ym,2)+'</text><text x="'+(pl-6)+'" y="'+(pt+ih)+'" text-anchor="end">0</text></svg>';
+document.getElementById('schart').innerHTML=sv;
+var th=tail(n,r,d.F(x0));
+document.getElementById('skpis').innerHTML=[['Simulated mean of X(r)',f(sum/R,4)],['Simulated P(X(r) ≤ x₀)',f(cnt/R,4)],['Formula P(X(r) ≤ x₀)',f(th,4)]].map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('')}
+[sel,Sn,Sr,Sx].forEach(function(e){e.addEventListener('change',sim)});
+/* distribution function calculator */
+var kp=document.getElementById('k_p'),kn=document.getElementById('k_n'),kr=document.getElementById('k_r');
+function kcalc(){var p=+kp.value,n=Math.round(+kn.value),r=Math.round(+kr.value),o=document.getElementById('kkpi');
+if(!(p>=0&&p<=1)||!(n>=1)||!(r>=1&&r<=n)){o.innerHTML='<p>Enter 0 ≤ p ≤ 1 and 1 ≤ r ≤ n.</p>';return}
+o.innerHTML=[['P(X(r) ≤ x)',f(tail(n,r,p),5)],['P(X(r) > x)',f(1-tail(n,r,p),5)],['P(largest ≤ x) = pⁿ',f(Math.pow(p,n),5)],['P(smallest ≤ x) = 1 − (1−p)ⁿ',f(1-Math.pow(1-p,n),5)]].map(function(x){return '<div class="kpi"><small>'+x[0]+'</small><b>'+x[1]+'</b></div>'}).join('')}
+[kp,kn,kr].forEach(function(e){e.addEventListener('input',kcalc)});kcalc();sim();
+</script>
+</body>
+</html>
